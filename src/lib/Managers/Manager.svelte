@@ -23,6 +23,12 @@
 
     $: ({rosterID, year} = viewManager.managerID ? getRosterIDFromManagerID(leagueTeamManagers, viewManager.managerID) : {rosterID: viewManager.roster, year: null});
 
+    // A team with no custom Sleeper name falls back to the display name, which
+    // processUsers has already swapped for manager.name -- so "Manager of X" would
+    // just repeat the heading directly above it.
+    $: teamName = getTeamNameFromTeamManagers(leagueTeamManagers, rosterID, year);
+    $: showTeamName = teamName && teamName !== viewManager.name;
+
     $: teamTransactions = transactions.filter(t => t.rosters.includes(parseInt(rosterID)));
 
     $: roster = rosters[rosterID];
@@ -227,7 +233,9 @@
         <img class="managerPhoto" src="{viewManager.photo}" alt="manager"/>
         <h2>
             {viewManager.name}
-            <div class="teamSub">{coOwners ? 'Co-' : ''}Manager of <i>{getTeamNameFromTeamManagers(leagueTeamManagers, rosterID, year)}</i></div>
+            {#if showTeamName}
+                <div class="teamSub">{coOwners ? 'Co-' : ''}Manager of <i>{teamName}</i></div>
+            {/if}
         </h2>
         
         <div class="basicInfo">

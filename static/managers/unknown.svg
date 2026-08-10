@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" role="img" aria-label="not set">
+  <!-- Placeholder for a manager attribute that hasn't been filled in.
+       Transparent background and a muted grey glyph so it reads the same in
+       light and dark mode, instead of punching a white hole in the page. -->
+  <text x="20" y="29" text-anchor="middle"
+        font-family="Roboto, Helvetica, Arial, sans-serif"
+        font-size="27" font-weight="600" fill="#8b8b8b">?</text>
+</svg>

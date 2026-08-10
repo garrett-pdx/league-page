@@ -19,6 +19,12 @@
     }
 
     const commissioner = manager.managerID ? leagueTeamManagers.users[manager.managerID].is_owner : false;
+
+    // Sleeper falls back to the display name when a team has no custom name, and
+    // processUsers has already replaced that display name with manager.name -- so a
+    // manager who never named their team would otherwise render identically twice.
+    const teamName = getTeamNameFromTeamManagers(leagueTeamManagers, rosterID, year);
+    const showTeamName = teamName && teamName !== manager.name;
 </script>
 
 <style>
@@ -225,7 +231,11 @@
     }
 
     .question {
-        background-color: #fff;
+        /* upstream hardcoded #fff here, which punches a white circle through
+           dark mode; --fff is the theme-aware token the filled icons use */
+        background-color: var(--fff);
+        border-color: var(--bbb);
+        opacity: 0.55;
     }
 </style>
 
@@ -239,7 +249,9 @@
         {/if}
     </div>
     <div class="name">{manager.name}</div>
-    <div class="team">{getTeamNameFromTeamManagers(leagueTeamManagers, rosterID, year)}</div>
+    {#if showTeamName}
+        <div class="team">{teamName}</div>
+    {/if}
     <div class="spacer" />
     <div class="info">
         <!-- Favorite team (optional) -->
@@ -250,7 +262,7 @@
                 </div>
             {:else}
                 <div class="infoIcon question">
-                    <img class="infoImg" src="/managers/question.jpg" alt="favorite team"/>
+                    <img class="infoImg" src="/managers/unknown.svg" alt="not set"/>
                 </div>
             {/if}
         </div>
@@ -265,7 +277,7 @@
                 </div>
             {:else}
                 <div class="infoIcon question">
-                    <img class="infoImg" src="/managers/question.jpg" alt="favorite team"/>
+                    <img class="infoImg" src="/managers/unknown.svg" alt="not set"/>
                 </div>
             {/if}
         </div>
@@ -281,7 +293,7 @@
                     </div>
                 {:else}
                     <div class="infoIcon question">
-                        <img class="infoImg" src="/managers/question.jpg" alt="favorite team"/>
+                        <img class="infoImg" src="/managers/unknown.svg" alt="not set"/>
                     </div>
                 {/if}
             </div>
