@@ -223,7 +223,29 @@ export const getTeamNameFromTeamManagers = (teamManagers, rosterID, year) => {
     if(!year || year > teamManagers.currentSeason) {
         year = teamManagers.currentSeason;
     }
-    return teamManagers.teamManagersMap[year][rosterID].team.name;
+    // guarded the same way as getAvatarFromTeamManagers above: a manager with no
+    // roster in the resolved season (a departed manager listed in leagueInfo)
+    // would otherwise throw on the chained lookup
+    const yearManagers = teamManagers.teamManagersMap[year];
+    if(yearManagers == null) {
+        return null;
+    }
+    const roster = yearManagers[rosterID];
+    if(roster == null) {
+        return null;
+    }
+    return roster.team?.name ?? null;
+}
+
+/*
+Sleeper falls back to a user's display name when a team has no custom name, and
+processUsers has already replaced that display name with the configured
+manager.name -- so a manager who never named their team renders the same string
+twice. Returns null when there is no team name worth showing separately.
+*/
+export const getDistinctTeamName = (teamManagers, rosterID, year, managerName) => {
+    const teamName = getTeamNameFromTeamManagers(teamManagers, rosterID, year);
+    return teamName && teamName !== managerName ? teamName : null;
 }
 
 export const renderManagerNames = (teamManagers, rosterID, year) => {

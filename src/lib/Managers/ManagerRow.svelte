@@ -1,6 +1,6 @@
 <script>
     import { goto } from "$app/navigation";
-	import { getDatesActive, getRosterIDFromManagerID, getTeamNameFromTeamManagers } from "$lib/utils/helperFunctions/universalFunctions";
+	import { getDatesActive, getRosterIDFromManagerID, getDistinctTeamName } from "$lib/utils/helperFunctions/universalFunctions";
     import {dynasty} from "$lib/utils/leagueInfo"
 
     export let manager, leagueTeamManagers, key;
@@ -20,11 +20,7 @@
 
     const commissioner = manager.managerID ? leagueTeamManagers.users[manager.managerID].is_owner : false;
 
-    // Sleeper falls back to the display name when a team has no custom name, and
-    // processUsers has already replaced that display name with manager.name -- so a
-    // manager who never named their team would otherwise render identically twice.
-    const teamName = getTeamNameFromTeamManagers(leagueTeamManagers, rosterID, year);
-    const showTeamName = teamName && teamName !== manager.name;
+    const teamName = getDistinctTeamName(leagueTeamManagers, rosterID, year, manager.name);
 
     // The row is the manager directory's primary navigation but is a plain div,
     // so it was unreachable by keyboard. Give it button semantics and the
@@ -259,7 +255,7 @@
         {/if}
     </div>
     <div class="name">{manager.name}</div>
-    {#if showTeamName}
+    {#if teamName}
         <div class="team">{teamName}</div>
     {/if}
     <div class="spacer" />

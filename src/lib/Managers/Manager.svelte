@@ -8,7 +8,7 @@
     import ManagerFantasyInfo from './ManagerFantasyInfo.svelte';
     import ManagerAwards from './ManagerAwards.svelte';
     import { onMount } from 'svelte';
-	import { getDatesActive, getRosterIDFromManagerID, getTeamNameFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
+	import { getDatesActive, getRosterIDFromManagerID, getDistinctTeamName } from '$lib/utils/helperFunctions/universalFunctions';
 
     export let manager, managers, rostersData, leagueTeamManagers, rosterPositions, transactionsData, awards, records;
 
@@ -23,11 +23,7 @@
 
     $: ({rosterID, year} = viewManager.managerID ? getRosterIDFromManagerID(leagueTeamManagers, viewManager.managerID) : {rosterID: viewManager.roster, year: null});
 
-    // A team with no custom Sleeper name falls back to the display name, which
-    // processUsers has already swapped for manager.name -- so "Manager of X" would
-    // just repeat the heading directly above it.
-    $: teamName = getTeamNameFromTeamManagers(leagueTeamManagers, rosterID, year);
-    $: showTeamName = teamName && teamName !== viewManager.name;
+    $: teamName = getDistinctTeamName(leagueTeamManagers, rosterID, year, viewManager.name);
 
     $: teamTransactions = transactions.filter(t => t.rosters.includes(parseInt(rosterID)));
 
@@ -233,7 +229,7 @@
         <img class="managerPhoto" src="{viewManager.photo}" alt="{viewManager.name}"/>
         <h2>
             {viewManager.name}
-            {#if showTeamName}
+            {#if teamName}
                 <div class="teamSub">{coOwners ? 'Co-' : ''}Manager of <i>{teamName}</i></div>
             {/if}
         </h2>

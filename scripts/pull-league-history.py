@@ -358,7 +358,10 @@ def build_standings(brackets_out, records):
 
 def build_ownership(owner_at):
     """player_id -> [{u, s, w0, w1}] run-length spans of continuous ownership."""
-    keys = sorted(owner_at, key=lambda k: (k[0], k[1]))
+    # sort the season numerically, not as a string -- the run-length merge below
+    # depends on strictly ascending order, and lexicographic ordering only happens
+    # to agree while every season is the same number of digits
+    keys = sorted(owner_at, key=lambda k: (int(k[0]), k[1]))
     spans = defaultdict(list)
     for season, wk in keys:
         for pid, uid in owner_at[(season, wk)].items():
@@ -389,7 +392,7 @@ def build_keepers(drafts_out, owner_at, ownership):
     # what round each player occupied in a season's PRIMARY draft
     round_in = {}
     rounds_of = {}
-    kept_in = defaultdict(set)
+    kept_in = defaultdict(dict)
     # carried[season] = rounds from an earlier, non-primary draft filed under the SAME
     # season. For 2022 that is the previous season's draft imported from the league's
     # earlier home on another platform -- the only surviving record of that year, and the
@@ -404,7 +407,9 @@ def build_keepers(drafts_out, owner_at, ownership):
             if p.get("player_id"):
                 round_in[(season, str(p["player_id"]))] = p["round"]
                 if p["is_keeper"]:
-                    kept_in[season].add(str(p["player_id"]))
+                    # who kept him, not merely that he was kept -- inflation follows
+                    # the manager who did the keeping
+                    kept_in[season][str(p["player_id"])] = p.get("picked_by")
         others = [x for x in drafts_out[season] if not x.get("primary") and x["picks"]]
         if others:
             earliest = min(others, key=lambda x: (x.get("start_time") or x.get("created") or 0))
@@ -425,8 +430,15 @@ def build_keepers(drafts_out, owner_at, ownership):
             pid = str(p["player_id"])
             keeper_uid = p.get("picked_by")
             prior = prev_owners.get(pid)
-            same = bool(prior and keeper_uid and prior == keeper_uid)
-            chained = pid in kept_in.get(prev, set())
+            # Inflation is owed when THIS manager kept him last season too. Deriving
+            # that from end-of-season roster ownership is subtly wrong: a keeper
+            # traded away mid-season is still on the new owner's roster in the final
+            # week, so the new owner would wrongly inherit inflation he never earned.
+            # Use the previous draft's keeper record instead, which says who actually
+            # kept him. `prior` is retained as informational context only.
+            prev_keeper = kept_in.get(prev, {}).get(pid)
+            chained = pid in kept_in.get(prev, {})
+            same = bool(prev_keeper and keeper_uid and prev_keeper == keeper_uid)
             prior_round = round_in.get((prev, pid))
             baseline = "previous season"
             if prior_round is None and pid in carried.get(season, {}):
@@ -452,7 +464,8 @@ def build_keepers(drafts_out, owner_at, ownership):
                 "expected_cost_round": expected,
                 "matches_rule": expected == p["round"],
                 "held_previous_season_by": prior,
-                "same_manager_as_last_season": same,
+                "kept_by_same_manager_last_season": same,
+                "kept_previous_season_by": prev_keeper,
                 "kept_previous_season_too": chained,
             })
         if rows:

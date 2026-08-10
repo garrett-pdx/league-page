@@ -80,14 +80,21 @@ baseline                      "previous season", or "carried-over prior-season d
                               for 2022, whose keepers price off the imported draft
 expected_cost_round           what constitution 4.2-4.4 says it should have cost
 matches_rule                  whether actual == expected
-held_previous_season_by       user_id who rostered him in the last played week of last year
-same_manager_as_last_season   drives the +1 round inflation
+kept_previous_season_by       user_id who KEPT him last season (null if he wasn't kept)
+kept_by_same_manager_last_season   drives the +1 round inflation
 kept_previous_season_too      whether he was also a keeper the year before
+held_previous_season_by       user_id who merely rostered him in the last played week
+                              of last season -- informational only
 ```
 
 **71 of 75 keepers across 2022-2025 match the constitution exactly.** The four that don't
 are listed in the root `CLAUDE.md`; they look like manual commissioner adjustments rather
 than a different rule.
+
+Inflation keys off `kept_previous_season_by`, not off who happened to own the player at the
+end of last season. Those two agree for all 75 keepers so far, but they can diverge: a
+keeper traded away mid-season is still on the *new* owner's roster in the final week, and
+pricing off that would hand the new owner an inflation step he never earned.
 
 ## Caveats
 
