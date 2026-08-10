@@ -8,3 +8,6 @@ static/smui-dark.css
 static/smui.css
 build
 .vercel_build_output
+
+# Claude Code local state (worktrees, launch config)
+.claude/
