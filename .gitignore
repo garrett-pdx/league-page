@@ -9,5 +9,7 @@ static/smui.css
 build
 .vercel_build_output
 
-# Claude Code local state (worktrees, launch config)
-.claude/
+# Claude Code local state. Narrow on purpose: .claude/skills/ holds project
+# skills that SHOULD be committed and shared, so don't ignore .claude wholesale.
+.claude/worktrees/
+.claude/settings.local.json
