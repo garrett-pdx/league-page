@@ -20,10 +20,13 @@
           stroke="#ffffff" stroke-width="1.8" stroke-linecap="round"/>
   </g>
 
-  <text x="60" y="80" text-anchor="middle"
-        font-family="Roboto, Helvetica, Arial, sans-serif" font-size="23" font-weight="700"
-        letter-spacing="1.5" fill="#ffffff">MUDD</text>
-  <text x="60" y="96" text-anchor="middle"
-        font-family="Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="600"
-        letter-spacing="1.2" fill="#ffffff" opacity="0.92">LEAGUE</text>
+  <!-- The shield tapers below y=80, so both words have to stay narrow enough to
+       clear the inner accent stroke. LEAGUE at 12px/1.2 letter-spacing on y=96
+       overran it and clipped the border at favicon sizes. -->
+  <text x="60" y="78" text-anchor="middle"
+        font-family="Roboto, Helvetica, Arial, sans-serif" font-size="22" font-weight="700"
+        letter-spacing="1.2" fill="#ffffff">MUDD</text>
+  <text x="60" y="92" text-anchor="middle"
+        font-family="Roboto, Helvetica, Arial, sans-serif" font-size="10" font-weight="600"
+        letter-spacing="0.6" fill="#ffffff" opacity="0.9">LEAGUE</text>
 </svg>

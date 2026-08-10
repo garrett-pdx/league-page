@@ -90,6 +90,19 @@ def fetch_all(chain):
                 node["matchups"][str(wk)] = mu
             time.sleep(0.08)
         print(f" {ntx} transactions, {len(node['matchups'])} played weeks")
+
+        # A failed users/rosters fetch degrades to [] and would otherwise sail
+        # through: the season would end up with an empty roster map, no records,
+        # no weekly snapshots, and every transaction resolving to None managers --
+        # silently, with a zero exit code. Refuse to write a corrupt dataset.
+        expected = league["settings"].get("num_teams")
+        if not node["users"] or not node["rosters"]:
+            raise SystemExit(f"{season}: users/rosters came back empty -- aborting rather "
+                             f"than writing a season with no managers")
+        if expected and len(node["rosters"]) != expected:
+            raise SystemExit(f"{season}: expected {expected} rosters, got "
+                             f"{len(node['rosters'])} -- aborting rather than writing "
+                             f"a partial season")
         raw[season] = node
     return raw
 
@@ -242,6 +255,11 @@ def build(raw, players):
             for t in txs:
                 ledger.append({
                     "season": season, "week": int(t.get("leg") or wk),
+                    # keep the id: two genuinely distinct Sleeper transactions can
+                    # collapse to identical rows once the timestamp is truncated to a
+                    # date, so without this a consumer deduping by content would drop
+                    # a real event (seen in 2022 -- same player added twice, 17h apart)
+                    "transaction_id": t["transaction_id"],
                     "date": datetime.fromtimestamp(t["created"] / 1000, tz=timezone.utc).strftime("%Y-%m-%d"),
                     "type": t["type"], "status": t["status"],
                     "faab": (t.get("settings") or {}).get("waiver_bid"),
@@ -298,8 +316,18 @@ def build_standings(brackets_out, records):
     """
     out = {}
     for season, br in brackets_out.items():
-        r2u = {rec["roster_id"]: uid for uid, seasons in records.items()
-               for s, rec in seasons.items() if s == season}
+        r2u = {}
+        for uid, seasons in records.items():
+            rec = seasons.get(season)
+            if not rec:
+                continue
+            rid = rec["roster_id"]
+            # a dict comprehension here would silently drop one of the two on a
+            # collision, resolving a bracket placement to the wrong manager
+            if rid in r2u:
+                raise SystemExit(f"{season}: roster_id {rid} maps to two managers "
+                                 f"({r2u[rid]} and {uid}) -- cannot resolve standings")
+            r2u[rid] = uid
         place = {}
         for bracket, base in ((br.get("winners") or [], 1), (br.get("losers") or [], 5)):
             for g in bracket:

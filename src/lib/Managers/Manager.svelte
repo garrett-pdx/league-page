@@ -230,7 +230,7 @@
 
 <div class="managerContainer">
     <div class="managerConstrained">
-        <img class="managerPhoto" src="{viewManager.photo}" alt="manager"/>
+        <img class="managerPhoto" src="{viewManager.photo}" alt="{viewManager.name}"/>
         <h2>
             {viewManager.name}
             {#if showTeamName}
@@ -255,7 +255,7 @@
             {#if viewManager.preferredContact}
                 <!-- preferredContact is an optional field -->
                 <span class="seperator">|</span>
-                <span class="infoChild">{viewManager.preferredContact}<img class="infoChild infoContact" src="/{viewManager.preferredContact}.png" alt="favorite team"/></span>
+                <span class="infoChild">{viewManager.preferredContact}<img class="infoChild infoContact" src="/{viewManager.preferredContact}.png" alt="preferred contact: {viewManager.preferredContact}"/></span>
             {/if}
             <!-- <span class="infoChild">{viewManager.preferredContact}</span> -->
             {#if viewManager.favoriteTeam}

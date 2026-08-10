@@ -58,9 +58,15 @@ Weeks with no games played are omitted; `seasons.<year>.weeks_played` lists what
 ## `ownership.json`
 
 `ownership.<player_id>[]` is a run-length timeline of continuous ownership, derived from
-the weekly snapshots: `{u: user_id, s: season, w0: first_week, w1: last_week}`. A new span
-starts whenever the player changes hands or a season boundary is crossed. Use this to
+the weekly snapshots: `{u: user_id, s: season, w0: first_week, w1: last_week}`. Use this to
 answer "who had him, and when" without replaying the transaction log.
+
+A new span starts on a change of owner, on a season boundary, **and on any gap in
+consecutive weeks** — the merge requires `w1 == week - 1`. Every completed season currently
+has weeks 1-18 with no holes, so no span is fragmented today; but if a week were ever
+missing from `weeks_played`, one continuous ownership run would appear as two adjacent
+spans. That direction is deliberate — a gap can only over-split, never wrongly merge two
+different owners together.
 
 ## `keepers.json`
 

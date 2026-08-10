@@ -84,71 +84,134 @@
         text-decoration: none;
     }
 
-    .clickable {
-        cursor: pointer;
+    /* The table of contents is a real <nav> of <button>s rather than a stack of
+       clickable <h3>/<h4>. Two reasons: headings here duplicated every section
+       title in the document outline, and click-only headings were completely
+       unreachable by keyboard. Styled to match what they replaced. */
+    .tocList,
+    .tocSubList {
+        list-style: none;
+        margin: 0;
+        padding: 0;
     }
 
-    .clickable:hover {
+    .tocSubList {
+        margin-left: 2em;
+    }
+
+    .tocLink {
+        background: none;
+        border: none;
+        padding: 0.15em 0;
+        font-family: inherit;
+        color: inherit;
+        cursor: pointer;
+        text-align: left;
+        display: block;
+        line-height: 1.2em;
+    }
+
+    .tocSection {
+        font-size: 1.3em;
+        font-weight: 700;
+        margin-top: 0.9em;
+    }
+
+    .tocSub {
+        font-size: 1.2em;
+    }
+
+    .tocLink:hover {
         color: #00316b;
     }
 
+    .tocLink:focus-visible {
+        outline: 2px solid #00316b;
+        outline-offset: 2px;
+        border-radius: 2px;
+    }
+
     p {
-        color: #777;
+        /* was a hardcoded #777, which lands at ~3.6-4.2:1 on this page's
+           gradient in both themes and fails AA for body text. --g555 is the
+           theme-aware token the rest of the site uses. */
+        color: var(--g555);
     }
 </style>
 
 <div class="constitution">
     <h1 class="noUnderscore">{leagueName.toUpperCase()} CONSTITUTION</h1>
 
-    <h2 class="noUnderscore">TABLE OF CONTENTS</h2>
-
-    <h3 class="noUnderscore clickable" onclick={() => goToSection(one)}>Section 1: The League</h3>
-
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(oneOne)}>1.1 Format</h4>
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(oneTwo)}>1.2 Commissioner</h4>
-
-    <h3 class="noUnderscore clickable" onclick={() => goToSection(two)}>Section 2: Rosters and Lineups</h3>
-
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(twoOne)}>2.1 Starting Lineup</h4>
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(twoTwo)}>2.2 Bench and Injured Reserve</h4>
-
-    <h3 class="noUnderscore clickable" onclick={() => goToSection(three)}>Section 3: Scoring</h3>
-
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(threeOne)}>3.1 Scoring Values</h4>
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(threeTwo)}>3.2 No Kickers, No Defenses</h4>
-
-    <h3 class="noUnderscore clickable" onclick={() => goToSection(four)}>Section 4: Keepers</h3>
-
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(fourOne)}>4.1 How Many</h4>
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(fourTwo)}>4.2 Keeper Cost</h4>
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(fourThree)}>4.3 Inflation</h4>
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(fourFour)}>4.4 Undrafted Players</h4>
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(fourFive)}>4.5 Two Keepers, Same Round</h4>
-
-    <h3 class="noUnderscore clickable" onclick={() => goToSection(five)}>Section 5: The Draft</h3>
-
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(fiveOne)}>5.1 Draft Format</h4>
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(fiveTwo)}>5.2 Keepers on the Board</h4>
-
-    <h3 class="noUnderscore clickable" onclick={() => goToSection(six)}>Section 6: Waivers and Free Agency</h3>
-
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(sixOne)}>6.1 FAAB</h4>
-
-    <h3 class="noUnderscore clickable" onclick={() => goToSection(seven)}>Section 7: Trades</h3>
-
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(sevenOne)}>7.1 Trading</h4>
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(sevenTwo)}>7.2 Trade Deadline</h4>
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(sevenThree)}>7.3 Trading Draft Picks</h4>
-
-    <h3 class="noUnderscore clickable" onclick={() => goToSection(eight)}>Section 8: Postseason</h3>
-
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(eightOne)}>8.1 Playoffs</h4>
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(eightTwo)}>8.2 Consolation Bracket</h4>
-
-    <h3 class="noUnderscore clickable" onclick={() => goToSection(nine)}>Section 9: League Votes</h3>
-
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(nineOne)}>9.1 Making Changes</h4>
-
+    <nav class="toc" aria-label="Table of contents">
+        <h2 class="noUnderscore">TABLE OF CONTENTS</h2>
+        <ul class="tocList">
+            <li>
+                <button type="button" class="tocLink tocSection" onclick={() => goToSection(one)}>Section 1: The League</button>
+                <ul class="tocSubList">
+                    <li><button type="button" class="tocLink tocSub" onclick={() => goToSection(oneOne)}>1.1 Format</button></li>
+                    <li><button type="button" class="tocLink tocSub" onclick={() => goToSection(oneTwo)}>1.2 Commissioner</button></li>
+                </ul>
+            </li>
+            <li>
+                <button type="button" class="tocLink tocSection" onclick={() => goToSection(two)}>Section 2: Rosters and Lineups</button>
+                <ul class="tocSubList">
+                    <li><button type="button" class="tocLink tocSub" onclick={() => goToSection(twoOne)}>2.1 Starting Lineup</button></li>
+                    <li><button type="button" class="tocLink tocSub" onclick={() => goToSection(twoTwo)}>2.2 Bench and Injured Reserve</button></li>
+                </ul>
+            </li>
+            <li>
+                <button type="button" class="tocLink tocSection" onclick={() => goToSection(three)}>Section 3: Scoring</button>
+                <ul class="tocSubList">
+                    <li><button type="button" class="tocLink tocSub" onclick={() => goToSection(threeOne)}>3.1 Scoring Values</button></li>
+                    <li><button type="button" class="tocLink tocSub" onclick={() => goToSection(threeTwo)}>3.2 No Kickers, No Defenses</button></li>
+                </ul>
+            </li>
+            <li>
+                <button type="button" class="tocLink tocSection" onclick={() => goToSection(four)}>Section 4: Keepers</button>
+                <ul class="tocSubList">
+                    <li><button type="button" class="tocLink tocSub" onclick={() => goToSection(fourOne)}>4.1 How Many</button></li>
+                    <li><button type="button" class="tocLink tocSub" onclick={() => goToSection(fourTwo)}>4.2 Keeper Cost</button></li>
+                    <li><button type="button" class="tocLink tocSub" onclick={() => goToSection(fourThree)}>4.3 Inflation</button></li>
+                    <li><button type="button" class="tocLink tocSub" onclick={() => goToSection(fourFour)}>4.4 Undrafted Players</button></li>
+                    <li><button type="button" class="tocLink tocSub" onclick={() => goToSection(fourFive)}>4.5 Two Keepers, Same Round</button></li>
+                </ul>
+            </li>
+            <li>
+                <button type="button" class="tocLink tocSection" onclick={() => goToSection(five)}>Section 5: The Draft</button>
+                <ul class="tocSubList">
+                    <li><button type="button" class="tocLink tocSub" onclick={() => goToSection(fiveOne)}>5.1 Draft Format</button></li>
+                    <li><button type="button" class="tocLink tocSub" onclick={() => goToSection(fiveTwo)}>5.2 Keepers on the Board</button></li>
+                </ul>
+            </li>
+            <li>
+                <button type="button" class="tocLink tocSection" onclick={() => goToSection(six)}>Section 6: Waivers and Free Agency</button>
+                <ul class="tocSubList">
+                    <li><button type="button" class="tocLink tocSub" onclick={() => goToSection(sixOne)}>6.1 FAAB</button></li>
+                </ul>
+            </li>
+            <li>
+                <button type="button" class="tocLink tocSection" onclick={() => goToSection(seven)}>Section 7: Trades</button>
+                <ul class="tocSubList">
+                    <li><button type="button" class="tocLink tocSub" onclick={() => goToSection(sevenOne)}>7.1 Trading</button></li>
+                    <li><button type="button" class="tocLink tocSub" onclick={() => goToSection(sevenTwo)}>7.2 Trade Deadline</button></li>
+                    <li><button type="button" class="tocLink tocSub" onclick={() => goToSection(sevenThree)}>7.3 Trading Draft Picks</button></li>
+                </ul>
+            </li>
+            <li>
+                <button type="button" class="tocLink tocSection" onclick={() => goToSection(eight)}>Section 8: Postseason</button>
+                <ul class="tocSubList">
+                    <li><button type="button" class="tocLink tocSub" onclick={() => goToSection(eightOne)}>8.1 Playoffs</button></li>
+                    <li><button type="button" class="tocLink tocSub" onclick={() => goToSection(eightTwo)}>8.2 Consolation Bracket</button></li>
+                </ul>
+            </li>
+            <li>
+                <button type="button" class="tocLink tocSection" onclick={() => goToSection(nine)}>Section 9: League Votes</button>
+                <ul class="tocSubList">
+                    <li><button type="button" class="tocLink tocSub" onclick={() => goToSection(nineOne)}>9.1 Making Changes</button></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
 
     <hr />
 

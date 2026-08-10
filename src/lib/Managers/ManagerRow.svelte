@@ -25,6 +25,17 @@
     // manager who never named their team would otherwise render identically twice.
     const teamName = getTeamNameFromTeamManagers(leagueTeamManagers, rosterID, year);
     const showTeamName = teamName && teamName !== manager.name;
+
+    // The row is the manager directory's primary navigation but is a plain div,
+    // so it was unreachable by keyboard. Give it button semantics and the
+    // Enter/Space activation a real button would have.
+    const openManager = () => goto(`/manager?manager=${key}`);
+    const onRowKey = (e) => {
+        if(e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openManager();
+        }
+    }
 </script>
 
 <style>
@@ -235,11 +246,10 @@
            dark mode; --fff is the theme-aware token the filled icons use */
         background-color: var(--fff);
         border-color: var(--bbb);
-        opacity: 0.55;
     }
 </style>
 
-<div class="manager" style="{retired ? "background-image: url(/retired.png); background-color: var(--ddd)": ""}" onclick={() => goto(`/manager?manager=${key}`)}>
+<div class="manager" style="{retired ? "background-image: url(/retired.png); background-color: var(--ddd)": ""}" role="button" tabindex="0" aria-label="{manager.name}" onclick={openManager} onkeydown={onRowKey}>
     <div class="avatarHolder">
         <img class="photo" src="{manager.photo}" alt="{manager.name}" />
         {#if commissioner}
