@@ -159,6 +159,25 @@ export const managers = [
         image: "/managers/everyone.png",
       },
     },
+    /*
+    Departed managers go LAST in this array. AllManagers splits them into the
+    Moratorium below the active roster, and it detects them from Sleeper (a
+    manager with no roster in the current season), not from anything set here --
+    so a manager who leaves needs no code change beyond being left in place.
+    Do not reorder the entries above them: rival.link is an index into this array.
+    */
+    {
+      "managerID": "860365948673204224",
+      "name": "Jordan Leonard",
+      "location": "Anaheim, CA",
+      "photo": "/managers/jjjet.jpg",
+      "bio": "<strong>#34 &middot; RB &middot; 5'8&quot; &middot; 180 lbs &middot; Brethren Christian</strong><br /><em>Mudd League: 2022 only &middot; 5-10 &middot; 9th &middot; 1,433.54 PF</em><br />Played the league's first Sleeper season and left after it. Opened with the best keeper pair anyone has ever held &mdash; Tyreek Hill at a first-round cost and Patrick Mahomes at a third &mdash; made five roster moves all year, four of them in week one, and never spent a single dollar of his $100 FAAB. Finished ninth with 269.98 points still sitting on his bench, the second-most in the league that season. Kick returner at Claremont-Mudd-Scripps before that, and a good one: First-Team All-SCIAC as a freshman on 736 return yards, then 351 rushing yards and five touchdowns as a sophomore, before injury cut his senior year to four games. Son of Bryan and Monica Leonard.",
+      "rival": {
+        name: "The Field",
+        link: null,
+        image: "/managers/everyone.png",
+      },
+    },
   ]
 
 

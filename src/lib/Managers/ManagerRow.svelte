@@ -237,6 +237,12 @@
         }
     }
 
+    /* the RETIRED stamp defaults to 15% 50%, which lands squarely on the manager's
+       name; slide it into the empty space to the right so the name stays legible */
+    .retiredRow {
+        background-position: 58% 50%;
+    }
+
     .question {
         /* upstream hardcoded #fff here, which punches a white circle through
            dark mode; --fff is the theme-aware token the filled icons use */
@@ -245,7 +251,7 @@
     }
 </style>
 
-<div class="manager" style="{retired ? "background-image: url(/retired.png); background-color: var(--ddd)": ""}" role="button" tabindex="0" aria-label="{manager.name}" onclick={openManager} onkeydown={onRowKey}>
+<div class="manager {retired ? 'retiredRow' : ''}" style="{retired ? "background-image: url(/retired.png); background-color: var(--ddd)": ""}" role="button" tabindex="0" aria-label="{manager.name}" onclick={openManager} onkeydown={onRowKey}>
     <div class="avatarHolder">
         <img class="photo" src="{manager.photo}" alt="{manager.name}" />
         {#if commissioner}
