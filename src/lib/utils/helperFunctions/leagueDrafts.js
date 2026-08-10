@@ -150,7 +150,9 @@ const buildConfirmed = (draftOrderObj, rounds, picks, players = null, type = nul
 const completedNonAuction = ({players, draft, picks, draftOrder, rounds}) => {
 	for(const playerData of players) {
 		const player = playerData.player_id;
-		draft[playerData.round - 1][playerData.draft_slot - 1] = {player};
+		// Sleeper flags kept players on the pick itself. A keeper occupies the slot it
+		// costs, so this round IS the keeper's cost -- see the constitution, section 4.
+		draft[playerData.round - 1][playerData.draft_slot - 1] = {player, keeper: !!playerData.is_keeper};
 	}
 	for(const pick of picks) {
 		if(pick.owner_id == pick.roster_id || pick.round > rounds) continue;

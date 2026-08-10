@@ -85,6 +85,23 @@
         background-color: var(--LBfade);
     }
 
+    /* The cell is tight: the avatar is absolutely centred and the name is pinned to
+       the bottom, so a keeper badge only fits in the top-right corner. */
+    .keeperTag {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        font-size: 0.55em;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        line-height: 1;
+        padding: 2px 3px;
+        border-radius: 3px;
+        background-color: #00316b;
+        color: #fff;
+        pointer-events: none;
+    }
+
 	.playerAvatar {
 		display: inline-block;
         position: absolute;
@@ -143,6 +160,11 @@
                     <div class="playerAvatar" style="{players[draftCol.player].pos == "DEF" ? `background-image: url(https://sleepercdn.com/images/team_logos/nfl/${draftCol.player.toLowerCase()}.png)` : `background-image: url(https://sleepercdn.com/content/nfl/players/thumb/${draftCol.player}.jpg), url(https://sleepercdn.com/images/v2/icons/player_default.webp)`}" />
                     <br />
                     <div class="name">{`${players[draftCol.player].fn} ${players[draftCol.player].ln}`}{players[draftCol.player].pos == "DEF" ? "" : ` (${players[draftCol.player].t})`}</div>
+                    {#if draftCol.keeper}
+                        <!-- a keeper spends this pick rather than making it; the round is
+                             what he cost his manager (constitution 4.2) -->
+                        <div class="keeperTag" title="Kept &mdash; this pick was spent on him, at a round {row} cost">KEEPER</div>
+                    {/if}
                 {/if}
             </Cell>
         {/if}

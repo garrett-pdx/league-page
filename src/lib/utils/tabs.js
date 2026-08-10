@@ -76,6 +76,12 @@ export const tabs = [
                 label: 'Go to Sleeper',
                 dest: `https://sleeper.app/leagues/${leagueID}`,
             },
+            {
+                // companion project: separate repo, separate app, same league
+                icon: 'calculate',
+                label: 'Keeper Draft Board',
+                dest: 'https://garrett-pdx.github.io/keeper-draft-board/',
+            },
         ]
     },
     {

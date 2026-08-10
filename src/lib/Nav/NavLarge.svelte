@@ -34,9 +34,20 @@
 		display = !display;
 	}
 
+	// SvelteKit 2's goto() throws on external URLs ("Cannot use `goto` with an
+	// external URL"), which silently breaks any tab pointing off-site -- Go to
+	// Sleeper, and the Keeper Draft Board. Send those through the browser instead.
+	const navigate = (dest) => {
+		if(/^https?:\/\//.test(dest)) {
+			window.location.href = dest;
+			return;
+		}
+		goto(dest);
+	}
+
 	const subGoto = (dest) => {
 		open(false);
-		goto(dest);
+		navigate(dest);
 	}
 
 	let tabChildren = $state([]);
