@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="The Mudd League">
+  <defs>
+    <linearGradient id="shield" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a4a95"/>
+      <stop offset="100%" stop-color="#00316b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- shield -->
+  <path d="M60 6 L105 20 V60 C105 84 86 103 60 114 C34 103 15 84 15 60 V20 Z"
+        fill="url(#shield)" stroke="#f4f4f4" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M60 13 L99 25 V60 C99 80 83 97 60 107 C37 97 21 80 21 60 V25 Z"
+        fill="none" stroke="#ffffff" stroke-width="1.4" opacity="0.4"/>
+
+  <!-- football -->
+  <g transform="translate(60 43)">
+    <ellipse rx="19" ry="11.5" fill="#8a4b24" stroke="#ffffff" stroke-width="2"/>
+    <path d="M-9.5 0 H9.5" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M-5 -3.8 V3.8 M0 -4.4 V4.4 M5 -3.8 V3.8"
+          stroke="#ffffff" stroke-width="1.8" stroke-linecap="round"/>
+  </g>
+
+  <text x="60" y="80" text-anchor="middle"
+        font-family="Roboto, Helvetica, Arial, sans-serif" font-size="23" font-weight="700"
+        letter-spacing="1.5" fill="#ffffff">MUDD</text>
+  <text x="60" y="96" text-anchor="middle"
+        font-family="Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="600"
+        letter-spacing="1.2" fill="#ffffff" opacity="0.92">LEAGUE</text>
+</svg>

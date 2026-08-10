@@ -4,6 +4,7 @@
     import { page } from '$app/state';
 	import IconButton from '@smui/icon-button';
 	import { Icon } from '@smui/common';
+	import { leagueName } from '$lib/utils/leagueInfo';
 
 	// toggle dark mode
 	let darkTheme = $state(typeof window === "undefined" || window.matchMedia("(prefers-color-scheme: dark)").matches);
@@ -23,7 +24,7 @@
 </script>
 
 <svelte:head>
-	<title>{!page.url.pathname[1] ? 'Home' : page.url.pathname[1].toUpperCase() + page.url.pathname.slice(2)} | League Page</title>
+	<title>{!page.url.pathname[1] ? 'Home' : page.url.pathname[1].toUpperCase() + page.url.pathname.slice(2)} | {leagueName}</title>
 </svelte:head>
 
 <style>
@@ -76,7 +77,7 @@
 </style>
 
 <nav>
-	<a href="/"><img id="logo" alt="league logo" src="/badge.png" /></a>
+	<a href="/"><img id="logo" alt="{leagueName}" src="/mudd-badge.svg" /></a>
 
 	<div class="container">
 		<IconButton

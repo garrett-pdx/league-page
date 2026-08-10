@@ -1,6 +1,6 @@
 {
-  "short_name": "League Page",
-  "name": "League Page",
+  "short_name": "Mudd League",
+  "name": "The Mudd League",
   "icons": [
     {
       "src": "/favicons/android-chrome-192x192.png",
@@ -58,5 +58,5 @@
       "url": "/resources"
     }
   ],
-  "description": "Information about the League"
+  "description": "Standings, matchups, records and keepers for The Mudd League"
 }
