@@ -1,12 +1,14 @@
 <script>
-    import { dues } from '$lib/utils/helper';
-    let one, oneOne, oneOneOne, oneTwo, oneTwoOne, oneTwoTwo, oneTwoThree, oneTwoFour, oneTwoFive, oneThree;
-    let two, twoOne, twoTwo, twoThree;
-    let three, threeOne;
-    let four, fourOne, fourTwo;
-    let five, fiveOne;
-    let six, sixOne, sixTwo, sixThree;
+    import { leagueName } from '$lib/utils/helper';
+    let one, oneOne, oneTwo;
+    let two, twoOne, twoTwo;
+    let three, threeOne, threeTwo;
+    let four, fourOne, fourTwo, fourThree, fourFour, fourFive;
+    let five, fiveOne, fiveTwo;
+    let six, sixOne;
     let seven, sevenOne, sevenTwo, sevenThree;
+    let eight, eightOne, eightTwo;
+    let nine, nineOne;
 
     const goToSection = (section) => {
         const top = section.getBoundingClientRect().top + window.pageYOffset;
@@ -96,210 +98,174 @@
 </style>
 
 <div class="constitution">
-    <h1 class="noUnderscore">LEGENDS LEAGUE CONSTITUTION</h1>
-    
+    <h1 class="noUnderscore">{leagueName.toUpperCase()} CONSTITUTION</h1>
+
     <h2 class="noUnderscore">TABLE OF CONTENTS</h2>
-    
-    <h3 class="noUnderscore clickable" onclick={() => goToSection(one)}>Section 1: Roster</h3>
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(oneOne)}>1.1 Positional Breakdown</h4>
-            <h5 class="noUnderscore clickable" onclick={() => goToSection(oneOneOne)}>1.1.1 Position Maximums</h5>
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(oneTwo)}>1.2 Trading</h4>
-            <h5 class="noUnderscore clickable" onclick={() => goToSection(oneTwoOne)}>1.2.1 Trade Collusion</h5>
-            <h5 class="noUnderscore clickable" onclick={() => goToSection(oneTwoTwo)}>1.2.2 Lending Players Prohibition</h5>
-            <h5 class="noUnderscore clickable" onclick={() => goToSection(oneTwoThree)}>1.2.3 Trade Deadline</h5>
-            <h5 class="noUnderscore clickable" onclick={() => goToSection(oneTwoFour)}>1.2.4 Trade Restrictions</h5>
-            <h5 class="noUnderscore clickable" onclick={() => goToSection(oneTwoFive)}>1.2.5 Veto/Trade Process</h5>
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(oneThree)}>1.3 Waiver Wire</h4>
-    
-    <h3 class="noUnderscore clickable" onclick={() => goToSection(two)}>Section 2: Drafting</h3>
-    
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(twoOne)}>2.1 Draft Order</h4>
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(twoTwo)}>2.2 Rookie Drafts</h4>
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(twoThree)}>2.3 Draft Day Trades</h4>
-    
-    <h3 class="noUnderscore clickable" onclick={() => goToSection(three)}>Section 3: Scoring System</h3>
-    
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(threeOne)}>3.1 Voting on Scoring System</h4>
-    
-    <h3 class="noUnderscore clickable" onclick={() => goToSection(four)}>Section 4: Postseason</h3>
-    
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(fourOne)}>4.1 Playoffs</h4>
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(fourTwo)}>4.2 Playoff Tiebreakers</h4>
 
-    <h3 class="noUnderscore clickable" onclick={() => goToSection(five)}>Section 5: Tanking Policy</h3>
-    
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(fiveOne)}>5.1 League Tanking Policy</h4>
+    <h3 class="noUnderscore clickable" onclick={() => goToSection(one)}>Section 1: The League</h3>
 
-    <h3 class="noUnderscore clickable" onclick={() => goToSection(six)}>Section 6: Replacing Managers</h3>
-    
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(sixOne)}>6.1 Removing Managers</h4>
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(sixTwo)}>6.2 Replacing Managers</h4>
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(sixThree)}>6.3 Replacement Incentive</h4>
+        <h4 class="noUnderscore clickable" onclick={() => goToSection(oneOne)}>1.1 Format</h4>
+        <h4 class="noUnderscore clickable" onclick={() => goToSection(oneTwo)}>1.2 Commissioner</h4>
 
-    <h3 class="noUnderscore clickable" onclick={() => goToSection(seven)}>Section 7: League Finances</h3>
-    
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(sevenOne)}>7.1 League Dues</h4>
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(sixTwo)}>7.2 Payout</h4>
-        <h4 class="noUnderscore clickable" onclick={() => goToSection(sixThree)}>7.3 Raising Dues</h4>
-    
-    
+    <h3 class="noUnderscore clickable" onclick={() => goToSection(two)}>Section 2: Rosters and Lineups</h3>
+
+        <h4 class="noUnderscore clickable" onclick={() => goToSection(twoOne)}>2.1 Starting Lineup</h4>
+        <h4 class="noUnderscore clickable" onclick={() => goToSection(twoTwo)}>2.2 Bench and Injured Reserve</h4>
+
+    <h3 class="noUnderscore clickable" onclick={() => goToSection(three)}>Section 3: Scoring</h3>
+
+        <h4 class="noUnderscore clickable" onclick={() => goToSection(threeOne)}>3.1 Scoring Values</h4>
+        <h4 class="noUnderscore clickable" onclick={() => goToSection(threeTwo)}>3.2 No Kickers, No Defenses</h4>
+
+    <h3 class="noUnderscore clickable" onclick={() => goToSection(four)}>Section 4: Keepers</h3>
+
+        <h4 class="noUnderscore clickable" onclick={() => goToSection(fourOne)}>4.1 How Many</h4>
+        <h4 class="noUnderscore clickable" onclick={() => goToSection(fourTwo)}>4.2 Keeper Cost</h4>
+        <h4 class="noUnderscore clickable" onclick={() => goToSection(fourThree)}>4.3 Inflation</h4>
+        <h4 class="noUnderscore clickable" onclick={() => goToSection(fourFour)}>4.4 Undrafted Players</h4>
+        <h4 class="noUnderscore clickable" onclick={() => goToSection(fourFive)}>4.5 Two Keepers, Same Round</h4>
+
+    <h3 class="noUnderscore clickable" onclick={() => goToSection(five)}>Section 5: The Draft</h3>
+
+        <h4 class="noUnderscore clickable" onclick={() => goToSection(fiveOne)}>5.1 Draft Format</h4>
+        <h4 class="noUnderscore clickable" onclick={() => goToSection(fiveTwo)}>5.2 Keepers on the Board</h4>
+
+    <h3 class="noUnderscore clickable" onclick={() => goToSection(six)}>Section 6: Waivers and Free Agency</h3>
+
+        <h4 class="noUnderscore clickable" onclick={() => goToSection(sixOne)}>6.1 FAAB</h4>
+
+    <h3 class="noUnderscore clickable" onclick={() => goToSection(seven)}>Section 7: Trades</h3>
+
+        <h4 class="noUnderscore clickable" onclick={() => goToSection(sevenOne)}>7.1 Trading</h4>
+        <h4 class="noUnderscore clickable" onclick={() => goToSection(sevenTwo)}>7.2 Trade Deadline</h4>
+        <h4 class="noUnderscore clickable" onclick={() => goToSection(sevenThree)}>7.3 Trading Draft Picks</h4>
+
+    <h3 class="noUnderscore clickable" onclick={() => goToSection(eight)}>Section 8: Postseason</h3>
+
+        <h4 class="noUnderscore clickable" onclick={() => goToSection(eightOne)}>8.1 Playoffs</h4>
+        <h4 class="noUnderscore clickable" onclick={() => goToSection(eightTwo)}>8.2 Consolation Bracket</h4>
+
+    <h3 class="noUnderscore clickable" onclick={() => goToSection(nine)}>Section 9: League Votes</h3>
+
+        <h4 class="noUnderscore clickable" onclick={() => goToSection(nineOne)}>9.1 Making Changes</h4>
+
+
     <hr />
-    
-    <h2 class="sectionHeading" bind:this={one}>Section 1 Roster Breakdown</h2>
-    
-    <h3 class="subSectionHeading" bind:this={oneOne}>1.1 Positional Breakdown</h3>
-    
-    <p>28 Total Players</p>
-    
-    <p class="underscore">Starters</p>
+
+    <h2 class="sectionHeading" bind:this={one}>Section 1 The League</h2>
+
+    <h3 class="subSectionHeading" bind:this={oneOne}>1.1 Format</h3>
+    <p>{leagueName} is a ten-team keeper league on Sleeper, running since 2022. It is a keeper league, not a dynasty league: every season the entire player pool returns to the draft board except the players each manager elects to keep, and those keepers cost draft capital (see Section 4).</p>
+    <p>The regular season runs from Week 1 through Week 15. The postseason runs Weeks 16 and 17.</p>
+
+    <h3 class="subSectionHeading" bind:this={oneTwo}>1.2 Commissioner</h3>
+    <p>Garrett (Sleeper handle <span class="underscore">Gurret</span>) is the commissioner. The commissioner administers the league on Sleeper, sets the schedule and draft, and rules on anything this document does not cover.</p>
+
+    <h2 class="sectionHeading" bind:this={two}>Section 2 Rosters and Lineups</h2>
+
+    <h3 class="subSectionHeading" bind:this={twoOne}>2.1 Starting Lineup</h3>
+    <p>Each team starts eight players every week:</p>
     <ul>
-        <li>QB</li>
-        <li>RB</li>
-        <li>RB</li>
-        <li>WR</li>
-        <li>WR</li>
-        <li>TE</li>
-        <li>FLEX (RB/WR/TE)</li>
-        <li>FLEX (RB/WR)</li>
-        <li>D/ST</li>
-        <li>K</li>
+        <li>1 &times; QB</li>
+        <li>2 &times; RB</li>
+        <li>2 &times; WR</li>
+        <li>1 &times; TE</li>
+        <li>2 &times; FLEX (RB, WR or TE)</li>
     </ul>
-    
-    <p>18 Bench (Expanded by 5 between the keague draft and start of regular season)</p>
+    <p>Lineups lock at each player's individual kickoff. A player left in a starting slot after his game has finished scores zero for that slot; it is each manager's responsibility to set a valid lineup.</p>
 
-    <p>1 IR Spots (Player must be labeled as IR, Out, or Covid in the Sleeper App)</p>
-    
-        <h4 bind:this={oneOneOne}>1.1.1 Position Maximums</h4>
-        
-        <div class="subBlock">
-            <table class="positionMaximums">
-                <tbody>
-                <tr><td>QB</td><td class="right">3 active, 5 total</td></tr>
-                <tr><td>RB</td><td class="right">20</td></tr>
-                <tr><td>WR</td><td class="right">20</td></tr>
-                <tr><td>TE</td><td class="right">10</td></tr>
-                <tr><td>D/ST</td><td class="right">3</td></tr>
-                <tr><td>K</td><td class="right">3</td></tr>
-                </tbody>
-            </table>
-        </div>
+    <h3 class="subSectionHeading" bind:this={twoTwo}>2.2 Bench and Injured Reserve</h3>
+    <p>Rosters carry six bench spots, for fourteen roster spots in total, plus two Injured Reserve slots that do not count against the roster limit.</p>
+    <p>A player may be placed on IR only while Sleeper lists him as Out, Not Active (PUP/NFI), Suspended, or on the COVID list. Players listed as Doubtful or Did Not Report are not IR-eligible. A player who returns to active status must be moved off IR before he can be started.</p>
 
+    <h2 class="sectionHeading" bind:this={three}>Section 3 Scoring</h2>
 
-    <h3 class="subSectionHeading" bind:this={oneTwo}>1.2 Trading</h3>
-    
-    <p>Trading of players and draft picks (up to 3 drafts away) are allowed. Trades will process immediately and will be reversed if vetoed or under investigation for collusion. Tradable assets include players, draft picks, and FAAB $.</p>
-    
-    <h4 bind:this={oneTwoOne}>1.2.1 Trade Collusion</h4>
-    <div class="subBlock">
-        <p>If any owners are suspected of accepting bribes/offering bribes to enhance their/another owners team via trade, trading any assets other than fantasy players, draft picks, FAAB $, or otherwise found guilty of engaging in any form of collusion*, all parties involved in the trade will be susceptible to punishment. The punishments will go as followed:</p>
-        
-        <ul>
-            <li>First Offense – Immediate reduction of FAAB budget by 80%</li>
-            <li>Second Offense – Immediate freeze on all transaction types for the next 18 weeks of regular season and playoff fantasy football games, including trades and waiver wire bids</li>
-            <li>Third Offense – A league meeting of all members not involved in any of the improper trades/activity in question will take place to discuss next steps.</li>
-        </ul>
-
-        <p>All trades that are found guilty of collusion, will be reversed/denied. If the trade had affected the outcome of previous games, the results of those games will be revised.  </p>
-
-        <p>*Collusion includes the organizing of veto votes against an acceptable trade.</p>
-
-        <p>The commissioner will err on the side of letting owners manage their teams the way they see fit. Any collusion will need to be clear. The commissioner reserves the right to step in and at the very least assess the thinking of any team involved in a heavily lop-sided trade. </p>
-    </div>
-
-    <h4 bind:this={oneTwoTwo}>1.2.2 Lending Players Prohibition</h4>
-    <div class="subBlock">
-        <p>Any player traded from a team may not be re-acquired via trade within 6 weeks of the original trade. Any teams involved in this behavior will be subject to the aforementioned collusion punishments.</p>
-    </div>
-    
-    <h4 bind:this={oneTwoThree}>1.2.3 Trade Deadline</h4>
-    <div class="subBlock">
-        <p>The trade deadline will be set for the Saturday of the week 11 games of the NFL season.</p>
-    </div>
-    
-    <h4 bind:this={oneTwoFour}>1.2.4 Trade Restrictions</h4>
-    <div class="subBlock">
-        <p>You will not be able to trade draft picks that are more than 3 drafts away. For example, during the 2021 season you cannot trade any picks in or after the 2025 draft. You may only trade FAAB $ from the current season.</p>
-    </div>
-    
-    <h4 bind:this={oneTwoFive}>1.2.5 Veto/Trade Process</h4>
-    <div class="subBlock">
-        <p>A total of 7 veto votes are required to veto a trade. Vetoes are only appropriate in instances of collusion or an egregious mismatch of value (i.e. CMC for a backup kicker). Not liking a trade does not warrant a veto.</p>
-    </div>
-    
-    
-    
-    <h3 bind:this={oneThree}>1.3 Waiver Wire</h3>
-    
-    <p>FAAB Waiver wire system. Each team will begin the season with $100. $0 bids are allowed. Bids will process Thursdays and Sundays at 9AM EST.</p>
-
-    <p>FAAB budgets will reset each season in January.</p>
-    
-    
-    <h2 class="sectionHeading" bind:this={two}>Section 2 Drafting</h2>
-    
-    <h3 bind:this={twoOne}>2.1 Draft Order</h3>
-    <p>The draft order each year will be a linear draft in reverse order of the previous year’s regular season standings.</p>
-
-    <h3 bind:this={twoTwo}>2.2 Rookie Drafts</h3>
-    <p>Rokkie drafts will consist of 3 round of drafting, with 5 minutes alotted for each pick. To make room for the incoming players, benches will be expanded by (5) spots. These spots will be removed in mid-August, at which point you will need to have cut the necessary players.</p>
-    <p>Any spots not filled during the draft, can be filled immediately afterwards from the waiver wire.</p>
-    
-    <h3 bind:this={twoThree}>2.3 Draft Day Trades</h3>
-    <p>If a trade is being made during the draft, one or both parties can alert the commissioner to pause the draft to allow for extra time to negotiate the trade.</p>
-    
-    <h2 class="sectionHeading" bind:this={three}>Section 3 Scoring System</h2>
-
-    <h3 bind:this={threeOne}>3.1 Scoring System</h3>
-    <p>The league scoring system breakdown is listed on the Sleeper fantasy app (for the most part, it follows typical .5PPR Scoring). The scoring system will never change without a majority league vote.</p>
-    
-    <h2 class="sectionHeading" bind:this={four}>Section 4 Postseason</h2>
-    
-    <h3 bind:this={fourOne}>4.1 Playoffs</h3>
-    <p>At the end of the season 6 teams will make the playoffs. The first round of playoffs will commence in week 15. Each team that wins their division and the 4 wild card teams that finish with the best records, will receive a playoff berth. The 2 teams that win their division will receive a bye week in the first round of the playoffs. Each playoff matchup will only last one week and the winner will advance. Week 18 will not be used.</p>
-    
-    <h3 bind:this={fourTwo}>4.2 Seeding Tiebreakers</h3>
-    <p>If two teams finish with the same record the tiebreakers will go as followed:</p>
-
-    <ol>
-        <li>Points For</li>
-        <li>Head 2 Head Record</li>
-        <li>Division Record</li>
-        <li>Total Points Against</li>
-        <li>Coin Flip</li>
-        <li>Duel to the death</li>
-    </ol>
-
-    <h2 class="sectionHeading" bind:this={five}>Section 5 Tanking Policy</h2>
-    
-    <h3 bind:this={fiveOne}>5.1 League Tanking Policy</h3>
-    <p>No team may intentionally leave starting roster spots empty. Any evidence of intentionally leaving roster spots empty in order to improve your draft position may be subject to punishment, including but not limited to the forfeiture of draft selections.</p>
-
-    <h2 class="sectionHeading" bind:this={six}>Section 6 Replacing Managers</h2>
-    
-    <h3 bind:this={sixOne}>6.1 Removing Managers</h3>
-    <p>Short of continuously failing to set a valid lineup, or confirmed collusion, no manager can be removed against their will. Participation, through the league chat, trade offers, and the waiver wire, is strongly encouraged but generally grounds for removal.</p>
-    
-    <h3 bind:this={sixTwo}>6.2 Replacing Managers</h3>
-    <p>When a manager needs to be replaced, the commisiooners will try to find a suitable candidate with some connection to at least a portion of the existing managers. Priority will be placed on managers who are eager to take on a dynasty commitment and will be very active within the league.</p>
-    
-    <h3 bind:this={sixThree}>6.3 Replacement Incentive</h3>
-    <p>In the event that a manager chooses to quit the league or is removed by a comissioner, an incoming manager is offered a 50% reductioon on their first year buy-in.</p>
-
-    <h2 class="sectionHeading" bind:this={seven}>Section 7 League Finances</h2>
-    
-    <h3 bind:this={sevenOne}>7.1 League Dues</h3>
-    <p>League dues are set at {dues}$. Dues are collected through <a href="https://www.leaguesafe.com/league/3949641">LeagueSafe</a> and collection will be sent out no later than the first of August. All managers must be fully paid up before the start of regular season. In the event that a manager fails to pay before the deadline, a 10% penalty will be addd to their payment and will go towards the payouts at the end of the year.</p>
-    
-    <h3 bind:this={sevenTwo}>7.2 Payout</h3>
-    <p>League payout is structured as follows:</p>
+    <h3 class="subSectionHeading" bind:this={threeOne}>3.1 Scoring Values</h3>
+    <p>The league scores half-PPR with six-point passing touchdowns.</p>
+    <p><span class="underscore">Passing</span></p>
     <ul>
-        <li>1st place: {dues * 8}$</li>
-        <li>2nd place: {dues * 3}$</li>
-        <li>3rd place: {dues}$</li>
+        <li>1 point per 25 passing yards</li>
+        <li>6 points per passing touchdown</li>
+        <li>&minus;2 points per interception thrown</li>
+        <li>2 points per passing two-point conversion</li>
     </ul>
-    <p>In the event that a manager was fined due to late payment, their extra fee will be added to the winner's payout. Similarly, if new managers come into the league and the payout is smaller, the difference will come out of the winner's prize.</p>
-    
-    <h3 bind:this={sevenThree}>7.3 Raising Dues</h3>
-    <p>A ⅔ majority vote is required in order to raise league dues. In the event that a manager is no longer financially comfortable with the buyin, finding a co-manager to split the cost is reccomended.</p>
+    <p><span class="underscore">Rushing and Receiving</span></p>
+    <ul>
+        <li>1 point per 10 rushing or receiving yards</li>
+        <li>6 points per rushing or receiving touchdown</li>
+        <li>0.5 points per reception</li>
+        <li>2 points per two-point conversion, rushing or receiving</li>
+    </ul>
+    <p><span class="underscore">Miscellaneous</span></p>
+    <ul>
+        <li>&minus;1 point per fumble lost</li>
+        <li>6 points per fumble recovered for a touchdown</li>
+    </ul>
+    <p>There are no positional bonuses. Tight ends receive no premium above the standard half-point per reception.</p>
+
+    <h3 class="subSectionHeading" bind:this={threeTwo}>3.2 No Kickers, No Defenses</h3>
+    <p>There is no kicker slot and no team defense slot in this league. Neither position has a place in the starting lineup, and neither is drafted. Only quarterbacks, running backs, wide receivers and tight ends are relevant.</p>
+
+    <h2 class="sectionHeading" bind:this={four}>Section 4 Keepers</h2>
+
+    <h3 class="subSectionHeading" bind:this={fourOne}>4.1 How Many</h3>
+    <p>Each team may keep up to two players from the previous season's roster. Keeping fewer than two, or none at all, is always allowed.</p>
+
+    <h3 class="subSectionHeading" bind:this={fourTwo}>4.2 Keeper Cost</h3>
+    <p>A keeper costs the round in which he was drafted the previous season. Keeping a player selected in the seventh round last year costs this year's seventh-round pick, and that pick is spent &mdash; the team does not pick in that round.</p>
+
+    <h3 class="subSectionHeading" bind:this={fourThree}>4.3 Inflation</h3>
+    <p>If the <span class="underscore">same manager</span> keeps the <span class="underscore">same player</span> two years running, the cost climbs by one round. A seventh-round keeper held a second straight year costs a sixth-round pick, then a fifth the year after, and so on. Cost cannot climb past the first round.</p>
+    <p>Inflation follows the manager, not the roster. A player who was kept by a different team last season does not carry that inflation to his new team &mdash; his cost is simply the round he was drafted.</p>
+
+    <h3 class="subSectionHeading" bind:this={fourFour}>4.4 Undrafted Players</h3>
+    <p>A player who was not drafted last season &mdash; picked up off waivers or free agency during the year &mdash; costs a final-round pick to keep.</p>
+
+    <h3 class="subSectionHeading" bind:this={fourFive}>4.5 Two Keepers, Same Round</h3>
+    <p>If both of a team's keepers owe the same round, <span class="underscore">the manager chooses</span> which of the two moves up. That player's cost becomes one round earlier; the other keeps the original round.</p>
+    <p>If the round the bumped player moves into is also occupied by one of that team's keepers, he continues moving up a round at a time until he lands on a round the team still holds. A keeper who would be pushed past the first round cannot be kept.</p>
+
+    <h2 class="sectionHeading" bind:this={five}>Section 5 The Draft</h2>
+
+    <h3 class="subSectionHeading" bind:this={fiveOne}>5.1 Draft Format</h3>
+    <p>The draft is a fourteen-round snake draft with a two-minute pick timer. Draft picks may be traded (see Section 7).</p>
+
+    <h3 class="subSectionHeading" bind:this={fiveTwo}>5.2 Keepers on the Board</h3>
+    <p>Keepers occupy their cost round on the draft board before the draft begins. A team that keeps two players has two fewer picks to make.</p>
+    <p>The league's <a href="https://garrett-pdx.github.io/keeper-draft-board/" target="_blank" rel="noopener">Keeper Draft Board</a> computes every team's keeper costs, shows what the rest of the league has locked in, and runs the draft itself.</p>
+
+    <h2 class="sectionHeading" bind:this={six}>Section 6 Waivers and Free Agency</h2>
+
+    <h3 class="subSectionHeading" bind:this={sixOne}>6.1 FAAB</h3>
+    <p>Waivers run on a Free Agent Acquisition Budget. Each manager receives $100 for the season, and that budget is not replenished. Bids may be as low as $0, and the highest bid wins; Sleeper breaks ties by waiver priority.</p>
+    <p>Claims clear on the league's weekly waiver run. Players who go unclaimed become free agents and can be added by anyone.</p>
+    <p>FAAB dollars may be included in trades.</p>
+
+    <h2 class="sectionHeading" bind:this={seven}>Section 7 Trades</h2>
+
+    <h3 class="subSectionHeading" bind:this={sevenOne}>7.1 Trading</h3>
+    <p>Players, draft picks and FAAB dollars may all be traded. Trades process immediately on acceptance &mdash; there is no review period and no automatic league vote.</p>
+    <p>Trades are made in good faith between managers acting in their own competitive interest. The commissioner may reverse a trade only in the case of clear collusion or a manager acting against the integrity of the league.</p>
+
+    <h3 class="subSectionHeading" bind:this={sevenTwo}>7.2 Trade Deadline</h3>
+    <p>The trade deadline is Week 12. No trades of any kind may be made after the deadline passes, including trades involving only draft picks.</p>
+
+    <h3 class="subSectionHeading" bind:this={sevenThree}>7.3 Trading Draft Picks</h3>
+    <p>Draft picks must be traded <span class="underscore">one for one</span>. A trade that includes draft picks must send and receive the same number of them, so that every team goes into the draft holding the same total number of picks it started with.</p>
+    <p>Rounds do not have to match &mdash; a third-round pick may be traded for a tenth. A team can therefore hold two picks in one round and none in another. What cannot change is the total.</p>
+    <p>Picks may still be packaged with players or FAAB; the one-for-one requirement applies only to the picks themselves.</p>
+
+    <h2 class="sectionHeading" bind:this={eight}>Section 8 Postseason</h2>
+
+    <h3 class="subSectionHeading" bind:this={eightOne}>8.1 Playoffs</h3>
+    <p>Four teams make the playoffs. The bracket runs two rounds across Weeks 16 and 17: semifinals in Week 16, then the championship in Week 17. The two Week 16 losers play a third-place game in Week 17.</p>
+
+    <h3 class="subSectionHeading" bind:this={eightTwo}>8.2 Consolation Bracket</h3>
+    <p>Teams that miss the playoffs play a consolation bracket over the same two weeks. It decides nothing, and everyone plays it anyway.</p>
+
+    <h2 class="sectionHeading" bind:this={nine}>Section 9 League Votes</h2>
+
+    <h3 class="subSectionHeading" bind:this={nineOne}>9.1 Making Changes</h3>
+    <p>Any change to the league goes to a vote, and passes <span class="underscore">7&ndash;3</span>. That covers anything &mdash; scoring, roster spots, keeper rules, the draft, playoffs, league size. Any manager may put a change forward.</p>
 
 </div>
