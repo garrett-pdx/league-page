@@ -14,11 +14,24 @@ open-source SvelteKit template, currently v2.5.1), not a project written from sc
 That fork relationship is the single most important fact about working here — see
 "Working in a fork" below.
 
-**Status: configured, not yet deployed.** `src/lib/utils/leagueInfo.js` is filled in —
-real `leagueID`, `leagueName`, hand-written `homepageText`, and all ten managers keyed by
-`managerID` — so the site renders live league data locally. Still outstanding: manager
-names/photos/bios are placeholders, the constitution is still another league's rules, the
-app shell still says "League Page", and nothing is on Vercel yet.
+**Status: live at [mudd-league.vercel.app](https://mudd-league.vercel.app).** Every push to
+`master` deploys. `leagueInfo.js` is fully configured; all eleven managers (ten active plus
+Jordan Leonard in the Moratorium) have real names, hometowns, locally-served photos and
+bios; the constitution is this league's rules; the shell is rebranded.
+
+Still outstanding, in rough priority order:
+
+- **The blog is off.** `enableBlog = false` and it needs a Contentful space that doesn't
+  exist yet — see `docs/blog.md`. The three weekly posts and the skill to draft them are
+  planned (`docs/post-generator-skill.md`), not built.
+- **Nothing reads `static/data/` yet.** The dataset is committed and complete; no page
+  consumes it. Every page still fetches Sleeper live.
+- **Theme is still upstream's blue** (`src/theme/`). The badge was drawn to match it, so
+  changing one means changing both.
+- **Optional manager fields are unset** — `favoriteTeam`, `preferredContact`,
+  `fantasyStart`, `philosophy`, `tradingScale`. Each renders as a muted "?" placeholder.
+  `rival` is "The Field" for everyone; real rivalries need `rival.link` set to another
+  manager's *index* in the array.
 
 **The league is displayed as "The Mudd League."** Sleeper names it "Mudd Keeper League";
 `leagueName` deliberately differs from the Sleeper-side name. Don't "correct" it to match
@@ -33,10 +46,11 @@ draft board). It has its own detailed `CLAUDE.md` — read that one, not this on
 keeper-cost rules, ADP/value pipelines, or the shared-keeper Gist.
 
 The two projects **share a league, not a codebase**. Don't copy code between them; don't
-try to unify them. What this site should do is *link* to the draft board (a Resources
-entry or a nav item is the natural home). If a keeper rule is restated on this site (e.g.
-in the constitution page), the draft board's `CLAUDE.md` is the source of truth for the
-wording, and the two must not drift.
+try to unify them. This site links to the board from `tabs.js`, under League Info.
+
+On keeper rules the two now disagree in one place, deliberately. **The constitution is the
+source of truth for what the league does**; the board's `CLAUDE.md` remains the reference
+for how the board computes things. See the collision note below before "fixing" either.
 
 ## The league (facts, verified against the Sleeper API 2026-08-09)
 
@@ -63,9 +77,10 @@ wording, and the two must not drift.
 - Keepers: **2 per team** (`max_keepers` on the Sleeper league). The full rule set —
   cost = the round the player was drafted last year, +1 round of inflation when the *same
   manager* keeps him again, undrafted players cost the final round — lives in the draft
-  board's `CLAUDE.md`. **League Page has no keeper concept at all** — `dynasty` is a
-  cosmetic content flag, not a league type, and nothing here reads Sleeper's `is_keeper`.
-  See "There is no keeper league type" in `src/lib/utils/CLAUDE.md`.
+  board's `CLAUDE.md`. **League Page has no built-in keeper concept** — `dynasty` is a
+  cosmetic content flag, not a league type. We added the one exception ourselves: the
+  drafts page reads Sleeper's `is_keeper` to badge kept picks. See "There is no keeper
+  league type" in `src/lib/utils/CLAUDE.md`.
 - **Two rules the league decided here, in the constitution, that the draft board predates:**
   when two keepers owe the same round the *manager chooses* which one moves up; and draft
   picks trade **one for one**, so every team enters the draft with the same total number of
@@ -86,7 +101,8 @@ wording, and the two must not drift.
 - **The hand-maintained 2025 list had 5th and 6th swapped.** It read `... kshoyer,
   mikestreinz, BBrown16, jonahcartwright ...`; the bracket says **BBrown16 5th,
   mikestreinz 6th** — BBrown16 won the consolation final over mikestreinz. The draft board
-  still carries the swapped copy by hand in `src/ui/rosters.ts`; fix it there or, better,
+  still carries the swapped copy by hand in `~/Desktop/ff_keeper/src/ui/rosters.ts`; fix
+  it there or, better,
   read `final_standings` instead of maintaining a second list.
 - **2026 managers** — `managerID` values for `leagueInfo.js` are Sleeper `user_id`s, not
   roster IDs:
@@ -105,10 +121,12 @@ wording, and the two must not drift.
 
   Roster IDs are listed for orientation only — **use `managerID`**. Roster IDs can shift
   between seasons, which is why the template deprecated the `roster` field.
-- **One former manager.** `JJJet` (`860365948673204224`) played 2022 only, went 5-10, and
-  was replaced by `BBrown16` in 2023. He still appears in all-time records and the Rivalry
-  page's dropdowns because those walk the full history; leaving him out of `managers` just
-  means he renders as a bare Sleeper handle.
+- **One former manager.** `JJJet` (`860365948673204224`) is **Jordan Leonard**; he played
+  2022 only, went 5-10, finished 9th, and was replaced by `BBrown16` in 2023. He IS in
+  `managers`, last in the array, and `AllManagers` renders him in the **Moratorium** —
+  a separate section it derives from Sleeper (no roster in the current season), not from
+  any flag. He also appears in all-time records and the Rivalry dropdowns, which walk the
+  full history regardless.
   `Football_Team` (`612343067143389184`) is **not** a former manager — the account is in
   the 2022 league's user list but never held a roster (`users_without_roster` in
   `static/data/league-history.json` confirms it, and its career record is 0-0). Don't add
@@ -150,12 +168,23 @@ npm run dev          # local dev server
 npm run dev -- --host  # expose on the LAN to test on a phone
 npm run build        # production build (Vercel adapter)
 npm run preview
-npm run lint         # prettier --check + eslint
+npm run lint         # BROKEN both halves, see below
 npm run format       # prettier --write
 npm run docker-run   # BROKEN, see below
 ```
 
-Two build gotchas, both verified locally on 2026-08-09 and neither caused by our config:
+Three gotchas, all verified locally and none caused by our config:
+
+- **`npm run lint` is broken twice over.** The script is
+  `prettier --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .`
+  Prettier exits 1 because 64 files (nearly all of them upstream's, including
+  `CHANGELOG.md`) don't match its style, so `&&` means eslint never runs; and when it is
+  run directly, ESLint 9 rejects `--ignore-path`, which flat config removed. Fixing this
+  properly would mean reformatting 64 upstream files — exactly the whitespace-only diff
+  the fork rules say not to create. Left alone deliberately. Use
+  `npx prettier --check <specific file>` if you want to check something you wrote.
+  We did add a `.prettierignore` so the ~880 KB of generated JSON in `static/data/`
+  isn't linted; every `.md` in the repo is still flagged, which is pre-existing.
 
 - **`npm run build` fails on Node > 22.** Compilation succeeds; the *Vercel adapter* then
   refuses the local Node version ("unsupported Node.js version: v25.9.0 ... use Node 18,

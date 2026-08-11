@@ -49,18 +49,29 @@ the component itself.
 
 ## `constitution/`
 
-Hand-written HTML — league rules, scoring, keeper rules — with a manually maintained
-table of contents wired up by the `goToSection` refs at the top of the file. This is pure
-content and the one place in `routes/` you should edit freely. **If you add or remove a
-section, update the table of contents to match** (nothing does it automatically). Keeper
-rules restated here must agree with the keeper draft board's `CLAUDE.md`, which is the
-source of truth for that wording.
+This league's actual rules, rewritten from scratch — nine sections covering format,
+rosters, scoring, keepers, the draft, waivers, trades, the postseason and league votes.
+Every mechanical rule was sourced from the live Sleeper config rather than assumed, so
+treat the numbers as load-bearing: no kicker or defense slot, half-PPR, 14-round snake,
+$100 FAAB, week 12 trade deadline, four-team playoff over weeks 16-17.
 
-**It is still upstream's demo-league text.** The `<h1>` reads "LEGENDS LEAGUE
-CONSTITUTION" (hardcoded, not `leagueName`), and Sections 1–6 describe a 12-team dynasty
-league — wrong roster shape, wrong scoring, rookie drafts this league doesn't hold, no
-keeper rules at all. Treat every word as a placeholder to be rewritten, not as a starting
-draft to tweak. Section 7 (League Finances) has already been removed along with `dues`.
+Pure content, and the one place in `routes/` to edit freely. Two things to preserve:
+
+- **The table of contents is manual.** It's a `<nav>` of `<button>`s bound to `goToSection`
+  refs declared at the top of the file. Add or remove a section and you must update both
+  the refs and the nav. It was originally a stack of clickable `<h3>`/`<h4>`s, which made
+  every section title appear twice in the document outline and left the whole TOC
+  unreachable by keyboard — don't regress it back to headings.
+- **Body copy uses `var(--g555)`, not a hardcoded grey.** Upstream's `#777` measured
+  ~3.6-4.2:1 against this page's gradient and failed AA in both themes.
+
+Two rules here were decided by the league and are **the source of truth**, overriding the
+keeper draft board where they disagree: same-round keeper collisions are resolved by the
+manager's choice (section 4.5), and draft picks trade one for one (7.3). The board resolves
+collisions by player rank instead; that divergence is accepted — see the root `CLAUDE.md`.
+
+`dues` and its League Finances section were removed deliberately; this league doesn't
+track dues on the site.
 
 ## `api/`
 

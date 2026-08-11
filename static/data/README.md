@@ -5,15 +5,15 @@ the current Sleeper league and pulls every season. Re-run after a season ends an
 the diff. Nothing here is hand-edited.
 
 These live in `static/` so they are served as-is and can be `fetch`ed on demand rather than
-bundled into the JS. ~820 KB total, so fetch only the file you need.
+bundled into the JS. ~880 KB total, so fetch only the file you need.
 
 | file | size | what it is |
 | --- | --- | --- |
 | `league-history.json` | 114 KB | seasons, managers, records, drafts, brackets, final standings, traded picks |
-| `transactions.json` | 259 KB | every add / drop / waiver / trade |
+| `transactions.json` | 301 KB | every add / drop / waiver / trade |
 | `weeks.json` | 357 KB | **weekly roster snapshots — the time machine** |
 | `ownership.json` | 62 KB | player → who rostered them, when |
-| `keepers.json` | 22 KB | keeper chains, cost in rounds, rule check |
+| `keepers.json` | 25 KB | keeper chains, cost in rounds, rule check |
 | `players.json` | 19 KB | player_id → name / position / team |
 
 Manager IDs everywhere are Sleeper `user_id`s, matching `managerID` in

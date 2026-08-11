@@ -15,10 +15,14 @@ export const homepageText = `
 
 /*   STEP 3   */
 /*
-The ten current managers, keyed by their Sleeper managerID (user_id).
+Eleven managers, keyed by their Sleeper managerID (user_id): the ten current ones, then
+Jordan Leonard, who played 2022 only. AllManagers splits departed managers into the
+Moratorium automatically -- see the note above his entry at the bottom.
 
-TODO: `name` and `bio` are still placeholders -- `name` is each manager's Sleeper handle
-and `bio` is a stub. Swap in real names and write bios.
+Names and bios are real. Still unset on every entry: the optional `favoriteTeam`,
+`preferredContact`, `fantasyStart`, `philosophy` and `tradingScale` fields, each of which
+renders as a muted "?" on the managers page; and `rival`, which is "The Field" for
+everyone rather than a real rivalry.
 
 `photo` points at a LOCAL file in /static/managers/, named after the manager's Sleeper
 handle. These started life as each manager's own Sleeper avatar but are now served by us,

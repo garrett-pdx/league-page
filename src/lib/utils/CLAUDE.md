@@ -37,20 +37,20 @@ page skips the click-through to a manager bio.
 **Two fields are required despite the docs implying everything optional can be nulled**,
 because they're rendered unguarded:
 
-- `photo` — `ManagerRow.svelte:234` and `Manager.svelte:227` set `src="{manager.photo}"`
-  with no `{#if}`. Missing means a broken image. `/managers/question.jpg` is the
-  template's own placeholder. (Note the commented reference block says
-  `/managers/question.png`; the file on disk is `.jpg`.)
-- `rival` — `ManagerFantasyInfo.svelte:240-248` reads `rival.link`, `rival.image` and
-  `rival.name` unguarded, so omitting it **throws on the manager detail page**. `link` is
-  an index into the `managers` array (so it shifts if you reorder entries) and `null`
-  links back to the all-managers page.
+- `photo` — both `ManagerRow.svelte` (`img.photo`) and `Manager.svelte` (`img.managerPhoto`)
+  bind `src` with no `{#if}`, so a missing photo is a broken image. Every manager here
+  points at a local file in `static/managers/`.
+- `rival` — `ManagerFantasyInfo.svelte` reads `rival.link`, `rival.image` and `rival.name`
+  unguarded (search `infoRival`), so omitting it **throws on the manager detail page**.
+  `link` is an index into the `managers` array — it shifts if you reorder entries — and
+  `null` links back to the all-managers page.
 
 Every other field is properly `{#if}`-guarded and safe to omit.
 
-`managerID` must be a user Sleeper knows about in the league history —
-`ManagerRow.svelte:21` does an unguarded `leagueTeamManagers.users[manager.managerID]`
-lookup for the commissioner badge.
+`managerID` must be a user Sleeper knows about somewhere in the league history —
+`ManagerRow.svelte` does an unguarded `leagueTeamManagers.users[manager.managerID]` lookup
+for the commissioner badge. This is why a departed manager can safely be listed (Jordan
+Leonard is), but an invented ID cannot.
 
 ## There is no keeper league type
 
@@ -73,12 +73,12 @@ it costs, the round of that pick *is* the keeper cost. Verified live on the leag
 draft: 14 rounds, 140 picks, 18 flagged `is_keeper`, spread across all 10 teams — e.g.
 TnT44 kept Josh Jacobs at R2 and Justin Jefferson at R3; Gurret kept Trey McBride at R13.
 
-`helperFunctions/leagueDrafts.js` reads `round`, `pick_no`, `player_id`, `roster_id` and
-`draft_slot` and drops `is_keeper` on the floor, so `Drafts/DraftRow.svelte` renders a
-kept player identically to a drafted one. Surfacing keepers on the drafts page is
-therefore a real feature to build, not a config flag to flip — and per the fork rules in
-the root `CLAUDE.md`, it means editing two upstream files, so keep the diff minimal
-(thread the flag through, add a badge) rather than restructuring the draft board.
+**We now surface that.** `completedNonAuction` in `helperFunctions/leagueDrafts.js` sets
+`keeper` on the draft cell and `Drafts/DraftRow.svelte` renders a corner badge, so a past
+draft shows which picks were spent on keepers and — because the badge sits in the round it
+cost — what each one cost. 75 badges render across 2022-2025, matching `keepers.json`
+exactly; the page reads live Sleeper while that file was pulled independently, so the two
+agreeing is a genuine cross-check. Pre-draft boards show no badges, which is correct.
 
 Anything richer than "this pick was a keeper" — cost inflation, next-year projections,
 who can keep whom — belongs in the keeper draft board project, not here.
@@ -150,25 +150,24 @@ roster ID identifies the same manager across seasons.
 `Promise.all` with a nicer name. Sleeper calls are independent and slow; issuing them
 serially is the main way this site gets sluggish.
 
-## Known broken: the news feed on /resources
+## The Reddit half of the news feed is permanently dead (handled)
 
-`news.js` fetches Reddit's `new.json` directly from the browser, and **Reddit sends no
-`Access-Control-Allow-Origin`**, so the request is CORS-blocked every time. (Server-side
-is no better — Reddit answers that with an HTML block page, not JSON.) The failure isn't
-contained: `getFeed`'s `.catch(err => console.error(err))` leaves `res` undefined, the
-next line throws on `res.ok`, so the whole `waitForAll` rejects, `getNews` destructures
-`undefined`, and /resources renders "Something went wrong: (intermediate value) is not
-iterable" where the article list should be.
+`news.js` fetches Reddit's `new.json` from the browser and **Reddit sends no
+`Access-Control-Allow-Origin`**, so it is CORS-blocked every time. Server-side is no better
+— Reddit answers that with an HTML block page, not JSON. This is not fixable from here;
+treat the Reddit source as gone.
 
-Unrelated to `dynasty` — it picks r/DynastyFF vs r/fantasyfootball, and both are
-`reddit.com`. The `/api/fetch_serverside_news` half (podcasts, FTN) works fine and is
-what you'd be left with. Fixing it means making `getFeed` survive a rejected fetch and
-`getNews` not destructure a rejected `waitForAll`; both are upstream files, so keep the
-diff to those two spots.
+What *was* fixable, and is fixed: the failure used to take the whole page down. `getFeed`'s
+`.catch(err => console.error(err))` left `res` undefined, the next line threw on `res.ok`,
+the whole `waitForAll` rejected, `getNews` destructured `undefined`, and /resources rendered
+"Something went wrong: (intermediate value) is not iterable" instead of any articles.
+`getFeed` now returns `[]` on a rejected fetch and `getNews` no longer destructures blind,
+so the page degrades to the `/api/fetch_serverside_news` sources (podcasts, FTN) and simply
+omits Reddit.
 
-Also cosmetic and upstream: `Resources.svelte:142` hardcodes the heading "Helpful Dynasty
-Resources" regardless of the `dynasty` flag, so it reads wrong for this league even
-though the link list below it filters correctly.
+**Expect a CORS error in the console on /resources.** It is the known one, it is not a
+regression, and the visible page is correct. Unrelated to `dynasty`, which only picks
+r/DynastyFF vs r/fantasyfootball — both on reddit.com.
 
 ## Sleeper API notes
 
