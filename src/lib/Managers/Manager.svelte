@@ -25,7 +25,18 @@
 
     $: teamName = getDistinctTeamName(leagueTeamManagers, rosterID, year, viewManager.name);
 
-    $: teamTransactions = transactions.filter(t => t.rosters.includes(parseInt(rosterID)));
+    /*
+    A departed manager's rosterID belongs to his LAST season, but `rosters` and
+    `transactions` are the CURRENT season's. Indexing them by that old id silently
+    shows whoever holds that roster slot today -- Jordan Leonard's page was rendering
+    Brenden Brown's roster and transactions. Gate both on the manager still being active.
+    */
+    $: isFormerManager = !!(year && leagueTeamManagers.currentSeason
+                            && String(year) !== String(leagueTeamManagers.currentSeason));
+
+    $: teamTransactions = isFormerManager
+        ? []
+        : transactions.filter(t => t.rosters.includes(parseInt(rosterID)));
 
     $: roster = rosters[rosterID];
 
@@ -315,10 +326,11 @@
             <p>Retrieving players...</p>
             <LinearProgress indeterminate />
         </div>
-    {:else}
+    {:else if !isFormerManager}
         <Roster division="1" expanded={false} {rosterPositions} {roster} {leagueTeamManagers} {players} {startersAndReserve} />
     {/if}
 
+    {#if !isFormerManager}
     <h3>Team Transactions</h3>
     <div class="managerConstrained">
         {#if loading}
@@ -331,6 +343,7 @@
             <TransactionsPage {playersInfo} transactions={teamTransactions} {leagueTeamManagers} show='both' query='' page={0} perPage={5} />
         {/if}
     </div>
+    {/if}
 
     <div class="managerNav">
         <Group variant="outlined">
