@@ -51,8 +51,10 @@
     }
 
     .manager:hover {
-        box-shadow: 0 0 10px 0 bar(--g999);
-        background-color: bar(--eee);
+        /* upstream typo: bar() is not a CSS function, so both declarations were
+           dropped and the row had no hover state at all. Both tokens exist. */
+        box-shadow: 0 0 10px 0 var(--g999);
+        background-color: var(--eee);
     }
 
     .photo {

@@ -4,6 +4,18 @@
 	import { tabs } from '$lib/utils/tabs';
 	import { onMount } from 'svelte';
 
+	// Upstream special-cased this by LABEL -- `child.label == "Go to Sleeper"` got
+	// window.location while everything else got goto(). That works until a second
+	// off-site tab is added, and SvelteKit 2's goto() throws on external URLs. Test
+	// the destination instead of the label so any external tab keeps working.
+	const navigate = (dest) => {
+		if(/^https?:\/\//.test(dest)) {
+			window.location.href = dest;
+			return;
+		}
+		goto(dest);
+	}
+
 	let outOfDate = false;
 
     let el, footerHeight;
@@ -111,16 +123,12 @@
 		<ul>
 			{#each tabs as tab}
 				{#if !tab.nest}
-					<li><div class="navLink" onclick={() => goto(tab.dest)}>{tab.label}</div></li>
+					<li><div class="navLink" onclick={() => navigate(tab.dest)}>{tab.label}</div></li>
 				{:else}
 					{#each tab.children as child}
                         <!-- Shouldn't show Managers tab unless managers has been populated -->
 				        {#if child.label != "Managers" || managers.length > 0}
-							{#if child.label == "Go to Sleeper"}
-								<li><div class="navLink" onclick={() => window.location = child.dest}>{child.label}</div></li>
-							{:else}
-                            	<li><div class="navLink" onclick={() => goto(child.dest)}>{child.label}</div></li>
-							{/if}
+							<li><div class="navLink" onclick={() => navigate(child.dest)}>{child.label}</div></li>
                         {/if}
 					{/each}
 				{/if}
