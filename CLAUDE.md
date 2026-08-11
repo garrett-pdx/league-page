@@ -187,8 +187,28 @@ made so that `git merge upstream/master` stays boring:
 - `src/lib/version.js` is marked **DO NOT EDIT** by upstream and is compared against
   `league-page.nmelhado.com` to surface an "update available" prompt. Leave it alone;
   it's the signal telling you when to pull upstream in.
-- There is no `upstream` remote configured yet. Add it when you first need to sync:
-  `git remote add upstream https://github.com/nmelhado/league-page.git`.
+- The `upstream` remote is configured (`https://github.com/nmelhado/league-page.git`).
+  `git fetch upstream && git log --oneline HEAD..upstream/master` shows what's new. As of
+  2026-08-10 we are level with it: our fork point `c25f29f` is upstream's tip.
+
+### Bugs we fixed that belong upstream
+
+Three inherited bugs are fixed here and affect every fork. Worth a PR when there's time —
+`upstream` is the remote to branch from.
+
+- **`goto()` throws on external URLs.** SvelteKit 2 refuses them
+  (`@sveltejs/kit` 2.16.1, `client.js:1847`), so any tab pointing off-site dies. Upstream
+  hit this and fixed *only the footer*, *only by label* — their newest commit is literally
+  "Fix Go to Sleeper link in Footer.svelte (#364)", which special-cases
+  `child.label == "Go to Sleeper"`. Both navs were left broken, and the label test breaks
+  the moment a second external tab exists (ours: the Keeper Draft Board). We test the
+  destination instead, in `NavLarge`, `NavSmall` and `Footer`.
+- **`.manager:hover` never applied.** `ManagerRow.svelte` used `bar(--g999)` / `bar(--eee)`;
+  `bar()` is not a CSS function, so both declarations were discarded. The tokens exist —
+  it was only the function name.
+- **`getTeamNameFromTeamManagers` was unguarded**, while its neighbour
+  `getAvatarFromTeamManagers` guards the same lookup. Throws for a manager with no roster
+  in the resolved season, which is exactly what a departed manager is.
 
 ## Architecture
 
