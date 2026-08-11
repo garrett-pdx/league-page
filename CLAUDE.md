@@ -195,10 +195,12 @@ made so that `git merge upstream/master` stays boring:
   `git fetch upstream && git log --oneline HEAD..upstream/master` shows what's new. As of
   2026-08-10 we are level with it: our fork point `c25f29f` is upstream's tip.
 
-### Bugs we fixed that belong upstream
+### Inherited bugs fixed locally — keep these through a merge
 
-Three inherited bugs are fixed here and affect every fork. Worth a PR when there's time —
-`upstream` is the remote to branch from.
+Three upstream bugs are fixed in this fork. **Do not send them upstream: contributing back
+was considered and declined.** They are documented because they explain why these files
+diverge from `upstream/master`, and because a careless `git merge upstream/master` could
+quietly reintroduce any of them — when resolving conflicts in these files, keep our side.
 
 - **`goto()` throws on external URLs.** SvelteKit 2 refuses them
   (`@sveltejs/kit` 2.16.1, `client.js:1847`), so any tab pointing off-site dies. Upstream
