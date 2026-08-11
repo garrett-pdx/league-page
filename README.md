@@ -1,110 +1,104 @@
 <div align="center">
-  <img alt="League Page logo" src="https://storage.googleapis.com/nfl-player-data/League%20Page.png" width="100px" />
+  <img alt="The Mudd League" src="static/mudd-badge.svg" width="110px" />
 
-  **[(Unofficial) Sleeper League Page Template](https://github.com/nmelhado/league-page/)**
+# The Mudd League
 
+**[mudd-league.vercel.app](https://mudd-league.vercel.app)**
 
-Generate a custom league page for your Sleeper fantasy football league in just a few steps
-  <br />
-  ![GitHub](https://img.shields.io/github/license/nmelhado/league-page) [![node](https://img.shields.io/badge/node-%3E%3D14-brightgreen)](https://github.com/nmelhado/league-page) ![GitHub top language](https://img.shields.io/github/languages/top/nmelhado/league-page?color=ff3e00) ![Lines of code](https://img.shields.io/tokei/lines/github/nmelhado/league-page?label=lines%20of%20code) ![GitHub forks](https://img.shields.io/github/forks/nmelhado/league-page) ![GitHub pull requests](https://img.shields.io/github/issues-pr/nmelhado/league-page) ![GitHub issues](https://img.shields.io/github/issues-raw/nmelhado/league-page)
+Standings, matchups, records, trades, rosters, manager bios, keepers and a league
+constitution — generated live from the Sleeper API.
+
 </div>
 
+---
 
-![League Page demo](https://storage.googleapis.com/nfl-player-data/league-page-demo.png)
+## What this is
 
-<div align="center">
-<a href="https://www.legendsleagueff.com/" style="font-size:2em; text-decoration: underline;" >Live demo</a>
-</div>
+The league home page for the **Mudd Keeper League**: ten teams, half-PPR, two keepers each,
+on Sleeper since 2022. The site displays the league as *The Mudd League*, which is
+deliberately not the name Sleeper carries.
 
-<br>
-<br>
+It's a fork of **[nmelhado/league-page](https://github.com/nmelhado/league-page)**, an
+open-source SvelteKit template by Nicholas Melhado (MIT). Almost everything here is his
+work; this repo is the configuration, content and data pipeline for one league on top of
+it. If you want the template itself, go upstream — not here.
 
------------
-<div align="center">
+## Companion project
 
-<i>If you and your league like League Page, please consider starring the repo and <b><a href="https://www.buymeacoffee.com/nmelhado" target="_blank">donating</a></b> (and encouraging your league-mates to too!)</i>
-<br>
-    <a href="https://www.buymeacoffee.com/nmelhado" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-green.png" alt="Buy Me A Coffee" style="height: 60px !important; width: 217px !important;" width="217px" height="60px" ></a>
-</div>
+**[keeper-draft-board](https://github.com/garrett-pdx/keeper-draft-board)**
+([live](https://garrett-pdx.github.io/keeper-draft-board/)) is a separate app for running
+the keeper draft — keeper cost maths, ADP, the draft board itself. Same league, different
+codebase, no shared code. This site links to it; the two are not meant to be merged.
 
------------
+## Running it locally
 
-<br>
-<br>
+```bash
+npm install       # node_modules is not checked in
+npm run dev       # http://localhost:5173
+npm run lint      # prettier --check + eslint
+```
 
-## Features
-- Up-to-date league information
-- Easy to navigate trade and waiver history
-- Awards and accolades
-- Records and rankings for every season
-- Current season power rankings
-- Previous drafts and upcoming draft preview
-- Season matchups
-- Manager bio pages
-- League constitution
-- Helpful fantasy football resources and news<br><br>
-- Built using [Svelte](https://svelte.dev/docs) and [SvelteKit](https://kit.svelte.dev/docs)
-- Desktop, Mobile and [PWA](https://mobilesyrup.com/2020/05/24/how-install-progressive-web-app-pwa-android-ios-pc-mac/) compatible 
-- League information generated from [Sleeper API](https://docs.sleeper.app/)
+Node **>= 20**. `npm install` also runs `npm run prepare`, which compiles the Material
+theme into `static/smui.css` and `static/smui-dark.css` — both gitignored and regenerated,
+so never edit or commit them.
 
+Two build gotchas, neither of our making:
 
-## Roadmap
-  - [ ] Add integration tests
-  - [ ] Cleanup repo
-  - [x] ~~Test redraft leagues~~
-  - [x] ~~Playoff matchups and current bracket~~
-  - [ ] Dynasty power rankings
-  - [x] ~~Hyperlink all manager references~~
-  - [x] ~~Fix all css issues when actively resizing the window~~
+- **`npm run build` fails on Node > 22.** Compilation succeeds and then the Vercel adapter
+  rejects the local Node version. It doesn't affect Vercel's own builders. To check a build
+  locally, use the node-adapter path: `DOCKER_BUILD=true npx vite build`.
+- **`npm run build-docker` is broken upstream** — the script passes `--verbose`, which this
+  Vite version rejects outright. Drop the flag if you need the container path.
 
-## Some real-life League Pages
-- [Legends League](https://www.legendsleagueff.com/)
+## Deployment
 
-### Setup your own League Page
-*If you've never touched a line of code, use the [Training Wheels Guide](./TRAINING_WHEELS.md) instead*
-- Fork this repo
-- Go to `/src/lib/utils/leagueInfo.js` and replace `your_league_id` (line 2) and `your_league_name` (line 3) with your Sleeper league ID and league name. (Optionally, also fill out the dues, and dynasty fields):
-![league ID instructions](https://storage.googleapis.com/nfl-player-data/league_id_instructions.png)
-- Write your homepage text (league intro/bio) `/src/lib/utils/leagueInfo.js` (lines 9-14)
-![homepage text](https://storage.googleapis.com/nfl-player-data/homepage_text.png)
-- Next, fill out and uncomment (delete the `// ` at the beginning of each line) the managers' object (lines 27 - 92), also located in `/src/lib/utils/leagueInfo.js`, there should be one object for each manager. The structure may change in the future (it has already 😅). The source of truth is down at the bottom, lines 104-126 (for assistance, consult the [Training Wheels guide](https://github.com/nmelhado/league-page/blob/master/TRAINING_WHEELS.md#ii-adding-managers-and-changing-the-homepage-text)).
-![manager object](https://storage.googleapis.com/nfl-player-data/managersObj.png)
-![manager rendering](https://storage.googleapis.com/nfl-player-data/managerRendering.png)
-- Add corresponding images for managers to the `/static/managers/` directory and make the sure the name matches with what was provided above
-- If you run into trouble adding managers, reference the [Training Wheels' Manager section](https://github.com/nmelhado/league-page/blob/master/TRAINING_WHEELS.md#ii-adding-managers-and-changing-the-homepage-text)
-- Add blog capabilities with [contenful](https://contentful.com/)
-    - Make a free contentful account
-    - Click on `Content model` in the top bar and create Blog Post (id: `blog_post`) and Blog Comment (id: `blog_comment`) content models that matches the specs below **(All fields are required)**:
-    ![content model](https://storage.googleapis.com/nfl-player-data/contentModel.jpg)
-    ![comment model](https://storage.googleapis.com/nfl-player-data/commentModel.jpg)
-        - Use sleeper your sleeper username for the author field when creating posts
-    - Create a Content Management API key
-    - For local development add a `.env` file to the root of your project and add the following variables
-        - `VITE_CONTENTFUL_ACCESS_TOKEN` with the corresponding value obtained from contenful
-        - `VITE_CONTENTFUL_SPACE` with your space ID, obtained from contenful
-    - Create a Content Delivery / Preview API key
-    - For local development add the following variable to your `.env` file
-        - `VITE_CONTENTFUL_CLIENT_ACCESS_TOKEN` with the `Content Delivery API - access token` from contenful
-    - To add the variables for production, go to your project settings and add the corresponding keys (using the same names as above) to the environment variables section
-    - For more detailed instructions, follow the [Training Wheels blog instructions](https://github.com/nmelhado/league-page/blob/master/TRAINING_WHEELS.md#iii-add-a-blog)
-    - Finally, set `enableBlog` to true in `src/lib/utils/leagueInfo.js`
-- Customize your league constitution `/src/routes/constitution/index.svelte` (remember to adjust the table of contents accordingly)
------------
-## For local developing [npm](https://docs.npmjs.com/getting-started/what-is-npm):
+Vercel, project `mudd-league`. Every push to `master` deploys automatically. No environment
+variables are needed: Sleeper's API is public, read-only and unauthenticated. The blog is
+off and would need Contentful credentials before it could be turned on.
 
-    npm install
-    npm run dev --
-    npm run dev -- --host (to test on other devices locally)
+## The history dataset
 
-## For local developing with a container
+`scripts/pull-league-history.py` pulls every season out of Sleeper into six JSON files under
+`static/data/` — 1,155 transactions, weekly roster snapshots for all 72 played weeks, player
+ownership timelines, keeper chains with cost and lineage, and derived final standings.
 
-    npm run docker-run
+```bash
+python3 scripts/pull-league-history.py    # ~300 requests, 1-2 minutes
+```
 
-## To deploy on [Vercel](https://vercel.com/) for free:
-- Push up your changes
-- [Link your github repo to Vercel](https://vercel.com/guides/deploying-svelte-with-vercel#step-2:-deploying-your-svelte-app-with-vercel)
-- (Optional) If you want to add analytics, go to the [Analytics page in Vercel](https://vercel.com/d?to=%2F%5Bteam%5D%2F%5Bproject%5D%2Fanalytics&title=Open+Web+Analytics) and turn them on! They will start tracking after the next deployment.
-- That's it!
+Re-run it after a season and commit the diff; nothing in there is hand-edited.
+`static/data/README.md` documents every field, including the two traps: roster IDs move
+between seasons, and 2022 has two drafts attached to it, only one of which is a 2022 draft.
 
-<!-- ## Development
-see [CONTRIBUTING.md](.github/CONTRIBUTING.md) -->
+`weeks.json` is the interesting one — it snapshots every roster, starter and per-player
+score for every week, so the league can be reconstructed at any point rather than replayed
+from transactions.
+
+## Where to change things
+
+| Want to change | Edit |
+| --- | --- |
+| League ID, name, homepage text, managers | `src/lib/utils/leagueInfo.js` |
+| League rules | `src/routes/constitution/+page.svelte` |
+| Manager photos | `static/managers/`, named by Sleeper handle |
+| Nav structure | `src/lib/utils/tabs.js` |
+| Theme colours | `src/theme/`, then `npm run prepare` |
+
+Prefer configuration over code. This is a fork of an actively maintained project, and every
+component edit is a future merge conflict — see `CLAUDE.md` for the fork rules, the data
+layer, and the three inherited upstream bugs fixed here.
+
+## Documentation
+
+- `CLAUDE.md` — the league's facts, fork constraints, architecture
+- `src/lib/utils/CLAUDE.md` — config and the Sleeper data layer
+- `src/routes/CLAUDE.md` — routing and page conventions
+- `static/data/README.md` — the dataset
+- `docs/blog.md` — the three weekly posts and Contentful setup
+- `docs/post-generator-skill.md` — plan for the post-drafting skill
+
+## Credit
+
+Built on [League Page](https://github.com/nmelhado/league-page) by
+[Nicholas Melhado](http://www.nmelhado.com/), MIT licensed. If it's useful to you,
+[consider donating](https://www.buymeacoffee.com/nmelhado) to the upstream project.

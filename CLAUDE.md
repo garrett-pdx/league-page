@@ -67,12 +67,16 @@ wording, and the two must not drift.
   cosmetic content flag, not a league type, and nothing here reads Sleeper's `is_keeper`.
   See "There is no keeper league type" in `src/lib/utils/CLAUDE.md`.
 - **Two rules the league decided here, in the constitution, that the draft board predates:**
-  when two keepers owe the same round the *manager chooses* which one moves up (the draft
-  board still bumps the better-ranked player automatically — it's wrong, and its own
-  `CLAUDE.md` flags that tie-break as a tool-author guess); and draft picks trade
-  **one for one**, so every team enters the draft with the same total number of picks,
-  though rounds may still be lopsided. For these two, the constitution is the source of
-  truth and the draft board must follow.
+  when two keepers owe the same round the *manager chooses* which one moves up; and draft
+  picks trade **one for one**, so every team enters the draft with the same total number of
+  picks, though rounds may still be lopsided.
+- **The same-round collision rule diverges from the keeper draft board on purpose.** The
+  constitution says the manager picks which keeper moves up; the draft board resolves it
+  automatically by player rank (its `CLAUDE.md` calls that tie-break a tool-author guess).
+  Garrett has accepted the divergence — the board is a planning aid, the constitution
+  governs the actual draft — so **don't "fix" the board to match, and don't file it as a
+  bug.** If the board's behaviour ever does change, this note and the board's own caveat
+  both need updating.
 - **Champions:** 2022 `paulslaats`, 2023 `kshoyer`, 2024 `BBrown16`, 2025 `malstol`.
 - **Final standings are derived, not hand-kept** — `final_standings` in
   `static/data/league-history.json`, computed from the playoff brackets. Sleeper marks
