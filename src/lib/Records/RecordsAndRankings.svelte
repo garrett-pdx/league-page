@@ -241,8 +241,22 @@
     }
 
     :global(.recordTable) {
-        box-shadow: 0px 3px 3px -2px var(--boxShadowOne), 0px 3px 4px 0px var(--boxShadowTwo), 0px 1px 8px 0px var(--boxShadowThree);
+        box-shadow: var(--shadowCard);
         margin: 2em;
+        /* Without this the table's intrinsic width wins and the whole PAGE scrolls sideways
+           on a phone -- measured 388px of content in a 375px viewport, with 449 elements
+           past the right edge. MDC already gives .mdc-data-table__table-container its own
+           overflow-x: auto, so capping the outer box moves the scroll inside the table
+           where it belongs instead of breaking the layout. */
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    @media (max-width: 600px) {
+        /* 2em each side leaves too little room for the narrowest tables to lay out */
+        :global(.recordTable) {
+            margin: 1.5em 0;
+        }
     }
 
     :global(.rankingTable) {
