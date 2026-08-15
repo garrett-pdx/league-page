@@ -1,12 +1,15 @@
 <script>
 	import LinearProgress from '@smui/linear-progress';
-	import { getNflState, leagueName, getAwards, getLeagueTeamManagers, homepageText, managers, gotoManager, enableBlog, waitForAll } from '$lib/utils/helper';
+	import { getNflState, leagueName, getAwards, getLeagueTeamManagers, homepageText, managers, gotoManager, enableBlog, waitForAll, getUpcomingDraft } from '$lib/utils/helper';
 	import { Transactions, PowerRankings, HomePost} from '$lib/components';
+	import { Countdown } from '$lib/Design';
 	import { getAvatarFromTeamManagers, getTeamFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
 
     const nflState = getNflState();
     const podiumsData = getAwards();
     const leagueTeamManagersData = getLeagueTeamManagers();
+    // startTime is null once the draft completes -- see the note in leagueDrafts.js.
+    const draftData = getUpcomingDraft();
 </script>
 
 <style>
@@ -77,6 +80,38 @@
         font-size: 1.5em;
     }
 
+    .hero {
+        text-align: center;
+        margin: 0 0 1.5em;
+    }
+
+    .leagueTitle {
+        /* h1 inherits MDC's headline1 at 96px -- set our own size, as every heading here does */
+        font-family: var(--fontDisplay);
+        font-size: 2.6em;
+        font-weight: 600;
+        line-height: 1;
+        letter-spacing: 0.01em;
+        text-transform: uppercase;
+        color: var(--navy700);
+        margin: 0;
+    }
+
+    .heroRule {
+        display: block;
+        width: 3.5em;
+        height: 3px;
+        margin: 0.5em auto 0;
+        border-radius: var(--radiusPill);
+        background-color: var(--goldFill);
+    }
+
+    .nextEvent {
+        padding: 1.1em 0.5em;
+        background-color: var(--fff);
+        border-bottom: 1px solid var(--ddd);
+    }
+
     /* champ styling */
     #currentChamp {
         padding: 25px 0;
@@ -139,7 +174,10 @@
 <div id="home">
     <div id="main">
         <div class="text">
-            <h6>{leagueName}</h6>
+            <div class="hero">
+                <h1 class="leagueTitle">{leagueName}</h1>
+                <span class="heroRule"></span>
+            </div>
             <!-- homepageText contains the intro text for your league, this gets edited in /src/lib/utils/leagueInfo.js -->
             {@html homepageText }
             <!-- Most recent Blog Post (if enabled) -->
@@ -169,6 +207,20 @@
                 <div class="center">Something went wrong: {error.message}</div>
             {/await}
         </div>
+
+        {#await draftData then draft}
+            {#if draft?.startTime}
+                <div class="nextEvent">
+                    <Countdown
+                        target={draft.startTime}
+                        label="{draft.year} Draft"
+                        expiredLabel="Drafting now"
+                    />
+                </div>
+            {/if}
+        {:catch}
+            <!-- the countdown is decoration; a failed draft fetch should not take the page down -->
+        {/await}
 
         <div id="currentChamp">
             {#await waitForAll(podiumsData, leagueTeamManagersData)}

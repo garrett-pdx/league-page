@@ -54,6 +54,16 @@ export const getUpcomingDraft = async () => {
 		accuracy,
 		draftType: officialDraft.type,
 		reversalRound: officialDraft.settings.reversal_round,
+		draftStatus: officialDraft.status,
+		/*
+		Sleeper gives us start_time on the draft object and it was previously thrown away.
+
+		It is deliberately nulled once the draft is complete: the block above responds to a
+		completed draft by incrementing `year` and PROJECTING next season's board, but
+		officialDraft.start_time still points at the draft that already happened. Passing it
+		through unguarded would have the home page count down to a date in the past.
+		*/
+		startTime: officialDraft.status == "complete" ? null : officialDraft.start_time,
 	}
 	
 	upcomingDraft.update(() => draftData);

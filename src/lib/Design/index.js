@@ -9,6 +9,7 @@ this stays "our design layer".
 Tokens these consume live in src/theme/_tokens.scss.
 */
 export { default as Card } from './Card.svelte';
+export { default as Countdown } from './Countdown.svelte';
 export { default as StatTile } from './StatTile.svelte';
 export { default as SectionHeading } from './SectionHeading.svelte';
 export { default as SegmentedControl } from './SegmentedControl.svelte';
