@@ -55,13 +55,24 @@ Every mechanical rule was sourced from the live Sleeper config rather than assum
 treat the numbers as load-bearing: no kicker or defense slot, half-PPR, 14-round snake,
 $100 FAAB, week 12 trade deadline, four-team playoff over weeks 16-17.
 
-Pure content, and the one place in `routes/` to edit freely. Two things to preserve:
+Pure content, and the one place in `routes/` to edit freely. Three things to preserve:
 
+- **Each section is a `<details>`, collapsed by default**, with the `<h2>` inside the
+  `<summary>`. `bind:this` for a section points at the `<details>`, not the heading.
+  `goToSection` walks up from its target opening every `<details>` ancestor before it
+  measures — a collapsed section lays out none of its children, so a subsection ref inside
+  one measures at the wrong position. It then waits a frame, because the expanded height
+  is not real until the next one. Sections are left uncontrolled (no `open={...}`) so a
+  reader's own toggling is never fought by a reactive value; **Expand all / Collapse all**
+  set `.open` imperatively. That control is not decoration: find-in-page does not reliably
+  match text inside a closed `<details>`, and this is a document people search for one rule.
 - **The table of contents is manual.** It's a `<nav>` of `<button>`s bound to `goToSection`
   refs declared at the top of the file. Add or remove a section and you must update both
   the refs and the nav. It was originally a stack of clickable `<h3>`/`<h4>`s, which made
   every section title appear twice in the document outline and left the whole TOC
-  unreachable by keyboard — don't regress it back to headings.
+  unreachable by keyboard — don't regress it back to headings. It is kept alongside the
+  accordion because `<summary>` only indexes the nine sections; the TOC is the only way to
+  jump straight to a numbered subsection.
 - **Body copy uses `var(--g555)`, not a hardcoded grey.** Upstream's `#777` measured
   ~3.6-4.2:1 against this page's gradient and failed AA in both themes.
 
