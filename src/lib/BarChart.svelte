@@ -42,7 +42,17 @@
     }
 
     h6 {
-        font-weight: 400;
+        /* This is the chart's title, so it stays a real heading -- but headings now inherit the
+           condensed display face, and with no size of its own it took MDC's headline6 at 20px
+           in Oswald 400, which reads as body copy that happens to be narrow. Size and track it
+           deliberately instead. Every other heading in the app does the same; MDC's stock scale
+           is not usable as-is. */
+        font-family: var(--fontDisplay);
+        font-size: 1.05em;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--navy700);
         width: 100%;
         text-align: center;
         margin: 0 0 1em;

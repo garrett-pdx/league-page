@@ -108,7 +108,7 @@
         max-width: 200px;
         height: auto;
         margin: 5em auto 1em;
-        box-shadow: 0 0 8px 4px #aaa;
+        box-shadow: 0 0 8px 4px var(--aaa);
     }
 
     h2 {

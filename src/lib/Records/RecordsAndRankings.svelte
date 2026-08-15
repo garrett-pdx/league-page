@@ -340,7 +340,7 @@
 
     :global(.rankingTable) {
         display: table;
-        box-shadow: 0px 3px 3px -2px var(--boxShadowOne), 0px 3px 4px 0px var(--boxShadowTwo), 0px 1px 8px 0px var(--boxShadowThree);
+        box-shadow: var(--shadowCard);
         margin: 2em auto 0.5em;
     }
 
@@ -396,8 +396,11 @@
 
     .subTitle {
         font-style: italic;
-        font-size: 0.7em;
-        color: #888;
+        /* was 0.7em #888: grey at 3.54:1, below AA, at the smallest size on the page.
+           --g555 measures 7.46:1 on white, and 0.8em keeps it subordinate without shrinking
+           it past legibility. */
+        font-size: 0.8em;
+        color: var(--g555);
         line-height: 1.2em;
     }
 

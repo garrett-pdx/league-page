@@ -134,7 +134,7 @@
         width: 80px;
         height: 80px;
         border-radius: 100%;
-        border: 1px solid #ccc;
+        border: 1px solid var(--ccc);
         left: 50%;
         top: 43%;
     }

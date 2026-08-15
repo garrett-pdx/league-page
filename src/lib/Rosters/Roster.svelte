@@ -287,7 +287,11 @@
 		</Body>
 	</DataTable>
 	<div class="rosterBench" style="max-height: {selected}">
-		<DataTable class="teamInner" style="width: 380px" >
+		<!-- Same clamp as the starters table above. Hardcoding 380px here made the bench wider
+		     than the starters on any screen under 400px -- at 375px the starters render 356px
+		     and the bench rendered 380px, so the two tables visibly disagreed and the bench
+		     overflowed its own card. -->
+		<DataTable class="teamInner" style="width: {innerWidth * 0.95 > 380 ? 380 : innerWidth * 0.95}px;" >
 			<Body class="bench">
 				<!-- 	Bench	 -->
 				{#each finalBench as bench}
