@@ -7,10 +7,10 @@ export const enableBlog = false; // requires VITE_CONTENTFUL_ACCESS_TOKEN and VI
 /*   STEP 2   */
 export const homepageText = `
   <p>Ten teams. Half-PPR. Two keepers each, and a long memory.</p>
-  <p>The Mudd League has been running since 2021, on ESPN for a year before moving to Sleeper. It's a keeper league, not a dynasty league &mdash; every fall the whole pool goes back on the board except the two players each manager decides are worth holding onto. Holding one isn't free: a keeper costs you the round you drafted him in last year, and if you keep the same player two years running, that cost climbs a round. Good players get expensive. That's the point.</p>
+  <p>The Mudd League has been running since 2021, on ESPN for a year before moving to Sleeper. It's a keeper league, not a dynasty league &mdash; every fall the whole pool goes back on the board except the two players each manager decides are worth holding onto. Holding one isn't free: a keeper costs you the round you drafted him in last year, and if you keep the same player two years running, that cost climbs a round. Good players get expensive.</p>
   <p>Starters are QB, two RB, two WR, TE and two FLEX, with six on the bench and two IR spots. Waivers run on a $100 FAAB budget, the trade deadline is week 12, and the top four teams make a playoff that kicks off in week 16.</p>
-  <p>Working out who to keep? The <a href="https://garrett-pdx.github.io/keeper-draft-board/" target="_blank" rel="noopener">Keeper Draft Board</a> does the round math for you, shows what everyone else has locked in, and runs the draft itself.</p>
-  <p><strong>malstol</strong> is the reigning champion. Everyone else has eleven months to do something about it.</p>
+  <p>Working out who to keep? The <a href="https://garrett-pdx.github.io/keeper-draft-board/" target="_blank" rel="noopener">Keeper Draft Board</a> does the round math for you, shows what everyone else has locked in, and lets you run mock drafts for practice.</p>
+  <p><strong>Malcolm</strong> is the reigning champion. He rode Derrick Henry through both rounds &mdash; 22.8 in the semifinal, then 45.6 in the title game &mdash; but it was Jared Goff's 32.5 that actually saved the season, in a semifinal decided by three points over Garrett. Stefon Diggs went for 18 and 19, Jaxon Smith-Njigba for 20 and 12, and the final was never close: 139.3 to 86.5.</p>
 `;
 
 /*   STEP 3   */
