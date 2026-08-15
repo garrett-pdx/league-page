@@ -27,6 +27,14 @@
 		goto(dest);
 	}
 
+	// Same reasoning as navigate(): preloadData() only understands this app's own routes.
+	// Upstream guarded it by label (`label != 'Go to Sleeper'`), which stopped covering
+	// everything as soon as a second external tab existed. Test the destination.
+	const preload = (dest) => {
+		if(/^https?:\/\//.test(dest)) return;
+		preloadData(dest);
+	}
+
 	const selectTab = (tab) => {
 		open = false;
 		navigate(tab.dest);
@@ -83,8 +91,8 @@
 	<Content>
 		<List>
 			{#each tabs as tab}
-				{#if !tab.nest && (tab.label != 'Blog' || (tab.label == 'Blog' && enableBlog))}
-					<Item href="javascript:void(0)" onSMUIAction={() => selectTab(tab)} ontouchstart={() => preloadData(tab.dest)} onmouseover={() => preloadData(tab.dest)} activated={active == tab.dest} >
+				{#if !tab.nest && (tab.label != 'Blog' || enableBlog) && (tab.label != 'Managers' || managers.length)}
+					<Item href="javascript:void(0)" onSMUIAction={() => selectTab(tab)} ontouchstart={() => preload(tab.dest)} onmouseover={() => preload(tab.dest)} activated={active == tab.dest} >
 						<Graphic class="material-icons{active == tab.dest ? "" : " nav-item"}" aria-hidden="true">{tab.icon}</Graphic>
 						<Text class="{active == tab.dest ? "" : "nav-item"}">{tab.label}</Text>
 					</Item>
@@ -97,13 +105,13 @@
 					{#each tab.children as subTab}
 						{#if subTab.label == 'Managers'}
 							{#if managers.length}
-								<Item href="javascript:void(0)" onSMUIAction={() => selectTab(subTab)} activated={active == subTab.dest}  ontouchstart={() => preloadData(subTab.dest)} onmouseover={() => preloadData(subTab.dest)}>
+								<Item href="javascript:void(0)" onSMUIAction={() => selectTab(subTab)} activated={active == subTab.dest}  ontouchstart={() => preload(subTab.dest)} onmouseover={() => preload(subTab.dest)}>
 									<Graphic class="material-icons{active == subTab.dest ? "" : " nav-item"}" aria-hidden="true">{subTab.icon}</Graphic>
 									<Text class="{active == subTab.dest ? "" : "nav-item"}">{subTab.label}</Text>
 								</Item>
 							{/if}
 						{:else}
-							<Item href="javascript:void(0)" onSMUIAction={() => selectTab(subTab)} activated={active == subTab.dest}  ontouchstart={() => {if(subTab.label != 'Go to Sleeper') preloadData(subTab.dest)}} onmouseover={() => {if(subTab.label != 'Go to Sleeper') preloadData(subTab.dest)}}>
+							<Item href="javascript:void(0)" onSMUIAction={() => selectTab(subTab)} activated={active == subTab.dest}  ontouchstart={() => preload(subTab.dest)} onmouseover={() => preload(subTab.dest)}>
 								<Graphic class="material-icons{active == subTab.dest ? "" : " nav-item"}" aria-hidden="true">{subTab.icon}</Graphic>
 								<Text class="{active == subTab.dest ? "" : "nav-item"}">{subTab.label}</Text>
 							</Item>

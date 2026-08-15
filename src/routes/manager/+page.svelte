@@ -33,9 +33,9 @@
                 <p>Retrieving managers...</p>
                 <LinearProgress indeterminate />
             </div>
-        {:then [rostersData, leagueTeamManagers, leagueData, transactionsData, awards, records]}
+        {:then [rostersData, leagueTeamManagers, leagueData, transactionsData, awards, records, leagueHistory]}
             {#if managers.length && manager > -1}
-                <Manager {awards} {records} {manager} {managers} {rostersData} {leagueTeamManagers} rosterPositions={leagueData.roster_positions} {transactionsData} />
+                <Manager {awards} {records} {manager} {managers} {rostersData} {leagueTeamManagers} rosterPositions={leagueData.roster_positions} {transactionsData} {leagueHistory} />
             {/if}
         {:catch error}
             <!-- promise was rejected -->

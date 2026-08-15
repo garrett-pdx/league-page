@@ -123,7 +123,10 @@
 		<ul>
 			{#each tabs as tab}
 				{#if !tab.nest}
-					<li><div class="navLink" onclick={() => navigate(tab.dest)}>{tab.label}</div></li>
+					<!-- Managers moved to a top-level tab; keep hiding it until managers are populated -->
+					{#if tab.label != "Managers" || managers.length > 0}
+						<li><div class="navLink" onclick={() => navigate(tab.dest)}>{tab.label}</div></li>
+					{/if}
 				{:else}
 					{#each tab.children as child}
                         <!-- Shouldn't show Managers tab unless managers has been populated -->

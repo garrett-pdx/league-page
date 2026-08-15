@@ -1,7 +1,6 @@
 <script>
     import { goto } from "$app/navigation";
 	import { getDatesActive, getRosterIDFromManagerID, getDistinctTeamName } from "$lib/utils/helperFunctions/universalFunctions";
-    import {dynasty} from "$lib/utils/leagueInfo"
 
     export let manager, leagueTeamManagers, key;
 
@@ -22,9 +21,16 @@
 
     const teamName = getDistinctTeamName(leagueTeamManagers, rosterID, year, manager.name);
 
-    // The row is the manager directory's primary navigation but is a plain div,
-    // so it was unreachable by keyboard. Give it button semantics and the
-    // Enter/Space activation a real button would have.
+    /*
+    The franchise leads and the person is the subtitle, which is how every league site
+    worth copying does it. Three managers have never set a team name on Sleeper, so fall
+    back to leading with the person rather than printing an empty headline.
+    */
+    const headline = teamName || manager.name;
+    const subline = teamName ? manager.name : (manager.location || null);
+
+    // The card is the directory's primary navigation but is a div, so it needs button
+    // semantics and the Enter/Space activation a real button would have.
     const openManager = () => goto(`/manager?manager=${key}`);
     const onRowKey = (e) => {
         if(e.key === 'Enter' || e.key === ' ') {
@@ -35,282 +41,165 @@
 </script>
 
 <style>
-    .manager {
-        display: flex;
-        justify-content: left;
-        align-items: center;
-        padding: 1em 0;
-        background-color: var(--fff);
-        background-repeat: no-repeat;
-        background-position: 15% 50%;
-        margin: 0.5em 0;
-        border-radius: 2em;
-        border: 1px solid var(--ccc);
-        box-shadow: 0 0 6px 0 var(--bbb);
+    .card {
+        position: relative;
+        display: block;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        border-radius: var(--radiusMd);
+        overflow: hidden;
+        background-color: var(--eee);
+        box-shadow: var(--shadowCard);
         cursor: pointer;
+        transition: box-shadow 0.18s ease, transform 0.18s ease;
     }
 
-    .manager:hover {
-        /* upstream typo: bar() is not a CSS function, so both declarations were
-           dropped and the row had no hover state at all. Both tokens exist. */
-        box-shadow: 0 0 10px 0 var(--g999);
-        background-color: var(--eee);
+    /* Gate the lift behind a real pointer -- on touch it sticks after the tap. */
+    @media (hover: hover) {
+        .card:hover {
+            box-shadow: var(--shadowCardHover);
+            transform: translateY(-3px);
+        }
+
+        .card:hover .photo { transform: scale(1.04); }
+    }
+
+    .card:focus-visible {
+        outline: 3px solid var(--blueOne);
+        outline-offset: 2px;
     }
 
     .photo {
-        height: 40px;
-        width: 40px;
-        border-radius: 100%;
-        vertical-align: middle;
-        margin-left: 1em;
-        box-shadow: 0 0 2px 1px var(--bbb);
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.35s ease;
     }
 
-    .name {
-        text-align: center;
-        display: inline-block;
-        color: var(--g555);
-        line-height: 1.2em;
-        margin-left: 1em;
-        font-weight: 700;
-    }
-
-    .team {
-        text-align: center;
-        display: inline-block;
-        font-style: italic;
-        line-height: 1.2em;
-        color: var(--g555);
-        font-weight: 300;
-        margin-left: 1em;
-    }
-
-    .spacer {
-        flex-grow: 1;
-    }
-
-    .info {
-        display: flex;
-    }
-
-    .infoSlot {
-        text-align: center;
-        margin: 0 0.5em;
-        width: 63px;
-    }
-
-    .infoIcon {
-        display: inline-flex;
-        height: 40px;
-        width: 40px;
-        justify-content: center;
-        align-items: center;
-        border-radius: 100%;
-        border: 1px solid #ccc;
-        overflow: hidden;
-        background-color: var(--fff);
-    }
-
-    .infoImg {
-        height: 30px;
-    }
-
-    .infoAnswer {
-        font-size: 0.8em;
-        color: var(--g555);
-        width: 63px;
-        text-align: center;
-        line-height: 1.2em;
-    }
-
-    .avatarHolder {
-        display: inline-flex;
-        position: relative;
-    }
-
-    .commissionerBadge {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    /*
+    Manager photos are arbitrary snapshots, so text can never rely on the image behind it.
+    The scrim is opaque enough at the baseline that white copy clears AA regardless of what
+    the photo happens to be.
+    */
+    .scrim {
         position: absolute;
-        bottom: -10px;
-        right: -10px;
-        height: 25px;
-        width: 25px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 2.6em 0.85em 0.8em;
+        background: linear-gradient(
+            to top,
+            rgba(0, 0, 0, 0.92) 0%,
+            rgba(0, 0, 0, 0.75) 45%,
+            rgba(0, 0, 0, 0.35) 75%,
+            rgba(0, 0, 0, 0) 100%
+        );
+        pointer-events: none;
+    }
+
+    /*
+    Team names here run from "#FREEJT" to "JustHereSoIWon'tGetFined" -- a single 24-character
+    token with no break opportunity. It has to wrap mid-word or it overflows the card, so clamp
+    to two lines and let the rest ellipsise rather than letting it eat the portrait.
+    */
+    .headline {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        font-family: var(--fontDisplay);
         font-weight: 600;
-        border-radius: 15px;
-        background-color: var(--blueTwo);
-        border: 1px solid var(--blueOne);
+        font-size: 0.95em;
+        line-height: 1.1;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
         color: #fff;
+        overflow-wrap: anywhere;
     }
 
-	@media (max-width: 665px) {
-        .name {
-            font-size: 0.9em;
-            margin-left: 0.5em;
-        }
-
-        .team {
-            font-size: 0.8em;
-            margin-left: 0.5em;
-        }
+    .subline {
+        display: block;
+        margin-top: 0.2em;
+        font-size: 0.74em;
+        line-height: 1.2;
+        color: rgba(255, 255, 255, 0.88);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
-	@media (max-width: 595px) {
-        .manager {
-            padding: 0.5em 0;
-            margin: 0.3em 0;
-            border-radius: 1.5em;
-        }
-
-        .photo {
-            height: 30px;
-            width: 30px;
-            margin-left: 0.5em;
-        }
-
-        .commissionerBadge {
-            height: 15px;
-            width: 15px;
-            font-size: 0.8em;
-        }
-
-        .infoSlot {
-            text-align: center;
-            margin: 0 0.4em;
-            width: 56px;
-        }
-
-        .infoIcon {
-            height: 30px;
-            width: 30px;
-        }
-
-        .infoImg {
-            height: 25px;
-        }
-
-        .infoAnswer {
-            font-size: 0.7em;
-            width: 56px;
-        }
+    .badges {
+        position: absolute;
+        top: 0.6em;
+        left: 0.6em;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.35em;
     }
 
-    @media (max-width: 475px) {
-        .name {
-            font-size: 0.8em;
-            margin-left: 0.4em;
-        }
-
-        .team {
-            font-size: 0.7em;
-            margin-left: 0.4em;
-        }
-
-        .photo {
-            height: 25px;
-            width: 25px;
-        }
-
-        .infoSlot {
-            text-align: center;
-            margin: 0 0.4em;
-            width: 49px;
-        }
-
-        .infoIcon {
-            height: 25px;
-            width: 25px;
-        }
-
-        .infoImg {
-            height: 22px;
-        }
-
-        .infoAnswer {
-            font-size: 0.6em;
-            width: 49px;
-        }
+    .badge {
+        font-family: var(--fontDisplay);
+        font-size: 0.62em;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding: 0.32em 0.7em;
+        border-radius: var(--radiusPill);
+        line-height: 1;
+        white-space: nowrap;
     }
 
-    @media (max-width: 370px) {
-        .infoTeam {
-            display: none;
-        }
+    .commish {
+        background-color: var(--goldFill);
+        color: var(--goldOnFill);
     }
 
-    /* the RETIRED stamp defaults to 15% 50%, which lands squarely on the manager's
-       name; slide it into the empty space to the right so the name stays legible */
-    .retiredRow {
-        background-position: 58% 50%;
+    .retired {
+        background-color: rgba(255, 255, 255, 0.92);
+        color: var(--navy700);
     }
 
-    .question {
-        /* upstream hardcoded #fff here, which punches a white circle through
-           dark mode; --fff is the theme-aware token the filled icons use */
-        background-color: var(--fff);
-        border-color: var(--bbb);
+    /* A departed manager's photo is desaturated so the Moratorium reads at a glance. */
+    .isRetired .photo {
+        filter: grayscale(0.85);
+    }
+
+    @media (max-width: 420px) {
+        .headline { font-size: 0.95em; }
+        .subline { font-size: 0.72em; }
+        .scrim { padding: 2.2em 0.6em 0.65em; }
     }
 </style>
 
-<div class="manager {retired ? 'retiredRow' : ''}" style="{retired ? "background-image: url(/retired.png); background-color: var(--ddd)": ""}" role="button" tabindex="0" aria-label="{manager.name}" onclick={openManager} onkeydown={onRowKey}>
-    <div class="avatarHolder">
-        <img class="photo" src="{manager.photo}" alt="{manager.name}" />
-        {#if commissioner}
-            <div class="commissionerBadge">
-                <span>C</span>
-            </div>
-        {/if}
-    </div>
-    <div class="name">{manager.name}</div>
-    {#if teamName}
-        <div class="team">{teamName}</div>
+<div
+    class="card"
+    class:isRetired={retired}
+    role="button"
+    tabindex="0"
+    aria-label="{manager.name}{teamName ? `, ${teamName}` : ''}"
+    onclick={openManager}
+    onkeydown={onRowKey}
+>
+    <img class="photo" src="{manager.photo}" alt="{manager.name}" loading="lazy" />
+
+    {#if commissioner || retired}
+        <div class="badges">
+            {#if commissioner}
+                <span class="badge commish">Commissioner</span>
+            {/if}
+            {#if retired}
+                <span class="badge retired">Moratorium</span>
+            {/if}
+        </div>
     {/if}
-    <div class="spacer" />
-    <div class="info">
-        <!-- Favorite team (optional) -->
-        <div class="infoSlot infoTeam">
-            {#if manager.favoriteTeam}
-                <div class="infoIcon">
-                    <img class="infoImg" src="https://sleepercdn.com/images/team_logos/nfl/{manager.favoriteTeam}.png" alt="favorite team"/>
-                </div>
-            {:else}
-                <div class="infoIcon question">
-                    <img class="infoImg" src="/managers/unknown.svg" alt="not set"/>
-                </div>
-            {/if}
-        </div>
-        <!-- Preferred contact -->
-        <div class="infoSlot">
-            {#if manager.preferredContact}
-                <div class="infoIcon">
-                    <img class="infoImg" src="/{manager.preferredContact}.png" alt="{manager.preferredContact}"/>
-                </div>
-                <div class="infoAnswer">
-                    {manager.preferredContact}
-                </div>
-            {:else}
-                <div class="infoIcon question">
-                    <img class="infoImg" src="/managers/unknown.svg" alt="not set"/>
-                </div>
-            {/if}
-        </div>
-        <!-- Rebuild mode (optional and only displayed for dynasty leagues) -->
-        {#if dynasty}
-            <div class="infoSlot infoRebuild">
-                {#if manager.mode}
-                    <div class="infoIcon">
-                        <img class="infoImg" src="/{manager.mode.replace(' ', '%20')}.png" alt="win now or rebuild"/>
-                    </div>
-                    <div class="infoAnswer">
-                        {manager.mode}
-                    </div>
-                {:else}
-                    <div class="infoIcon question">
-                        <img class="infoImg" src="/managers/unknown.svg" alt="not set"/>
-                    </div>
-                {/if}
-            </div>
+
+    <div class="scrim">
+        <span class="headline">{headline}</span>
+        {#if subline}
+            <span class="subline">{subline}</span>
         {/if}
     </div>
 </div>

@@ -45,6 +45,16 @@
 		goto(dest);
 	}
 
+	// preloadData() only understands this app's own routes, so handing it an off-site
+	// URL is the same mistake as goto(). Upstream guarded it by label
+	// (`label != 'Go to Sleeper'`), which silently stopped covering anything once a
+	// second external tab existed -- ours is the Keeper Draft Board. Test the
+	// destination instead, exactly like navigate() above.
+	const preload = (dest) => {
+		if(/^https?:\/\//.test(dest)) return;
+		preloadData(dest);
+	}
+
 	const subGoto = (dest) => {
 		open(false);
 		navigate(dest);
@@ -130,10 +140,10 @@
 				</div>
 			{:else}
 				<Tab
-					class="{tab.label == 'Blog' && !enableBlog ? 'dontDisplay' : ''}"
+					class="{(tab.label == 'Blog' && !enableBlog) || (tab.label == 'Managers' && !managers.length) ? 'dontDisplay' : ''}"
 					{tab}
-					onTouchstart={() => preloadData(tab.dest)}
-					onMouseover={() => preloadData(tab.dest)}
+					onTouchstart={() => preload(tab.dest)}
+					onMouseover={() => preload(tab.dest)}
 					href={tab.dest}
 					minWidth
 				>
@@ -143,11 +153,11 @@
 			{/if}
 		{/snippet}
 	</TabBar>
-	<div class="subMenu" style="max-height: {display ? 49 * tabChildren.length - 1 - (managers.length ? 0 : 48) : 0}px; width: {width}px; top: {height}px; left: {left}px; box-shadow: 0 0 {display ? "3px" : "0"} 0 var(--blueOne); border: {display ? "1px" : "0"} solid var(--blueOne); border-top: none;">
+	<div class="subMenu" style="max-height: {display ? 49 * tabChildren.length - 1 : 0}px; width: {width}px; top: {height}px; left: {left}px; box-shadow: 0 0 {display ? "3px" : "0"} 0 var(--blueOne); border: {display ? "1px" : "0"} solid var(--blueOne); border-top: none;">
 		<List>
 			{#each tabChildren as subTab, ix}
 				{#if subTab.label == 'Managers'}
-					<Item class="{managers.length ? '' : 'dontDisplay'}" onSMUIAction={() => subGoto(subTab.dest)} ontouchstart={() => preloadData(subTab.dest)} onmouseover={() => preloadData(subTab.dest)}>
+					<Item class="{managers.length ? '' : 'dontDisplay'}" onSMUIAction={() => subGoto(subTab.dest)} ontouchstart={() => preload(subTab.dest)} onmouseover={() => preload(subTab.dest)}>
 						<Graphic class="material-icons">{subTab.icon}</Graphic>
 						<Text class="subText">{subTab.label}</Text>
 					</Item>
@@ -155,7 +165,7 @@
 						<Separator />
 					{/if}
 				{:else}
-					<Item onSMUIAction={() => subGoto(subTab.dest)} ontouchstart={() => {if(subTab.label != 'Go to Sleeper') preloadData(subTab.dest)}} onmouseover={() => {if(subTab.label != 'Go to Sleeper') preloadData(subTab.dest)}}>
+					<Item onSMUIAction={() => subGoto(subTab.dest)} ontouchstart={() => preload(subTab.dest)} onmouseover={() => preload(subTab.dest)}>
 						<Graphic class="material-icons">{subTab.icon}</Graphic>
 						<Text class="subText">{subTab.label}</Text>
 					</Item>

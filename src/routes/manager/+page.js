@@ -6,17 +6,20 @@ import {
     getLeagueTransactions,
     getAwards,
     getLeagueRecords,
+    getLeagueHistory,
     managers as managersObj
 } from '$lib/utils/helper';
-export async function load({ url }) {
+export async function load({ url, fetch }) {
     if(!managersObj.length) return false;
+    // getLeagueHistory takes SvelteKit's fetch so the static dataset also resolves during SSR.
     const managersInfo = waitForAll(
-        getLeagueRosters(),    
+        getLeagueRosters(),
         getLeagueTeamManagers(),
         getLeagueData(),
         getLeagueTransactions(),
         getAwards(),
         getLeagueRecords(),
+        getLeagueHistory(fetch),
     );
 
     const manager = url?.searchParams?.get('manager');

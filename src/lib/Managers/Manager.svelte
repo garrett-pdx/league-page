@@ -1,7 +1,8 @@
 <script>
     import Button, { Group, Label } from '@smui/button';
 	import LinearProgress from '@smui/linear-progress';
-    import {loadPlayers, getLeagueTransactions} from '$lib/utils/helper';
+    import {loadPlayers, getLeagueTransactions, getManagerCareer, ordinal} from '$lib/utils/helper';
+	import { StatTile } from '$lib/Design';
 	import Roster from '../Rosters/Roster.svelte';
 	import TransactionsPage from '../Transactions/TransactionsPage.svelte';
     import { goto } from '$app/navigation';
@@ -10,7 +11,7 @@
     import { onMount } from 'svelte';
 	import { getDatesActive, getRosterIDFromManagerID, getDistinctTeamName } from '$lib/utils/helperFunctions/universalFunctions';
 
-    export let manager, managers, rostersData, leagueTeamManagers, rosterPositions, transactionsData, awards, records;
+    export let manager, managers, rostersData, leagueTeamManagers, rosterPositions, transactionsData, awards, records, leagueHistory = null;
 
     let transactions = transactionsData.transactions;
 
@@ -37,6 +38,17 @@
     $: teamTransactions = isFormerManager
         ? []
         : transactions.filter(t => t.rosters.includes(parseInt(rosterID)));
+
+    /*
+    Career totals come from the static dataset rather than the live API: Sleeper only exposes
+    the podium and the toilet bowl, so a placement of 4th through 9th -- and therefore any
+    honest "best finish" -- is not derivable from getAwards(). See helperFunctions/leagueHistory.
+    Null for anyone missing from the history, which the markup guards on.
+    */
+    $: career = getManagerCareer(leagueHistory, viewManager.managerID);
+
+    // ".572", the way a record is actually written, rather than "0.572".
+    const pct = (n) => n === null || n === undefined ? null : n.toFixed(3).replace(/^0/, '');
 
     $: roster = rosters[rosterID];
 
@@ -163,6 +175,27 @@
         color: #666;
     }
 
+    .careerStats {
+        margin: 2.5em 0 1em;
+    }
+
+    .careerHeading {
+        font-family: var(--fontDisplay);
+        font-size: 0.85em;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--g555);
+        text-align: center;
+        margin: 0 0 0.9em;
+    }
+
+    .statGrid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
+        gap: 0.6em;
+    }
+
     .managerNav {
         margin: 4em 0 2em;
         text-align: center;
@@ -277,6 +310,37 @@
                 </div>
             {/if}
         </div>
+
+        {#if career && career.games}
+            <div class="careerStats">
+                <h3 class="careerHeading">Career Stats</h3>
+                <div class="statGrid">
+                    <StatTile label="Record" value={career.record} size="sm" />
+                    <StatTile label="Win %" value={pct(career.winPct)} size="sm" />
+                    <StatTile label="Points / Game" value={career.ppg.toFixed(1)} size="sm" />
+                    <StatTile
+                        label="Seasons"
+                        value={career.seasonsPlayed}
+                        size="sm"
+                    />
+                    <StatTile
+                        label={career.championships === 1 ? 'Title' : 'Titles'}
+                        value={career.championships}
+                        size="sm"
+                        tone={career.championships > 0 ? 'champion' : 'default'}
+                    />
+                    {#if career.best}
+                        <StatTile
+                            label="Best Finish"
+                            value={ordinal(career.best.place)}
+                            sub={career.best.season}
+                            size="sm"
+                            tone={career.best.place === 1 ? 'positive' : 'default'}
+                        />
+                    {/if}
+                </div>
+            </div>
+        {/if}
 
         <div class="managerNav upper">
             <Group variant="outlined">

@@ -1,103 +1,93 @@
 <script>
     import { leagueName } from '$lib/utils/helper';
     import { getDatesActive } from '$lib/utils/helperFunctions/universalFunctions';
+    import { SectionHeading, SegmentedControl } from '$lib/Design';
     import ManagerRow from './ManagerRow.svelte'
 
-    export let managers, leagueTeamManagers;
-
-    let innerWidth;
+    let { managers, leagueTeamManagers } = $props();
 
     /*
-    Managers who have left the league are split out into the Moratorium below the
-    active roster. They're detected from Sleeper -- getDatesActive only fills in
-    `end` once a manager stops appearing on a roster -- rather than from a flag in
-    leagueInfo, so a manager who leaves needs no code change beyond staying in the
-    array. `key` deliberately stays the index into the ORIGINAL array: it drives
-    /manager?manager=N and rival.link, both of which are positional.
+    Managers who have left the league are split out into the Moratorium. They're detected
+    from Sleeper -- getDatesActive only fills in `end` once a manager stops appearing on a
+    roster -- rather than from a flag in leagueInfo, so a manager who leaves needs no code
+    change beyond staying in the array. `key` deliberately stays the index into the ORIGINAL
+    array: it drives /manager?manager=N and rival.link, both of which are positional.
     */
     const indexed = managers.map((manager, key) => ({manager, key}));
     const departedYear = (manager) => manager.managerID
         ? (getDatesActive(leagueTeamManagers, manager.managerID) || {}).end
         : null;
-    $: active = indexed.filter(({manager}) => !departedYear(manager));
-    $: departed = indexed.filter(({manager}) => departedYear(manager));
-</script>
 
-<svelte:window bind:innerWidth={innerWidth} />
+    const active = indexed.filter(({manager}) => !departedYear(manager));
+    const departed = indexed.filter(({manager}) => departedYear(manager));
+
+    let view = $state('active');
+    const shown = $derived(view === 'active' ? active : departed);
+
+    const options = [
+        {value: 'active', label: `Active (${active.length})`},
+        {value: 'moratorium', label: `Moratorium (${departed.length})`},
+    ];
+</script>
 
 <style>
     .managerContainer {
         width: 100%;
-        margin: 2em 0 5em;
+        margin: 0 0 5em;
     }
 
-    .managerConstrained {
-        width: 97%;
-        max-width: 800px;
+    .controls {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto 1.6em;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1.1em;
+        width: 94%;
+        max-width: 1100px;
         margin: 0 auto;
     }
 
-    h2 {
-        text-align: center;
-        font-size: 2.8em;
-        margin: 2em 0 1.5em;
-        line-height: 1em;
-    }
-
-    .moratorium {
-        margin-top: 4em;
-        border-top: 1px solid var(--ccc);
-        padding-top: 1em;
-    }
-
-    .moratoriumHeading {
-        font-size: 1.9em;
-        margin: 1.2em 0 0.2em;
-    }
-
-    .moratoriumBlurb {
+    .blurb {
         text-align: center;
         color: var(--g555);
         font-style: italic;
         margin: 0 auto 2em;
         max-width: 34em;
         line-height: 1.4em;
+        width: 90%;
     }
 
-    @media (max-width: 520px) {
-        h2 {
-            text-align: center;
-            font-size: 2em;
-            margin: 1.5em 0 1em;
-            line-height: 1em;
-        }
-
-        .moratoriumHeading {
-            font-size: 1.5em;
+    @media (max-width: 640px) {
+        .grid {
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 0.8em;
         }
     }
 </style>
 
 <div class="managerContainer">
-    <h2>{leagueName} Managers</h2>
-    <div class="managerConstrained">
-        {#each active as {manager, key} (key)}
+    <SectionHeading eyebrow={leagueName} level={2}>Managers</SectionHeading>
+
+    {#if departed.length}
+        <div class="controls">
+            <SegmentedControl {options} bind:value={view} ariaLabel="Show active managers or the Moratorium" />
+        </div>
+    {/if}
+
+    {#if view === 'moratorium'}
+        <p class="blurb">
+            Managers who are no longer with us. Their results still count in the
+            all-time records, which is its own kind of afterlife.
+        </p>
+    {/if}
+
+    <div class="grid">
+        {#each shown as {manager, key} (key)}
             <ManagerRow {manager} {leagueTeamManagers} {key} />
         {/each}
     </div>
-
-    {#if departed.length}
-        <div class="moratorium">
-            <h2 class="moratoriumHeading">Moratorium</h2>
-            <p class="moratoriumBlurb">
-                Managers who are no longer with us. Their results still count in the
-                all-time records, which is its own kind of afterlife.
-            </p>
-            <div class="managerConstrained">
-                {#each departed as {manager, key} (key)}
-                    <ManagerRow {manager} {leagueTeamManagers} {key} />
-                {/each}
-            </div>
-        </div>
-    {/if}
 </div>

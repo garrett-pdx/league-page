@@ -34,6 +34,11 @@
         onchange(item.value);
     };
 
+    /*
+    Keydown lives on the buttons rather than the group. That is both the standard roving-tabindex
+    pattern -- the focused radio handles its own keys -- and what keeps the group from needing a
+    tabindex of its own, which is what Svelte's a11y_interactive_supports_focus rule asks for.
+    */
     const onkeydown = (e) => {
         const count = items.length;
         if (!count) return;
@@ -119,7 +124,6 @@
     class:fullWidth={fullWidth}
     role="radiogroup"
     aria-label={ariaLabel}
-    onkeydown={onkeydown}
 >
     {#each items as item, i}
         <button
@@ -132,6 +136,7 @@
             disabled={item.disabled}
             tabindex={item.value === value ? 0 : -1}
             onclick={() => select(i)}
+            onkeydown={onkeydown}
         >
             {item.label}
         </button>
