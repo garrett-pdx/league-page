@@ -1,10 +1,11 @@
 <script>
 	import { Awards } from '$lib/components'
+	import HallOfFame from '$lib/Awards/HallOfFame.svelte';
 	import { waitForAll } from '$lib/utils/helper';
 	import LinearProgress from '@smui/linear-progress';
 
     export let data;
-    const {awardsData, teamManagersData} = data;
+    const {awardsData, teamManagersData, leagueHistoryData} = data;
 </script>
 
 <style>
@@ -35,12 +36,16 @@
 </style>
 
 <div class="awards">
-	{#await waitForAll(awardsData, teamManagersData) }
+	{#await waitForAll(awardsData, teamManagersData, leagueHistoryData) }
 		<div class="loading">
 			<p>Retrieving awards data...</p>
 			<LinearProgress indeterminate />
 		</div>
-	{:then [podiums, leagueTeamManagers] }
+	{:then [podiums, leagueTeamManagers, leagueHistory] }
+		<!-- Plaque strip sits ABOVE the illustrated podiums rather than replacing them; the
+		     podium scene is 379 lines of hand-tuned art with ten breakpoints. -->
+		<HallOfFame {leagueHistory} {leagueTeamManagers} />
+
 		{#each podiums as podium}
 			<Awards {podium} {leagueTeamManagers} />
 		{:else}
