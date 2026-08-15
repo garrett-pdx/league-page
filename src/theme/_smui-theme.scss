@@ -32,6 +32,10 @@
 // Import the mixins.
 @use '@material/typography/index' as typography;
 
+// Our design tokens. See src/theme/_tokens.scss -- kept out of the :root block below so that
+// upstream's file stays mergeable. Do NOT add this line to src/theme/dark/_smui-theme.scss.
+@use 'tokens';
+
 :root {
   --fff: #fff;
   --fffTransparent: rgba(255,255,255,0);

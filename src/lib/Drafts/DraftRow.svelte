@@ -97,7 +97,7 @@
         line-height: 1;
         padding: 2px 3px;
         border-radius: 3px;
-        background-color: #00316b;
+        background-color: var(--blueOne);
         color: #fff;
         pointer-events: none;
     }

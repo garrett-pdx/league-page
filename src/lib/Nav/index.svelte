@@ -2,25 +2,7 @@
 	import NavSmall from './NavSmall.svelte';
 	import NavLarge from './NavLarge.svelte';
     import { page } from '$app/state';
-	import IconButton from '@smui/icon-button';
-	import { Icon } from '@smui/common';
 	import { leagueName } from '$lib/utils/leagueInfo';
-
-	// toggle dark mode
-	let darkTheme = $state(typeof window === "undefined" || window.matchMedia("(prefers-color-scheme: dark)").matches);
-	function switchTheme(currentTheme) {
-		currentTheme = !currentTheme;
-		let themeLink = document.head.querySelector("#theme");
-		if (!themeLink) {
-			themeLink = document.createElement("link");
-			themeLink.rel = "stylesheet";
-			themeLink.id = "theme";
-		}
-		themeLink.href = `/smui${currentTheme ? "" : "-dark"}.css`;
-		document.head
-		.querySelector('link[href="/smui-dark.css"]')
-		.insertAdjacentElement("afterend", themeLink);
-	}
 </script>
 
 <svelte:head>
@@ -36,8 +18,8 @@
 		background-color: var(--fff);
 		position: relative;
 		z-index: 2;
-		border-bottom: 1px solid #00316b;
-		box-shadow: 0 0 8px 0 #00316b;
+		border-bottom: 1px solid var(--blueOne);
+		box-shadow: var(--shadowNav);
 	}
 
 	#logo {
@@ -55,16 +37,6 @@
 		display: none;
 	}
 
-	.container {
-		position: absolute;
-		top: 0.25em;
-		right: 0.25em;
-	}
-
-	:global(.lightDark) {
-		color: var(--g555)
-	}
-
 	@media (max-width: 950px) { /* width of the large navBar */
 		.large {
 			display: none;
@@ -78,18 +50,6 @@
 
 <nav>
 	<a href="/"><img id="logo" alt="{leagueName}" src="/mudd-badge.svg" /></a>
-
-	<div class="container">
-		<IconButton
-			toggle
-			bind:pressed={darkTheme}
-			onclick={() => switchTheme(darkTheme)}
-			class="lightDark"
-		>
-			<Icon class="material-icons" on>dark_mode</Icon>
-			<Icon class="material-icons">light_mode</Icon>
-		</IconButton>
-	</div>
 
 	<div class="large">
 		<NavLarge />

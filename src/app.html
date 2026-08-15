@@ -47,13 +47,22 @@
 		<link rel="apple-touch-startup-image" href="pwa/apple-splash-1136-640.jpg" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
 
 		<!-- Fonts and CSS -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<!-- crossorigin is required on the gstatic preconnect: font files are CORS fetches, and
+		     without it the browser opens a second connection and the hint is wasted. -->
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<!-- Material Icons stays on the legacy icon?family= endpoint and stays its own request.
+		     That endpoint is what defines the .material-icons CLASS rule (font-family + ligature
+		     settings) that Nav, Pagination, Roster and TransactionsPage all depend on. Folding it
+		     into the css2 request below would drop that rule and blank every icon. -->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" />
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700&display=swap" />
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:wght@300;400;500;600;700&family=Roboto+Mono:wght@500;700&display=swap" />
 
 		<!-- SMUI Styles -->
-		<link rel="stylesheet" href="/smui.css" media="(prefers-color-scheme: light)" />
-		<link rel="stylesheet" href="/smui-dark.css" media="(prefers-color-scheme: dark)" />
+		<!-- Light-only. The media="(prefers-color-scheme: light)" attribute MUST stay off this
+		     link: with it, a visitor whose OS is in dark mode gets no MDC CSS at all. Note that
+		     static/smui-dark.css is still built by `npm run prepare`, it is just never served. -->
+		<link rel="stylesheet" href="/smui.css" />
 		%sveltekit.head%
 	</head>
 	<body>

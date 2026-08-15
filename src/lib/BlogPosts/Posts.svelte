@@ -118,11 +118,11 @@
     }
 
     .filterLink {
-        background-color: #00316b;
+        background-color: var(--blueOne);
     }
 
     .filterLink:not(.noHover):hover {
-        background-color: #0082c3;
+        background-color: var(--accentInk);
     }
 
     .noHover {

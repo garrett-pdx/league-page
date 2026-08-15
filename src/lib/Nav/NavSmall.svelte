@@ -45,7 +45,7 @@
 	}
 
 	:global(.menuIcon:hover) {
-		color: #00316b;
+		color: var(--blueOne);
 	}
 
 	:global(.nav-drawer) {

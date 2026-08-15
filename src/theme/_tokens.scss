@@ -1,0 +1,119 @@
+// Design tokens for The Mudd League.
+//
+// This file is OURS -- _smui-theme.scss is upstream's and is otherwise byte-identical to
+// nmelhado/league-page, so new tokens live here and are pulled in with a single `@use 'tokens';`
+// line. Upstream keeps appending to its own :root block; keeping our additions out of it is what
+// stops every future `git merge upstream/master` from conflicting.
+//
+// Two gotchas:
+//   * `npm run dev` does NOT recompile Sass. After editing this file run `npm run smui-theme-light`
+//     or nothing changes. static/smui.css is gitignored, so there is never anything to commit.
+//   * Do NOT `@use 'tokens'` from src/theme/dark/_smui-theme.scss -- that build's include path is
+//     src/theme/dark, so this file would not resolve and the build would fail. The dark theme is
+//     still compiled but no longer served (see src/app.html).
+//
+// The brand colour also appears in two places that CANNOT use var():
+//   * src/theme/_smui-theme.scss:7-8  -- $primary / $secondary, Sass compile-time values
+//   * src/app.html:12,16             -- mask-icon and msapplication-TileColor HTML attributes
+// Change those by hand if the brand colour ever moves.
+
+:root {
+  /* ---- Type families ------------------------------------------------------------------ */
+  // Oswald is much narrower than Roboto, so the swap-in reflow at heading sizes is visible.
+  // The fallbacks are both condensed to keep that reflow small.
+  --fontDisplay: 'Oswald', 'Roboto Condensed', 'Arial Narrow', sans-serif;
+  --fontBody: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  --fontMono: 'Roboto Mono', ui-monospace, SFMono-Regular, monospace;
+
+  /* ---- MDC typography hooks ------------------------------------------------------------
+     The compiled sheet emits `font-family: var(--mdc-typography-headlineN-font-family, ...)`
+     on the bare h1-h6 selectors, so overriding these reaches every heading in the app without
+     touching a single component -- including the 48 places that already override heading size.
+
+     Deliberately set:
+       headline1-6  -- all headings. headline6 also styles .mdc-drawer__title (the mobile nav
+                       header) and .mdc-dialog__title (blog comments). Both should be condensed.
+       button       -- also styles .mdc-tab, i.e. the whole desktop nav. Intentional.
+     Deliberately NOT set:
+       --mdc-typography-font-family  -- the base fallback; would condense ALL body text.
+       subtitle1                     -- reaches .mdc-list-item__primary-text and
+                                        .mdc-text-field__input (nav drawer items, search boxes). */
+  --mdc-typography-headline1-font-family: var(--fontDisplay);
+  --mdc-typography-headline2-font-family: var(--fontDisplay);
+  --mdc-typography-headline3-font-family: var(--fontDisplay);
+  --mdc-typography-headline4-font-family: var(--fontDisplay);
+  --mdc-typography-headline5-font-family: var(--fontDisplay);
+  --mdc-typography-headline6-font-family: var(--fontDisplay);
+  --mdc-typography-button-font-family: var(--fontDisplay);
+
+  // MDC tracks headline1/2 negative (-0.015625em / -0.0083333333em), which reads cramped on a
+  // condensed face. Neutralise it and let the components add their own where wanted.
+  --mdc-typography-headline1-letter-spacing: 0;
+  --mdc-typography-headline2-letter-spacing: 0;
+  --mdc-typography-headline3-letter-spacing: 0;
+  --mdc-typography-headline4-letter-spacing: 0;
+  --mdc-typography-headline5-letter-spacing: 0;
+  --mdc-typography-headline6-letter-spacing: 0;
+  --mdc-typography-button-letter-spacing: 0.06em;
+
+  /* ---- Radius -------------------------------------------------------------------------- */
+  // xs/md match radii already in use (DraftRow's keeper tag, and the several 10px sites) so
+  // adopting these is not a visual change.
+  --radiusXs: 3px;
+  --radiusSm: 6px;
+  --radiusMd: 10px;
+  --radiusLg: 16px;
+  --radiusPill: 999px;
+  --radiusCircle: 50%;
+
+  /* ---- Elevation ------------------------------------------------------------------------ */
+  // --shadowCard is the MDC elevation-3 triple that is currently copy-pasted verbatim into
+  // seven components (BarChart, Resources, Roster, RecordsAndRankings x2, Awards x2).
+  --shadowCard: 0px 3px 3px -2px var(--boxShadowOne), 0px 3px 4px 0px var(--boxShadowTwo), 0px 1px 8px 0px var(--boxShadowThree);
+  --shadowCardHover: 0 6px 14px -4px rgba(0, 49, 107, 0.22), 0 2px 6px -2px rgba(0, 49, 107, 0.14);
+  --shadowNav: 0 0 8px 0 var(--blueOne);
+
+  /* ---- Navy ramp -------------------------------------------------------------------------
+     Contrast measured against #ebebeb, the darker end of the body gradient -- that is the
+     number that governs, not the #f4f4f4 end.
+
+       --navy900  #001f45   13.74  AAA
+       --navy800  #00285a   12.14  AAA
+       --navy700  #00316b   10.67  AAA   (== --blueOne)
+       --navy600  #004a8f    7.41  AAA
+       --navy500  #005a94    6.10  AA
+       --navy400  #0082c3    3.54  FAILS AA   (== --blueTwo)
+       --navy100  #ddedfa      --         (== --headerPrimary; navy700 on it = 10.64)
+
+     --navy400 clears only the 3:1 non-text bar. Legal uses: text >=24px, bold text >=18.66px,
+     icon strokes, borders, decorative fills. Never body-size ink, never a fill under white text. */
+  --navy900: #001f45;
+  --navy800: #00285a;
+  --navy700: #00316b;
+  --navy600: #004a8f;
+  --navy500: #005a94;
+  --navy400: #0082c3;
+  --navy100: #ddedfa;
+  --navy050: #f0f6fc;
+
+  --accentInk: var(--navy500);    // interactive text, and small fills carrying white text
+  --accentFill: var(--navy700);   // white-on-navy chips, buttons, badges
+  --accentBorder: #c8d4e3;
+
+  /* ---- Gold (championships) ---------------------------------------------------------------
+     Two golds only. There is no usable mid-gold: #b8860b measures 2.73 on #ebebeb and fails
+     even the 3:1 non-text bar. Championship treatment is always gold FILL with navy ink --
+     never gold text on grey. */
+  --goldInk: #7a5c00;             // gold as text: 5.25 on #ebebeb, AA
+  --goldFill: #f0b429;            // trophy/medal fills: 6.82 against --goldOnFill
+  --goldOnFill: var(--navy700);   // the only ink that may sit on --goldFill
+}
+
+// Roboto has real tabular figures, so this kills digit jitter in every data table (Records,
+// Standings, Drafts) without touching a component. Deliberately NOT switching these to
+// Roboto Mono: its glyphs are wider and would overflow the hardcoded name-cell widths in
+// Rosters/Roster.svelte and Records/RecordsAndRankings.svelte. Real mono is reserved for
+// StatTile's hero number, where the box is ours.
+.mdc-data-table__cell {
+  font-variant-numeric: tabular-nums;
+}

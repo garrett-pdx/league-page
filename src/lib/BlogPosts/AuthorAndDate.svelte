@@ -20,7 +20,7 @@
     }
 
     .authorAndDate a {
-        background-color: #00316b;
+        background-color: var(--blueOne);
         color: #fff;
         border-radius: 1em;
         text-decoration: none;
@@ -33,7 +33,7 @@
     }
 
     .authorAndDate a:hover {
-        background-color: #0082c3;
+        background-color: var(--accentInk);
     }
 </style>
 

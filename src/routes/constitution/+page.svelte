@@ -122,11 +122,11 @@
     }
 
     .tocLink:hover {
-        color: #00316b;
+        color: var(--blueOne);
     }
 
     .tocLink:focus-visible {
-        outline: 2px solid #00316b;
+        outline: 2px solid var(--blueOne);
         outline-offset: 2px;
         border-radius: 2px;
     }
