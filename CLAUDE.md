@@ -24,10 +24,16 @@ Still outstanding, in rough priority order:
 - **The blog is off.** `enableBlog = false` and it needs a Contentful space that doesn't
   exist yet — see `docs/blog.md`. The three weekly posts and the skill to draft them are
   planned (`docs/post-generator-skill.md`), not built.
-- **Nothing reads `static/data/` yet.** The dataset is committed and complete; no page
-  consumes it. Every page still fetches Sleeper live.
-- **Theme is still upstream's blue** (`src/theme/`). The badge was drawn to match it, so
-  changing one means changing both.
+- **`static/data/` is read in exactly one place.** `helperFunctions/leagueHistory.js` fetches
+  `league-history.json` (memoized, SSR-safe) for the manager career band and the Hall of Fame.
+  It is the only source for a full 1–10 finish — Sleeper exposes podium and toilet bowl only —
+  and it keys on `user_id`, which sidesteps roster IDs moving between seasons. The other five
+  files, `weeks.json` above all, are still unread; that one holds per-player weekly scores for
+  every week of 2022–25 and is the only way to get a season MVP or a championship final score.
+- **Sortable record tables were considered and rejected for the six *record* tables.** Each is
+  a top-N list defined by its own metric, and the rank column is positional (`{ix + 1}`), so
+  re-sorting renumbers rank into nonsense. The four *ranking* tables (Win %, Points, Lineup IQ,
+  Transactions) would genuinely benefit and remain unbuilt.
 - **Optional manager fields are unset** — `favoriteTeam`, `preferredContact`,
   `fantasyStart`, `philosophy`, `tradingScale`. Each renders as a muted "?" placeholder.
   `rival` is "The Field" for everyone; real rivalries need `rival.link` set to another
@@ -267,7 +273,9 @@ src/
       helperFunctions/  # the Sleeper API data layer (see src/lib/utils/CLAUDE.md)
       tabs.js       #   nav structure
     <Feature>/      # one directory per feature (Standings, Records, Matchups, …)
-  theme/            # SMUI (Material) SCSS theme; theme/dark/ for dark mode
+  theme/            # SMUI (Material) SCSS theme
+    _tokens.scss    #   OUR design tokens, @use'd by _smui-theme.scss in one line
+    dark/           #   still compiled by `npm run prepare`, no longer served
 static/             # images, PWA manifest, favicons, static/managers/ for bios
 ```
 
@@ -290,6 +298,33 @@ two-column shape — and see "Working in a fork" before you do.
 Because `homepageText` is `{@html}`-injected, it is raw HTML: it can carry links (e.g. to
 the keeper draft board) and markup, and it must be hand-written trusted content. Never
 wire user input into it.
+
+## The design system
+
+Added in the redesign; everything below is ours, not upstream's.
+
+- **One light theme, no toggle.** `src/app.html` loads a single unconditional `/smui.css`.
+  The `media="(prefers-color-scheme: light)"` attribute must stay OFF that link — with it, a
+  dark-OS visitor gets no MDC CSS at all, and that is invisible when developing on a light
+  machine. `src/theme/dark/` is still compiled by `npm run prepare` and simply never served;
+  deleting it would conflict on every future upstream merge.
+- **Tokens live in `src/theme/_tokens.scss`**, pulled in by one `@use 'tokens';` line so
+  upstream's `_smui-theme.scss` stays mergeable. Radius scale, `--shadowCard`, a navy ramp and
+  a gold accent. **`--navy400` (`#0082c3`) fails AA at 3.54:1** — large text, borders and icons
+  only; use `--accentInk` (`#005a94`, 6.10:1) for anything smaller. Gold is a fill, never ink.
+  **`npm run dev` does not recompile Sass** — run `npm run smui-theme-light` after every edit
+  or nothing changes.
+- **Type**: Oswald for headings, MDC buttons and nav tabs, via the
+  `--mdc-typography-*-font-family` hooks — no component edits needed, since the compiled sheet
+  emits those hooks on the bare `h1`–`h6` selectors. Never set the base
+  `--mdc-typography-font-family` or `subtitle1`; they reach body text, list items and inputs.
+  Data-table cells use Roboto's tabular figures; real Roboto Mono is reserved for `StatTile`,
+  because its wider glyphs overflow the hardcoded name-cell widths in Roster and Records.
+- **Primitives in `src/lib/Design/`** (`Card`, `StatTile`, `SectionHeading`,
+  `SegmentedControl`, `Countdown`) with **their own barrel** — deliberately not
+  `$lib/components`, which is byte-identical to upstream and gains entries most releases.
+  `SectionHeading` styles a *class*, never a tag selector: it renders through
+  `<svelte:element>`, where Svelte's scoper silently strips tag rules it cannot see.
 
 ## Conventions
 
