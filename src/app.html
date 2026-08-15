@@ -6,6 +6,12 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 
 		<!-- favicons -->
+		<!-- SVG first: browsers that understand it (Chrome, Firefox, Edge, Safari 16+) use the
+		     current mark, and older ones ignore the unknown type and fall back to the PNG/ICO
+		     below. Those raster files are still the old blue shield and cannot be regenerated
+		     without adding a rasterizer to the toolchain, so this link is what keeps the browser
+		     tab in step with the nav for essentially everyone. -->
+		<link rel="icon" type="image/svg+xml" href="/brand/seal-simple.svg">
 		<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
 		<link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">

@@ -198,11 +198,37 @@
 		box-shadow: 0 12px 9px -12px rgba(0,0,0,0.4);
 	}
 
-	.banner {
+	.bannerWrap {
+		position: relative;
 		display: block;
 		width: 65%;
 		max-width: 450px;
 		margin: 20px auto 0;
+	}
+
+	.banner {
+		display: block;
+		width: 100%;
+	}
+
+	.bannerText {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 72%;
+		text-align: center;
+		font-family: var(--fontDisplay);
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		/* navy on the ribbon's gold measures 6.20, so this clears AA at any size */
+		color: var(--goldOnFill);
+		/* scales with the ribbon, which is a percentage of its container */
+		font-size: clamp(0.85rem, 3.2vw, 1.6rem);
+		line-height: 1;
+		white-space: nowrap;
+		pointer-events: none;
 	}
 
 	.toilet-banner {
@@ -329,14 +355,20 @@
 <div class="awards">
 	<h3>{year} Awards</h3>
 
-	<img src="/banner.png" class="banner" alt="The Champion's Cup" />
+	<!-- The ribbon is now decoration and the words are real markup, so they follow the display
+	     font, can be selected and translated, and reach a screen reader as text rather than as
+	     an alt attribute. The old banner.png had "Champion's Cup" baked into the bitmap. -->
+	<div class="bannerWrap">
+		<img src="/brand/banner.svg" class="banner" alt="" />
+		<span class="bannerText">Champion's Cup</span>
+	</div>
 
 	<div id="podium">
 		<img src="/podium.png" class="podiumImage" alt="podium" />
 
 		<!-- champs -->
 		<img src="{getAvatarFromTeamManagers(leagueTeamManagers, champion, year)}" class="first champ clickable" onclick={() => gotoManager({year, leagueTeamManagers, rosterID: champion})} alt="champion" />
-		<img src="/laurel.png" class="laurel" alt="laurel" />
+		<img src="/brand/laurel.svg" class="laurel" alt="laurel" />
 		<span class="label firstLabel clickable" onclick={() => gotoManager({year, leagueTeamManagers, rosterID: champion})}>{@html getNestedTeamNamesFromTeamManagers(leagueTeamManagers, year, champion)}</span>
 
 		<img src="{getAvatarFromTeamManagers(leagueTeamManagers, second, year)}" class="second champ clickable" onclick={() => gotoManager({year, leagueTeamManagers, rosterID: second})} alt="2nd" />

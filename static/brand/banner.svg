@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 110" role="presentation">
+  <!--
+    Replaces static/banner.png, a glossy three dimensional gold ribbon with "Champion's Cup"
+    baked into the bitmap in a grey system font. Text inside an image cannot follow the display
+    font, cannot be selected or translated, and reaches a screen reader only through alt.
+
+    So this file carries NO text. It is the ribbon alone, and Awards.svelte lays the heading over
+    it as real markup. That is the whole point of the replacement; do not add a text element here.
+    role="presentation" because the shape is decorative once the words live in the page.
+
+    Flat fills only, matching the rest of the palette: gold ground, navy outline, navy ink on top
+    at 6.20 contrast. The original's bevels and gradients were the loudest thing on the page.
+
+    Note for editors: an XML comment may not contain two consecutive hyphens, including CSS
+    custom property names written in full. It is a parse error that blanks the whole file.
+  -->
+  <g fill="#EAAA00" stroke="#00316b" stroke-width="2.5" stroke-linejoin="round">
+    <!-- tails, drawn first so the main band overlaps their inner ends -->
+    <path d="M70 30 L8 18 L26 52 L8 86 L70 74 Z"/>
+    <path d="M380 30 L442 18 L424 52 L442 86 L380 74 Z"/>
+    <!-- folds where the tails tuck behind the band -->
+    <path d="M70 30 L58 40 L70 50 Z" fill="#c98f00"/>
+    <path d="M380 30 L392 40 L380 50 Z" fill="#c98f00"/>
+    <!-- main band -->
+    <path d="M62 22 Q225 8 388 22 L388 84 Q225 98 62 84 Z"/>
+  </g>
+</svg>

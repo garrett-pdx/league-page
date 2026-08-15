@@ -61,10 +61,12 @@ for how the board computes things. See the collision note below before "fixing" 
 ## The league (facts, verified against the Sleeper API 2026-08-09)
 
 - **Mudd Keeper League**, 10 teams. Keeper league — **not dynasty** (`dynasty = false` in
-  `leagueInfo.js`; the template's default is `true`). On **Sleeper since 2022**, but the
-  league predates that on another platform — only the prior season's draft came across
-  (see the history-dataset notes below), so 2022 is the start of the record, not the start
-  of the league.
+  `leagueInfo.js`; the template's default is `true`). **Founded in 2021 on ESPN**, moved to
+  **Sleeper for 2022**. Only the 2021 draft came across in the move (see the history-dataset
+  notes below), so 2022 is the start of the *record*, not the start of the league — this is
+  what the otherwise-mysterious second 2022 draft in `league-history.json` actually is.
+  The founding year is stated on the seal (`static/brand/seal.svg`) and in the homepage and
+  constitution copy; keep all four in step.
 - The name traces to **Claremont-Mudd-Scripps**, where at least some of the managers played
   college football together — useful for the tone of homepage/constitution copy, and the
   reason the site displays "The Mudd League" rather than Sleeper's "Mudd Keeper League".
@@ -320,6 +322,15 @@ Added in the redesign; everything below is ours, not upstream's.
   `--mdc-typography-font-family` or `subtitle1`; they reach body text, list items and inputs.
   Data-table cells use Roboto's tabular figures; real Roboto Mono is reserved for `StatTile`,
   because its wider glyphs overflow the hardcoded name-cell widths in Roster and Records.
+- **Brand art lives in `static/brand/`** — the seal (full and small), wordmark, laurel and the
+  Trophy Room ribbon, all hand-authored SVG, documented in `static/brand/README.md`. Three traps
+  live there: an SVG loaded through `<img src>` gets **no page CSS and no webfonts**, so colours
+  are literal hex kept in step with the tokens by hand and any text pins its width with
+  `textLength`; `banner.svg` deliberately carries **no text** because the heading is real markup
+  in `Awards.svelte`; and an XML comment containing two consecutive hyphens is a parse error that
+  blanks the whole file. There is **no rasterizer on this project**, so the PNG/ICO favicons are
+  still the old blue shield — the `<link rel="icon" type="image/svg+xml">` in `app.html` is what
+  keeps the tab current.
 - **Primitives in `src/lib/Design/`** (`Card`, `StatTile`, `SectionHeading`,
   `SegmentedControl`, `Countdown`) with **their own barrel** — deliberately not
   `$lib/components`, which is byte-identical to upstream and gains entries most releases.

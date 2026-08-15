@@ -318,7 +318,7 @@
         </summary>
         <div class="sectionBody">
             <h3 class="subSectionHeading" bind:this={oneOne}>1.1 Format</h3>
-            <p>{leagueName} is a ten-team keeper league on Sleeper, running since 2022. It is a keeper league, not a dynasty league: every season the entire player pool returns to the draft board except the players each manager elects to keep, and those keepers cost draft capital (see Section 4).</p>
+            <p>{leagueName} is a ten-team keeper league, founded in 2021 on ESPN and played on Sleeper since 2022. It is a keeper league, not a dynasty league: every season the entire player pool returns to the draft board except the players each manager elects to keep, and those keepers cost draft capital (see Section 4).</p>
             <p>The regular season runs from Week 1 through Week 15. The postseason runs Weeks 16 and 17.</p>
 
             <h3 class="subSectionHeading" bind:this={oneTwo}>1.2 Commissioner</h3>

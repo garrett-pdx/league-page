@@ -1,7 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
-  <!-- Safari pinned-tab mask: single flat colour, no gradients or text.
-       Shield silhouette with the football knocked out. -->
-  <path d="M60 6 L105 20 V60 C105 84 86 103 60 114 C34 103 15 84 15 60 V20 Z
-           M60 32 C48 32 39 38 39 46 C39 54 48 60 60 60 C72 60 81 54 81 46 C81 38 72 32 60 32 Z"
-        fill="#00316b" fill-rule="evenodd"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!--
+    Safari pinned tab mask. This format is single colour by rule: Safari discards every fill and
+    stroke here and paints the whole silhouette with the colour given in the mask-icon link tag
+    in src/app.html. So there are no gradients, no text and no palette, only shape. Anything
+    drawn here becomes solid.
+
+    That is why the mark is reduced to a ring and a laced football: at pinned tab size, around
+    16px, the seal's rings and lettering merge into a blob.
+
+    Note for editors: an XML comment may not contain two consecutive hyphens, including CSS
+    custom property names written in full. It is a parse error that blanks the whole file.
+  -->
+  <path fill="#000000" fill-rule="evenodd" d="M100 2a98 98 0 1 0 0 196 98 98 0 0 0 0-196zm0 20a78 78 0 1 1 0 156 78 78 0 0 1 0-156z"/>
+  <ellipse cx="100" cy="100" rx="58" ry="34" fill="#000000"/>
+  <g stroke="#ffffff" stroke-width="7" stroke-linecap="round">
+    <path d="M68 100 H132"/>
+    <path d="M82 88 V112 M94 85 V115 M106 85 V115 M118 88 V112"/>
+  </g>
 </svg>

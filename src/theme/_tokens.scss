@@ -103,10 +103,24 @@
   /* ---- Gold (championships) ---------------------------------------------------------------
      Two golds only. There is no usable mid-gold: #b8860b measures 2.73 on #ebebeb and fails
      even the 3:1 non-text bar. Championship treatment is always gold FILL with navy ink --
-     never gold text on grey. */
+     never gold text on grey.
+
+     --goldFill is #EAAA00 so that the UI and the brand emblem in static/brand/ share ONE gold.
+     They are seen together -- the nav seal sits directly above the home page's hero rule -- and
+     two near-but-not-equal golds read as a mistake rather than a choice. Retuning cost a little
+     headroom: navy on gold was 6.82 at the previous #f0b429 and is 6.20 here, so it still clears
+     AA comfortably but no longer reaches AAA. Do not darken the navy to chase that back; the
+     pairing is a fill with ink on it, not body text. */
   --goldInk: #7a5c00;             // gold as text: 5.25 on #ebebeb, AA
-  --goldFill: #f0b429;            // trophy/medal fills: 6.82 against --goldOnFill
+  --goldFill: #EAAA00;            // fills: 6.20 under --goldOnFill, 10.25 under black
   --goldOnFill: var(--navy700);   // the only ink that may sit on --goldFill
+
+  /* ---- Cardinal (heritage accent) -----------------------------------------------------------
+     Claremont-Mudd-Scripps athletics cardinal. EMBLEM USE ONLY -- deliberately not part of the
+     navy ramp, and not a second interactive colour.
+     8.98 on #fff and 7.53 on #ebebeb, so AAA either way if it is ever needed as ink. It measures
+     4.38 on --goldFill, which is why inside the seal it is a shape fill and never lettering. */
+  --cardinal: #862633;
 }
 
 // Roboto has real tabular figures, so this kills digit jitter in every data table (Records,

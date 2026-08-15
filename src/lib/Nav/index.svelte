@@ -49,7 +49,7 @@
 </style>
 
 <nav>
-	<a href="/"><img id="logo" alt="{leagueName}" src="/mudd-badge.svg" /></a>
+	<a href="/"><img id="logo" alt="{leagueName}" src="/brand/seal-simple.svg" /></a>
 
 	<div class="large">
 		<NavLarge />

@@ -1,5 +1,5 @@
 <div align="center">
-  <img alt="The Mudd League" src="static/mudd-badge.svg" width="110px" />
+  <img alt="The Mudd League" src="static/brand/wordmark.svg" width="320px" />
 
 # The Mudd League
 
