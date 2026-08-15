@@ -1,0 +1,4275 @@
+{
+ "generated": "2026-08-15T11:38:07",
+ "note": "Derived from weeks.json by scripts/derive-narratives.py. Authoring aid, not fetched at runtime. Regenerate after a season with: python3 scripts/derive-narratives.py",
+ "seasons": [
+  "2022",
+  "2023",
+  "2024",
+  "2025"
+ ],
+ "count": 278,
+ "facts": [
+  {
+   "category": "season_mvp",
+   "season": "2022",
+   "week": null,
+   "managers": [
+    "76909640692416512"
+   ],
+   "players": [
+    "6794"
+   ],
+   "values": {
+    "points": 298.9
+   },
+   "text": "Justin Jefferson was Gurret's 2022 MVP, worth 298.9 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2022",
+   "week": null,
+   "managers": [
+    "611697269254791168"
+   ],
+   "players": [
+    "6151"
+   ],
+   "values": {
+    "points": 203.4
+   },
+   "text": "Miles Sanders was TnT44's 2022 MVP, worth 203.4 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2022",
+   "week": null,
+   "managers": [
+    "605683461667229696"
+   ],
+   "players": [
+    "4034"
+   ],
+   "values": {
+    "points": 299.5
+   },
+   "text": "Christian McCaffrey was mikestreinz's 2022 MVP, worth 299.5 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2022",
+   "week": null,
+   "managers": [
+    "611664340277383168"
+   ],
+   "players": [
+    "4984"
+   ],
+   "values": {
+    "points": 432.5
+   },
+   "text": "Josh Allen was tuckersdumbteam's 2022 MVP, worth 432.5 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2022",
+   "week": null,
+   "managers": [
+    "870570674836656128"
+   ],
+   "players": [
+    "4881"
+   ],
+   "values": {
+    "points": 267.1
+   },
+   "text": "Lamar Jackson was paulslaats's 2022 MVP, worth 267.1 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2022",
+   "week": null,
+   "managers": [
+    "612407006212468736"
+   ],
+   "players": [
+    "6770"
+   ],
+   "values": {
+    "points": 412.4
+   },
+   "text": "Joe Burrow was jonahcartwright's 2022 MVP, worth 412.4 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2022",
+   "week": null,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [
+    "6904"
+   ],
+   "values": {
+    "points": 406.6
+   },
+   "text": "Jalen Hurts was kshoyer's 2022 MVP, worth 406.6 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2022",
+   "week": null,
+   "managers": [
+    "860365948673204224"
+   ],
+   "players": [
+    "4046"
+   ],
+   "values": {
+    "points": 476.9
+   },
+   "text": "Patrick Mahomes was JJJet's 2022 MVP, worth 476.9 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2022",
+   "week": null,
+   "managers": [
+    "611649934390870016"
+   ],
+   "players": [
+    "2449"
+   ],
+   "values": {
+    "points": 245.3
+   },
+   "text": "Stefon Diggs was Kabroa's 2022 MVP, worth 245.3 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2022",
+   "week": null,
+   "managers": [
+    "850475150817234944"
+   ],
+   "players": [
+    "6797"
+   ],
+   "values": {
+    "points": 288.9
+   },
+   "text": "Justin Herbert was malstol's 2022 MVP, worth 288.9 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2023",
+   "week": null,
+   "managers": [
+    "76909640692416512"
+   ],
+   "players": [
+    "7547"
+   ],
+   "values": {
+    "points": 247.5
+   },
+   "text": "Amon-Ra St. Brown was Gurret's 2023 MVP, worth 247.5 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2023",
+   "week": null,
+   "managers": [
+    "611697269254791168"
+   ],
+   "players": [
+    "7543"
+   ],
+   "values": {
+    "points": 242.2
+   },
+   "text": "Travis Etienne was TnT44's 2023 MVP, worth 242.2 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2023",
+   "week": null,
+   "managers": [
+    "605683461667229696"
+   ],
+   "players": [
+    "4034"
+   ],
+   "values": {
+    "points": 356.8
+   },
+   "text": "Christian McCaffrey was mikestreinz's 2023 MVP, worth 356.8 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2023",
+   "week": null,
+   "managers": [
+    "611664340277383168"
+   ],
+   "players": [
+    "4984"
+   ],
+   "values": {
+    "points": 379.9
+   },
+   "text": "Josh Allen was tuckersdumbteam's 2023 MVP, worth 379.9 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2023",
+   "week": null,
+   "managers": [
+    "870570674836656128"
+   ],
+   "players": [
+    "3321"
+   ],
+   "values": {
+    "points": 299.2
+   },
+   "text": "Tyreek Hill was paulslaats's 2023 MVP, worth 299.2 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2023",
+   "week": null,
+   "managers": [
+    "612407006212468736"
+   ],
+   "players": [
+    "3163"
+   ],
+   "values": {
+    "points": 243.9
+   },
+   "text": "Jared Goff was jonahcartwright's 2023 MVP, worth 243.9 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2023",
+   "week": null,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [
+    "6904"
+   ],
+   "values": {
+    "points": 376.3
+   },
+   "text": "Jalen Hurts was kshoyer's 2023 MVP, worth 376.3 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2023",
+   "week": null,
+   "managers": [
+    "999190763323944960"
+   ],
+   "players": [
+    "6797"
+   ],
+   "values": {
+    "points": 270.7
+   },
+   "text": "Justin Herbert was BBrown16's 2023 MVP, worth 270.7 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2023",
+   "week": null,
+   "managers": [
+    "611649934390870016"
+   ],
+   "players": [
+    "9221"
+   ],
+   "values": {
+    "points": 183.0
+   },
+   "text": "Jahmyr Gibbs was Kabroa's 2023 MVP, worth 183.0 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2023",
+   "week": null,
+   "managers": [
+    "850475150817234944"
+   ],
+   "players": [
+    "4881"
+   ],
+   "values": {
+    "points": 336.6
+   },
+   "text": "Lamar Jackson was malstol's 2023 MVP, worth 336.6 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2024",
+   "week": null,
+   "managers": [
+    "76909640692416512"
+   ],
+   "players": [
+    "11566"
+   ],
+   "values": {
+    "points": 325.9
+   },
+   "text": "Jayden Daniels was Gurret's 2024 MVP, worth 325.9 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2024",
+   "week": null,
+   "managers": [
+    "611697269254791168"
+   ],
+   "players": [
+    "6770"
+   ],
+   "values": {
+    "points": 313.8
+   },
+   "text": "Joe Burrow was TnT44's 2024 MVP, worth 313.8 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2024",
+   "week": null,
+   "managers": [
+    "605683461667229696"
+   ],
+   "players": [
+    "7564"
+   ],
+   "values": {
+    "points": 309.7
+   },
+   "text": "Ja'Marr Chase was mikestreinz's 2024 MVP, worth 309.7 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2024",
+   "week": null,
+   "managers": [
+    "611664340277383168"
+   ],
+   "players": [
+    "4984"
+   ],
+   "values": {
+    "points": 432.0
+   },
+   "text": "Josh Allen was tuckersdumbteam's 2024 MVP, worth 432.0 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2024",
+   "week": null,
+   "managers": [
+    "870570674836656128"
+   ],
+   "players": [
+    "3198"
+   ],
+   "values": {
+    "points": 295.8
+   },
+   "text": "Derrick Henry was paulslaats's 2024 MVP, worth 295.8 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2024",
+   "week": null,
+   "managers": [
+    "612407006212468736"
+   ],
+   "players": [
+    "3163"
+   ],
+   "values": {
+    "points": 266.6
+   },
+   "text": "Jared Goff was jonahcartwright's 2024 MVP, worth 266.6 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2024",
+   "week": null,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [
+    "4881"
+   ],
+   "values": {
+    "points": 480.4
+   },
+   "text": "Lamar Jackson was kshoyer's 2024 MVP, worth 480.4 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2024",
+   "week": null,
+   "managers": [
+    "999190763323944960"
+   ],
+   "players": [
+    "9509"
+   ],
+   "values": {
+    "points": 279.9
+   },
+   "text": "Bijan Robinson was BBrown16's 2024 MVP, worth 279.9 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2024",
+   "week": null,
+   "managers": [
+    "611649934390870016"
+   ],
+   "players": [
+    "6904"
+   ],
+   "values": {
+    "points": 347.1
+   },
+   "text": "Jalen Hurts was Kabroa's 2024 MVP, worth 347.1 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2024",
+   "week": null,
+   "managers": [
+    "850475150817234944"
+   ],
+   "players": [
+    "8155"
+   ],
+   "values": {
+    "points": 191.7
+   },
+   "text": "Breece Hall was malstol's 2024 MVP, worth 191.7 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2025",
+   "week": null,
+   "managers": [
+    "76909640692416512"
+   ],
+   "players": [
+    "4034"
+   ],
+   "values": {
+    "points": 354.9
+   },
+   "text": "Christian McCaffrey was Gurret's 2025 MVP, worth 354.9 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2025",
+   "week": null,
+   "managers": [
+    "611697269254791168"
+   ],
+   "players": [
+    "5850"
+   ],
+   "values": {
+    "points": 218.1
+   },
+   "text": "Josh Jacobs was TnT44's 2025 MVP, worth 218.1 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2025",
+   "week": null,
+   "managers": [
+    "605683461667229696"
+   ],
+   "players": [
+    "7547"
+   ],
+   "values": {
+    "points": 245.1
+   },
+   "text": "Amon-Ra St. Brown was mikestreinz's 2025 MVP, worth 245.1 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2025",
+   "week": null,
+   "managers": [
+    "611664340277383168"
+   ],
+   "players": [
+    "9221"
+   ],
+   "values": {
+    "points": 308.6
+   },
+   "text": "Jahmyr Gibbs was tuckersdumbteam's 2025 MVP, worth 308.6 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2025",
+   "week": null,
+   "managers": [
+    "870570674836656128"
+   ],
+   "players": [
+    "4984"
+   ],
+   "values": {
+    "points": 410.6
+   },
+   "text": "Josh Allen was paulslaats's 2025 MVP, worth 410.6 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2025",
+   "week": null,
+   "managers": [
+    "612407006212468736"
+   ],
+   "players": [
+    "8150"
+   ],
+   "values": {
+    "points": 235.7
+   },
+   "text": "Kyren Williams was jonahcartwright's 2025 MVP, worth 235.7 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2025",
+   "week": null,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [
+    "6813"
+   ],
+   "values": {
+    "points": 333.4
+   },
+   "text": "Jonathan Taylor was kshoyer's 2025 MVP, worth 333.4 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2025",
+   "week": null,
+   "managers": [
+    "999190763323944960"
+   ],
+   "players": [
+    "9226"
+   ],
+   "values": {
+    "points": 288.3
+   },
+   "text": "De'Von Achane was BBrown16's 2025 MVP, worth 288.3 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2025",
+   "week": null,
+   "managers": [
+    "611649934390870016"
+   ],
+   "players": [
+    "9509"
+   ],
+   "values": {
+    "points": 324.5
+   },
+   "text": "Bijan Robinson was Kabroa's 2025 MVP, worth 324.5 points in the starting lineup."
+  },
+  {
+   "category": "season_mvp",
+   "season": "2025",
+   "week": null,
+   "managers": [
+    "850475150817234944"
+   ],
+   "players": [
+    "4046"
+   ],
+   "values": {
+    "points": 326.2
+   },
+   "text": "Patrick Mahomes was malstol's 2025 MVP, worth 326.2 points in the starting lineup."
+  },
+  {
+   "category": "career_mvp",
+   "season": null,
+   "week": null,
+   "managers": [
+    "76909640692416512"
+   ],
+   "players": [
+    "7547"
+   ],
+   "values": {
+    "points": 700.4
+   },
+   "text": "Across every season, no player has scored more for Gurret than Amon-Ra St. Brown: 700.4 points."
+  },
+  {
+   "category": "career_mvp",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611697269254791168"
+   ],
+   "players": [
+    "8183"
+   ],
+   "values": {
+    "points": 493.3
+   },
+   "text": "Across every season, no player has scored more for TnT44 than Brock Purdy: 493.3 points."
+  },
+  {
+   "category": "career_mvp",
+   "season": null,
+   "week": null,
+   "managers": [
+    "605683461667229696"
+   ],
+   "players": [
+    "7564"
+   ],
+   "values": {
+    "points": 923.7
+   },
+   "text": "Across every season, no player has scored more for mikestreinz than Ja'Marr Chase: 923.7 points."
+  },
+  {
+   "category": "career_mvp",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611664340277383168"
+   ],
+   "players": [
+    "4984"
+   ],
+   "values": {
+    "points": 1244.4
+   },
+   "text": "Across every season, no player has scored more for tuckersdumbteam than Josh Allen: 1244.4 points."
+  },
+  {
+   "category": "career_mvp",
+   "season": null,
+   "week": null,
+   "managers": [
+    "870570674836656128"
+   ],
+   "players": [
+    "8112"
+   ],
+   "values": {
+    "points": 414.5
+   },
+   "text": "Across every season, no player has scored more for paulslaats than Drake London: 414.5 points."
+  },
+  {
+   "category": "career_mvp",
+   "season": null,
+   "week": null,
+   "managers": [
+    "612407006212468736"
+   ],
+   "players": [
+    "3163"
+   ],
+   "values": {
+    "points": 526.4
+   },
+   "text": "Across every season, no player has scored more for jonahcartwright than Jared Goff: 526.4 points."
+  },
+  {
+   "category": "career_mvp",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [
+    "6904"
+   ],
+   "values": {
+    "points": 782.9
+   },
+   "text": "Across every season, no player has scored more for kshoyer than Jalen Hurts: 782.9 points."
+  },
+  {
+   "category": "career_mvp",
+   "season": null,
+   "week": null,
+   "managers": [
+    "860365948673204224"
+   ],
+   "players": [
+    "4046"
+   ],
+   "values": {
+    "points": 476.9
+   },
+   "text": "Across every season, no player has scored more for JJJet than Patrick Mahomes: 476.9 points."
+  },
+  {
+   "category": "career_mvp",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611649934390870016"
+   ],
+   "players": [
+    "6904"
+   ],
+   "values": {
+    "points": 664.7
+   },
+   "text": "Across every season, no player has scored more for Kabroa than Jalen Hurts: 664.7 points."
+  },
+  {
+   "category": "career_mvp",
+   "season": null,
+   "week": null,
+   "managers": [
+    "850475150817234944"
+   ],
+   "players": [
+    "8155"
+   ],
+   "values": {
+    "points": 605.9
+   },
+   "text": "Across every season, no player has scored more for malstol than Breece Hall: 605.9 points."
+  },
+  {
+   "category": "career_mvp",
+   "season": null,
+   "week": null,
+   "managers": [
+    "999190763323944960"
+   ],
+   "players": [
+    "9226"
+   ],
+   "values": {
+    "points": 530.1
+   },
+   "text": "Across every season, no player has scored more for BBrown16 than De'Von Achane: 530.1 points."
+  },
+  {
+   "category": "league_season_leader",
+   "season": "2022",
+   "week": null,
+   "managers": [],
+   "players": [
+    "4046"
+   ],
+   "values": {
+    "points": 476.9,
+    "rank": 1
+   },
+   "text": "Patrick Mahomes was the 1st highest-scoring started player in the league in 2022, with 476.9."
+  },
+  {
+   "category": "league_season_leader",
+   "season": "2022",
+   "week": null,
+   "managers": [],
+   "players": [
+    "4984"
+   ],
+   "values": {
+    "points": 432.5,
+    "rank": 2
+   },
+   "text": "Josh Allen was the 2nd highest-scoring started player in the league in 2022, with 432.5."
+  },
+  {
+   "category": "league_season_leader",
+   "season": "2022",
+   "week": null,
+   "managers": [],
+   "players": [
+    "6770"
+   ],
+   "values": {
+    "points": 412.4,
+    "rank": 3
+   },
+   "text": "Joe Burrow was the 3rd highest-scoring started player in the league in 2022, with 412.4."
+  },
+  {
+   "category": "league_season_leader",
+   "season": "2023",
+   "week": null,
+   "managers": [],
+   "players": [
+    "4984"
+   ],
+   "values": {
+    "points": 379.9,
+    "rank": 1
+   },
+   "text": "Josh Allen was the 1st highest-scoring started player in the league in 2023, with 379.9."
+  },
+  {
+   "category": "league_season_leader",
+   "season": "2023",
+   "week": null,
+   "managers": [],
+   "players": [
+    "6904"
+   ],
+   "values": {
+    "points": 376.3,
+    "rank": 2
+   },
+   "text": "Jalen Hurts was the 2nd highest-scoring started player in the league in 2023, with 376.3."
+  },
+  {
+   "category": "league_season_leader",
+   "season": "2023",
+   "week": null,
+   "managers": [],
+   "players": [
+    "4034"
+   ],
+   "values": {
+    "points": 356.8,
+    "rank": 3
+   },
+   "text": "Christian McCaffrey was the 3rd highest-scoring started player in the league in 2023, with 356.8."
+  },
+  {
+   "category": "league_season_leader",
+   "season": "2024",
+   "week": null,
+   "managers": [],
+   "players": [
+    "4881"
+   ],
+   "values": {
+    "points": 480.4,
+    "rank": 1
+   },
+   "text": "Lamar Jackson was the 1st highest-scoring started player in the league in 2024, with 480.4."
+  },
+  {
+   "category": "league_season_leader",
+   "season": "2024",
+   "week": null,
+   "managers": [],
+   "players": [
+    "4984"
+   ],
+   "values": {
+    "points": 432.0,
+    "rank": 2
+   },
+   "text": "Josh Allen was the 2nd highest-scoring started player in the league in 2024, with 432.0."
+  },
+  {
+   "category": "league_season_leader",
+   "season": "2024",
+   "week": null,
+   "managers": [],
+   "players": [
+    "6904"
+   ],
+   "values": {
+    "points": 347.1,
+    "rank": 3
+   },
+   "text": "Jalen Hurts was the 3rd highest-scoring started player in the league in 2024, with 347.1."
+  },
+  {
+   "category": "league_season_leader",
+   "season": "2025",
+   "week": null,
+   "managers": [],
+   "players": [
+    "4984"
+   ],
+   "values": {
+    "points": 410.6,
+    "rank": 1
+   },
+   "text": "Josh Allen was the 1st highest-scoring started player in the league in 2025, with 410.6."
+  },
+  {
+   "category": "league_season_leader",
+   "season": "2025",
+   "week": null,
+   "managers": [],
+   "players": [
+    "4034"
+   ],
+   "values": {
+    "points": 354.9,
+    "rank": 2
+   },
+   "text": "Christian McCaffrey was the 2nd highest-scoring started player in the league in 2025, with 354.9."
+  },
+  {
+   "category": "league_season_leader",
+   "season": "2025",
+   "week": null,
+   "managers": [],
+   "players": [
+    "6813"
+   ],
+   "values": {
+    "points": 333.4,
+    "rank": 3
+   },
+   "text": "Jonathan Taylor was the 3rd highest-scoring started player in the league in 2025, with 333.4."
+  },
+  {
+   "category": "top_week_performance",
+   "season": "2024",
+   "week": 14,
+   "managers": [
+    "611664340277383168"
+   ],
+   "players": [
+    "4984"
+   ],
+   "values": {
+    "points": 57.9
+   },
+   "text": "Josh Allen put up 57.9 for tuckersdumbteam in week 14 of 2024 -- one of the biggest single weeks anyone has started."
+  },
+  {
+   "category": "top_week_performance",
+   "season": "2025",
+   "week": 15,
+   "managers": [
+    "76909640692416512"
+   ],
+   "players": [
+    "7523"
+   ],
+   "values": {
+    "points": 54.3
+   },
+   "text": "Trevor Lawrence put up 54.3 for Gurret in week 15 of 2025 -- one of the biggest single weeks anyone has started."
+  },
+  {
+   "category": "top_week_performance",
+   "season": "2022",
+   "week": 9,
+   "managers": [
+    "612407006212468736"
+   ],
+   "players": [
+    "4018"
+   ],
+   "values": {
+    "points": 53.1
+   },
+   "text": "Joe Mixon put up 53.1 for jonahcartwright in week 9 of 2022 -- one of the biggest single weeks anyone has started."
+  },
+  {
+   "category": "top_week_performance",
+   "season": "2023",
+   "week": 9,
+   "managers": [
+    "870570674836656128"
+   ],
+   "players": [
+    "9758"
+   ],
+   "values": {
+    "points": 50.8
+   },
+   "text": "C.J. Stroud put up 50.8 for paulslaats in week 9 of 2023 -- one of the biggest single weeks anyone has started."
+  },
+  {
+   "category": "top_week_performance",
+   "season": "2024",
+   "week": 15,
+   "managers": [
+    "612407006212468736"
+   ],
+   "players": [
+    "3163"
+   ],
+   "values": {
+    "points": 50.1
+   },
+   "text": "Jared Goff put up 50.1 for jonahcartwright in week 15 of 2024 -- one of the biggest single weeks anyone has started."
+  },
+  {
+   "category": "top_week_performance",
+   "season": "2025",
+   "week": 12,
+   "managers": [
+    "611664340277383168"
+   ],
+   "players": [
+    "9221"
+   ],
+   "values": {
+    "points": 49.9
+   },
+   "text": "Jahmyr Gibbs put up 49.9 for tuckersdumbteam in week 12 of 2025 -- one of the biggest single weeks anyone has started."
+  },
+  {
+   "category": "top_week_performance",
+   "season": "2024",
+   "week": 10,
+   "managers": [
+    "605683461667229696"
+   ],
+   "players": [
+    "7564"
+   ],
+   "values": {
+    "points": 49.9
+   },
+   "text": "Ja'Marr Chase put up 49.9 for mikestreinz in week 10 of 2024 -- one of the biggest single weeks anyone has started."
+  },
+  {
+   "category": "top_week_performance",
+   "season": "2025",
+   "week": 11,
+   "managers": [
+    "870570674836656128"
+   ],
+   "players": [
+    "4984"
+   ],
+   "values": {
+    "points": 48.7
+   },
+   "text": "Josh Allen put up 48.7 for paulslaats in week 11 of 2025 -- one of the biggest single weeks anyone has started."
+  },
+  {
+   "category": "top_week_performance",
+   "season": "2022",
+   "week": 2,
+   "managers": [
+    "870570674836656128"
+   ],
+   "players": [
+    "4881"
+   ],
+   "values": {
+    "points": 47.6
+   },
+   "text": "Lamar Jackson put up 47.6 for paulslaats in week 2 of 2022 -- one of the biggest single weeks anyone has started."
+  },
+  {
+   "category": "top_week_performance",
+   "season": "2022",
+   "week": 3,
+   "managers": [
+    "870570674836656128"
+   ],
+   "players": [
+    "4881"
+   ],
+   "values": {
+    "points": 47.4
+   },
+   "text": "Lamar Jackson put up 47.4 for paulslaats in week 3 of 2022 -- one of the biggest single weeks anyone has started."
+  },
+  {
+   "category": "top_week_performance",
+   "season": "2025",
+   "week": 10,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [
+    "6813"
+   ],
+   "values": {
+    "points": 47.1
+   },
+   "text": "Jonathan Taylor put up 47.1 for kshoyer in week 10 of 2025 -- one of the biggest single weeks anyone has started."
+  },
+  {
+   "category": "top_week_performance",
+   "season": "2023",
+   "week": 17,
+   "managers": [
+    "850475150817234944"
+   ],
+   "players": [
+    "4881"
+   ],
+   "values": {
+    "points": 46.3
+   },
+   "text": "Lamar Jackson put up 46.3 for malstol in week 17 of 2023 -- one of the biggest single weeks anyone has started."
+  },
+  {
+   "category": "top_week_performance",
+   "season": "2024",
+   "week": 15,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [
+    "4881"
+   ],
+   "values": {
+    "points": 46.1
+   },
+   "text": "Lamar Jackson put up 46.1 for kshoyer in week 15 of 2024 -- one of the biggest single weeks anyone has started."
+  },
+  {
+   "category": "top_week_performance",
+   "season": "2023",
+   "week": 16,
+   "managers": [
+    "850475150817234944"
+   ],
+   "players": [
+    "2309"
+   ],
+   "values": {
+    "points": 46.0
+   },
+   "text": "Amari Cooper put up 46.0 for malstol in week 16 of 2023 -- one of the biggest single weeks anyone has started."
+  },
+  {
+   "category": "top_week_performance",
+   "season": "2023",
+   "week": 10,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [
+    "3294"
+   ],
+   "values": {
+    "points": 45.9
+   },
+   "text": "Dak Prescott put up 45.9 for kshoyer in week 10 of 2023 -- one of the biggest single weeks anyone has started."
+  },
+  {
+   "category": "worst_benching",
+   "season": "2022",
+   "week": 2,
+   "managers": [
+    "611664340277383168"
+   ],
+   "players": [
+    "6768"
+   ],
+   "values": {
+    "points": 50.9
+   },
+   "text": "tuckersdumbteam left Tua Tagovailoa on the bench in week 2 of 2022. He scored 50.9."
+  },
+  {
+   "category": "worst_benching",
+   "season": "2022",
+   "week": 9,
+   "managers": [
+    "76909640692416512"
+   ],
+   "players": [
+    "7591"
+   ],
+   "values": {
+    "points": 48.7
+   },
+   "text": "Gurret left Justin Fields on the bench in week 9 of 2022. He scored 48.7."
+  },
+  {
+   "category": "worst_benching",
+   "season": "2025",
+   "week": 2,
+   "managers": [
+    "850475150817234944"
+   ],
+   "players": [
+    "3163"
+   ],
+   "values": {
+    "points": 44.0
+   },
+   "text": "malstol left Jared Goff on the bench in week 2 of 2025. He scored 44.0."
+  },
+  {
+   "category": "worst_benching",
+   "season": "2024",
+   "week": 5,
+   "managers": [
+    "611697269254791168"
+   ],
+   "players": [
+    "6770"
+   ],
+   "values": {
+    "points": 43.8
+   },
+   "text": "TnT44 left Joe Burrow on the bench in week 5 of 2024. He scored 43.8."
+  },
+  {
+   "category": "worst_benching",
+   "season": "2025",
+   "week": 9,
+   "managers": [
+    "611697269254791168"
+   ],
+   "players": [
+    "11560"
+   ],
+   "values": {
+    "points": 43.7
+   },
+   "text": "TnT44 left Caleb Williams on the bench in week 9 of 2025. He scored 43.7."
+  },
+  {
+   "category": "worst_benching",
+   "season": "2022",
+   "week": 17,
+   "managers": [
+    "860365948673204224"
+   ],
+   "players": [
+    "167"
+   ],
+   "values": {
+    "points": 43.7
+   },
+   "text": "JJJet left Tom Brady on the bench in week 17 of 2022. He scored 43.7."
+  },
+  {
+   "category": "worst_benching",
+   "season": "2024",
+   "week": 2,
+   "managers": [
+    "76909640692416512"
+   ],
+   "players": [
+    "4035"
+   ],
+   "values": {
+    "points": 43.0
+   },
+   "text": "Gurret left Alvin Kamara on the bench in week 2 of 2024. He scored 43.0."
+  },
+  {
+   "category": "worst_benching",
+   "season": "2025",
+   "week": 17,
+   "managers": [
+    "870570674836656128"
+   ],
+   "players": [
+    "11564"
+   ],
+   "values": {
+    "points": 42.4
+   },
+   "text": "paulslaats left Drake Maye on the bench in week 17 of 2025. He scored 42.4."
+  },
+  {
+   "category": "worst_benching",
+   "season": "2023",
+   "week": 12,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [
+    "3294"
+   ],
+   "values": {
+    "points": 40.2
+   },
+   "text": "kshoyer left Dak Prescott on the bench in week 12 of 2023. He scored 40.2."
+  },
+  {
+   "category": "worst_benching",
+   "season": "2022",
+   "week": 17,
+   "managers": [
+    "611649934390870016"
+   ],
+   "players": [
+    "5870"
+   ],
+   "values": {
+    "points": 40.2
+   },
+   "text": "Kabroa left Daniel Jones on the bench in week 17 of 2022. He scored 40.2."
+  },
+  {
+   "category": "worst_benching",
+   "season": "2025",
+   "week": 15,
+   "managers": [
+    "611649934390870016"
+   ],
+   "players": [
+    "7553"
+   ],
+   "values": {
+    "points": 40.1
+   },
+   "text": "Kabroa left Kyle Pitts on the bench in week 15 of 2025. He scored 40.1."
+  },
+  {
+   "category": "worst_benching",
+   "season": "2023",
+   "week": 14,
+   "managers": [
+    "850475150817234944"
+   ],
+   "players": [
+    "4881"
+   ],
+   "values": {
+    "points": 37.6
+   },
+   "text": "malstol left Lamar Jackson on the bench in week 14 of 2023. He scored 37.6."
+  },
+  {
+   "category": "worst_benching",
+   "season": "2025",
+   "week": 15,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [
+    "11563"
+   ],
+   "values": {
+    "points": 37.1
+   },
+   "text": "kshoyer left Bo Nix on the bench in week 15 of 2025. He scored 37.1."
+  },
+  {
+   "category": "worst_benching",
+   "season": "2025",
+   "week": 16,
+   "managers": [
+    "611649934390870016"
+   ],
+   "players": [
+    "421"
+   ],
+   "values": {
+    "points": 36.9
+   },
+   "text": "Kabroa left Matthew Stafford on the bench in week 16 of 2025. He scored 36.9."
+  },
+  {
+   "category": "worst_benching",
+   "season": "2023",
+   "week": 2,
+   "managers": [
+    "999190763323944960"
+   ],
+   "players": [
+    "1166"
+   ],
+   "values": {
+    "points": 36.6
+   },
+   "text": "BBrown16 left Kirk Cousins on the bench in week 2 of 2023. He scored 36.6."
+  },
+  {
+   "category": "biggest_whatif",
+   "season": "2025",
+   "week": 15,
+   "managers": [
+    "611649934390870016"
+   ],
+   "players": [],
+   "values": {
+    "actual": 95.8,
+    "optimal": 167.9,
+    "gap": 72.1
+   },
+   "text": "In week 15 of 2025, Kabroa scored 95.8 with a lineup that could have scored 167.9 -- 72.1 points left in the bench."
+  },
+  {
+   "category": "biggest_whatif",
+   "season": "2022",
+   "week": 17,
+   "managers": [
+    "611649934390870016"
+   ],
+   "players": [],
+   "values": {
+    "actual": 69.6,
+    "optimal": 139.4,
+    "gap": 69.8
+   },
+   "text": "In week 17 of 2022, Kabroa scored 69.6 with a lineup that could have scored 139.4 -- 69.8 points left in the bench."
+  },
+  {
+   "category": "biggest_whatif",
+   "season": "2022",
+   "week": 17,
+   "managers": [
+    "860365948673204224"
+   ],
+   "players": [],
+   "values": {
+    "actual": 52.8,
+    "optimal": 121.9,
+    "gap": 69.1
+   },
+   "text": "In week 17 of 2022, JJJet scored 52.8 with a lineup that could have scored 121.9 -- 69.1 points left in the bench."
+  },
+  {
+   "category": "biggest_whatif",
+   "season": "2025",
+   "week": 2,
+   "managers": [
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "actual": 76.8,
+    "optimal": 141.8,
+    "gap": 65.1
+   },
+   "text": "In week 2 of 2025, malstol scored 76.8 with a lineup that could have scored 141.8 -- 65.1 points left in the bench."
+  },
+  {
+   "category": "biggest_whatif",
+   "season": "2024",
+   "week": 9,
+   "managers": [
+    "612407006212468736"
+   ],
+   "players": [],
+   "values": {
+    "actual": 94.5,
+    "optimal": 157.7,
+    "gap": 63.2
+   },
+   "text": "In week 9 of 2024, jonahcartwright scored 94.5 with a lineup that could have scored 157.7 -- 63.2 points left in the bench."
+  },
+  {
+   "category": "biggest_whatif",
+   "season": "2025",
+   "week": 1,
+   "managers": [
+    "999190763323944960"
+   ],
+   "players": [],
+   "values": {
+    "actual": 69.8,
+    "optimal": 131.6,
+    "gap": 61.8
+   },
+   "text": "In week 1 of 2025, BBrown16 scored 69.8 with a lineup that could have scored 131.6 -- 61.8 points left in the bench."
+  },
+  {
+   "category": "biggest_whatif",
+   "season": "2022",
+   "week": 2,
+   "managers": [
+    "611664340277383168"
+   ],
+   "players": [],
+   "values": {
+    "actual": 72.8,
+    "optimal": 133.4,
+    "gap": 60.7
+   },
+   "text": "In week 2 of 2022, tuckersdumbteam scored 72.8 with a lineup that could have scored 133.4 -- 60.7 points left in the bench."
+  },
+  {
+   "category": "biggest_whatif",
+   "season": "2023",
+   "week": 8,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [],
+   "values": {
+    "actual": 116.5,
+    "optimal": 176.3,
+    "gap": 59.9
+   },
+   "text": "In week 8 of 2023, kshoyer scored 116.5 with a lineup that could have scored 176.3 -- 59.9 points left in the bench."
+  },
+  {
+   "category": "biggest_whatif",
+   "season": "2025",
+   "week": 2,
+   "managers": [
+    "611664340277383168"
+   ],
+   "players": [],
+   "values": {
+    "actual": 85.8,
+    "optimal": 144.3,
+    "gap": 58.5
+   },
+   "text": "In week 2 of 2025, tuckersdumbteam scored 85.8 with a lineup that could have scored 144.3 -- 58.5 points left in the bench."
+  },
+  {
+   "category": "biggest_whatif",
+   "season": "2023",
+   "week": 17,
+   "managers": [
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "actual": 87.2,
+    "optimal": 144.8,
+    "gap": 57.6
+   },
+   "text": "In week 17 of 2023, malstol scored 87.2 with a lineup that could have scored 144.8 -- 57.6 points left in the bench."
+  },
+  {
+   "category": "biggest_whatif",
+   "season": "2023",
+   "week": 15,
+   "managers": [
+    "611697269254791168"
+   ],
+   "players": [],
+   "values": {
+    "actual": 81.2,
+    "optimal": 138.4,
+    "gap": 57.2
+   },
+   "text": "In week 15 of 2023, TnT44 scored 81.2 with a lineup that could have scored 138.4 -- 57.2 points left in the bench."
+  },
+  {
+   "category": "biggest_whatif",
+   "season": "2025",
+   "week": 7,
+   "managers": [
+    "611697269254791168"
+   ],
+   "players": [],
+   "values": {
+    "actual": 90.9,
+    "optimal": 147.5,
+    "gap": 56.6
+   },
+   "text": "In week 7 of 2025, TnT44 scored 90.9 with a lineup that could have scored 147.5 -- 56.6 points left in the bench."
+  },
+  {
+   "category": "perfect_lineups",
+   "season": null,
+   "week": null,
+   "managers": [
+    "605683461667229696"
+   ],
+   "players": [],
+   "values": {
+    "count": 4
+   },
+   "text": "mikestreinz has started the optimal lineup 4 times."
+  },
+  {
+   "category": "perfect_lineups",
+   "season": null,
+   "week": null,
+   "managers": [
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "count": 2
+   },
+   "text": "malstol has started the optimal lineup 2 times."
+  },
+  {
+   "category": "perfect_lineups",
+   "season": null,
+   "week": null,
+   "managers": [
+    "612407006212468736"
+   ],
+   "players": [],
+   "values": {
+    "count": 2
+   },
+   "text": "jonahcartwright has started the optimal lineup 2 times."
+  },
+  {
+   "category": "perfect_lineups",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611649934390870016"
+   ],
+   "players": [],
+   "values": {
+    "count": 2
+   },
+   "text": "Kabroa has started the optimal lineup 2 times."
+  },
+  {
+   "category": "perfect_lineups",
+   "season": null,
+   "week": null,
+   "managers": [
+    "999190763323944960"
+   ],
+   "players": [],
+   "values": {
+    "count": 2
+   },
+   "text": "BBrown16 has started the optimal lineup 2 times."
+  },
+  {
+   "category": "perfect_lineups",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611697269254791168"
+   ],
+   "players": [],
+   "values": {
+    "count": 1
+   },
+   "text": "TnT44 has started the optimal lineup 1 time."
+  },
+  {
+   "category": "perfect_lineups",
+   "season": null,
+   "week": null,
+   "managers": [
+    "870570674836656128"
+   ],
+   "players": [],
+   "values": {
+    "count": 1
+   },
+   "text": "paulslaats has started the optimal lineup 1 time."
+  },
+  {
+   "category": "perfect_lineups",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [],
+   "values": {
+    "count": 1
+   },
+   "text": "kshoyer has started the optimal lineup 1 time."
+  },
+  {
+   "category": "bench_outscored_starters",
+   "season": "2022",
+   "week": 17,
+   "managers": [
+    "860365948673204224"
+   ],
+   "players": [],
+   "values": {
+    "bench": 82.7,
+    "starters": 52.8,
+    "margin": 29.9
+   },
+   "text": "JJJet's bench outscored his starters in week 17 of 2022, 82.7 to 52.8."
+  },
+  {
+   "category": "bench_outscored_starters",
+   "season": "2025",
+   "week": 11,
+   "managers": [
+    "605683461667229696"
+   ],
+   "players": [],
+   "values": {
+    "bench": 68.1,
+    "starters": 44.5,
+    "margin": 23.6
+   },
+   "text": "mikestreinz's bench outscored his starters in week 11 of 2025, 68.1 to 44.5."
+  },
+  {
+   "category": "bench_outscored_starters",
+   "season": "2022",
+   "week": 15,
+   "managers": [
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "bench": 67.7,
+    "starters": 48.9,
+    "margin": 18.8
+   },
+   "text": "malstol's bench outscored his starters in week 15 of 2022, 67.7 to 48.9."
+  },
+  {
+   "category": "bench_outscored_starters",
+   "season": "2022",
+   "week": 17,
+   "managers": [
+    "612407006212468736"
+   ],
+   "players": [],
+   "values": {
+    "bench": 59.9,
+    "starters": 44.9,
+    "margin": 15.0
+   },
+   "text": "jonahcartwright's bench outscored his starters in week 17 of 2022, 59.9 to 44.9."
+  },
+  {
+   "category": "bench_outscored_starters",
+   "season": "2022",
+   "week": 17,
+   "managers": [
+    "611649934390870016"
+   ],
+   "players": [],
+   "values": {
+    "bench": 81.5,
+    "starters": 69.6,
+    "margin": 11.9
+   },
+   "text": "Kabroa's bench outscored his starters in week 17 of 2022, 81.5 to 69.6."
+  },
+  {
+   "category": "bench_outscored_starters",
+   "season": "2025",
+   "week": 2,
+   "managers": [
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "bench": 88.2,
+    "starters": 76.8,
+    "margin": 11.4
+   },
+   "text": "malstol's bench outscored his starters in week 2 of 2025, 88.2 to 76.8."
+  },
+  {
+   "category": "bench_outscored_starters",
+   "season": "2025",
+   "week": 1,
+   "managers": [
+    "999190763323944960"
+   ],
+   "players": [],
+   "values": {
+    "bench": 80.4,
+    "starters": 69.8,
+    "margin": 10.6
+   },
+   "text": "BBrown16's bench outscored his starters in week 1 of 2025, 80.4 to 69.8."
+  },
+  {
+   "category": "bench_outscored_starters",
+   "season": "2025",
+   "week": 2,
+   "managers": [
+    "611664340277383168"
+   ],
+   "players": [],
+   "values": {
+    "bench": 94.6,
+    "starters": 85.8,
+    "margin": 8.8
+   },
+   "text": "tuckersdumbteam's bench outscored his starters in week 2 of 2025, 94.6 to 85.8."
+  },
+  {
+   "category": "zero_starts",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611664340277383168"
+   ],
+   "players": [],
+   "values": {
+    "count": 22
+   },
+   "text": "tuckersdumbteam has started a player who scored exactly nothing 22 times."
+  },
+  {
+   "category": "zero_starts",
+   "season": null,
+   "week": null,
+   "managers": [
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "count": 19
+   },
+   "text": "malstol has started a player who scored exactly nothing 19 times."
+  },
+  {
+   "category": "zero_starts",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611649934390870016"
+   ],
+   "players": [],
+   "values": {
+    "count": 16
+   },
+   "text": "Kabroa has started a player who scored exactly nothing 16 times."
+  },
+  {
+   "category": "zero_starts",
+   "season": null,
+   "week": null,
+   "managers": [
+    "605683461667229696"
+   ],
+   "players": [],
+   "values": {
+    "count": 15
+   },
+   "text": "mikestreinz has started a player who scored exactly nothing 15 times."
+  },
+  {
+   "category": "zero_starts",
+   "season": null,
+   "week": null,
+   "managers": [
+    "870570674836656128"
+   ],
+   "players": [],
+   "values": {
+    "count": 13
+   },
+   "text": "paulslaats has started a player who scored exactly nothing 13 times."
+  },
+  {
+   "category": "closest_game",
+   "season": "2022",
+   "week": 10,
+   "managers": [
+    "612407006212468736",
+    "611649934390870016"
+   ],
+   "players": [],
+   "values": {
+    "margin": 0.0,
+    "winner_points": 111.8,
+    "loser_points": 111.8
+   },
+   "text": "jonahcartwright beat Kabroa by 0.04 in week 10 of 2022, 111.84 to 111.80."
+  },
+  {
+   "category": "closest_game",
+   "season": "2025",
+   "week": 15,
+   "managers": [
+    "611649934390870016",
+    "611697269254791168"
+   ],
+   "players": [],
+   "values": {
+    "margin": 0.2,
+    "winner_points": 95.8,
+    "loser_points": 95.6
+   },
+   "text": "Kabroa beat TnT44 by 0.22 in week 15 of 2025, 95.80 to 95.58."
+  },
+  {
+   "category": "closest_game",
+   "season": "2022",
+   "week": 14,
+   "managers": [
+    "612407006212468736",
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "margin": 0.6,
+    "winner_points": 92.8,
+    "loser_points": 92.2
+   },
+   "text": "jonahcartwright beat malstol by 0.58 in week 14 of 2022, 92.76 to 92.18."
+  },
+  {
+   "category": "closest_game",
+   "season": "2022",
+   "week": 17,
+   "managers": [
+    "76909640692416512",
+    "611664340277383168"
+   ],
+   "players": [],
+   "values": {
+    "margin": 0.7,
+    "winner_points": 111.3,
+    "loser_points": 110.6
+   },
+   "text": "Gurret beat tuckersdumbteam by 0.68 in week 17 of 2022, 111.30 to 110.62."
+  },
+  {
+   "category": "closest_game",
+   "season": "2024",
+   "week": 5,
+   "managers": [
+    "999190763323944960",
+    "611649934390870016"
+   ],
+   "players": [],
+   "values": {
+    "margin": 0.7,
+    "winner_points": 99.7,
+    "loser_points": 99.0
+   },
+   "text": "BBrown16 beat Kabroa by 0.74 in week 5 of 2024, 99.70 to 98.96."
+  },
+  {
+   "category": "closest_game",
+   "season": "2025",
+   "week": 7,
+   "managers": [
+    "611664340277383168",
+    "76909640692416512"
+   ],
+   "players": [],
+   "values": {
+    "margin": 0.8,
+    "winner_points": 109.4,
+    "loser_points": 108.5
+   },
+   "text": "tuckersdumbteam beat Gurret by 0.82 in week 7 of 2025, 109.36 to 108.54."
+  },
+  {
+   "category": "closest_game",
+   "season": "2022",
+   "week": 10,
+   "managers": [
+    "850475150817234944",
+    "605683461667229696"
+   ],
+   "players": [],
+   "values": {
+    "margin": 0.8,
+    "winner_points": 76.4,
+    "loser_points": 75.6
+   },
+   "text": "malstol beat mikestreinz by 0.84 in week 10 of 2022, 76.44 to 75.60."
+  },
+  {
+   "category": "closest_game",
+   "season": "2024",
+   "week": 9,
+   "managers": [
+    "611630747161358336",
+    "870570674836656128"
+   ],
+   "players": [],
+   "values": {
+    "margin": 0.9,
+    "winner_points": 102.0,
+    "loser_points": 101.1
+   },
+   "text": "kshoyer beat paulslaats by 0.86 in week 9 of 2024, 102.00 to 101.14."
+  },
+  {
+   "category": "biggest_blowout",
+   "season": "2023",
+   "week": 12,
+   "managers": [
+    "605683461667229696",
+    "76909640692416512"
+   ],
+   "players": [],
+   "values": {
+    "margin": 89.8,
+    "winner_points": 168.1,
+    "loser_points": 78.3
+   },
+   "text": "mikestreinz buried Gurret by 89.8 in week 12 of 2023, 168.1 to 78.3."
+  },
+  {
+   "category": "biggest_blowout",
+   "season": "2024",
+   "week": 11,
+   "managers": [
+    "76909640692416512",
+    "870570674836656128"
+   ],
+   "players": [],
+   "values": {
+    "margin": 76.6,
+    "winner_points": 137.3,
+    "loser_points": 60.7
+   },
+   "text": "Gurret buried paulslaats by 76.6 in week 11 of 2024, 137.3 to 60.7."
+  },
+  {
+   "category": "biggest_blowout",
+   "season": "2023",
+   "week": 16,
+   "managers": [
+    "850475150817234944",
+    "611649934390870016"
+   ],
+   "players": [],
+   "values": {
+    "margin": 74.3,
+    "winner_points": 181.3,
+    "loser_points": 106.9
+   },
+   "text": "malstol buried Kabroa by 74.3 in week 16 of 2023, 181.3 to 106.9."
+  },
+  {
+   "category": "biggest_blowout",
+   "season": "2025",
+   "week": 6,
+   "managers": [
+    "850475150817234944",
+    "611664340277383168"
+   ],
+   "players": [],
+   "values": {
+    "margin": 74.0,
+    "winner_points": 125.9,
+    "loser_points": 51.9
+   },
+   "text": "malstol buried tuckersdumbteam by 74.0 in week 6 of 2025, 125.9 to 51.9."
+  },
+  {
+   "category": "biggest_blowout",
+   "season": "2024",
+   "week": 14,
+   "managers": [
+    "611630747161358336",
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "margin": 73.6,
+    "winner_points": 159.6,
+    "loser_points": 86.1
+   },
+   "text": "kshoyer buried malstol by 73.6 in week 14 of 2024, 159.6 to 86.1."
+  },
+  {
+   "category": "biggest_blowout",
+   "season": "2023",
+   "week": 10,
+   "managers": [
+    "76909640692416512",
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "margin": 71.5,
+    "winner_points": 131.4,
+    "loser_points": 59.8
+   },
+   "text": "Gurret buried malstol by 71.5 in week 10 of 2023, 131.4 to 59.8."
+  },
+  {
+   "category": "biggest_blowout",
+   "season": "2023",
+   "week": 5,
+   "managers": [
+    "605683461667229696",
+    "611697269254791168"
+   ],
+   "players": [],
+   "values": {
+    "margin": 70.5,
+    "winner_points": 193.0,
+    "loser_points": 122.5
+   },
+   "text": "mikestreinz buried TnT44 by 70.5 in week 5 of 2023, 193.0 to 122.5."
+  },
+  {
+   "category": "biggest_blowout",
+   "season": "2023",
+   "week": 9,
+   "managers": [
+    "611630747161358336",
+    "605683461667229696"
+   ],
+   "players": [],
+   "values": {
+    "margin": 69.9,
+    "winner_points": 138.4,
+    "loser_points": 68.5
+   },
+   "text": "kshoyer buried mikestreinz by 69.9 in week 9 of 2023, 138.4 to 68.5."
+  },
+  {
+   "category": "unluckiest_loss",
+   "season": "2024",
+   "week": 8,
+   "managers": [
+    "999190763323944960",
+    "611664340277383168"
+   ],
+   "players": [],
+   "values": {
+    "points": 148.7,
+    "opponent_points": 150.3
+   },
+   "text": "BBrown16 scored 148.7 in week 8 of 2024 and still lost, because tuckersdumbteam went for 150.3."
+  },
+  {
+   "category": "unluckiest_loss",
+   "season": "2023",
+   "week": 4,
+   "managers": [
+    "76909640692416512",
+    "611630747161358336"
+   ],
+   "players": [],
+   "values": {
+    "points": 140.0,
+    "opponent_points": 160.5
+   },
+   "text": "Gurret scored 140.0 in week 4 of 2023 and still lost, because kshoyer went for 160.5."
+  },
+  {
+   "category": "unluckiest_loss",
+   "season": "2024",
+   "week": 17,
+   "managers": [
+    "611649934390870016",
+    "999190763323944960"
+   ],
+   "players": [],
+   "values": {
+    "points": 138.6,
+    "opponent_points": 153.9
+   },
+   "text": "Kabroa scored 138.6 in week 17 of 2024 and still lost, because BBrown16 went for 153.9."
+  },
+  {
+   "category": "unluckiest_loss",
+   "season": "2025",
+   "week": 16,
+   "managers": [
+    "611630747161358336",
+    "611664340277383168"
+   ],
+   "players": [],
+   "values": {
+    "points": 137.9,
+    "opponent_points": 142.8
+   },
+   "text": "kshoyer scored 137.9 in week 16 of 2025 and still lost, because tuckersdumbteam went for 142.8."
+  },
+  {
+   "category": "unluckiest_loss",
+   "season": "2023",
+   "week": 15,
+   "managers": [
+    "612407006212468736",
+    "605683461667229696"
+   ],
+   "players": [],
+   "values": {
+    "points": 130.8,
+    "opponent_points": 153.4
+   },
+   "text": "jonahcartwright scored 130.8 in week 15 of 2023 and still lost, because mikestreinz went for 153.4."
+  },
+  {
+   "category": "unluckiest_loss",
+   "season": "2024",
+   "week": 14,
+   "managers": [
+    "605683461667229696",
+    "611697269254791168"
+   ],
+   "players": [],
+   "values": {
+    "points": 129.2,
+    "opponent_points": 131.0
+   },
+   "text": "mikestreinz scored 129.2 in week 14 of 2024 and still lost, because TnT44 went for 131.0."
+  },
+  {
+   "category": "luckiest_win",
+   "season": "2025",
+   "week": 14,
+   "managers": [
+    "76909640692416512",
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "points": 64.1,
+    "opponent_points": 52.7
+   },
+   "text": "Gurret won week 14 of 2025 with just 64.1 -- malstol managed only 52.7."
+  },
+  {
+   "category": "luckiest_win",
+   "season": "2023",
+   "week": 4,
+   "managers": [
+    "611697269254791168",
+    "611649934390870016"
+   ],
+   "players": [],
+   "values": {
+    "points": 68.2,
+    "opponent_points": 47.8
+   },
+   "text": "TnT44 won week 4 of 2023 with just 68.2 -- Kabroa managed only 47.8."
+  },
+  {
+   "category": "luckiest_win",
+   "season": "2025",
+   "week": 17,
+   "managers": [
+    "612407006212468736",
+    "870570674836656128"
+   ],
+   "players": [],
+   "values": {
+    "points": 70.7,
+    "opponent_points": 60.8
+   },
+   "text": "jonahcartwright won week 17 of 2025 with just 70.7 -- paulslaats managed only 60.8."
+  },
+  {
+   "category": "luckiest_win",
+   "season": "2022",
+   "week": 6,
+   "managers": [
+    "611697269254791168",
+    "611664340277383168"
+   ],
+   "players": [],
+   "values": {
+    "points": 74.3,
+    "opponent_points": 68.6
+   },
+   "text": "TnT44 won week 6 of 2022 with just 74.3 -- tuckersdumbteam managed only 68.6."
+  },
+  {
+   "category": "luckiest_win",
+   "season": "2023",
+   "week": 15,
+   "managers": [
+    "611649934390870016",
+    "611630747161358336"
+   ],
+   "players": [],
+   "values": {
+    "points": 74.5,
+    "opponent_points": 71.2
+   },
+   "text": "Kabroa won week 15 of 2023 with just 74.5 -- kshoyer managed only 71.2."
+  },
+  {
+   "category": "luckiest_win",
+   "season": "2023",
+   "week": 7,
+   "managers": [
+    "850475150817234944",
+    "611697269254791168"
+   ],
+   "players": [],
+   "values": {
+    "points": 76.3,
+    "opponent_points": 66.3
+   },
+   "text": "malstol won week 7 of 2023 with just 76.3 -- TnT44 managed only 66.3."
+  },
+  {
+   "category": "highest_scoring_matchup",
+   "season": "2023",
+   "week": 5,
+   "managers": [
+    "611697269254791168",
+    "605683461667229696"
+   ],
+   "players": [],
+   "values": {
+    "total": 315.6
+   },
+   "text": "TnT44 and mikestreinz combined for 315.6 in week 5 of 2023 (122.5 to 193.0)."
+  },
+  {
+   "category": "highest_scoring_matchup",
+   "season": "2023",
+   "week": 4,
+   "managers": [
+    "76909640692416512",
+    "611630747161358336"
+   ],
+   "players": [],
+   "values": {
+    "total": 300.5
+   },
+   "text": "Gurret and kshoyer combined for 300.5 in week 4 of 2023 (140.0 to 160.5)."
+  },
+  {
+   "category": "highest_scoring_matchup",
+   "season": "2024",
+   "week": 8,
+   "managers": [
+    "611664340277383168",
+    "999190763323944960"
+   ],
+   "players": [],
+   "values": {
+    "total": 299.1
+   },
+   "text": "tuckersdumbteam and BBrown16 combined for 299.1 in week 8 of 2024 (150.3 to 148.7)."
+  },
+  {
+   "category": "highest_scoring_matchup",
+   "season": "2024",
+   "week": 17,
+   "managers": [
+    "999190763323944960",
+    "611649934390870016"
+   ],
+   "players": [],
+   "values": {
+    "total": 292.4
+   },
+   "text": "BBrown16 and Kabroa combined for 292.4 in week 17 of 2024 (153.9 to 138.6)."
+  },
+  {
+   "category": "highest_scoring_matchup",
+   "season": "2024",
+   "week": 15,
+   "managers": [
+    "612407006212468736",
+    "999190763323944960"
+   ],
+   "players": [],
+   "values": {
+    "total": 288.2
+   },
+   "text": "jonahcartwright and BBrown16 combined for 288.2 in week 15 of 2024 (169.1 to 119.2)."
+  },
+  {
+   "category": "championship_run",
+   "season": "2025",
+   "week": null,
+   "managers": [
+    "850475150817234944"
+   ],
+   "players": [
+    "3198",
+    "2449",
+    "3163"
+   ],
+   "values": {
+    "legs": [
+     {
+      "week": 16,
+      "for": 129.1,
+      "against": 126.0
+     },
+     {
+      "week": 17,
+      "for": 139.3,
+      "against": 86.5
+     }
+    ]
+   },
+   "text": "malstol won 2025: week 16 129.1-126.0 over Gurret; week 17 139.3-86.5 over tuckersdumbteam. Carried through the bracket by Derrick Henry 68.4, Stefon Diggs 37.4, Jared Goff 36.5."
+  },
+  {
+   "category": "championship_run",
+   "season": "2024",
+   "week": null,
+   "managers": [
+    "999190763323944960"
+   ],
+   "players": [
+    "4892",
+    "6801",
+    "9509"
+   ],
+   "values": {
+    "legs": [
+     {
+      "week": 16,
+      "for": 139.9,
+      "against": 108.9
+     },
+     {
+      "week": 17,
+      "for": 153.9,
+      "against": 138.6
+     }
+    ]
+   },
+   "text": "BBrown16 won 2024: week 16 139.9-108.9 over tuckersdumbteam; week 17 153.9-138.6 over Kabroa. Carried through the bracket by Baker Mayfield 69.9, Tee Higgins 50.4, Bijan Robinson 45.6."
+  },
+  {
+   "category": "championship_run",
+   "season": "2023",
+   "week": null,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [
+    "6786",
+    "6904",
+    "9493"
+   ],
+   "values": {
+    "legs": [
+     {
+      "week": 16,
+      "for": 139.6,
+      "against": 72.9
+     },
+     {
+      "week": 17,
+      "for": 139.1,
+      "against": 89.2
+     }
+    ]
+   },
+   "text": "kshoyer won 2023: week 16 139.6-72.9 over paulslaats; week 17 139.1-89.2 over tuckersdumbteam. Carried through the bracket by CeeDee Lamb 55.9, Jalen Hurts 49.6, Puka Nacua 44.7."
+  },
+  {
+   "category": "championship_run",
+   "season": "2022",
+   "week": null,
+   "managers": [
+    "870570674836656128"
+   ],
+   "players": [
+    "6786",
+    "2161",
+    "5859"
+   ],
+   "values": {
+    "legs": [
+     {
+      "week": 16,
+      "for": 119.0,
+      "against": 101.5
+     },
+     {
+      "week": 17,
+      "for": 76.7,
+      "against": 44.9
+     }
+    ]
+   },
+   "text": "paulslaats won 2022: week 16 119.0-101.5 over Gurret; week 17 76.7-44.9 over jonahcartwright. Carried through the bracket by CeeDee Lamb 44.5, Jerick McKinnon 31.4, A.J. Brown 31.0."
+  },
+  {
+   "category": "longest_win_streak",
+   "season": null,
+   "week": null,
+   "managers": [
+    "76909640692416512"
+   ],
+   "players": [],
+   "values": {
+    "length": 6
+   },
+   "text": "Gurret's longest winning run is 6 games, 2022 week 1 through 2022 week 6."
+  },
+  {
+   "category": "longest_losing_streak",
+   "season": null,
+   "week": null,
+   "managers": [
+    "76909640692416512"
+   ],
+   "players": [],
+   "values": {
+    "length": 5
+   },
+   "text": "Gurret's longest losing run is 5 games, 2023 week 1 through 2023 week 5."
+  },
+  {
+   "category": "longest_win_streak",
+   "season": null,
+   "week": null,
+   "managers": [
+    "605683461667229696"
+   ],
+   "players": [],
+   "values": {
+    "length": 6
+   },
+   "text": "mikestreinz's longest winning run is 6 games, 2022 week 17 through 2023 week 5."
+  },
+  {
+   "category": "longest_losing_streak",
+   "season": null,
+   "week": null,
+   "managers": [
+    "605683461667229696"
+   ],
+   "players": [],
+   "values": {
+    "length": 5
+   },
+   "text": "mikestreinz's longest losing run is 5 games, 2025 week 10 through 2025 week 14."
+  },
+  {
+   "category": "longest_win_streak",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [],
+   "values": {
+    "length": 8
+   },
+   "text": "kshoyer's longest winning run is 8 games, 2023 week 7 through 2023 week 14."
+  },
+  {
+   "category": "longest_losing_streak",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [],
+   "values": {
+    "length": 5
+   },
+   "text": "kshoyer's longest losing run is 5 games, 2022 week 5 through 2022 week 9."
+  },
+  {
+   "category": "longest_win_streak",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611649934390870016"
+   ],
+   "players": [],
+   "values": {
+    "length": 6
+   },
+   "text": "Kabroa's longest winning run is 6 games, 2024 week 8 through 2024 week 13."
+  },
+  {
+   "category": "longest_losing_streak",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611649934390870016"
+   ],
+   "players": [],
+   "values": {
+    "length": 6
+   },
+   "text": "Kabroa's longest losing run is 6 games, 2024 week 17 through 2025 week 5."
+  },
+  {
+   "category": "longest_win_streak",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611664340277383168"
+   ],
+   "players": [],
+   "values": {
+    "length": 6
+   },
+   "text": "tuckersdumbteam's longest winning run is 6 games, 2025 week 11 through 2025 week 16."
+  },
+  {
+   "category": "longest_losing_streak",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611664340277383168"
+   ],
+   "players": [],
+   "values": {
+    "length": 3
+   },
+   "text": "tuckersdumbteam's longest losing run is 3 games, 2022 week 9 through 2022 week 11."
+  },
+  {
+   "category": "longest_win_streak",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611697269254791168"
+   ],
+   "players": [],
+   "values": {
+    "length": 9
+   },
+   "text": "TnT44's longest winning run is 9 games, 2024 week 9 through 2024 week 17."
+  },
+  {
+   "category": "longest_losing_streak",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611697269254791168"
+   ],
+   "players": [],
+   "values": {
+    "length": 10
+   },
+   "text": "TnT44's longest losing run is 10 games, 2025 week 6 through 2025 week 15."
+  },
+  {
+   "category": "longest_win_streak",
+   "season": null,
+   "week": null,
+   "managers": [
+    "612407006212468736"
+   ],
+   "players": [],
+   "values": {
+    "length": 6
+   },
+   "text": "jonahcartwright's longest winning run is 6 games, 2022 week 9 through 2022 week 14."
+  },
+  {
+   "category": "longest_losing_streak",
+   "season": null,
+   "week": null,
+   "managers": [
+    "612407006212468736"
+   ],
+   "players": [],
+   "values": {
+    "length": 7
+   },
+   "text": "jonahcartwright's longest losing run is 7 games, 2024 week 8 through 2024 week 14."
+  },
+  {
+   "category": "longest_win_streak",
+   "season": null,
+   "week": null,
+   "managers": [
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "length": 4
+   },
+   "text": "malstol's longest winning run is 4 games, 2025 week 10 through 2025 week 13."
+  },
+  {
+   "category": "longest_losing_streak",
+   "season": null,
+   "week": null,
+   "managers": [
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "length": 7
+   },
+   "text": "malstol's longest losing run is 7 games, 2024 week 9 through 2024 week 15."
+  },
+  {
+   "category": "longest_win_streak",
+   "season": null,
+   "week": null,
+   "managers": [
+    "860365948673204224"
+   ],
+   "players": [],
+   "values": {
+    "length": 2
+   },
+   "text": "JJJet's longest winning run is 2 games, 2022 week 6 through 2022 week 7."
+  },
+  {
+   "category": "longest_losing_streak",
+   "season": null,
+   "week": null,
+   "managers": [
+    "860365948673204224"
+   ],
+   "players": [],
+   "values": {
+    "length": 5
+   },
+   "text": "JJJet's longest losing run is 5 games, 2022 week 10 through 2022 week 14."
+  },
+  {
+   "category": "longest_win_streak",
+   "season": null,
+   "week": null,
+   "managers": [
+    "870570674836656128"
+   ],
+   "players": [],
+   "values": {
+    "length": 6
+   },
+   "text": "paulslaats's longest winning run is 6 games, 2022 week 13 through 2023 week 1."
+  },
+  {
+   "category": "longest_losing_streak",
+   "season": null,
+   "week": null,
+   "managers": [
+    "870570674836656128"
+   ],
+   "players": [],
+   "values": {
+    "length": 6
+   },
+   "text": "paulslaats's longest losing run is 6 games, 2024 week 8 through 2024 week 13."
+  },
+  {
+   "category": "longest_win_streak",
+   "season": null,
+   "week": null,
+   "managers": [
+    "999190763323944960"
+   ],
+   "players": [],
+   "values": {
+    "length": 4
+   },
+   "text": "BBrown16's longest winning run is 4 games, 2023 week 1 through 2023 week 4."
+  },
+  {
+   "category": "longest_losing_streak",
+   "season": null,
+   "week": null,
+   "managers": [
+    "999190763323944960"
+   ],
+   "players": [],
+   "values": {
+    "length": 5
+   },
+   "text": "BBrown16's longest losing run is 5 games, 2025 week 5 through 2025 week 9."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611630747161358336",
+    "611664340277383168"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 4,
+    "wins_second": 7,
+    "points_first": 1139.4,
+    "points_second": 1192.0
+   },
+   "text": "kshoyer and tuckersdumbteam have met 11 times: 4-7 to tuckersdumbteam, 1139.4 against 1192.0 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "605683461667229696",
+    "870570674836656128"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 7,
+    "wins_second": 2,
+    "points_first": 936.7,
+    "points_second": 886.8
+   },
+   "text": "mikestreinz and paulslaats have met 9 times: 7-2 to mikestreinz, 936.7 against 886.8 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611630747161358336",
+    "76909640692416512"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 5,
+    "wins_second": 4,
+    "points_first": 1005.6,
+    "points_second": 1031.0
+   },
+   "text": "kshoyer and Gurret have met 9 times: 5-4 to kshoyer, 1005.6 against 1031.0 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "612407006212468736",
+    "870570674836656128"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 3,
+    "wins_second": 6,
+    "points_first": 820.9,
+    "points_second": 934.7
+   },
+   "text": "jonahcartwright and paulslaats have met 9 times: 3-6 to paulslaats, 820.9 against 934.7 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "76909640692416512",
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 6,
+    "wins_second": 3,
+    "points_first": 950.0,
+    "points_second": 788.9
+   },
+   "text": "Gurret and malstol have met 9 times: 6-3 to Gurret, 950.0 against 788.9 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "605683461667229696",
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 4,
+    "wins_second": 4,
+    "points_first": 766.0,
+    "points_second": 718.3
+   },
+   "text": "mikestreinz and malstol have met 8 times: 4-4 to mikestreinz, 766.0 against 718.3 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "605683461667229696",
+    "611697269254791168"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 6,
+    "wins_second": 2,
+    "points_first": 995.8,
+    "points_second": 781.6
+   },
+   "text": "mikestreinz and TnT44 have met 8 times: 6-2 to mikestreinz, 995.8 against 781.6 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611664340277383168",
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 4,
+    "wins_second": 4,
+    "points_first": 813.4,
+    "points_second": 849.1
+   },
+   "text": "tuckersdumbteam and malstol have met 8 times: 4-4 to tuckersdumbteam, 813.4 against 849.1 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611649934390870016",
+    "76909640692416512"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 3,
+    "wins_second": 5,
+    "points_first": 826.5,
+    "points_second": 835.5
+   },
+   "text": "Kabroa and Gurret have met 8 times: 3-5 to Gurret, 826.5 against 835.5 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "605683461667229696",
+    "612407006212468736"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 4,
+    "wins_second": 4,
+    "points_first": 911.8,
+    "points_second": 899.8
+   },
+   "text": "mikestreinz and jonahcartwright have met 8 times: 4-4 to mikestreinz, 911.8 against 899.8 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "605683461667229696",
+    "611664340277383168"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 2,
+    "wins_second": 6,
+    "points_first": 790.7,
+    "points_second": 856.7
+   },
+   "text": "mikestreinz and tuckersdumbteam have met 8 times: 2-6 to tuckersdumbteam, 790.7 against 856.7 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611649934390870016",
+    "870570674836656128"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 2,
+    "wins_second": 6,
+    "points_first": 703.7,
+    "points_second": 784.1
+   },
+   "text": "Kabroa and paulslaats have met 8 times: 2-6 to paulslaats, 703.7 against 784.1 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "605683461667229696",
+    "76909640692416512"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 4,
+    "wins_second": 4,
+    "points_first": 930.8,
+    "points_second": 845.9
+   },
+   "text": "mikestreinz and Gurret have met 8 times: 4-4 to mikestreinz, 930.8 against 845.9 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611630747161358336",
+    "611649934390870016"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 4,
+    "wins_second": 4,
+    "points_first": 742.1,
+    "points_second": 765.0
+   },
+   "text": "kshoyer and Kabroa have met 8 times: 4-4 to kshoyer, 742.1 against 765.0 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "76909640692416512",
+    "870570674836656128"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 3,
+    "wins_second": 5,
+    "points_first": 953.9,
+    "points_second": 958.8
+   },
+   "text": "Gurret and paulslaats have met 8 times: 3-5 to paulslaats, 953.9 against 958.8 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611697269254791168",
+    "870570674836656128"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 4,
+    "wins_second": 4,
+    "points_first": 788.7,
+    "points_second": 810.0
+   },
+   "text": "TnT44 and paulslaats have met 8 times: 4-4 to TnT44, 788.7 against 810.0 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611664340277383168",
+    "870570674836656128"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 5,
+    "wins_second": 2,
+    "points_first": 731.0,
+    "points_second": 691.7
+   },
+   "text": "tuckersdumbteam and paulslaats have met 7 times: 5-2 to tuckersdumbteam, 731.0 against 691.7 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "612407006212468736",
+    "76909640692416512"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 2,
+    "wins_second": 5,
+    "points_first": 742.8,
+    "points_second": 841.5
+   },
+   "text": "jonahcartwright and Gurret have met 7 times: 2-5 to Gurret, 742.8 against 841.5 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611697269254791168",
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 3,
+    "wins_second": 4,
+    "points_first": 644.4,
+    "points_second": 651.8
+   },
+   "text": "TnT44 and malstol have met 7 times: 3-4 to malstol, 644.4 against 651.8 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611649934390870016",
+    "611664340277383168"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 4,
+    "wins_second": 3,
+    "points_first": 752.2,
+    "points_second": 751.5
+   },
+   "text": "Kabroa and tuckersdumbteam have met 7 times: 4-3 to Kabroa, 752.2 against 751.5 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "850475150817234944",
+    "870570674836656128"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 4,
+    "wins_second": 3,
+    "points_first": 630.1,
+    "points_second": 648.1
+   },
+   "text": "malstol and paulslaats have met 7 times: 4-3 to malstol, 630.1 against 648.1 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611649934390870016",
+    "611697269254791168"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 4,
+    "wins_second": 3,
+    "points_first": 670.7,
+    "points_second": 682.0
+   },
+   "text": "Kabroa and TnT44 have met 7 times: 4-3 to Kabroa, 670.7 against 682.0 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611664340277383168",
+    "612407006212468736"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 4,
+    "wins_second": 3,
+    "points_first": 735.0,
+    "points_second": 700.0
+   },
+   "text": "tuckersdumbteam and jonahcartwright have met 7 times: 4-3 to tuckersdumbteam, 735.0 against 700.0 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611697269254791168",
+    "612407006212468736"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 4,
+    "wins_second": 3,
+    "points_first": 694.6,
+    "points_second": 702.1
+   },
+   "text": "TnT44 and jonahcartwright have met 7 times: 4-3 to TnT44, 694.6 against 702.1 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "605683461667229696",
+    "611649934390870016"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 4,
+    "wins_second": 3,
+    "points_first": 689.9,
+    "points_second": 678.3
+   },
+   "text": "mikestreinz and Kabroa have met 7 times: 4-3 to mikestreinz, 689.9 against 678.3 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611630747161358336",
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 4,
+    "wins_second": 3,
+    "points_first": 775.5,
+    "points_second": 692.9
+   },
+   "text": "kshoyer and malstol have met 7 times: 4-3 to kshoyer, 775.5 against 692.9 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611664340277383168",
+    "76909640692416512"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 3,
+    "wins_second": 4,
+    "points_first": 697.9,
+    "points_second": 708.5
+   },
+   "text": "tuckersdumbteam and Gurret have met 7 times: 3-4 to Gurret, 697.9 against 708.5 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611630747161358336",
+    "612407006212468736"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 6,
+    "wins_second": 1,
+    "points_first": 841.9,
+    "points_second": 729.5
+   },
+   "text": "kshoyer and jonahcartwright have met 7 times: 6-1 to kshoyer, 841.9 against 729.5 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611649934390870016",
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 3,
+    "wins_second": 4,
+    "points_first": 730.4,
+    "points_second": 770.6
+   },
+   "text": "Kabroa and malstol have met 7 times: 3-4 to malstol, 730.4 against 770.6 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611649934390870016",
+    "999190763323944960"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 2,
+    "wins_second": 5,
+    "points_first": 753.0,
+    "points_second": 744.5
+   },
+   "text": "Kabroa and BBrown16 have met 7 times: 2-5 to BBrown16, 753.0 against 744.5 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611630747161358336",
+    "611697269254791168"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 6,
+    "wins_second": 0,
+    "points_first": 643.8,
+    "points_second": 533.8
+   },
+   "text": "kshoyer and TnT44 have met 6 times: 6-0 to kshoyer, 643.8 against 533.8 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611630747161358336",
+    "870570674836656128"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 5,
+    "wins_second": 1,
+    "points_first": 749.8,
+    "points_second": 587.5
+   },
+   "text": "kshoyer and paulslaats have met 6 times: 5-1 to kshoyer, 749.8 against 587.5 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "612407006212468736",
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 3,
+    "wins_second": 3,
+    "points_first": 559.2,
+    "points_second": 569.7
+   },
+   "text": "jonahcartwright and malstol have met 6 times: 3-3 to jonahcartwright, 559.2 against 569.7 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611664340277383168",
+    "611697269254791168"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 5,
+    "wins_second": 1,
+    "points_first": 612.9,
+    "points_second": 496.1
+   },
+   "text": "tuckersdumbteam and TnT44 have met 6 times: 5-1 to tuckersdumbteam, 612.9 against 496.1 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "605683461667229696",
+    "611630747161358336"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 3,
+    "wins_second": 3,
+    "points_first": 573.5,
+    "points_second": 624.8
+   },
+   "text": "mikestreinz and kshoyer have met 6 times: 3-3 to mikestreinz, 573.5 against 624.8 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611664340277383168",
+    "999190763323944960"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 2,
+    "wins_second": 4,
+    "points_first": 597.7,
+    "points_second": 653.4
+   },
+   "text": "tuckersdumbteam and BBrown16 have met 6 times: 2-4 to BBrown16, 597.7 against 653.4 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "612407006212468736",
+    "999190763323944960"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 3,
+    "wins_second": 3,
+    "points_first": 692.0,
+    "points_second": 679.3
+   },
+   "text": "jonahcartwright and BBrown16 have met 6 times: 3-3 to jonahcartwright, 692.0 against 679.3 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611630747161358336",
+    "999190763323944960"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 4,
+    "wins_second": 2,
+    "points_first": 641.3,
+    "points_second": 586.9
+   },
+   "text": "kshoyer and BBrown16 have met 6 times: 4-2 to kshoyer, 641.3 against 586.9 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611697269254791168",
+    "999190763323944960"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 2,
+    "wins_second": 4,
+    "points_first": 603.0,
+    "points_second": 628.1
+   },
+   "text": "TnT44 and BBrown16 have met 6 times: 2-4 to BBrown16, 603.0 against 628.1 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611649934390870016",
+    "612407006212468736"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 3,
+    "wins_second": 2,
+    "points_first": 544.8,
+    "points_second": 542.8
+   },
+   "text": "Kabroa and jonahcartwright have met 5 times: 3-2 to Kabroa, 544.8 against 542.8 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611697269254791168",
+    "76909640692416512"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 2,
+    "wins_second": 3,
+    "points_first": 554.8,
+    "points_second": 593.0
+   },
+   "text": "TnT44 and Gurret have met 5 times: 2-3 to Gurret, 554.8 against 593.0 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "870570674836656128",
+    "999190763323944960"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 3,
+    "wins_second": 2,
+    "points_first": 561.5,
+    "points_second": 518.7
+   },
+   "text": "paulslaats and BBrown16 have met 5 times: 3-2 to paulslaats, 561.5 against 518.7 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "850475150817234944",
+    "999190763323944960"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 2,
+    "wins_second": 3,
+    "points_first": 490.5,
+    "points_second": 512.8
+   },
+   "text": "malstol and BBrown16 have met 5 times: 2-3 to BBrown16, 490.5 against 512.8 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "76909640692416512",
+    "999190763323944960"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 4,
+    "wins_second": 1,
+    "points_first": 540.7,
+    "points_second": 430.8
+   },
+   "text": "Gurret and BBrown16 have met 5 times: 4-1 to Gurret, 540.7 against 430.8 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "605683461667229696",
+    "999190763323944960"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 2,
+    "wins_second": 3,
+    "points_first": 485.5,
+    "points_second": 527.6
+   },
+   "text": "mikestreinz and BBrown16 have met 5 times: 2-3 to BBrown16, 485.5 against 527.6 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "76909640692416512",
+    "860365948673204224"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 2,
+    "wins_second": 0,
+    "points_first": 287.0,
+    "points_second": 229.9
+   },
+   "text": "Gurret and JJJet have met 2 times: 2-0 to Gurret, 287.0 against 229.9 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611649934390870016",
+    "860365948673204224"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 1,
+    "wins_second": 1,
+    "points_first": 229.7,
+    "points_second": 203.2
+   },
+   "text": "Kabroa and JJJet have met 2 times: 1-1 to Kabroa, 229.7 against 203.2 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "612407006212468736",
+    "860365948673204224"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 2,
+    "wins_second": 0,
+    "points_first": 210.6,
+    "points_second": 155.0
+   },
+   "text": "jonahcartwright and JJJet have met 2 times: 2-0 to jonahcartwright, 210.6 against 155.0 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611630747161358336",
+    "860365948673204224"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 2,
+    "wins_second": 0,
+    "points_first": 240.2,
+    "points_second": 150.7
+   },
+   "text": "kshoyer and JJJet have met 2 times: 2-0 to kshoyer, 240.2 against 150.7 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611697269254791168",
+    "860365948673204224"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 2,
+    "wins_second": 0,
+    "points_first": 192.2,
+    "points_second": 142.3
+   },
+   "text": "TnT44 and JJJet have met 2 times: 2-0 to TnT44, 192.2 against 142.3 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "850475150817234944",
+    "860365948673204224"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 0,
+    "wins_second": 2,
+    "points_first": 136.0,
+    "points_second": 243.3
+   },
+   "text": "malstol and JJJet have met 2 times: 0-2 to JJJet, 136.0 against 243.3 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "860365948673204224",
+    "870570674836656128"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 1,
+    "wins_second": 0,
+    "points_first": 108.1,
+    "points_second": 65.7
+   },
+   "text": "JJJet and paulslaats have met 1 times: 1-0 to JJJet, 108.1 against 65.7 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611664340277383168",
+    "860365948673204224"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 1,
+    "wins_second": 0,
+    "points_first": 121.5,
+    "points_second": 102.4
+   },
+   "text": "tuckersdumbteam and JJJet have met 1 times: 1-0 to tuckersdumbteam, 121.5 against 102.4 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "605683461667229696",
+    "860365948673204224"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 0,
+    "wins_second": 1,
+    "points_first": 67.4,
+    "points_second": 98.7
+   },
+   "text": "mikestreinz and JJJet have met 1 times: 0-1 to JJJet, 67.4 against 98.7 all told."
+  },
+  {
+   "category": "season_swing",
+   "season": "2023",
+   "week": null,
+   "managers": [
+    "76909640692416512"
+   ],
+   "players": [],
+   "values": {
+    "swing": -6
+   },
+   "text": "Gurret fell from 11 wins in 2022 to 5 in 2023."
+  },
+  {
+   "category": "season_swing",
+   "season": "2023",
+   "week": null,
+   "managers": [
+    "605683461667229696"
+   ],
+   "players": [],
+   "values": {
+    "swing": 7
+   },
+   "text": "mikestreinz climbed from 6 wins in 2022 to 13 in 2023."
+  },
+  {
+   "category": "season_swing",
+   "season": "2024",
+   "week": null,
+   "managers": [
+    "605683461667229696"
+   ],
+   "players": [],
+   "values": {
+    "swing": -8
+   },
+   "text": "mikestreinz fell from 13 wins in 2023 to 5 in 2024."
+  },
+  {
+   "category": "season_swing",
+   "season": "2023",
+   "week": null,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [],
+   "values": {
+    "swing": 6
+   },
+   "text": "kshoyer climbed from 6 wins in 2022 to 12 in 2023."
+  },
+  {
+   "category": "season_swing",
+   "season": "2025",
+   "week": null,
+   "managers": [
+    "611697269254791168"
+   ],
+   "players": [],
+   "values": {
+    "swing": -6
+   },
+   "text": "TnT44 fell from 9 wins in 2024 to 3 in 2025."
+  },
+  {
+   "category": "season_swing",
+   "season": "2023",
+   "week": null,
+   "managers": [
+    "612407006212468736"
+   ],
+   "players": [],
+   "values": {
+    "swing": -7
+   },
+   "text": "jonahcartwright fell from 11 wins in 2022 to 4 in 2023."
+  },
+  {
+   "category": "season_swing",
+   "season": "2025",
+   "week": null,
+   "managers": [
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "swing": 6
+   },
+   "text": "malstol climbed from 3 wins in 2024 to 9 in 2025."
+  },
+  {
+   "category": "draft_steal",
+   "season": "2022",
+   "week": null,
+   "managers": [
+    "860365948673204224"
+   ],
+   "players": [
+    "167"
+   ],
+   "values": {
+    "round": 8,
+    "points": 311.3
+   },
+   "text": "Tom Brady went in round 8 of the 2022 draft to JJJet and scored 311.3 that season."
+  },
+  {
+   "category": "draft_bust",
+   "season": "2022",
+   "week": null,
+   "managers": [
+    "860365948673204224"
+   ],
+   "players": [
+    "7588"
+   ],
+   "values": {
+    "round": 2,
+    "points": 34.0
+   },
+   "text": "JJJet spent a round 2 pick on Javonte Williams in 2022 and got 34.0 points."
+  },
+  {
+   "category": "draft_steal",
+   "season": "2023",
+   "week": null,
+   "managers": [
+    "611697269254791168"
+   ],
+   "players": [
+    "6768"
+   ],
+   "values": {
+    "round": 8,
+    "points": 310.7
+   },
+   "text": "Tua Tagovailoa went in round 8 of the 2023 draft to TnT44 and scored 310.7 that season."
+  },
+  {
+   "category": "draft_bust",
+   "season": "2023",
+   "week": null,
+   "managers": [
+    "612407006212468736"
+   ],
+   "players": [
+    "4988"
+   ],
+   "values": {
+    "round": 1,
+    "points": 21.1
+   },
+   "text": "jonahcartwright spent a round 1 pick on Nick Chubb in 2023 and got 21.1 points."
+  },
+  {
+   "category": "draft_steal",
+   "season": "2024",
+   "week": null,
+   "managers": [
+    "76909640692416512"
+   ],
+   "players": [
+    "11566"
+   ],
+   "values": {
+    "round": 10,
+    "points": 396.6
+   },
+   "text": "Jayden Daniels went in round 10 of the 2024 draft to Gurret and scored 396.6 that season."
+  },
+  {
+   "category": "draft_bust",
+   "season": "2024",
+   "week": null,
+   "managers": [
+    "612407006212468736"
+   ],
+   "players": [
+    "6803"
+   ],
+   "values": {
+    "round": 3,
+    "points": 49.9
+   },
+   "text": "jonahcartwright spent a round 3 pick on Brandon Aiyuk in 2024 and got 49.9 points."
+  },
+  {
+   "category": "draft_steal",
+   "season": "2025",
+   "week": null,
+   "managers": [
+    "611664340277383168"
+   ],
+   "players": [
+    "11564"
+   ],
+   "values": {
+    "round": 12,
+    "points": 360.4
+   },
+   "text": "Drake Maye went in round 12 of the 2025 draft to tuckersdumbteam and scored 360.4 that season."
+  },
+  {
+   "category": "draft_bust",
+   "season": "2025",
+   "week": null,
+   "managers": [
+    "612407006212468736"
+   ],
+   "players": [
+    "4137"
+   ],
+   "values": {
+    "round": 3,
+    "points": 28.3
+   },
+   "text": "jonahcartwright spent a round 3 pick on James Conner in 2025 and got 28.3 points."
+  },
+  {
+   "category": "best_keeper",
+   "season": "2022",
+   "week": null,
+   "managers": [
+    "860365948673204224"
+   ],
+   "players": [
+    "4046"
+   ],
+   "values": {
+    "cost_round": 3,
+    "points": 476.9
+   },
+   "text": "JJJet kept Patrick Mahomes at a round 3 cost in 2022; he returned 476.9 points."
+  },
+  {
+   "category": "best_keeper",
+   "season": "2022",
+   "week": null,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [
+    "6904"
+   ],
+   "values": {
+    "cost_round": 12,
+    "points": 406.6
+   },
+   "text": "kshoyer kept Jalen Hurts at a round 12 cost in 2022; he returned 406.6 points."
+  },
+  {
+   "category": "best_keeper",
+   "season": "2023",
+   "week": null,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [
+    "6904"
+   ],
+   "values": {
+    "cost_round": 11,
+    "points": 398.2
+   },
+   "text": "kshoyer kept Jalen Hurts at a round 11 cost in 2023; he returned 398.2 points."
+  },
+  {
+   "category": "best_keeper",
+   "season": "2023",
+   "week": null,
+   "managers": [
+    "605683461667229696"
+   ],
+   "players": [
+    "4034"
+   ],
+   "values": {
+    "cost_round": 1,
+    "points": 356.8
+   },
+   "text": "mikestreinz kept Christian McCaffrey at a round 1 cost in 2023; he returned 356.8 points."
+  },
+  {
+   "category": "best_keeper",
+   "season": "2023",
+   "week": null,
+   "managers": [
+    "611697269254791168"
+   ],
+   "players": [
+    "8183"
+   ],
+   "values": {
+    "cost_round": 14,
+    "points": 353.6
+   },
+   "text": "TnT44 kept Brock Purdy at a round 14 cost in 2023; he returned 353.6 points."
+  },
+  {
+   "category": "best_keeper",
+   "season": "2024",
+   "week": null,
+   "managers": [
+    "611649934390870016"
+   ],
+   "players": [
+    "6904"
+   ],
+   "values": {
+    "cost_round": 11,
+    "points": 347.1
+   },
+   "text": "Kabroa kept Jalen Hurts at a round 11 cost in 2024; he returned 347.1 points."
+  },
+  {
+   "category": "worst_keeper",
+   "season": "2024",
+   "week": null,
+   "managers": [
+    "605683461667229696"
+   ],
+   "players": [
+    "4034"
+   ],
+   "values": {
+    "cost_round": 1,
+    "points": 40.3
+   },
+   "text": "mikestreinz kept Christian McCaffrey at a round 1 cost in 2024 and got 40.3 points out of him."
+  },
+  {
+   "category": "worst_keeper",
+   "season": "2022",
+   "week": null,
+   "managers": [
+    "611664340277383168"
+   ],
+   "players": [
+    "7553"
+   ],
+   "values": {
+    "cost_round": 6,
+    "points": 61.6
+   },
+   "text": "tuckersdumbteam kept Kyle Pitts at a round 6 cost in 2022 and got 61.6 points out of him."
+  },
+  {
+   "category": "worst_keeper",
+   "season": "2024",
+   "week": null,
+   "managers": [
+    "850475150817234944"
+   ],
+   "players": [
+    "9229"
+   ],
+   "values": {
+    "cost_round": 12,
+    "points": 70.5
+   },
+   "text": "malstol kept Anthony Richardson at a round 12 cost in 2024 and got 70.5 points out of him."
+  },
+  {
+   "category": "worst_keeper",
+   "season": "2022",
+   "week": null,
+   "managers": [
+    "611664340277383168"
+   ],
+   "players": [
+    "2320"
+   ],
+   "values": {
+    "cost_round": 11,
+    "points": 71.6
+   },
+   "text": "tuckersdumbteam kept Melvin Gordon at a round 11 cost in 2022 and got 71.6 points out of him."
+  },
+  {
+   "category": "worst_keeper",
+   "season": "2024",
+   "week": null,
+   "managers": [
+    "611697269254791168"
+   ],
+   "players": [
+    "10236"
+   ],
+   "values": {
+    "cost_round": 9,
+    "points": 77.8
+   },
+   "text": "TnT44 kept Dalton Kincaid at a round 9 cost in 2024 and got 77.8 points out of him."
+  },
+  {
+   "category": "faab_splurge",
+   "season": "2022",
+   "week": 16,
+   "managers": [
+    "870570674836656128"
+   ],
+   "players": [
+    "7523"
+   ],
+   "values": {
+    "faab": 75,
+    "points": 3.5
+   },
+   "text": "paulslaats spent $75 of FAAB on Trevor Lawrence in week 16 of 2022. He scored 3.5 for him after that."
+  },
+  {
+   "category": "faab_splurge",
+   "season": "2025",
+   "week": 8,
+   "managers": [
+    "612407006212468736"
+   ],
+   "players": [
+    "11655"
+   ],
+   "values": {
+    "faab": 60,
+    "points": 85.2
+   },
+   "text": "jonahcartwright spent $60 of FAAB on Tyrone Tracy in week 8 of 2025. He scored 85.2 for him after that."
+  },
+  {
+   "category": "faab_splurge",
+   "season": "2023",
+   "week": 12,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [
+    "6845"
+   ],
+   "values": {
+    "faab": 52,
+    "points": 25.1
+   },
+   "text": "kshoyer spent $52 of FAAB on Zack Moss in week 12 of 2023. He scored 25.1 for him after that."
+  },
+  {
+   "category": "faab_splurge",
+   "season": "2023",
+   "week": 2,
+   "managers": [
+    "611649934390870016"
+   ],
+   "players": [
+    "8143"
+   ],
+   "values": {
+    "faab": 50,
+    "points": 160.8
+   },
+   "text": "Kabroa spent $50 of FAAB on Jerome Ford in week 2 of 2023. He scored 160.8 for him after that."
+  },
+  {
+   "category": "faab_splurge",
+   "season": "2022",
+   "week": 14,
+   "managers": [
+    "611697269254791168"
+   ],
+   "players": [
+    "8183"
+   ],
+   "values": {
+    "faab": 50,
+    "points": 61.5
+   },
+   "text": "TnT44 spent $50 of FAAB on Brock Purdy in week 14 of 2022. He scored 61.5 for him after that."
+  },
+  {
+   "category": "faab_splurge",
+   "season": "2024",
+   "week": 14,
+   "managers": [
+    "611697269254791168"
+   ],
+   "players": [
+    "6963"
+   ],
+   "values": {
+    "faab": 44,
+    "points": 3.0
+   },
+   "text": "TnT44 spent $44 of FAAB on Patrick Taylor in week 14 of 2024. He scored 3.0 for him after that."
+  },
+  {
+   "category": "faab_splurge",
+   "season": "2024",
+   "week": 7,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [
+    "8137"
+   ],
+   "values": {
+    "faab": 41,
+    "points": 68.5
+   },
+   "text": "kshoyer spent $41 of FAAB on George Pickens in week 7 of 2024. He scored 68.5 for him after that."
+  },
+  {
+   "category": "faab_splurge",
+   "season": "2024",
+   "week": 13,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [
+    "11651"
+   ],
+   "values": {
+    "faab": 40,
+    "points": 47.2
+   },
+   "text": "kshoyer spent $40 of FAAB on Isaac Guerendo in week 13 of 2024. He scored 47.2 for him after that."
+  },
+  {
+   "category": "trade_activity",
+   "season": null,
+   "week": null,
+   "managers": [
+    "76909640692416512"
+   ],
+   "players": [],
+   "values": {
+    "count": 8
+   },
+   "text": "Gurret has been part of 8 completed trades."
+  },
+  {
+   "category": "trade_activity",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [],
+   "values": {
+    "count": 5
+   },
+   "text": "kshoyer has been part of 5 completed trades."
+  },
+  {
+   "category": "trade_activity",
+   "season": null,
+   "week": null,
+   "managers": [
+    "999190763323944960"
+   ],
+   "players": [],
+   "values": {
+    "count": 5
+   },
+   "text": "BBrown16 has been part of 5 completed trades."
+  },
+  {
+   "category": "trade_activity",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611697269254791168"
+   ],
+   "players": [],
+   "values": {
+    "count": 3
+   },
+   "text": "TnT44 has been part of 3 completed trades."
+  },
+  {
+   "category": "trade_activity",
+   "season": null,
+   "week": null,
+   "managers": [
+    "612407006212468736"
+   ],
+   "players": [],
+   "values": {
+    "count": 3
+   },
+   "text": "jonahcartwright has been part of 3 completed trades."
+  }
+ ]
+}

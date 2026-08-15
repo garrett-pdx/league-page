@@ -54,7 +54,8 @@
     "smui-theme-dark": "smui-theme compile static/smui-dark.css -i src/theme/dark",
     "lint": "prettier --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
     "format": "prettier --write --plugin-search-dir=. .",
-    "render-icons": "node scripts/render-icons.js"
+    "render-icons": "node scripts/render-icons.js",
+    "derive-narratives": "python3 scripts/derive-narratives.py"
   },
   "type": "module",
   "dependencies": {

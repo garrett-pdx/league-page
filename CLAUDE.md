@@ -27,9 +27,17 @@ Still outstanding, in rough priority order:
 - **`static/data/` is read in exactly one place.** `helperFunctions/leagueHistory.js` fetches
   `league-history.json` (memoized, SSR-safe) for the manager career band and the Hall of Fame.
   It is the only source for a full 1–10 finish — Sleeper exposes podium and toilet bowl only —
-  and it keys on `user_id`, which sidesteps roster IDs moving between seasons. The other five
-  files, `weeks.json` above all, are still unread; that one holds per-player weekly scores for
-  every week of 2022–25 and is the only way to get a season MVP or a championship final score.
+  and it keys on `user_id`, which sidesteps roster IDs moving between seasons. **No other file in
+  `static/data/` is fetched at runtime**, `weeks.json` included.
+- **`weeks.json` is mined offline instead.** `npm run derive-narratives` reads it (plus the draft,
+  keeper and transaction files) and writes `static/data/narratives.json` and `docs/league-lore.md`
+  — 278 facts across 25 categories, each with structured fields *and* a plain-English `text`.
+  It is an authoring aid for recaps, bios and homepage copy; nothing in `src/` fetches it and
+  nothing should without a size budget. Two traps it encodes, both of which produced wrong facts
+  first time round: **every season carries a week 18 with `matchup_id: 0`** and no lineups set
+  (median score ~55 against ~100), which must be excluded or it invents a playoff round; and
+  **keepers occupy draft slots**, so draft "steals" and "busts" have to filter `is_keeper` or
+  they retell keeper decisions as draft ones.
 - **Sortable record tables were considered and rejected for the six *record* tables.** Each is
   a top-N list defined by its own metric, and the rank column is positional (`{ix + 1}`), so
   re-sorting renumbers rank into nonsense. The four *ranking* tables (Win %, Points, Lineup IQ,
