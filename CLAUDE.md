@@ -328,9 +328,13 @@ Added in the redesign; everything below is ours, not upstream's.
   are literal hex kept in step with the tokens by hand and any text pins its width with
   `textLength`; `banner.svg` deliberately carries **no text** because the heading is real markup
   in `Awards.svelte`; and an XML comment containing two consecutive hyphens is a parse error that
-  blanks the whole file. There is **no rasterizer on this project**, so the PNG/ICO favicons are
-  still the old blue shield — the `<link rel="icon" type="image/svg+xml">` in `app.html` is what
-  keeps the tab current.
+  blanks the whole file.
+- **The raster icons are generated, not drawn.** `node scripts/render-icons.js` renders every
+  favicon, the PWA icons and a hand-assembled `favicon.ico` from `seal-simple.svg`; its output is
+  committed and it is deliberately **not** part of `npm run build`. Re-run it after changing the
+  mark. It insets the two android-chrome icons to 72% because `manifest.json` declares them
+  `maskable`, and Android crops those to a circle keeping only the central 80% — full-bleed would
+  shave the gold ring off. `sharp` is a devDependency and Vercel never runs it.
 - **Primitives in `src/lib/Design/`** (`Card`, `StatTile`, `SectionHeading`,
   `SegmentedControl`, `Countdown`) with **their own barrel** — deliberately not
   `$lib/components`, which is byte-identical to upstream and gains entries most releases.

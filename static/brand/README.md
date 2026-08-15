@@ -47,16 +47,33 @@ lays the heading over it as real markup. Don't add a `<text>` element back.
 property names in full. It is a parse error, not a warning, and it blanks the entire file — the
 browser renders an error page instead of the image.
 
-## No rasterizer
+## Regenerating the raster icons
 
-There is no `sharp`, `rsvg-convert`, ImageMagick, Inkscape or headless Chromium on this project,
-and `sips` cannot read SVG. Everything here is therefore vector-only, and the PNG/ICO favicons
-under `../favicons/` **cannot be regenerated** — they are still the old blue shield. The
-`<link rel="icon" type="image/svg+xml">` in `src/app.html` is what keeps the browser tab current
-for browsers that support it; the raster files remain as the legacy fallback.
+The PNG/ICO favicons and PWA icons are rendered from `seal-simple.svg`:
 
-Adding a rasterizer later means `npm i -D sharp` plus a small script, and updating the two
-hardcoded `#00316b` values at `src/app.html:12,16` — HTML attributes, which cannot take `var()`.
+```
+node scripts/render-icons.js
+```
+
+Its output is committed, and it is deliberately **not** part of `npm run build` — a build that
+shells out to a native image library breaks on someone else's machine, and the mark changes about
+once a year. `sharp` is a devDependency for the same reason; Vercel never runs it.
+
+Two things that script gets right and a naive resize would not:
+
+- **The android-chrome icons are declared `"purpose": "maskable any"`** in `static/manifest.json`.
+  Android crops a maskable icon to a circle and guarantees only the central 80%. This mark *is* a
+  circle filling its frame, so rendering it edge to edge puts the gold ring exactly where the crop
+  lands. Those two sizes are inset to 72% on an opaque ground.
+- **iOS composites a transparent home-screen icon onto black**, which would swallow the seal's
+  black disc. The touch and maskable icons therefore get an opaque white ground; only the browser
+  tab favicons keep their alpha.
+
+`favicon.ico` is assembled by hand in that script rather than via a second dependency — an ICO is
+a short header plus one directory entry per image, and since Vista the payloads may be PNGs.
+
+The one thing still hand-maintained: the `mask-icon` colour at `src/app.html:18` and the tile
+colour at `:22`, which are HTML attributes and cannot take `var()`.
 
 ## Dropping in a stag
 
