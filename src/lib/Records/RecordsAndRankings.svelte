@@ -21,6 +21,85 @@
 
     const year = allTime ? null : prefix;
 
+    /*
+    Sortable columns, for the four RANKING tables only.
+
+    The six record tables above are deliberately NOT sortable. Each of those is a top-N list
+    defined by its own metric -- "Single Week Scoring Records" IS points descending -- and its
+    rank column is positional, so re-sorting would renumber rank into nonsense.
+
+    Here re-ranking is the entire point: "who leads on points per game" is a different and
+    equally legitimate question from "who leads on total points", and the rank column
+    renumbering to match the chosen column is correct rather than misleading.
+
+    Sorting only ever applies to numeric columns. Manager is left alone -- the cell renders a
+    component, and the name it displays lives in leagueTeamManagers rather than on the row.
+    */
+    let sorts = {};
+
+    const sortRanking = (table, field) => {
+        const cur = sorts[table];
+        // A newly picked column starts descending: for every stat in these tables the big end
+        // is the interesting one. Clicking the already-active column flips direction.
+        const dir = cur && cur.field === field ? -cur.dir : -1;
+        sorts = {...sorts, [table]: {field, dir}};
+    }
+
+    /*
+    All three helpers take the sort state as an explicit argument rather than closing over it.
+    That is not style -- it is required. Svelte 4 reactivity tracks only what a reactive
+    statement or template expression references SYNTACTICALLY, so `$: x = sortRows(rows, 'fpts')`
+    does not depend on `sorts` just because sortRows reads it, and `{arrow(sorts, 'fpts','fptsFor')}`
+    never re-runs when `sorts` is reassigned. Written that way the tables silently never sorted:
+    clicks registered, state updated, nothing re-rendered. Passing `sorts` in makes the
+    dependency visible to the compiler.
+    */
+
+    // Returns a sorted COPY -- these arrays are props, and sorting in place would also
+    // reorder the bar charts built from the same data.
+    /*
+    Compare numerically whenever both sides parse as numbers.
+
+    Not every stat on these rows is a JS number -- the derived ones (points per game, win
+    percentage, lineup IQ) arrive as strings from toFixed(). A plain `a > b` therefore compares
+    them lexicographically, which silently sorts "95.62" above "111.65" because "9" > "1".
+    Points Against sorted correctly while Points Per Game did not, which is exactly what a
+    string/number split looks like.
+    */
+    const compare = (a, b) => {
+        const an = typeof a === 'number' ? a : parseFloat(a);
+        const bn = typeof b === 'number' ? b : parseFloat(b);
+        if(!Number.isNaN(an) && !Number.isNaN(bn)) return an - bn;
+        return String(a).localeCompare(String(b));
+    }
+
+    const sortRows = (rows, table, sortState) => {
+        const sort = sortState[table];
+        if(!sort || !rows) return rows;
+        return [...rows].sort((a, b) => {
+            const c = compare(a[sort.field], b[sort.field]);
+            if(c === 0) return 0;
+            return c > 0 ? sort.dir : -sort.dir;
+        });
+    }
+
+    const ariaSort = (sortState, table, field) => {
+        const sort = sortState[table];
+        if(!sort || sort.field !== field) return 'none';
+        return sort.dir === -1 ? 'descending' : 'ascending';
+    }
+
+    const arrow = (sortState, table, field) => {
+        const sort = sortState[table];
+        if(!sort || sort.field !== field) return '';
+        return sort.dir === -1 ? '▼' : '▲';
+    }
+
+    $: sortedLineupIQs = sortRows(lineupIQs, 'iq', sorts);
+    $: sortedWinPercentages = sortRows(winPercentages, 'win', sorts);
+    $: sortedFptsHistories = sortRows(fptsHistories, 'fpts', sorts);
+    $: sortedTransactions = sortRows(transactions, 'trans', sorts);
+
     const changeTable = (newGraph) => {
         switch (newGraph) {
             case 0 - iqOffset:
@@ -270,6 +349,43 @@
         flex-wrap: wrap;
         justify-content: space-around;
         margin: 3em auto 5em;
+    }
+
+    /* Sortable ranking headers. A real <button> inside the th rather than a click handler on
+       the th itself, so keyboard operation and focus come for free -- the same reason the
+       constitution's table of contents is buttons rather than clickable headings. */
+    :global(.rankingTable .sortBtn) {
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        font: inherit;
+        color: inherit;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3em;
+        white-space: nowrap;
+    }
+
+    :global(.rankingTable .sortBtn:hover) {
+        color: var(--accentInk);
+    }
+
+    :global(.rankingTable .sortBtn:focus-visible) {
+        outline: 2px solid var(--blueOne);
+        outline-offset: 2px;
+        border-radius: var(--radiusXs);
+    }
+
+    /* Reserve the arrow's width at all times so activating a column does not reflow the
+       header row and shift the other columns sideways. */
+    :global(.rankingTable .arrow) {
+        display: inline-block;
+        min-width: 0.75em;
+        font-size: 0.8em;
+        line-height: 1;
+        color: var(--accentInk);
     }
 
     .rankingHolder {
@@ -694,13 +810,19 @@
                         <Row>
                             <Cell class="header"></Cell>
                             <Cell class="header">Manager</Cell>
-                            <Cell class="header">Lineup IQ</Cell>
-                            <Cell class="header">Points</Cell>
-                            <Cell class="header">Potential Points</Cell>
+                            <Cell class="header" aria-sort={ariaSort(sorts, 'iq', 'iq')}>
+                                <button type="button" class="sortBtn" onclick={() => sortRanking('iq', 'iq')}>Lineup IQ<span class="arrow">{arrow(sorts, 'iq', 'iq')}</span></button>
+                            </Cell>
+                            <Cell class="header" aria-sort={ariaSort(sorts, 'iq', 'fpts')}>
+                                <button type="button" class="sortBtn" onclick={() => sortRanking('iq', 'fpts')}>Points<span class="arrow">{arrow(sorts, 'iq', 'fpts')}</span></button>
+                            </Cell>
+                            <Cell class="header" aria-sort={ariaSort(sorts, 'iq', 'potentialPoints')}>
+                                <button type="button" class="sortBtn" onclick={() => sortRanking('iq', 'potentialPoints')}>Potential Points<span class="arrow">{arrow(sorts, 'iq', 'potentialPoints')}</span></button>
+                            </Cell>
                         </Row>
                     </Head>
                     <Body>
-                        {#each lineupIQs as lineupIQ, ix}
+                        {#each sortedLineupIQs as lineupIQ, ix}
                             <Row>
                                 <Cell>{ix + 1}</Cell>
                                 <Cell class="cellName" onclick={() => gotoManager({year: lineupIQ.year || prefix, leagueTeamManagers, managerID: lineupIQ.managerID, rosterID: lineupIQ.rosterID})}>
@@ -725,16 +847,24 @@
                     <Row>
                         <Cell class="header"></Cell>
                         <Cell class="header">Manager</Cell>
-                        <Cell class="header">Win %</Cell>
-                        <Cell class="header">Wins</Cell>
+                        <Cell class="header" aria-sort={ariaSort(sorts, 'win', 'percentage')}>
+                            <button type="button" class="sortBtn" onclick={() => sortRanking('win', 'percentage')}>Win %<span class="arrow">{arrow(sorts, 'win', 'percentage')}</span></button>
+                        </Cell>
+                        <Cell class="header" aria-sort={ariaSort(sorts, 'win', 'wins')}>
+                            <button type="button" class="sortBtn" onclick={() => sortRanking('win', 'wins')}>Wins<span class="arrow">{arrow(sorts, 'win', 'wins')}</span></button>
+                        </Cell>
                         {#if showTies}
-                            <Cell class="header">Ties</Cell>
+                            <Cell class="header" aria-sort={ariaSort(sorts, 'win', 'ties')}>
+                                <button type="button" class="sortBtn" onclick={() => sortRanking('win', 'ties')}>Ties<span class="arrow">{arrow(sorts, 'win', 'ties')}</span></button>
+                            </Cell>
                         {/if}
-                        <Cell class="header">Losses</Cell>
+                        <Cell class="header" aria-sort={ariaSort(sorts, 'win', 'losses')}>
+                            <button type="button" class="sortBtn" onclick={() => sortRanking('win', 'losses')}>Losses<span class="arrow">{arrow(sorts, 'win', 'losses')}</span></button>
+                        </Cell>
                     </Row>
                 </Head>
                 <Body>
-                    {#each winPercentages as winPercentage, ix}
+                    {#each sortedWinPercentages as winPercentage, ix}
                         <Row>
                             <Cell>{ix + 1}</Cell>
                             <Cell class="cellName" onclick={() => gotoManager({year: winPercentage.year || prefix, leagueTeamManagers, rosterID: winPercentage.rosterID, managerID: winPercentage.managerID})}>
@@ -763,13 +893,19 @@
                     <Row>
                         <Cell class="header"></Cell>
                         <Cell class="header">Manager</Cell>
-                        <Cell class="header">Points For</Cell>
-                        <Cell class="header">Points Against</Cell>
-                        <Cell class="header">Points Per Game</Cell>
+                        <Cell class="header" aria-sort={ariaSort(sorts, 'fpts', 'fptsFor')}>
+                            <button type="button" class="sortBtn" onclick={() => sortRanking('fpts', 'fptsFor')}>Points For<span class="arrow">{arrow(sorts, 'fpts', 'fptsFor')}</span></button>
+                        </Cell>
+                        <Cell class="header" aria-sort={ariaSort(sorts, 'fpts', 'fptsAgainst')}>
+                            <button type="button" class="sortBtn" onclick={() => sortRanking('fpts', 'fptsAgainst')}>Points Against<span class="arrow">{arrow(sorts, 'fpts', 'fptsAgainst')}</span></button>
+                        </Cell>
+                        <Cell class="header" aria-sort={ariaSort(sorts, 'fpts', 'fptsPerGame')}>
+                            <button type="button" class="sortBtn" onclick={() => sortRanking('fpts', 'fptsPerGame')}>Points Per Game<span class="arrow">{arrow(sorts, 'fpts', 'fptsPerGame')}</span></button>
+                        </Cell>
                     </Row>
                 </Head>
                 <Body>
-                    {#each fptsHistories as fptsHistory, ix}
+                    {#each sortedFptsHistories as fptsHistory, ix}
                         <Row>
                             <Cell>{ix + 1}</Cell>
                             <Cell class="cellName" onclick={() => gotoManager({year: fptsHistory.year || prefix, leagueTeamManagers, rosterID: fptsHistory.rosterID, managerID: fptsHistory.managerID})}>
@@ -795,12 +931,16 @@
                     <Row>
                         <Cell class="header"></Cell>
                         <Cell class="header">Manager</Cell>
-                        <Cell class="header">Trades</Cell>
-                        <Cell class="header">Waivers</Cell>
+                        <Cell class="header" aria-sort={ariaSort(sorts, 'trans', 'trades')}>
+                            <button type="button" class="sortBtn" onclick={() => sortRanking('trans', 'trades')}>Trades<span class="arrow">{arrow(sorts, 'trans', 'trades')}</span></button>
+                        </Cell>
+                        <Cell class="header" aria-sort={ariaSort(sorts, 'trans', 'waivers')}>
+                            <button type="button" class="sortBtn" onclick={() => sortRanking('trans', 'waivers')}>Waivers<span class="arrow">{arrow(sorts, 'trans', 'waivers')}</span></button>
+                        </Cell>
                     </Row>
                 </Head>
                 <Body>
-                    {#each transactions as transaction, ix}
+                    {#each sortedTransactions as transaction, ix}
                         <Row>
                             <Cell>{ix + 1}</Cell>
                             <Cell class="cellName" onclick={() => gotoManager({year: transaction.year || prefix, leagueTeamManagers, rosterID: transaction.rosterID, managerID: transaction.managerID})}>
