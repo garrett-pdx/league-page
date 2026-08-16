@@ -160,7 +160,17 @@
 	<nav id="navigation" aria-label="Footer">
 		<ul>
 			{#each footerLinks as link}
-				<li><a class="navLink" href={link.dest}>{link.label}</a></li>
+				<li>
+					<!-- Off-site destinations (Sleeper, the Keeper Draft Board) open in a new tab
+					     so a visitor never loses the league page to leave it. rel is not optional
+					     with target=_blank: without noopener the opened page gets a window.opener
+					     handle and can navigate ours out from under the reader. -->
+					{#if /^https?:\/\//.test(link.dest)}
+						<a class="navLink" href={link.dest} target="_blank" rel="noopener noreferrer">{link.label}</a>
+					{:else}
+						<a class="navLink" href={link.dest}>{link.label}</a>
+					{/if}
+				</li>
 			{/each}
 		</ul>
 	</nav>

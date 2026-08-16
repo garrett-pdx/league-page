@@ -18,10 +18,12 @@
 
 	// SvelteKit 2's goto() throws on external URLs ("Cannot use `goto` with an
 	// external URL"), which silently breaks any tab pointing off-site -- Go to
-	// Sleeper, and the Keeper Draft Board. Send those through the browser instead.
+	// Sleeper, and the Keeper Draft Board. Open those in a NEW tab: a nav click should
+	// never cost you the page you were on, and noopener stops the opened page getting a
+	// window.opener handle it could navigate ours with.
 	const navigate = (dest) => {
 		if(/^https?:\/\//.test(dest)) {
-			window.location.href = dest;
+			window.open(dest, '_blank', 'noopener,noreferrer');
 			return;
 		}
 		goto(dest);

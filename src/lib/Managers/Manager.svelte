@@ -81,8 +81,20 @@
     })
 
     const changeManager = (newManager, noscroll = false) => {
-        if(!newManager) {
+        /*
+        The guard was `if(!newManager)` with no return, which is wrong twice over.
+
+        Index 0 is a valid manager -- Garrett -- and !0 is true, so clicking "Previous Manager"
+        from index 1 took the bail-out branch. And because nothing returned, BOTH goto() calls
+        fired: one to /managers and one to /manager?manager=0, racing each other. Whichever
+        settled last won, so the same click sometimes landed on the manager and sometimes
+        dumped you on the directory. Intermittent, and only ever on the first manager.
+
+        Test the index for actually being a usable one, and return.
+        */
+        if(!(newManager >= 0) || newManager >= managers.length) {
             goto(`/managers`);
+            return;
         }
         manager = newManager;
         goto(`/manager?manager=${newManager}`, {noscroll});

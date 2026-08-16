@@ -145,7 +145,7 @@ import { dynasty } from './utils/helper';
     <List class="list" dense>
         {#each resources as resource}
             {#if resource.dynastyOnly && dynasty}
-                <a target="_blank" href="{resource.url}">
+                <a target="_blank" rel="noopener noreferrer" href="{resource.url}">
                     <Item>
                         {#if resource.icon}
                             <Graphic class="material-icons">{resource.icon}</Graphic>
@@ -157,7 +157,7 @@ import { dynasty } from './utils/helper';
                     {/if}
                 </a>
             {:else if resource.redraftOnly && !dynasty}
-                <a target="_blank" href="{resource.url}">
+                <a target="_blank" rel="noopener noreferrer" href="{resource.url}">
                     <Item>
                         {#if resource.icon}
                             <Graphic class="material-icons">{resource.icon}</Graphic>
@@ -169,7 +169,7 @@ import { dynasty } from './utils/helper';
                     {/if}
                 </a>
             {:else if !resource.redraftOnly && !resource.dynastyOnly}
-                <a target="_blank" href="{resource.url}">
+                <a target="_blank" rel="noopener noreferrer" href="{resource.url}">
                     <Item>
                         {#if resource.icon}
                             <Graphic class="material-icons">{resource.icon}</Graphic>

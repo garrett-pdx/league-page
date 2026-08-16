@@ -117,7 +117,7 @@
     <Title class="article-title">
         <img class="icon" src="{article.icon}" alt="article thumbnial" />
         {#if article.link}
-            <a href="{article.link}" target="_blank" class="title-link">{article.title}</a>
+            <a href="{article.link}" target="_blank" rel="noopener noreferrer" class="title-link">{article.title}</a>
         {:else}
             {article.title}
         {/if}
