@@ -23,36 +23,48 @@
 
     let loading = true;
     let preseason = false;
+    let loadError = false;
     let standings, year, leagueTeamManagers;
     onMount(async () => {
-        const asyncStandingsData = await standingsData;
-        if(!asyncStandingsData) {
-            /*
-            Preseason. getLeagueStandings() returns nothing until the season has games, and this
-            branch used to end at a one-line "no standings yet" -- on a top-level nav item, for
-            about seven months of the year. Fall back to the last completed season instead.
-            */
-            preseasonTeamManagers = await leagueTeamManagersData;
-            leagueHistory = leagueHistoryData ? await leagueHistoryData : null;
-            loading = false;
-            preseason = true;
-            return;
-        }
-        const {standingsInfo, yearData} = asyncStandingsData;
-        leagueTeamManagers = await leagueTeamManagersData;
-        year = yearData;
-
-        let finalStandings = Object.keys(standingsInfo).map((key) => standingsInfo[key]);
-
-        for(const sortType of sortOrder) {
-            if(!finalStandings[0][sortType] && finalStandings[0][sortType] != 0) {
-                continue;
+        /*
+        Every promise here was awaited bare, with nothing catching a rejection -- a Sleeper
+        timeout or 500 threw inside onMount and left `loading` stuck true forever, on a
+        top-level nav item. Same fix as MatchupsAndBrackets.svelte; see the note there.
+        */
+        try {
+            const asyncStandingsData = await standingsData;
+            if(!asyncStandingsData) {
+                /*
+                Preseason. getLeagueStandings() returns nothing until the season has games, and
+                this branch used to end at a one-line "no standings yet" -- on a top-level nav
+                item, for about seven months of the year. Fall back to the last completed season.
+                */
+                preseasonTeamManagers = await leagueTeamManagersData;
+                leagueHistory = leagueHistoryData ? await leagueHistoryData : null;
+                loading = false;
+                preseason = true;
+                return;
             }
-            finalStandings = [...finalStandings].sort((a,b) => b[sortType] - a[sortType]);
-        }
+            const {standingsInfo, yearData} = asyncStandingsData;
+            leagueTeamManagers = await leagueTeamManagersData;
+            year = yearData;
 
-        standings = finalStandings;
-        loading = false;
+            let finalStandings = Object.keys(standingsInfo).map((key) => standingsInfo[key]);
+
+            for(const sortType of sortOrder) {
+                if(!finalStandings[0][sortType] && finalStandings[0][sortType] != 0) {
+                    continue;
+                }
+                finalStandings = [...finalStandings].sort((a,b) => b[sortType] - a[sortType]);
+            }
+
+            standings = finalStandings;
+            loading = false;
+        } catch(err) {
+            console.error(err);
+            loadError = true;
+            loading = false;
+        }
     })
 
     let innerWidth;
@@ -89,15 +101,23 @@
         overflow-x: scroll;
         margin: 0.5em 0 5em;
     }
+
+    .errorMessage {
+        text-align: center;
+        color: var(--g555);
+        margin: 3em auto;
+    }
 </style>
 
 <!-- In preseason LastSeason renders its own SectionHeading for the season it is showing, so a
      second "2026 Standings" title above an obviously-2025 table would just be wrong. -->
-{#if !preseason}
+{#if !preseason && !loadError}
     <h1>{year ?? ''} {leagueName} Standings</h1>
 {/if}
 
-{#if loading}
+{#if loadError}
+    <p class="errorMessage">Something went wrong loading standings. Try refreshing the page.</p>
+{:else if loading}
     <!-- promise is pending -->
     <div class="loading">
         <p>Loading Standings...</p>

@@ -26,12 +26,26 @@
 
     let rivalry = null;
     let loading = true;
+    let loadError = false;
 
     const analyzeRivalry = async (p1, p2) => {
         loading = true;
+        loadError = false;
         matchup = null;
         if(p1 && p2) {
-            rivalry = await getRivalryMatchups(p1, p2);
+            /*
+            getRivalryMatchups fans out a live call per season per week with no store cache
+            (see helperFunctions/CLAUDE.md) -- the most expensive helper in the app and, being
+            an unauthenticated call against Sleeper with no retry, the one most likely to hit a
+            transient failure. Unhandled, that left `loading` true forever and the manager
+            selectors sitting above a permanent spinner. Same fix as Standings and Matchups.
+            */
+            try {
+                rivalry = await getRivalryMatchups(p1, p2);
+            } catch(err) {
+                console.error(err);
+                loadError = true;
+            }
             loading = false;
         }
     }
@@ -162,7 +176,9 @@
     <ManagerSelectors bind:playerOne={playerOne} bind:playerTwo={playerTwo} {leagueTeamManagers} />
 </div>
 
-{#if loading }
+{#if loadError}
+    <p class="center">Something went wrong loading this rivalry. Try refreshing the page.</p>
+{:else if loading }
     {#if playerOne && playerTwo }
         <div class="loading">
             <p>Analyzing rivalry...</p>

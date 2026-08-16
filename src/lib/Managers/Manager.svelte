@@ -91,8 +91,18 @@
         dumped you on the directory. Intermittent, and only ever on the first manager.
 
         Test the index for actually being a usable one, and return.
+
+        That fix introduced a second bug of the same shape: `null >= 0` is TRUE in JS (null
+        coerces to 0), so `!(null >= 0)` is false and null slipped through the guard. Every
+        manager's rival is configured as `{link: null}` -- see leagueInfo.js, "The Field" is
+        everyone's rival until real rivalries are set -- so ManagerFantasyInfo's rival tile
+        calls changeManager(null) on all eleven manager pages today. That fell through to
+        `goto('/manager?manager=null')`, which +page.js then failed to parse and redirected
+        away from a second, flashing an extra loading state en route to /managers instead of
+        going there directly. Reject null explicitly, before the numeric check ever runs it
+        through JS's coercion.
         */
-        if(!(newManager >= 0) || newManager >= managers.length) {
+        if(newManager === null || !(newManager >= 0) || newManager >= managers.length) {
             goto(`/managers`);
             return;
         }

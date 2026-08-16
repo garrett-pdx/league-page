@@ -23,22 +23,38 @@
     let players, matchupWeeks, year, week, regularSeasonLength, brackets, leagueTeamManagers;
 
     let loading = true;
+    let loadError = false;
 
     onMount(async () => {
-        brackets = await bracketsData;
-        const matchupsInfo = await matchupsData;
-        leagueTeamManagers = await leagueTeamManagersData;
-        matchupWeeks = matchupsInfo.matchupWeeks;
-        year = matchupsInfo.year;
-        week = matchupsInfo.week;
-        regularSeasonLength = matchupsInfo.regularSeasonLength;
-        const playersInfo = await playersData;
-        players = playersInfo.players;
-        loading = false;
+        /*
+        Every other route resolves its promises through {#await}{:then}{:catch} at the route
+        level (see src/routes/CLAUDE.md). This component instead awaits four promises in a bare
+        onMount, which means a rejection from any of them -- a Sleeper timeout, a 500, an
+        ordinary network blip, all real possibilities against an unauthenticated third-party API
+        with no retry -- throws with nothing to catch it. loading never flips to false, so
+        matchups is a top-level nav item that gets stuck on "Loading league matchups..." forever,
+        with only a console error to show for it. Same shape as the fix in Standings/index.svelte.
+        */
+        try {
+            brackets = await bracketsData;
+            const matchupsInfo = await matchupsData;
+            leagueTeamManagers = await leagueTeamManagersData;
+            matchupWeeks = matchupsInfo.matchupWeeks;
+            year = matchupsInfo.year;
+            week = matchupsInfo.week;
+            regularSeasonLength = matchupsInfo.regularSeasonLength;
+            const playersInfo = await playersData;
+            players = playersInfo.players;
+            loading = false;
 
-        if(playersInfo.stale) {
-            const newPlayersInfo = await loadPlayers(null, true);
-            players = newPlayersInfo.players;
+            if(playersInfo.stale) {
+                const newPlayersInfo = await loadPlayers(null, true);
+                players = newPlayersInfo.players;
+            }
+        } catch(err) {
+            console.error(err);
+            loadError = true;
+            loading = false;
         }
     });
 
@@ -89,6 +105,10 @@
     <div class="message">
         <p>Loading league matchups...</p>
         <LinearProgress indeterminate />
+    </div>
+{:else if loadError}
+    <div class="message">
+        <p>Something went wrong loading matchups. Try refreshing the page.</p>
     </div>
 {:else}
     {#if matchupWeeks.length}
