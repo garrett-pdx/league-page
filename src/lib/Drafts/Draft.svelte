@@ -1,7 +1,7 @@
 <script>
   	import DataTable, { Head, Body, Row, Cell } from '@smui/data-table';
 	import LinearProgress from '@smui/linear-progress';
-    import { onMount } from 'svelte';
+    import { onMount, onDestroy } from 'svelte';
     import DraftRow from './DraftRow.svelte';
     import { gotoManager } from '$lib/utils/helper'
 	import { getAvatarFromTeamManagers, getTeamNameFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
@@ -12,12 +12,18 @@
 
     let progress = 0;
     let closed = false;
+    let timer;
 
     onMount(loadAccuracy);
+    // The interval is bounded -- progress climbs 0.02 every 100ms and always stops itself once
+    // it reaches `accuracy` or 1 -- but "always finishes eventually" is not the same as "finishes
+    // before you navigate away". Drafts is a page people click into and back out of (the previous
+    // drafts list is right there), and without this the timer kept firing against a component
+    // that no longer existed until it ran out the clock on its own.
+    onDestroy(() => clearInterval(timer));
 
     function loadAccuracy() {
         if(!accuracy || accuracy === 1) return;
-        let timer;
         progress = 0;
         closed = false;
         clearInterval(timer);
