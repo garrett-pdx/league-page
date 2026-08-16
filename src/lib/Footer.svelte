@@ -1,20 +1,18 @@
 <script>
-	import { goto } from '$app/navigation';
-    import { managers } from '$lib/utils/helper';
+    import { managers, enableBlog } from '$lib/utils/helper';
 	import { tabs } from '$lib/utils/tabs';
 	import { onMount } from 'svelte';
 
-	// Upstream special-cased this by LABEL -- `child.label == "Go to Sleeper"` got
-	// window.location while everything else got goto(). That works until a second
-	// off-site tab is added, and SvelteKit 2's goto() throws on external URLs. Test
-	// the destination instead of the label so any external tab keeps working.
-	const navigate = (dest) => {
-		if(/^https?:\/\//.test(dest)) {
-			window.location.href = dest;
-			return;
-		}
-		goto(dest);
-	}
+	/*
+	Links are real anchors now, not divs with click handlers.
+
+	That fixes two things at once. The whole footer nav was previously unreachable by keyboard
+	-- a <div onclick> has no focus and no role -- and it needed a navigate() helper to
+	special-case off-site destinations, because SvelteKit 2's goto() throws on external URLs.
+	An <a href> needs neither: the client router intercepts internal hrefs on its own and leaves
+	external ones to the browser. The equivalent helpers in NavLarge/NavSmall still earn their
+	keep, since those are driven by SMUI components rather than anchors.
+	*/
 
 	let outOfDate = false;
 
@@ -54,6 +52,20 @@
 
 	const year = new Date().getFullYear();
 
+	/*
+	Flatten the nav into one list. Two entries need guarding, both by label, matching how
+	NavLarge and NavSmall do it -- see the note in tabs.js:
+
+	  Blog is hidden while enableBlog is false. The footer previously had NO such guard, so it
+	  advertised a link to a disabled page that both navs correctly hid.
+	  Managers is hidden while the managers array is empty.
+	*/
+	$: footerLinks = tabs
+		.flatMap((tab) => (tab.nest ? tab.children : [tab]))
+		.filter((link) => link.dest)
+		.filter((link) => link.label != 'Blog' || enableBlog)
+		.filter((link) => link.label != 'Managers' || managers.length > 0);
+
     $: resize(el?.getBoundingClientRect(), false, innerWidth);
 </script>
 
@@ -61,55 +73,81 @@
 
 <style>
 	footer {
-		background-color: var(--f8f8f8);
+		background-color: var(--navy050);
 		width: 100%;
         display: block;
         position: absolute;
         bottom: 0;
 		z-index: 1;
-		border-top: 1px solid #920505;
-		padding: 30px 0 60px;
+		border-top: 1px solid var(--accentBorder);
+		padding: 2.5em 0 3.5em;
 		text-align: center;
-		color: #777;
+		color: var(--g555);
 	}
 
 	#navigation {
-		margin: 0 0 2em;
+		margin: 0 auto 2em;
+		width: 92%;
+		max-width: 900px;
 	}
 
 	#navigation ul {
 		margin: 0;
 		padding: 0;
+		/* A wrapping grid rather than a pipe-separated run: seventeen links on one line
+		   reflowed into an unreadable block on a phone. */
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(9em, 1fr));
+		gap: 0.15em 0.5em;
 	}
 
 	#navigation ul li {
 		list-style-type: none;
-		display: inline;
-	}
-
-	#navigation li:not(:first-child):before {
-		content: " | ";
 	}
 
 	.navLink {
-		display: inline-block;
-		cursor: pointer;
-		padding: 6px 10px;
+		display: block;
+		padding: 0.5em 0.4em;
+		color: var(--navy700);
+		text-decoration: none;
+		font-family: var(--fontDisplay);
+		font-size: 0.82em;
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		border-radius: var(--radiusSm);
 	}
 
-	.navLink:hover {
-		color: #920505;
+	@media (hover: hover) {
+		.navLink:hover {
+			background-color: var(--fff);
+			color: var(--accentInk);
+		}
+	}
+
+	.navLink:focus-visible {
+		outline: 2px solid var(--blueOne);
+		outline-offset: -2px;
+	}
+
+	.credit {
+		font-size: 0.82em;
+		line-height: 1.7;
+	}
+
+	.credit a {
+		color: var(--accentInk);
 	}
 
 	.updateNotice {
-		color: var(--g999);
+		color: var(--g555);
 		font-style: italic;
 		font-size: 0.8em;
 		margin-top: 0;
 	}
 </style>
 
-<div class="footerSpacer" style="height: {footerHeight}px;" />
+<div class="footerSpacer" style="height: {footerHeight}px;"></div>
 
 <!-- footer with update notice -->
 <footer bind:this={el}>
@@ -119,31 +157,21 @@
     {#if managersOutOfDate}
 	    <p class="updateNotice">Your managers page needs an update, <a href="https://github.com/nmelhado/league-page/blob/master/TRAINING_WHEELS.md#2-add-managers">please follow the instructions</a> to get the most up-to-date experience.</p>
     {/if}
-	<div id="navigation">
+	<nav id="navigation" aria-label="Footer">
 		<ul>
-			{#each tabs as tab}
-				{#if !tab.nest}
-					<!-- Managers moved to a top-level tab; keep hiding it until managers are populated -->
-					{#if tab.label != "Managers" || managers.length > 0}
-						<li><div class="navLink" onclick={() => navigate(tab.dest)}>{tab.label}</div></li>
-					{/if}
-				{:else}
-					{#each tab.children as child}
-                        <!-- Shouldn't show Managers tab unless managers has been populated -->
-				        {#if child.label != "Managers" || managers.length > 0}
-							<li><div class="navLink" onclick={() => navigate(child.dest)}>{child.label}</div></li>
-                        {/if}
-					{/each}
-				{/if}
+			{#each footerLinks as link}
+				<li><a class="navLink" href={link.dest}>{link.label}</a></li>
 			{/each}
 		</ul>
+	</nav>
+	<div class="credit">
+		<!-- PLEASE DO NOT REMOVE THE COPYRIGHT -->
+		<span class="copyright">&copy; 2021 - {year} <a href="https://github.com/nmelhado/league-page">League Page</a></span>
+		<br />
+		<!-- PLEASE DO NOT REMOVE THE BUILT BY -->
+		<span class="creator">Built by <a href="http://www.nmelhado.com/">Nicholas Melhado</a><br /></span>
+		<!-- You can remove the donation link (although any donations to help
+		 maintain and enhance League Page would be greatly appreciated!) -->
+		Love League Page? Please consider <a href="https://www.buymeacoffee.com/nmelhado">donating</a> to support enhancements or just to say thank you!
 	</div>
-	<!-- PLEASE DO NOT REMOVE THE COPYRIGHT -->
-	<span class="copyright">&copy; 2021 - {year} <a href="https://github.com/nmelhado/league-page">League Page</a></span>
-	<br />
-	<!-- PLEASE DO NOT REMOVE THE BUILT BY -->
-	<span class="creator">Built by <a href="http://www.nmelhado.com/">Nicholas Melhado</a><br /></span>
-	<!-- You can remove the donation link (although any donations to help
-	 maintain and enhance League Page would be greatly appreciated!) -->
-	Love League Page? Please consider <a href="https://www.buymeacoffee.com/nmelhado">donating</a> to support enhancements or just to say thank you!
 </footer>
