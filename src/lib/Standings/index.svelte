@@ -6,7 +6,13 @@
     import { onMount } from 'svelte';
     import Standing from './Standing.svelte';
 
-    export let standingsData, leagueTeamManagersData;
+    import LastSeason from './LastSeason.svelte';
+
+    export let standingsData, leagueTeamManagersData, leagueHistoryData = null;
+
+    // Resolved only for the preseason branch; the live path never touches it.
+    let leagueHistory = null;
+    let preseasonTeamManagers = null;
 
     // Least important to most important (i.e. the most important [usually wins] goes last)
     // Edit this to match your leagues settings
@@ -21,6 +27,13 @@
     onMount(async () => {
         const asyncStandingsData = await standingsData;
         if(!asyncStandingsData) {
+            /*
+            Preseason. getLeagueStandings() returns nothing until the season has games, and this
+            branch used to end at a one-line "no standings yet" -- on a top-level nav item, for
+            about seven months of the year. Fall back to the last completed season instead.
+            */
+            preseasonTeamManagers = await leagueTeamManagersData;
+            leagueHistory = leagueHistoryData ? await leagueHistoryData : null;
             loading = false;
             preseason = true;
             return;
@@ -78,7 +91,11 @@
     }
 </style>
 
-<h1>{year ?? ''} {leagueName} Standings</h1>
+<!-- In preseason LastSeason renders its own SectionHeading for the season it is showing, so a
+     second "2026 Standings" title above an obviously-2025 table would just be wrong. -->
+{#if !preseason}
+    <h1>{year ?? ''} {leagueName} Standings</h1>
+{/if}
 
 {#if loading}
     <!-- promise is pending -->
@@ -87,9 +104,7 @@
         <LinearProgress indeterminate />
     </div>
 {:else if preseason}
-<div class="loading">
-    <p>Preseason, No Standings Yet</p>
-</div>
+    <LastSeason {leagueHistory} leagueTeamManagers={preseasonTeamManagers} />
 {:else}
     <div class="standingsTable">
         <DataTable table$aria-label="League Standings" >

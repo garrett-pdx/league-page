@@ -6,7 +6,17 @@
     import Button, { Group, Label } from '@smui/button';
     import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
-    import { loadPlayers } from '$lib/utils/helper';
+    import { loadPlayers, getUpcomingDraft } from '$lib/utils/helper';
+    import { SectionHeading, Countdown } from '$lib/Design';
+
+    /*
+    Preseason only. This page previously rendered the single line "No upcoming matchups..." with
+    no page heading at all -- on a top-level nav item, from February to September.
+
+    startTime is null once the draft completes, so the countdown disappears on its own rather
+    than counting toward a date in the past. See the note in helperFunctions/leagueDrafts.js.
+    */
+    const draftData = getUpcomingDraft();
 
 	export let queryWeek, leagueTeamManagersData, matchupsData, bracketsData, playersData;
 
@@ -49,9 +59,19 @@
 <style>
     .message {
         display: block;
-        width: 85%;
-        max-width: 500px;
-        margin: 80px auto;
+        width: 92%;
+        max-width: 560px;
+        margin: 2em auto 6em;
+        text-align: center;
+        color: var(--g555);
+    }
+
+    .untilDraft {
+        margin-top: 2.5em;
+        padding: 1.4em 1em;
+        background-color: var(--fff);
+        border-radius: var(--radiusMd);
+        box-shadow: var(--shadowCard);
     }
 
     .buttonHolder {
@@ -101,7 +121,23 @@
         {/if}
     {:else}
         <div class="message">
-            <p>No upcoming matchups...</p>
+            <SectionHeading eyebrow="Preseason" accent="gold">No Matchups Yet</SectionHeading>
+            <p>The schedule appears once the season kicks off in week one. Until then, the
+            draft is the only thing on the calendar.</p>
+
+            {#await draftData then draft}
+                {#if draft?.startTime}
+                    <div class="untilDraft">
+                        <Countdown
+                            target={draft.startTime}
+                            label="{draft.year} Draft"
+                            expiredLabel="Drafting now"
+                        />
+                    </div>
+                {/if}
+            {:catch}
+                <!-- decoration; a failed draft fetch must not take the page down -->
+            {/await}
         </div>
     {/if}
     <!-- {promise has processed -->
