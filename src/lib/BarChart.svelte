@@ -31,7 +31,7 @@
         padding: 1em 0 0.5em;
         margin: 0 auto;
         max-width: 950px;
-        box-shadow: 0px 3px 3px -2px var(--boxShadowOne), 0px 3px 4px 0px var(--boxShadowTwo), 0px 1px 8px 0px var(--boxShadowThree);
+        box-shadow: var(--shadowCard);
     }
 
     .barChart {

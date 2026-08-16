@@ -61,14 +61,14 @@
 
     .viewAll {
         text-decoration: none;
-        background-color: #920505;
+        background-color: var(--cardinal);
         color: #fff;
         border-radius: 1em;
         padding: 0.5em 1em;
     }
 
     .viewAll:hover {
-        background-color: #670404;
+        background-color: var(--cardinal);
     }
 </style>
 

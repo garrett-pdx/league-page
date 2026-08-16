@@ -108,12 +108,12 @@ import { dynasty } from './utils/helper';
 
     :global(.list) {
         width: 90%;
-        max-width: 800px;
+        max-width: var(--pageMaxText);
         border: 1px solid
         var(--mdc-theme-text-hint-on-background, var(--d7d7d7));
         margin: 15px auto;
         padding: 0 !important;
-        box-shadow: 0px 3px 3px -2px var(--boxShadowOne), 0px 3px 4px 0px var(--boxShadowTwo), 0px 1px 8px 0px var(--boxShadowThree);
+        box-shadow: var(--shadowCard);
     }
 
 

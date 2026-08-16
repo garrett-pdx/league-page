@@ -64,7 +64,7 @@
         gap: 1em;
         margin: 0 auto 4em;
         width: 95%;
-        max-width: 1000px;
+        max-width: var(--pageMax);
     }
 
     .plaque {

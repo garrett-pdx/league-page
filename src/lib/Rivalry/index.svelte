@@ -110,7 +110,7 @@
         border: 1px solid var(--aaa);
         margin: 2em auto;
         padding: 2em 0;
-        max-width: 1000px;
+        max-width: var(--pageMax);
     }
     h2 {
         text-align: center;

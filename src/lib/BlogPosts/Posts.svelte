@@ -110,11 +110,11 @@
     }
 
     .filterClear {
-        background-color: #920505;
+        background-color: var(--cardinal);
     }
 
     .filterClear:hover {
-        background-color: #720404;
+        background-color: var(--cardinal);
     }
 
     .filterLink {

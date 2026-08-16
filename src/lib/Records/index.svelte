@@ -66,7 +66,7 @@
     .rankingsWrapper {
         margin: 0 auto;
         width: 100%;
-        max-width: 1200px;
+        max-width: var(--pageMaxWide);
     }
 
     .empty {

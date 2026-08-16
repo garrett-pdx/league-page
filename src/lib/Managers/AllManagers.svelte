@@ -47,7 +47,7 @@
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 1.1em;
         width: 94%;
-        max-width: 1100px;
+        max-width: var(--pageMax);
         margin: 0 auto;
     }
 

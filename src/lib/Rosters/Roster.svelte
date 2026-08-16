@@ -155,7 +155,7 @@
 	}
 
 	:global(.teamInner) {
-		box-shadow: 0px 3px 3px -2px var(--boxShadowOne), 0px 3px 4px 0px var(--boxShadowTwo), 0px 1px 8px 0px var(--boxShadowThree);
+		box-shadow: var(--shadowCard);
 		display: block;
 	    margin: 0 auto;
 	}

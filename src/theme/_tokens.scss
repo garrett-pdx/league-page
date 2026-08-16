@@ -56,6 +56,21 @@
   --mdc-typography-headline6-letter-spacing: 0;
   --mdc-typography-button-letter-spacing: 0.06em;
 
+  /* ---- Page width -------------------------------------------------------------------------
+     Page containers previously ran 1200 / 1100 / 1000 / 950 / 800 / 500 with no rationale, so
+     the content column visibly changed size between routes. Three tiers, chosen by what the
+     page holds rather than by which number was typed first:
+
+       --pageMaxWide  data that needs room: the record book, the draft board
+       --pageMax      the default: card grids, tables, most feature pages
+       --pageMaxText  prose, where a long measure hurts reading: constitution, bios, resources
+
+     Component-level widths are NOT these. A matchup card at 600px or an avatar at 80px is sized
+     by its content and should stay that way; only page containers take these. */
+  --pageMaxWide: 1280px;
+  --pageMax: 1100px;
+  --pageMaxText: 800px;
+
   /* ---- Radius -------------------------------------------------------------------------- */
   // xs/md match radii already in use (DraftRow's keeper tag, and the several 10px sites) so
   // adopting these is not a visual change.
@@ -129,5 +144,20 @@
 // Rosters/Roster.svelte and Records/RecordsAndRankings.svelte. Real mono is reserved for
 // StatTile's hero number, where the box is ours.
 .mdc-data-table__cell {
+  font-variant-numeric: tabular-nums;
+}
+
+// Scores that are NOT in a data table, so the rule above never reaches them. Matchup's per
+// starter scores are the highest-traffic number display in the app and their digits jitter as
+// live points tick over; the bracket's scores sit in fixed-width cards where misalignment shows
+// column to column.
+//
+// Targeted from here rather than component by component because Svelte keeps the authored class
+// name alongside its scoping hash, so `.points` here still matches `class="points s-abc123"`.
+// That keeps five upstream components untouched, which is worth more than locality.
+.points,
+.totalPoints,
+.totalProjection,
+.actualPoints {
   font-variant-numeric: tabular-nums;
 }

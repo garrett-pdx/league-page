@@ -23,7 +23,7 @@
 
     .viewAll {
         text-decoration: none;
-        background-color: #920505;
+        background-color: var(--cardinal);
         color: #fff;
         border-radius: 1em;
         padding: 0.5em 1em;

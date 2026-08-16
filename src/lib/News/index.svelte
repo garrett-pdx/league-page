@@ -57,7 +57,7 @@
     .articles {
         width: 85%;
         margin: 0 auto;
-        max-width: 800px;
+        max-width: var(--pageMaxText);
     }
 
     :global(.article) {

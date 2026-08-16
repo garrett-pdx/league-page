@@ -12,7 +12,7 @@
 		z-index: 1;
         width: 85%;
         margin: 0 auto 60px;
-        max-width: 800px;
+        max-width: var(--pageMaxText);
     }
 </style>
 

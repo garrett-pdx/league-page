@@ -47,7 +47,7 @@
         position: relative;
         z-index: 1;
         width: 92%;
-        max-width: 800px;
+        max-width: var(--pageMaxText);
         margin: 8em auto 10em;
     }
 

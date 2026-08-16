@@ -153,7 +153,7 @@
 		padding: 6px 30px;
 		background-color: var(--fff);
 		border: 1px solid var(--bbb);
-        box-shadow: 0px 3px 3px -2px var(--boxShadowOne), 0px 3px 4px 0px var(--boxShadowTwo), 0px 1px 8px 0px var(--boxShadowThree);
+        box-shadow: var(--shadowCard);
 	}
 
 	.firstLabel {
@@ -183,7 +183,7 @@
 		padding: 6px 30px;
 		background-color: var(--fff);
 		border: 1px solid var(--bbb);
-		box-shadow: 0px 3px 3px -2px var(--boxShadowOne), 0px 3px 4px 0px var(--boxShadowTwo), 0px 1px 8px 0px var(--boxShadowThree);
+		box-shadow: var(--shadowCard);
 	}
 
 	.division {

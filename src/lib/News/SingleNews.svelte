@@ -29,7 +29,7 @@
     }
 
     .title-link:hover {
-        color: #920505;
+        color: var(--cardinal);
     }
 
     .body {

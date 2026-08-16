@@ -16,7 +16,7 @@
         display: block;
         margin: 30px auto;
 		width: 95%;
-		max-width: 1000px;
+		max-width: var(--pageMax);
         overflow-y: hidden;
     }
 
