@@ -138,6 +138,34 @@
   --cardinal: #862633;
 }
 
+/*
+Every heading now inherits Oswald's FAMILY via the hooks above, but MDC's own stock weight for
+each headline scale is 300-400 -- thin. Every heading this redesign hand-styled (the home hero,
+SectionHeading, StatTile, Manager's Career Stats label) sets its own font-weight of 500-600
+alongside the family, because Oswald at 300 in mixed case reads as an unstyled system font, not
+as the brand. A whole category of plain, un-styled headings across the app -- Trophy Room's
+"2025 Awards", Records' "All-Time Records", Rivalry's "Rivalry", the manager's own name -- never
+got that treatment and were sitting at the MDC default, looking like nothing had been applied.
+
+Specificity here is chosen carefully, not defaulted. MDC's own stock heading rules -- emitted
+later in this same file by `@include typography.typography('headlineN')` -- are themselves plain
+`h2 { ... }` selectors, i.e. real specificity (0,0,1), not inherited defaults. A `:where()` rule
+is zero-specificity and LOSES that tie regardless of source order, so it never actually applied.
+`html h2` etc. add one harmless ancestor selector to reach (0,0,2), just enough to beat MDC's own
+rule. That still safely loses to any component's own heading style: Svelte adds a scoping class
+to every selector in a component's <style> block by default, so even an unadorned `h2 {}` written
+in a component compiles to `h2.svelte-xxxxx` -- specificity (0,1,1) -- which this cannot touch.
+
+Weight only, not color or text-transform or letter-spacing: those interact with things this rule
+can't safely reason about -- color specifically risks overriding a heading that is currently
+inheriting --goldOnFill from a gold-toned parent, since any specified value beats inheritance --
+and uppercase specifically would shout real people's names on the manager pages. Both are real
+design decisions, not gaps to patch by default.
+*/
+html h1, html h2, html h3, html h4, html h5, html h6 {
+  font-weight: 500;
+}
+
 // Roboto has real tabular figures, so this kills digit jitter in every data table (Records,
 // Standings, Drafts) without touching a component. Deliberately NOT switching these to
 // Roboto Mono: its glyphs are wider and would overflow the hardcoded name-cell widths in
