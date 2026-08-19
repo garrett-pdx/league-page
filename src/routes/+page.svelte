@@ -145,7 +145,11 @@
         width: 135px;
         height: auto;
         left: 50%;
-        top: 50%;
+        /* Was 50%, seven points below .first's 43% -- the wreath rang the photo off-centre,
+           dangling well past the chin with barely any clearance above the hairline. laurel.svg
+           is a closed ring (the two branches cross at the bottom), so it wants to centre ON
+           the avatar, not below it; matching .first's anchor does that. */
+        top: 43%;
     }
 
     h4 {

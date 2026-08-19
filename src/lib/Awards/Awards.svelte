@@ -53,7 +53,23 @@
 		width: 33%;
 		height: auto;
 		transform: translate(-50%, -50%);
-		bottom: 56.6%;
+		/*
+		top, not bottom -- this is the second bug, not just a wrong number. .first anchors with
+		`bottom: 70%` + translate(-50%,-50%); with `bottom` (rather than `top`), the transform's
+		-50% is 50% of the ELEMENT'S OWN height, so two elements of different height (avatar 20%
+		of podium width, laurel 33%) end up with different final centres even given the SAME
+		bottom value -- confirmed by measuring both: matching bottom to .first's 70% left the
+		laurel about 20px higher on the box than the avatar, not aligned. Anchoring from `top`
+		instead makes the maths height-independent (top% alone IS the final centre, regardless
+		of the element's own size), which is what the home page's version already does correctly.
+		5.2% was read off .first's actual measured centre, not derived from the width percentages
+		alone -- box-sizing: content-box means .champ's 1px border adds a couple of px to its
+		rendered height beyond the pure 20%-of-width figure, which is exactly what a purely
+		algebraic value would have missed. No breakpoint below re-declares this, and because
+		#podium, .first and .laurel all scale together (podium's 600:500 ratio holds at every
+		breakpoint), one percentage holds everywhere.
+		*/
+		top: 5.2%;
 		left: 50%;
 		pointer-events: none;
 	}
