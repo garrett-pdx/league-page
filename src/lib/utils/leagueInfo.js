@@ -21,8 +21,16 @@ Moratorium automatically -- see the note above his entry at the bottom.
 
 Names and bios are real. Still unset on every entry: the optional `favoriteTeam`,
 `preferredContact`, `fantasyStart`, `philosophy` and `tradingScale` fields, each of which
-renders as a muted "?" on the managers page; and `rival`, which is "The Field" for
-everyone rather than a real rivalry.
+renders as a muted "?" on the managers page.
+
+`rival` links each of the 10 active managers to one other, chosen by analyzing real
+head-to-head data: regular-season matchups from static/data/weeks.json (weeks 1-15 of
+each season) plus playoff bracket meetings from league-history.json, scored on frequency,
+competitiveness and stakes (a real winners-bracket title game counts far more than a
+losers-bracket placement game -- don't confuse the two, see the root CLAUDE.md brackets
+note). The five pairings are a maximum-weight perfect matching over all 10 managers, not
+just the five highest-scoring pairs independently -- every manager gets exactly one rival
+and none are shared. Jordan Leonard (Moratorium) has no rival.
 
 `photo` points at a LOCAL file in /static/managers/, named after the manager's Sleeper
 handle. These started life as each manager's own Sleeper avatar but are now served by us,
@@ -50,9 +58,9 @@ export const managers = [
       "photo": "/managers/gurret.jpg",
       "bio": "<strong>#24 &middot; RB &middot; 6'0&quot; &middot; 215 lbs &middot; Lincoln HS</strong><br /><em>CMS career: 36 G &middot; 17 GS &middot; 588 car &middot; 2,987 yds &middot; 33 rush TD &middot; 5.1 avg &middot; 26 rec, 228 yds, 1 TD &middot; 204 pts</em><br />Commissioner. Third all-time at Claremont-Mudd-Scripps in both rushing yards and rushing touchdowns. SCIAC Offensive Player of the Year and First-Team All-SCIAC as a junior in 2018, when he carried 245 times for 1,305 yards at 118.6 a game and set the program single-game record with 274 against Whittier. Came back for 763 yards and a career-best 11 touchdowns as a senior despite a midseason injury, adding Second-Team All-SCIAC, the National Football Foundation Hampshire Honors Society and the SCIAC All-Academic Team. Son of Jim and Maria Cheadle.",
       "rival": {
-        name: "The Field",
-        link: null,
-        image: "/managers/everyone.png",
+        name: "Michael Streinz",
+        link: 2,
+        image: "/managers/mikestreinz.webp",
       },
     },
     {
@@ -62,9 +70,9 @@ export const managers = [
       "photo": "/managers/tnt44.webp",
       "bio": "<strong>#44 &middot; DL &middot; 5'11&quot; &middot; 260 lbs &middot; Hamilton HS</strong><br /><em>CMS career: 36 G &middot; 14 GS &middot; 68 tackles &middot; 6 TFL for 17 &middot; 2 sacks for 11 &middot; 2 FR &middot; 1 FF</em><br />Defensive lineman whose CMS career ran from 2016 all the way to 2022, with a two-year absence (Ghana) in the middle that he returned from to play all ten games in 2019. Second-Team All-SCIAC in each of his final two seasons, and as a senior he recorded at least one tackle in every game he played. Opened 2021 with three tackles and a sack against Pomona-Pitzer. Sings and plays the ukulele. Husband of Maddie. Son of Allan and Joyce Saena.",
       "rival": {
-        name: "The Field",
-        link: null,
-        image: "/managers/everyone.png",
+        name: "Malcolm Stolarski",
+        link: 9,
+        image: "/managers/malstol.webp",
       },
     },
     {
@@ -74,9 +82,9 @@ export const managers = [
       "photo": "/managers/mikestreinz.webp",
       "bio": "<strong>#74 &middot; OL &middot; 6'3&quot; &middot; 265 lbs &middot; Wilson HS</strong><br /><em>CMS career: offensive line, so the stat sheet is blank on principle</em><br />Guard, and the league's second Portlander. Started all ten games in 2019 on a line that led the nation in time of possession and averaged 199.7 rushing yards a game &mdash; including back-to-back afternoons of 376 and 393 on the ground against Occidental and Whittier, and 220 yards with 40:44 of possession to take the Sixth Street Trophy off Pomona-Pitzer. Which is another way of saying a good many of Garrett Cheadle's yards came out from behind him. National Football Foundation Hampshire Honors Society, twice SCIAC All-Academic, and a high school valedictorian. Son of Ray and Mary Streinz.",
       "rival": {
-        name: "The Field",
-        link: null,
-        image: "/managers/everyone.png",
+        name: "Garrett Cheadle",
+        link: 0,
+        image: "/managers/gurret.jpg",
       },
     },
     {
@@ -86,9 +94,9 @@ export const managers = [
       "photo": "/managers/tuckersdumbteam.webp",
       "bio": "<strong>#70 &middot; OL &middot; 6'1&quot; &middot; 235 lbs &middot; Out-of-Door Academy</strong><br />Arrived at Claremont-Mudd-Scripps as a running back (lol) wearing 35, lost his first year to a midseason injury, and came back as an offensive lineman wearing 70 &mdash; His career stat page is gloriously blank. Second-Team All-Conference on the line as a high schooler in Sarasota. He prides himself in his work where he make himself visable to young boys at the Visable Men Acadamey. Completed in High School Chess Club until, in the state tournament, a bishop was found in his prison wallet. Data science major at Claremont McKenna, reads Orwell, admires Theodore Roosevelt.",
       "rival": {
-        name: "The Field",
-        link: null,
-        image: "/managers/everyone.png",
+        name: "Kevin Shoyer",
+        link: 6,
+        image: "/managers/kshoyer.webp",
       },
     },
     {
@@ -98,9 +106,9 @@ export const managers = [
       "photo": "/managers/paulslaats.webp",
       "bio": "<strong>#90 &middot; DL &middot; 6'3&quot; &middot; 265 lbs &middot; Great Valley HS</strong><br /><em>CMS career: 34 G &middot; 14 GS &middot; 154 tackles (64 solo) &middot; 22 TFL for 58 &middot; 6.5 sacks for 26 &middot; 1 FF &middot; 1 FR &middot; 1 blocked kick</em><br />Defensive lineman and 2016 team captain. Four years on the line, peaking with 46 tackles and 7.5 tackles for loss as a junior &mdash; the year he took SCIAC Athlete of the Year, Harvey Mudd Athlete of the Year and third-team All-West Region from D3Football.com. First-Team All-SCIAC the season before. Also managed a forced fumble, a fumble recovery and a blocked kick along the way. Son of Paul and Kathryn Slaats.",
       "rival": {
-        name: "The Field",
-        link: null,
-        image: "/managers/everyone.png",
+        name: "Jonah Cartwright",
+        link: 5,
+        image: "/managers/jonahcartwright.webp",
       },
     },
     {
@@ -110,9 +118,9 @@ export const managers = [
       "photo": "/managers/jonahcartwright.webp",
       "bio": "<strong>#26 &middot; RB &middot; 5'9&quot; &middot; 195 lbs &middot; Rio Americano HS</strong><br /><em>CMS career: 23 G &middot; 100 car &middot; 286 yds &middot; 2 TD &mdash; Harvey Mudd running backs rushed for a combined career 3,273 yards and 35 touchdowns</em><br />Running back and National Football Foundation Hampshire Honors Society selection. Waited three seasons for his carries and got them as a senior, going for 190 yards on the year &mdash; including a 27-carry, 101-yard afternoon against Occidental that produced both of his career touchdowns on the same day. Listed his favorite hobby as fantasy football, which by now reads as foreshadowing. Son of Scott and Alice Cartwright.",
       "rival": {
-        name: "The Field",
-        link: null,
-        image: "/managers/everyone.png",
+        name: "Paul Slaats",
+        link: 4,
+        image: "/managers/paulslaats.webp",
       },
     },
     {
@@ -122,9 +130,9 @@ export const managers = [
       "photo": "/managers/kshoyer.webp",
       "bio": "<strong>#14 &middot; DB &middot; 6'2&quot; &middot; 198 lbs &middot; Hingham HS</strong><br /><em>CMS career: 17 G &middot; 4 GS &middot; 35 tackles (22 solo) &middot; 7 TFL</em><br />Defensive back out of Hingham, Massachusetts. Appeared in all nine games as a freshman and put up 24 tackles, then went back out as a sophomore and piled up seven tackles for loss alongside a SCIAC All-Academic selection. Names his biggest sports moment as a 55-yard touchdown on the last play of a Thanksgiving Day game, which for a defensive back is showing off. Hingham lacrosse legand with 420 career goals, 69 assists, and 666 ground balls. Harvard MBA. Son of Lori and Tim Shoyer.",
       "rival": {
-        name: "The Field",
-        link: null,
-        image: "/managers/everyone.png",
+        name: "Tucker Harris",
+        link: 3,
+        image: "/managers/tuckersdumbteam.webp",
       },
     },
     {
@@ -134,9 +142,9 @@ export const managers = [
       "photo": "/managers/bbrown16.webp",
       "bio": "<strong>#16 &middot; QB &middot; 6'4&quot; &middot; 215 lbs &middot; Castro Valley HS</strong><br /><em>CMS career: 17 G &middot; 0 GS &middot; 32/59 (74.2%) &middot; 369 yds &middot; 4 TD &middot; 1 INT &middot; long 30</em><br />Quarterback and 2018 SCIAC All-Academic selection who appeared in 17 games across four years. Came off the bench against Northwestern threw two touchdown passes that accounted for every point CMS scored in a 14-3 win. Finished up in the NCAA Tournament against Whitworth. Absolute charmer with the CMS Cheer team. Son of Mary Janatpour and Mark Brown.",
       "rival": {
-        name: "The Field",
-        link: null,
-        image: "/managers/everyone.png",
+        name: "Kanoa Gilliland",
+        link: 8,
+        image: "/managers/kabroa.webp",
       },
     },
     {
@@ -146,9 +154,9 @@ export const managers = [
       "photo": "/managers/kabroa.webp",
       "bio": "<strong>#90 &middot; DL &middot; 6'0&quot; &middot; 200 lbs &middot; Kamehameha Kapalama</strong><br /><em>CMS career: 11 G &middot; 6 tackles &middot; 1 TFL for 7 &middot; 0.5 sacks &middot; 1 forced fumble</em><br />Aloha. Defensive lineman, and the only manager in the league who had to cross an ocean to get to practice &mdash; Kaneohe, Hawaii by way of Kamehameha Kapalama. Forced a fumble across his eleven games on the line. Names his biggest sports moment as a scoop-and-score. Glue in the locker room. Son of Beau and Judy Gilliland. Aloha.",
       "rival": {
-        name: "The Field",
-        link: null,
-        image: "/managers/everyone.png",
+        name: "Brenden Brown",
+        link: 7,
+        image: "/managers/bbrown16.webp",
       },
     },
     {
@@ -158,9 +166,9 @@ export const managers = [
       "photo": "/managers/malstol.webp",
       "bio": "<strong>#67 &middot; OL &middot; 5'11&quot; &middot; 260 lbs &middot; Oak Park &amp; River Forest HS</strong><br /><em>CMS career: four years on the line &middot; 1 tackle (2016, and he'd like it noted)</em><br />Reigning champion. Offensive tackle, which means the stat sheet credits him with exactly one tackle in four years and nothing else &mdash; the position's numbers live in everyone else's totals. Started every game as a true freshman on his way to Offensive Newcomer of the Year, started them all again in 2016 and 2017, and took Second-Team All-SCIAC along the way. Played all eleven games at tackle as a senior on a line that blocked for a certain Marvey Mudd running back and finished second in the country in time of possession. Son of Michael Stolarski and Kim Steinke-Stolarski.",
       "rival": {
-        name: "The Field",
-        link: null,
-        image: "/managers/everyone.png",
+        name: "Tyson-Jay Saena",
+        link: 1,
+        image: "/managers/tnt44.webp",
       },
     },
     /*
