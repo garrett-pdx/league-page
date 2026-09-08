@@ -42,7 +42,8 @@ export async function POST({request, params}) {
     fields.comment[lang] = comment;
     fields.author[lang] = author;
 
-    const newComment = await environment.createEntry('blog_comment', {fields})
+    // Not upstream's hardcoded 'blog_comment' -- see contentfulTypes in leagueInfo.js.
+    const newComment = await environment.createEntry(contentfulTypes.comment, {fields})
         .catch(e => {
             console.error(e);
             throw error(500, "Problem adding comment");

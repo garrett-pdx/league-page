@@ -19,6 +19,25 @@ stays server-side. Do not just flip this flag.
 */
 export const enableComments = false;
 
+/*
+Contentful content type IDs.
+
+Upstream hardcodes `blog_post` and `blog_comment` in the three blog API routes, because its
+setup guide tells you to type those IDs in by hand. Contentful does not default to them: it
+derives an ID from the display name in camelCase, so "Blog Post" becomes `blogPost`. This
+space took the defaults, and querying a content type that does not exist returns a 400 from
+Contentful, which the routes turn into "Problem retrieving blog posts" -- a 500 that looks
+like an auth failure and is not one.
+
+Kept here rather than as literals in the routes so the divergence from upstream is stated
+once, in the file forks are supposed to edit. If a future merge reintroduces the hardcoded
+strings, point them back at this.
+*/
+export const contentfulTypes = {
+  post: "blogPost",
+  comment: "blogComment",
+};
+
 /*   STEP 2   */
 export const homepageText = `
   <p>Ten teams. Half-PPR. Two keepers each, and a long memory.</p>

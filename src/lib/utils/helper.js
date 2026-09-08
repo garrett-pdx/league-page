@@ -1,5 +1,5 @@
 import {getLeagueData} from './helperFunctions/leagueData';
-import {leagueID, leagueName, dynasty, managers, homepageText, enableBlog, enableComments} from './leagueInfo';
+import {leagueID, leagueName, dynasty, managers, homepageText, enableBlog, enableComments, contentfulTypes} from './leagueInfo';
 import {getLeagueTransactions} from './helperFunctions/leagueTransactions';
 import {getNflState} from './helperFunctions/nflState';
 import {getLeagueRosters} from './helperFunctions/leagueRosters';
@@ -22,6 +22,7 @@ import { getLeagueHistory, getManagerCareer, ordinal } from './helperFunctions/l
 export {
     enableBlog,
     enableComments,
+    contentfulTypes,
     homepageText,
     gotoManager,
     managers,

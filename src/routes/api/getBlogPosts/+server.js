@@ -1,5 +1,6 @@
 import contentful from 'contentful';
 import { json, error } from '@sveltejs/kit';
+import { contentfulTypes } from '$lib/utils/helper';
 
 export async function GET() {
     if(!import.meta.env.VITE_CONTENTFUL_CLIENT_ACCESS_TOKEN) {
@@ -11,7 +12,8 @@ export async function GET() {
         // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
         accessToken: import.meta.env.VITE_CONTENTFUL_CLIENT_ACCESS_TOKEN
     });
-	const data = await client.getEntries({content_type: 'blog_post'})
+	// Not upstream's hardcoded 'blog_post' -- see contentfulTypes in leagueInfo.js.
+	const data = await client.getEntries({content_type: contentfulTypes.post})
         .catch(e=> {
             console.error(e);
             throw error(500, "Problem retrieving blog posts");

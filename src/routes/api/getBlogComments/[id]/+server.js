@@ -1,5 +1,6 @@
 import contentful from 'contentful';
 import { json, error } from '@sveltejs/kit';
+import { contentfulTypes } from '$lib/utils/helper';
 
 
 export async function GET({params}) {
@@ -13,7 +14,8 @@ export async function GET({params}) {
         accessToken: import.meta.env.VITE_CONTENTFUL_CLIENT_ACCESS_TOKEN
     });
     const blogID = params.id;
-	const data = await client.getEntries({content_type: 'blog_comment','fields.blogID': blogID})
+	// Not upstream's hardcoded 'blog_comment' -- see contentfulTypes in leagueInfo.js.
+	const data = await client.getEntries({content_type: contentfulTypes.comment,'fields.blogID': blogID})
         .catch(e => {
             console.error(e);
             throw error(500, "Problem retrieving blog comments");
