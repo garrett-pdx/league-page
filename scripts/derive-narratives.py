@@ -68,8 +68,32 @@ def r1(x):
     return round(x + 0.0, 1)
 
 
+def season_played(season):
+    """
+    Did this season actually happen? Structural presence is not enough.
+
+    Once Sleeper publishes a season's schedule -- which it does before week 1 is played --
+    every week comes back fully formed: ten rosters, eight starters each, real non-zero
+    matchup_ids, and every single score 0.0. The 2026 season looked exactly like this on the
+    day before kickoff, and `if WEEKS[s]` (merely non-empty) waved it straight through.
+
+    The damage was not hypothetical. Every 2026 player "scored" 0.0, so 2026 swept every
+    worst-of derivation, and twenty keepers tying at exactly (0.0, "2026") made
+    derive_keeper_value()'s sort fall through to comparing raw dicts, which is a TypeError
+    and took the whole script down.
+
+    Same family as the week-18 trap in has_matchup(): the shape is real, the content is not.
+    Require a point to have been scored somewhere.
+    """
+    return any(
+        (row.get("points") or 0) > 0
+        for rows in WEEKS.get(season, {}).values()
+        for row in rows.values()
+    )
+
+
 def played_seasons():
-    return sorted(s for s in WEEKS if WEEKS[s])
+    return sorted(s for s in WEEKS if season_played(s))
 
 
 def has_matchup(row):
@@ -564,12 +588,15 @@ def derive_draft_value():
 def derive_keeper_value():
     rows = []
     for season, entries in KEEPERS.items():
-        if season not in WEEKS or not WEEKS[season]:
+        if not season_played(season):
             continue
         pts = season_points_by_player(season)
         for k in entries:
             rows.append((pts.get(str(k["player_id"]), 0.0), season, k))
-    for v, season, k in sorted(rows, reverse=True)[:6]:
+    # Sort on the scalars only. A bare sorted() compares the third element when points and
+    # season both tie, and that element is a dict -- unorderable, and a crash rather than a
+    # wrong answer. Ties are normal here (any two keepers who scored the same).
+    for v, season, k in sorted(rows, key=lambda r: (-r[0], r[1]))[:6]:
         fact(
             "best_keeper",
             f"{handle(k['user_id'])} kept {pname(k['player_id'])} at a round {k['cost_round']} cost "
@@ -577,7 +604,7 @@ def derive_keeper_value():
             season=season, managers=[k["user_id"]], players=[k["player_id"]],
             cost_round=k["cost_round"], points=v,
         )
-    for v, season, k in sorted(rows)[:5]:
+    for v, season, k in sorted(rows, key=lambda r: (r[0], r[1]))[:5]:
         fact(
             "worst_keeper",
             f"{handle(k['user_id'])} kept {pname(k['player_id'])} at a round {k['cost_round']} cost "
@@ -595,7 +622,7 @@ def points_after(season, week, user, pid):
     Lawrence in week 16 of 2022, and quoting the full-season figure credits him with points
     scored for somebody else in weeks 1 to 15.
     """
-    if season not in WEEKS or not WEEKS[season] or week is None:
+    if not season_played(season) or week is None:
         return 0.0
     total = 0.0
     for w, rows in week_rows(season):

@@ -33,11 +33,19 @@ Still outstanding, in rough priority order:
   keeper and transaction files) and writes `static/data/narratives.json` and `docs/league-lore.md`
   — 278 facts across 25 categories, each with structured fields *and* a plain-English `text`.
   It is an authoring aid for recaps, bios and homepage copy; nothing in `src/` fetches it and
-  nothing should without a size budget. Two traps it encodes, both of which produced wrong facts
+  nothing should without a size budget. Three traps it encodes, all of which produced wrong facts
   first time round: **every season carries a week 18 with `matchup_id: 0`** and no lineups set
-  (median score ~55 against ~100), which must be excluded or it invents a playoff round; and
+  (median score ~55 against ~100), which must be excluded or it invents a playoff round;
   **keepers occupy draft slots**, so draft "steals" and "busts" have to filter `is_keeper` or
-  they retell keeper decisions as draft ones.
+  they retell keeper decisions as draft ones; and **a scheduled-but-unplayed season looks
+  completely real** — once Sleeper publishes the schedule, every week returns ten rosters, eight
+  starters each and genuine non-zero `matchup_id`s, with every score `0.0`. Testing
+  `if WEEKS[season]` passes it straight through, so on 2026-09-08 (a day before kickoff) the
+  unplayed 2026 season swept every worst-of derivation and crashed the script outright when
+  twenty keepers tied at `(0.0, "2026")` and the sort fell through to comparing dicts.
+  `season_played()` now requires a point to have been scored somewhere. Note the puller is
+  already correct here — `final_standings` holds completed seasons only, which is why the live
+  site never saw a phantom 2026 table.
 - **Sortable record tables were considered and rejected for the six *record* tables.** Each is
   a top-N list defined by its own metric, and the rank column is positional (`{ix + 1}`), so
   re-sorting renumbers rank into nonsense. The four *ranking* tables (Win %, Points, Lineup IQ,

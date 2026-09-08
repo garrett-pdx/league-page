@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-15T11:38:07",
+ "generated": "2026-09-08T14:11:19",
  "note": "Derived from weeks.json by scripts/derive-narratives.py. Authoring aid, not fetched at runtime. Regenerate after a season with: python3 scripts/derive-narratives.py",
  "seasons": [
   "2022",
@@ -4224,6 +4224,19 @@
    "season": null,
    "week": null,
    "managers": [
+    "999190763323944960"
+   ],
+   "players": [],
+   "values": {
+    "count": 6
+   },
+   "text": "BBrown16 has been part of 6 completed trades."
+  },
+  {
+   "category": "trade_activity",
+   "season": null,
+   "week": null,
+   "managers": [
     "611630747161358336"
    ],
    "players": [],
@@ -4237,39 +4250,26 @@
    "season": null,
    "week": null,
    "managers": [
-    "999190763323944960"
-   ],
-   "players": [],
-   "values": {
-    "count": 5
-   },
-   "text": "BBrown16 has been part of 5 completed trades."
-  },
-  {
-   "category": "trade_activity",
-   "season": null,
-   "week": null,
-   "managers": [
     "611697269254791168"
    ],
    "players": [],
    "values": {
-    "count": 3
+    "count": 4
    },
-   "text": "TnT44 has been part of 3 completed trades."
+   "text": "TnT44 has been part of 4 completed trades."
   },
   {
    "category": "trade_activity",
    "season": null,
    "week": null,
    "managers": [
-    "612407006212468736"
+    "605683461667229696"
    ],
    "players": [],
    "values": {
     "count": 3
    },
-   "text": "jonahcartwright has been part of 3 completed trades."
+   "text": "mikestreinz has been part of 3 completed trades."
   }
  ]
 }

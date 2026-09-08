@@ -354,7 +354,7 @@ it exists so writing a recap or a bio starts from facts rather than a fresh quer
 ## Trade activity
 
 - Gurret has been part of 8 completed trades.
+- BBrown16 has been part of 6 completed trades.
 - kshoyer has been part of 5 completed trades.
-- BBrown16 has been part of 5 completed trades.
-- TnT44 has been part of 3 completed trades.
-- jonahcartwright has been part of 3 completed trades.
+- TnT44 has been part of 4 completed trades.
+- mikestreinz has been part of 3 completed trades.
