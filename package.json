@@ -55,7 +55,8 @@
     "lint": "prettier --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
     "format": "prettier --write --plugin-search-dir=. .",
     "render-icons": "node scripts/render-icons.js",
-    "derive-narratives": "python3 scripts/derive-narratives.py"
+    "derive-narratives": "python3 scripts/derive-narratives.py",
+    "derive-draft-report": "python3 scripts/derive-draft-report.py"
   },
   "type": "module",
   "dependencies": {
