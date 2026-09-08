@@ -19,9 +19,19 @@ any league-customization request:
 - `dynasty` — **`false`** for this league. It's a keeper league, and the template defaults
   to `true`. See "There is no keeper league type" below for what this flag does and,
   more importantly, what it doesn't.
-- `enableBlog` — currently `false`; turning it on requires the Contentful env vars
-  (`VITE_CONTENTFUL_ACCESS_TOKEN`, `VITE_CONTENTFUL_SPACE`,
-  `VITE_CONTENTFUL_CLIENT_ACCESS_TOKEN`).
+- `enableBlog` — **`true`**. Needs `VITE_CONTENTFUL_SPACE` and
+  `VITE_CONTENTFUL_CLIENT_ACCESS_TOKEN` (the read-only *delivery* token), both set in
+  Vercel.
+- `enableComments` — **`false`**, and ours, not upstream's. This league does not want
+  comments, so `FullPost.svelte` skips both the `/api/getBlogComments` fetch and the
+  `<Comments>` render.
+  **This is also a security posture, not just a preference.** The third Contentful
+  variable, `VITE_CONTENTFUL_ACCESS_TOKEN`, is a *management* token with full write access
+  to the space, and it is used only for writing comments. Vite treats the `VITE_` prefix as
+  "expose to the browser", so shipping a management token under that name risks handing
+  write access to anyone who reads the bundle. It is deliberately **not set**. Re-enabling
+  comments means setting it AND moving it off `import.meta.env` onto `$env/static/private`
+  in `src/routes/api/addBlogComments/[id]/+server.js` first.
 - `homepageText` — a raw HTML string, injected into the home page with `{@html}`. This is
   the intended way to customize the home page's copy. Hand-written trusted content only.
 - `managers` — one object per manager, keyed by **`managerID`** (the Sleeper `user_id`).

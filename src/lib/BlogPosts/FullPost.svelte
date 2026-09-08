@@ -1,6 +1,6 @@
 <script>
 	import LinearProgress from '@smui/linear-progress';
-    import { generateParagraph, waitForAll } from "$lib/utils/helper";
+    import { generateParagraph, waitForAll, enableComments } from "$lib/utils/helper";
     import { onMount } from "svelte";
     import Comments from "./Comments.svelte";
 	import AuthorAndDate from './AuthorAndDate.svelte';
@@ -39,6 +39,12 @@
             }
         }
         loading = false;
+
+        // Comments are off for this league (see enableComments in leagueInfo.js). Skip the
+        // fetch entirely rather than requesting comments we will not render.
+        if(!enableComments) {
+            return;
+        }
 
         const res = await fetch(`/api/getBlogComments/${id}`, {compress: true});
         const commentsData = await res.json();
@@ -217,7 +223,7 @@
         <AuthorAndDate {type} leagueTeamManagers={leagueTeamManagersDataLoaded} {author} {createdAt} />
 
         <!-- display comments -->
-        {#if !loadingComments}
+        {#if enableComments && !loadingComments}
             <hr class="divider commentDivider" />
             <Comments leagueTeamManagers={leagueTeamManagersDataLoaded} {comments} {total} postID={id} />
         {/if}

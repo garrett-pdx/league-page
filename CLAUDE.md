@@ -21,9 +21,13 @@ bios; the constitution is this league's rules; the shell is rebranded.
 
 Still outstanding, in rough priority order:
 
-- **The blog is off.** `enableBlog = false` and it needs a Contentful space that doesn't
-  exist yet — see `docs/blog.md`. The three weekly posts and the skill to draft them are
-  planned (`docs/post-generator-skill.md`), not built.
+- **The blog is on, comments are not.** `enableBlog = true`, against a real Contentful
+  space, using only the read-only delivery token. `enableComments = false` is ours: the
+  league doesn't want comments, and the management token that writing them would require is
+  the one genuinely dangerous variable under Vite's browser-exposing `VITE_` prefix, so it
+  is deliberately unset. See `src/lib/utils/CLAUDE.md` before re-enabling.
+  The three weekly in-season posts and the skill to draft them are still planned
+  (`docs/post-generator-skill.md`), not built.
 - **`static/data/` is read in exactly one place.** `helperFunctions/leagueHistory.js` fetches
   `league-history.json` (memoized, SSR-safe) for the manager career band and the Hall of Fame.
   It is the only source for a full 1–10 finish — Sleeper exposes podium and toilet bowl only —

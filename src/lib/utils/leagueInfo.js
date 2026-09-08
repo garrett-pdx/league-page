@@ -2,7 +2,22 @@
 export const leagueID = "1312235880743706624"; // your league ID
 export const leagueName = "The Mudd League"; // your league name (Sleeper calls it "Mudd Keeper League")
 export const dynasty = false; // true for dynasty leagues, false for redraft and keeper
-export const enableBlog = false; // requires VITE_CONTENTFUL_ACCESS_TOKEN and VITE_CONTENTFUL_SPACE environment variables
+export const enableBlog = true; // requires VITE_CONTENTFUL_SPACE and VITE_CONTENTFUL_CLIENT_ACCESS_TOKEN
+
+/*
+This league does not want comments, so the comment UI is off and no comment is ever written.
+
+That decision is also why VITE_CONTENTFUL_ACCESS_TOKEN is deliberately NOT set. It is a
+Contentful *management* token -- full write access to the space -- and it is the only one of
+the three variables that is genuinely sensitive. Because Vite treats the VITE_ prefix as
+"expose to the browser", shipping a management token under that name is a real risk for no
+benefit when nobody is commenting. Reading posts needs only the read-only delivery token.
+
+Turning comments back on means setting that variable AND moving it off import.meta.env onto
+SvelteKit's $env/static/private in src/routes/api/addBlogComments/[id]/+server.js, so it
+stays server-side. Do not just flip this flag.
+*/
+export const enableComments = false;
 
 /*   STEP 2   */
 export const homepageText = `
