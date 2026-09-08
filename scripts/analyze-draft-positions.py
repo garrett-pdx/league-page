@@ -21,12 +21,17 @@ Reads only committed files. No network, no Sleeper calls.
 
 import json
 import os
+import sys
 from collections import defaultdict
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "static", "data")
 
-OUT_DIR = "/private/tmp/claude-501/-Users-garrettcheadle-league-page/58d69364-170d-4b37-ba46-f44776042269/scratchpad"
+# Prints to stdout by default. Pass a directory to also drop the JSON somewhere:
+#   python3 scripts/analyze-draft-positions.py /tmp
+# This used to hardcode a scratch directory from the session that wrote it, which meant a
+# committed script wrote into a path that no longer existed on any machine.
+OUT_DIR = sys.argv[1] if len(sys.argv) > 1 else None
 
 
 def load(name):
@@ -105,13 +110,14 @@ def main():
         "manager_season_qbte": manager_season_qbte,
     }
 
-    os.makedirs(OUT_DIR, exist_ok=True)
-    out_path = os.path.join(OUT_DIR, "draft-position-analysis.json")
-    with open(out_path, "w") as f:
-        json.dump(result, f, indent=2)
-
     print(json.dumps(result, indent=2))
-    print(f"\nWrote {out_path}", flush=True)
+
+    if OUT_DIR:
+        os.makedirs(OUT_DIR, exist_ok=True)
+        out_path = os.path.join(OUT_DIR, "draft-position-analysis.json")
+        with open(out_path, "w") as f:
+            json.dump(result, f, indent=2)
+        print(f"\nWrote {out_path}", flush=True)
 
 
 if __name__ == "__main__":
