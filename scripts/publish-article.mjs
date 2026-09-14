@@ -262,18 +262,38 @@ async function main() {
   const client = contentful.createClient({ accessToken: token });
   const environment = await (await client.getSpace(space)).getEnvironment("master");
 
-  const entry = await environment.createEntry("blogPost", {
-    fields: {
-      title: { "en-US": title },
-      body: { "en-US": document },
-      type: { "en-US": type },
-      author: { "en-US": author },
-      featured: { "en-US": featured },
-    },
-  });
-  await entry.publish();
+  const fields = {
+    title: { "en-US": title },
+    body: { "en-US": document },
+    type: { "en-US": type },
+    author: { "en-US": author },
+    featured: { "en-US": featured },
+  };
 
-  console.log(`\npublished blogPost ${entry.sys.id}`);
+  /*
+  Match on title and update in place rather than always creating.
+
+  Re-running after an edit is the normal case -- a typo, a rephrasing, a number that moved --
+  and a create-only script turns each of those into a second copy of the same article on the
+  live blog, which someone then has to find and unpublish by hand. Pass --new to force a
+  separate entry when the title genuinely is being reused.
+  */
+  const existing = process.argv.includes("--new")
+    ? { items: [] }
+    : await environment.getEntries({ content_type: "blogPost", "fields.title": title });
+
+  let entry;
+  if (existing.items.length) {
+    entry = existing.items[0];
+    entry.fields = fields;
+    entry = await entry.update();
+    await entry.publish();
+    console.log(`\nupdated blogPost ${entry.sys.id}`);
+  } else {
+    entry = await environment.createEntry("blogPost", { fields });
+    await entry.publish();
+    console.log(`\npublished blogPost ${entry.sys.id}`);
+  }
 }
 
 main().catch((e) => {

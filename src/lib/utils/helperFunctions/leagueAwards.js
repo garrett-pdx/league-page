@@ -136,7 +136,21 @@ const buildDivisionsAndManagers = ({previousRosters, leagueMetadata, numDivision
 	for(const rosterID in previousRosters) {
 		const rSettings = previousRosters[rosterID].settings;
         const div = !rSettings.division || rSettings.division > numDivisions ? 1 : rSettings.division;
-		if(rSettings.wins > divisions[div].wins || (rSettings.wins == divisions[div].wins && (rSettings.fpts  + rSettings.fpts_decimal / 100)  == divisions[div].points)) {
+		/*
+		Upstream compares points with `==` on a wins tie, not `>`. That means a tied team only
+		displaces the incumbent when its points are EXACTLY equal -- which essentially never
+		happens -- so the award silently went to whichever roster the loop reached first, i.e.
+		the lowest roster ID.
+
+		It changed a real result here. In 2022 Gurret (roster 1, 11-4, 1747.50) and
+		jonahcartwright (roster 6, 11-4, 1762.54) tied on wins. Roster 1 set the baseline, and
+		roster 6 could not displace it because 1762.54 != 1747.50, so the site credited the top
+		seed to Gurret for four years. jonahcartwright outscored him by 15.04 and earned it.
+
+		`>` is also the tiebreak the rest of the project already documents -- record, then
+		points for -- which is how final_standings in static/data/ is derived.
+		*/
+		if(rSettings.wins > divisions[div].wins || (rSettings.wins == divisions[div].wins && (rSettings.fpts  + rSettings.fpts_decimal / 100)  > divisions[div].points)) {
 			divisions[div].points = rSettings.fpts  + rSettings.fpts_decimal / 100;
 			divisions[div].wins = rSettings.wins;
 			divisions[div].rosterID = rosterID;

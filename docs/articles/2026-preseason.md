@@ -103,11 +103,11 @@ in league history, and he has already won this thing once. There is no argument 
 
 The second is Garrett Cheadle, and it is the biggest disagreement on the board — five places
 of it. The market puts him eighth. Four seasons of results put him third: 40-28, a .588 win
-percentage tied with Tucker Harris for the second-best in league history, and the best
-regular season anybody ran last year at 12-3. He also kept Trey McBride in the twelfth
-round, 92 picks of surplus and the third-best keeper decision anyone made. He went 12-3 and
-finished third. The market has looked at all of that and given him the eighth-best starting
-eight.
+percentage tied with Tucker Harris for the second-best in league history. He also kept Trey
+McBride in the twelfth round, 92 picks of surplus and the third-best keeper decision anyone
+made. Last year he went 12-3 and had the number one seed going into the playoffs, then
+finished third — which is the only part of that sentence the league actually counts. The
+market has looked at all of it and given him the eighth-best starting eight.
 
 And the reigning champion is sixth. Malcolm Stolarski's starting eight is worth 33,036,
 which is 6,294 short of Shoyer's, and his career record of 31-35 is the fourth-worst in the

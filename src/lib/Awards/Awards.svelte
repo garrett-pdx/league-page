@@ -400,7 +400,8 @@
 					{#if division.name}
 						<h6>{division.name} Division</h6>
 					{:else}
-						<h6>Regular Season Champion</h6>
+						<!-- A record earns a seed, not a trophy -- see ManagerAwards.svelte. -->
+						<h6>No. 1 Seed</h6>
 					{/if}
 					<div class="leaderBlock">
 						<img src="{getAvatarFromTeamManagers(leagueTeamManagers, division.rosterID, year)}" class="divisionLeader clickable" onclick={() => gotoManager({year, leagueTeamManagers, rosterID: division.rosterID})} alt="{division.name} champion" />

@@ -48,7 +48,15 @@
                             if(former) {
                                 formerGlobal = true;
                             }
-                            let awardTitle = 'Regular Season Champion';
+                            /*
+                            Not "Regular Season Champion", which is upstream's wording. This
+                            league's position is that there is one championship and you win it
+                            in the playoffs; a regular season record earns you a seed, not a
+                            trophy. With no divisions configured this branch IS the top seed,
+                            so name it that. The division branch below is untouched -- in a
+                            league with real divisions, winning one is its own thing.
+                            */
+                            let awardTitle = 'No. 1 Seed';
                             if(division.name) {
                                 awardTitle = `${division.name} Division Champion`;
                             }
