@@ -146,6 +146,7 @@
         min-width: min(80%, 100%);
 	    border: 1px solid var(--ddd);
         border-collapse: collapse;
+        font-variant-numeric: tabular-nums;
     }
 
     :global(.body tr:nth-child(odd)) {
@@ -153,14 +154,50 @@
     }
 
     :global(.body td) {
-        padding: 0.5em 0;
-	    text-align:center;
+        /*
+        Upstream sets `padding: 0.5em 0` here and on th -- vertical only, nothing horizontal.
+        With no gutter the header cells butt straight into each other and a five-column table
+        reads as "ScoredOptimalBenchedEfficiency". Columns need a gutter to be columns.
+        */
+        padding: 0.5em 0.9em;
+        text-align: center;
     }
 
     :global(.body th) {
-        padding: 0.8em 0;
+        padding: 0.8em 0.9em;
         background-color: var(--blueOne);
         color: #fff;
+    }
+
+    /* The first column is a label, not a measurement; centring names looks accidental. */
+    :global(.body td:first-child),
+    :global(.body th:first-child) {
+        text-align: left;
+    }
+
+    /*
+    Numbers never wrap -- a split figure is unreadable and it is the wrapping that would make
+    a row tall. The label column is left free to wrap, which is what keeps the table narrow
+    enough to mostly fit a phone instead of forcing a long horizontal scroll.
+    */
+    :global(.body td:not(:first-child)),
+    :global(.body th:not(:first-child)) {
+        white-space: nowrap;
+    }
+
+    @media (max-width: 600px) {
+        :global(.body table) {
+            font-size: 0.85em;
+            margin: 1em 0;
+        }
+
+        :global(.body td) {
+            padding: 0.45em 0.55em;
+        }
+
+        :global(.body th) {
+            padding: 0.6em 0.55em;
+        }
     }
 
     .divider {
