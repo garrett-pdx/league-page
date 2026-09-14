@@ -47,7 +47,7 @@ Brenden ran Colston Loveland at TE for 0.0 and lost by 3.76. Any pulse at all fr
 
 ## LINEUP EFFICIENCY
 
-| Team | Scored | Optimal | Benched | Efficiency |
+| Team | Scored | Optimal | Bench | Eff% |
 | --- | --- | --- | --- | --- |
 | tuckersdumbteam | 141.16 | 141.76 | 0.60 | 99.6% |
 | TnT44 | 121.86 | 125.36 | 3.50 | 97.2% |
@@ -62,7 +62,7 @@ Brenden ran Colston Loveland at TE for 0.0 and lost by 3.76. Any pulse at all fr
 
 ## SCHEDULE LUCK — record if you'd played all 9
 
-| Team | Record | Actual result |
+| Team | Record | Result |
 | --- | --- | --- |
 | tuckersdumbteam | 9-0 | won |
 | TnT44 | 8-1 | leading |

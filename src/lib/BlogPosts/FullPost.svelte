@@ -210,11 +210,11 @@
         }
 
         :global(.body td) {
-            padding: 0.45em 0.55em;
+            padding: 0.45em 0.4em;
         }
 
         :global(.body th) {
-            padding: 0.6em 0.55em;
+            padding: 0.6em 0.4em;
         }
     }
 
