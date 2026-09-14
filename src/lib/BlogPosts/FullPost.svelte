@@ -149,8 +149,19 @@
     }
 
     :global(.body table) {
-        margin: 1em 2em;
-        min-width: 80%;
+        /*
+        A post's table is raw HTML out of Contentful's rich text, so there is no wrapper div
+        to hang a scroll container on -- the table has to be its own. Without this, the Week 1
+        efficiency table renders 395px wide inside a 375px phone and the rightmost column is
+        clipped off with no way to reach it, because the page itself does not scroll.
+        `width: fit-content` keeps narrow tables narrow instead of stretching them.
+        */
+        display: block;
+        width: fit-content;
+        max-width: 100%;
+        overflow-x: auto;
+        margin: 1em auto;
+        min-width: min(80%, 100%);
 	    border: 1px solid var(--ddd);
         border-collapse: collapse;
     }
