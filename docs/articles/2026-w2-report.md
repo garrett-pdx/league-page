@@ -2,7 +2,7 @@
 
 *Wednesday Sept 16 · Week 1 in the books · Lions at Bills Thursday, 8:15*
 
-Every league has a week that tells you what kind of year it's going to be. This was one. Two matchups went to the final possession of Monday night, a man watched a quarterback he owns put up twenty-five points from his own bench while losing by less than four, and the highest scorer in the league now walks into Week 2 against the only team that has ever handled him.
+Every league has a week that tells you what kind of year it's going to be. This was one. Two matchups went to the final possession of Monday night, a man watched a quarterback he owns put up twenty-five points from his own bench while losing by less than four, and the man who scored 121.86 and lost anyway now has to play the one team that has always handled him.
 
 Nobody is 2-0 yet. Five people are already telling themselves a story about why they should be.
 
@@ -10,13 +10,13 @@ Nobody is 2-0 yet. Five people are already telling themselves a story about why 
 
 ## MONDAY NIGHT SETTLED IT
 
-**Gurret didn't need the drama.** He went into Denver–Kansas City needing 21.13 from Kenneth Walker and J.K. Dobbins combined. Walker got him 32.60 on his own. Dobbins added 3.60 for garnish. Final: **136.94 to 121.86**, and TnT44 starts the season 0-1 having scored the second-most points in the league.
+**Gurret didn't need the drama.** He went into Denver–Kansas City needing 21.13 from Kenneth Walker and J.K. Dobbins combined. Walker got him 32.60 on his own. Dobbins added 3.60 for garnish. Final: **136.94 to 121.86**, and TnT44 starts the season 0-1 having scored the third-most points in the league.
 
-Take a moment with that. TnT44 scored 121.86. He beats eight of the other nine teams with that number. He drew the one who woke up. And for all that, 121.86 is only the **fourteenth-best losing score in league history** — the record belongs to Brenden, who put up 148.74 in Week 8 of 2024 and lost to a 150.34. This league has always been cruel at the top of the scoreboard.
+Take a moment with that. TnT44 scored 121.86. He beats seven of the other nine teams with that number. He drew the one who woke up. And for all that, 121.86 is only the **fourteenth-best losing score in league history** — the record belongs to Brenden, who put up 148.74 in Week 8 of 2024 and lost to a 150.34. This league has always been cruel at the top of the scoreboard.
 
 **Jonah lost by a catch and a half.** He needed 12.31 from Rashee Rice. Rice gave him **8.90**. Final: Streinz 115.10, StepBurrow 111.70 — a margin of **3.40**, which in this league is roughly one flat route on third down. Rice was off the injury report entirely. He simply had a quiet night, and a quiet night was enough.
 
-**kshoyer's night was mercy.** Needing 28.25 from Jaylen Waddle, he received **0.70**. The gap between what kshoyer's roster could have scored (127.32) and what it did score (82.96) remains the defining number of Week 1, and Waddle's seven-tenths of a point was the period at the end of the sentence.
+**kshoyer's night was mercy.** Needing 28.25 from Jaylen Waddle, he received **0.70**. The gap between what kshoyer's roster could have scored (127.32) and what it did score (83.66) remains the defining number of Week 1, and Waddle's seven-tenths of a point was the period at the end of the sentence.
 
 ### The cruelest thing that happened to anybody
 
@@ -66,13 +66,13 @@ The league has spent **$19 of its collective $1,000**. It is going to get more e
 | 9 | Dang… Just Overthrew Him | 0-1 | 88.26 |
 | 10 | kshoyer | 0-1 | 83.66 |
 
-Four of the five losing teams outscored Street Clothes, who is 1-0. paulslaats has said nothing about this publicly and should continue not to.
+Three of the five losing teams outscored Street Clothes, who is 1-0. paulslaats has said nothing about this publicly and should continue not to.
 
 ## WEEK 2
 
 ### TnT44 vs tuckersdumbteam — the one everybody's watching
 
-The two highest scores of Week 1, drawn against each other immediately, and one of them is 0-1 about it.
+The highest score of Week 1 against the third-highest, drawn together immediately, and it is the one who scored 121.86 who is 0-1 about it.
 
 History does not care about TnT44's feelings. **Tucker is 5-1 in this matchup and has outscored him 612.90 to 496.08** across six meetings — an average margin of nearly twenty points a game. The last one, Week 13 of 2025, was 119.16 to 64.96. It was not a contest, it was a disclosure.
 
@@ -100,7 +100,7 @@ If Brenden sets the right lineup this is a coin flip. That is, as ever, the qual
 
 Somebody has to be 1-1 and somebody has to be 0-2.
 
-**kshoyer owns this matchup 6-1** and has outscored Jonah 841.92 to 729.54. He is also the 2023 champion and holds the best career record in the league at 43-25. None of which changed the fact that he posted the worst score of Week 1 while holding the second-best roster in the league.
+**kshoyer owns this matchup 6-1** and has outscored Jonah 841.92 to 729.54. He is also the 2023 champion and holds the best career record in the league at 43-25. None of which changed the fact that he posted the worst score of Week 1 while sitting on a roster that could have scored 127.32.
 
 Jonah lost by 3.40 on a quiet Rashee Rice. Two men with every reason to feel robbed, and only one of them is getting out of this clean.
 
@@ -108,7 +108,7 @@ Jonah lost by 3.40 on a quiet Rashee Rice. Two men with every reason to feel rob
 
 The luckiest 1-0 in the league against the unluckiest 0-1.
 
-paulslaats won with 92.02, the lowest winning score of the week. malstol lost with 112.86, the fourth-highest score in the league, having drawn the only team that broke 140 and received the single biggest individual performance of the week from Caleb Williams (41.26) for his trouble.
+paulslaats won with 92.02, the lowest winning score of the week. malstol lost with 112.86, the sixth-highest score in the league, having drawn the only team that broke 140 and received the single biggest individual performance of the week from Caleb Williams (41.26) for his trouble.
 
 **malstol leads the series 4-3**, and won the most recent meeting 124.28 to 78.32 in Week 12 of last year. The defending champion is 0-1 and has not yet been beaten by anybody playing well. That tends not to last.
 
@@ -135,10 +135,10 @@ Three storylines inside one football game:
 
 **The rivalry game is already lopsided.** Streinz has St. Brown. Gurret has nobody. The Portland derby begins with one man watching and the other man scoring.
 
-**kshoyer has two Bills starting and needs every point.** After 65.2% efficiency and the worst score in the league, the man with the best career record in Mudd League history has to start his rehabilitation on a short week, in a new stadium, with a running back and a tight end he cannot afford to have a quiet night.
+**kshoyer has two Bills starting and needs every point.** After 65.7% efficiency and the worst score in the league, the man with the best career record in Mudd League history has to start his rehabilitation on a short week, in a new stadium, with a running back and a tight end he cannot afford to have a quiet night.
 
 ---
 
-Four teams left points on the bench that would have changed their result. One man lost to his own bench by ten. Nobody is 2-0 and nobody is 0-2.
+Three teams left points on the bench that would have changed their result. One man lost to his own bench by ten. Nobody is 2-0 and nobody is 0-2.
 
 Kickoff Thursday. Bring a lineup.
