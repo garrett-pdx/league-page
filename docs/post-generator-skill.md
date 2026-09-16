@@ -28,6 +28,35 @@ into most naturally.
 A concrete guard: the skill emits a `facts` block (JSON) first, then writes prose that may
 only reference values present in that block. Easy to eyeball, easy to test.
 
+### The second half of the rule: query against FINAL data, at publish time
+
+A number that was true when it was written is not the same thing as a number that is true.
+**Re-derive every stat immediately before publishing, and never carry a figure over from an
+earlier post.**
+
+This is not hypothetical. The Week 2 2026 report called TnT44 the second-highest scorer of
+Week 1; he was third. The Week 1 post had been written before Monday Night Football and its
+figures were reused afterwards — Gurret's 136.94 had passed TnT44 by then, which was the exact
+event the sentence was describing. Recomputing from the completed data found **ten** wrong
+claims in that one post, not one.
+
+What that episode says to do:
+
+- **Rankings are the dangerous class.** "Second-highest", "fourth-best", "three of the five"
+  are all correct when written and silently wrong after one late game reorders them. Anything
+  positional gets recomputed, always.
+- **Check direction, not just magnitude.** That post's intro had a head-to-head backwards —
+  it sent the league's highest scorer into a game against "the only team that has ever handled
+  him" when in fact he was 5-1 *over* them. It reads perfectly and is entirely false.
+- **Superlatives need a query or they get cut.** "Best losing score in league history" was
+  fourteenth. Two superlatives were cut from the same post for having no query behind them.
+- **A snapshot post must say so and must not be reused.** The Week 1 post is stamped
+  "15 of 16 games final" and is correct for the moment it describes. Its numbers are not a
+  source for anything written later.
+
+Final data means the completed week: `/matchups/{week}` after Monday night, current
+`/rosters` for FAAB and roster membership, and `weeks.json` for anything historical.
+
 ## Data sources
 
 In season, live Sleeper is authoritative for the current week; `static/data/` is
