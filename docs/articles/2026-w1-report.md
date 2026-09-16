@@ -52,7 +52,7 @@ Brenden ran Colston Loveland at TE for 0.0 and lost by 3.76. Any pulse at all fr
 | tuckersdumbteam | 141.16 | 141.76 | 0.60 | 99.6% |
 | TnT44 | 121.86 | 125.36 | 3.50 | 97.2% |
 | Street Clothes | 92.02 | 96.02 | 4.00 | 95.8% |
-| Dang… Just Overthrew | 88.26 | 93.96 | 5.70 | 93.9% |
+| Dang… Just Overthrew | 88.26 | 92.66 | 4.40 | 95.3% |
 | Tupac on da bench | 115.10 | 124.70 | 9.60 | 92.3% |
 | StepBurrow I'm Stuck | 102.80 | 116.10 | 13.30 | 88.5% |
 | Ben's Beautiful J. | 112.86 | 132.26 | 19.40 | 85.3% |
@@ -118,3 +118,7 @@ Also: Mahomes plays his first meaningful snaps since tearing his ACL and LCL in 
 ---
 
 Ten teams, one game left, and somebody has already left a championship-caliber lineup on the bench. See you Sunday.
+
+---
+
+*Correction: this post originally credited Brenden with 93.96 optimal, 5.70 benched and 93.9% efficiency. Alec Pierce scored 8.10 from his IR slot and was counted as a bench player Brenden could have started. He could not have. The corrected figures are 92.66, 4.40 and 95.3% — he still ranks fourth in the league for the week, but he left less on the bench than this post said he did. Nobody else's numbers are affected.*

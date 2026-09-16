@@ -184,10 +184,24 @@ def week_facts(season, week, fixture=None):
         name = handle(uid)
         pp = e.get("players_points") or {}
         starter_ids = [str(x) for x in (e.get("starters") or []) if str(x) != "0"]
-        on_ir = reserve_by_roster.get(e["roster_id"], set())
+        # A player who actually started was, by definition, eligible that week -- so he stays
+        # in the optimal pool even if he is on IR today. `rosters` is a snapshot of NOW, not a
+        # record of who could be started in a past week, and subtracting today's IR list from
+        # a past week drops points that genuinely counted. TnT44 started Jordan Mason for 11.9
+        # in Week 1 of 2026 and has him on IR since; excluding him retroactively produced an
+        # optimal lineup BELOW what was actually scored, and a 103.3% efficiency.
+        on_ir = reserve_by_roster.get(e["roster_id"], set()) - set(starter_ids)
         chosen, bench = best_lineup(pp, slots, extra, ineligible=on_ir)
         optimal = sum(p for _, p, _, _ in chosen)
         scored = e.get("points") or 0.0
+        # The optimal lineup is the best lineup available, so it can never be worse than the
+        # one actually played. If this trips, the eligibility filter has excluded somebody who
+        # was genuinely startable and every benched/efficiency figure downstream is wrong.
+        if optimal < scored - 0.001:
+            raise SystemExit(
+                f"optimal ({optimal:.2f}) below scored ({scored:.2f}) for {name} in week {week} "
+                f"-- an eligible player is being filtered out of the optimal lineup"
+            )
         yet_to_play = [
             player_name(pid, extra) for pid in starter_ids
             if (pp.get(pid) or 0) == 0
