@@ -32,6 +32,10 @@ technique: find the true thing, put it where it lands hardest, then stop.
 If a sentence needs an adjective to be interesting, the underlying fact is not interesting and
 should be cut rather than inflated.
 
+**One caution on the examples below.** They are drawn from the Week 2 2026 report, which was
+written against *final* data. The benched-Mahomes reveal and the Rashee Rice line were not yet
+true on Monday night when Week 1 was still running. Copy the technique, never the facts.
+
 ## Moves that work
 
 **Lead with the bold claim, then explain it.** Short declarative sentence in bold, then the

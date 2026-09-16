@@ -46,13 +46,13 @@ Adapt to the week, but this shape has worked twice:
 <benched points, started zeros, the what-if that stings most>
 
 ## LINEUP EFFICIENCY
-<table: scored / optimal / benched / efficiency, worst last>
+<table: scored / benched / efficiency, worst last -- four columns max, see below>
 
 ## SCHEDULE LUCK
 <all-play table, then ROBBED and GOT AWAY WITH IT>
 
 ## THE INJURY WARD
-<real injury news, who it hurts, waiver names worth a look>
+<real injury news, who it hurts, waiver names worth a look -- needs outside sources, see below>
 
 ## STILL ALIVE TONIGHT — <matchup, time>
 <who needs what from whom, and why it is or isn't likely>
@@ -75,6 +75,16 @@ table worst-last so it ends on the disaster.
 **Schedule luck sorts the complaints.** The all-play record tells you who was beaten and who
 was merely unlucky. A team that goes 6-3 against the field and loses got robbed; a team that
 goes 2-7 and wins should keep quiet. Both are worth naming.
+
+**The injury ward is the one section with no data behind it.** Sleeper exposes `reserve` (who
+is on IR) and nothing about why, and no committed file carries injury status or free-agent
+availability. Everything else in this post is derived; this part needs real reporting -- search
+for current injury news, and attribute it. If you cannot source it, write the IR moves you can
+see from `rosters` and leave the speculation out.
+
+**Keep tables to four columns.** `docs/mudd-voice.md` caps them there because these are read on
+a 375px phone. For efficiency, scored / benched / efficiency is enough -- quote the optimal
+figure in prose where it matters rather than adding a fifth column.
 
 **The still-alive section is the reason it's Monday.** Name the game, the players, the points
 needed, and whether it's plausible. If someone's own bench player is starting against them,

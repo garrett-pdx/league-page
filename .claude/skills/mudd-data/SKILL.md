@@ -15,12 +15,27 @@ same thing as a number that is true.
 ```bash
 python3 scripts/week-facts.py <week>              # human-readable table
 python3 scripts/week-facts.py <week> --json       # machine-readable
-python3 scripts/week-facts.py <week> --live       # also flag starters yet to play
+python3 scripts/week-facts.py <week> --fixture D  # read matchups/rosters from D, no network
 ```
+
+`--fixture` reads `matchups.json` and `rosters.json` from a directory instead of calling
+Sleeper. Sleeper has no point-in-time endpoint, so a snapshot captured mid-week is the only
+way to reproduce that state later -- for testing the Monday edition after the fact, or for
+backfilling an old week.
 
 For each team it computes scored, optimal, benched, efficiency, all-play record and score
 rank; for each game the margin, the winner, and what a trailing team still needs; plus the
 top started performances. Season defaults to Sleeper's current one.
+
+**`started` and `optimal_lineup` are different fields and must not be confused.** `started` is
+who the manager actually played; `optimal_lineup` is the best legal lineup they could have
+played. Writing "X started Y" off the optimal lineup invents a decision nobody made -- in
+Week 1 of 2026 the optimal lineup put Kyle Pitts in tuckersdumbteam's tight end slot while he
+actually started Travis Kelce.
+
+**IR players are excluded from the optimal lineup.** They score in `players_points` but cannot
+legally be started, so counting them would accuse a manager of benching points they were never
+allowed to play.
 
 The all-play record — what you'd be if you played everyone that week — is the number that
 separates *beaten* from *unlucky*, and it is most of what a weekly post argues about.
@@ -71,7 +86,15 @@ will meet them again if you query Sleeper directly.
 
 ## Reading "who is still playing"
 
-`--live` flags starters currently sitting on exactly 0.0. That is a heuristic, not a fact:
-it cannot distinguish a player whose game has not kicked off from one who genuinely scored
-nothing. Confirm against the actual NFL schedule before writing that somebody is "still
-alive", and say which game they are in.
+A game is reported `MAYBE LIVE -- confirm` when the **trailing** team has a starter on exactly
+0.0, and the specific players are named so you can check them. Only the trailer matters: if
+just the leader has someone left, the result is settled and the leader is padding.
+
+That 0.0 is genuinely ambiguous and the script cannot resolve it — a starter on zero is
+equally someone whose game has not kicked off and someone who played and scored nothing.
+**Confirm each named player against the real NFL schedule before writing that a matchup is
+alive.** In Week 1 of 2026 this flagged all five games; two were actually over, because
+Jordan Addison and Colston Loveland had both finished on zero.
+
+Say which game the live players are in. "He needs 21.13 from two backs on opposite sidelines
+of tonight's game" is the sentence; "he needs 21.13" is half of it.

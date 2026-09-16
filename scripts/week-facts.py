@@ -17,7 +17,7 @@ whole point of it being one command rather than a page of ad-hoc Python.
 Usage:
   python3 scripts/week-facts.py 1                  # current season, week 1
   python3 scripts/week-facts.py 1 --json           # machine-readable
-  python3 scripts/week-facts.py 1 --live           # flag starters yet to play
+  python3 scripts/week-facts.py 1 --fixture DIR    # derive from a saved snapshot, no network
   python3 scripts/week-facts.py --h2h Gurret Streinz
   python3 scripts/week-facts.py --history          # all-time leaderboards for fact checks
 """
@@ -104,16 +104,25 @@ def starter_slots(season):
     return [s for s in slots if s not in ("BN", "IR", "TAXI")]
 
 
-def best_lineup(points_by_player, slots, extra=None):
+def best_lineup(points_by_player, slots, extra=None, ineligible=()):
     """
     Highest-scoring legal lineup, and what it leaves behind.
 
     Greedy by descending points into dedicated slots before FLEX. That is optimal here because
     every FLEX-eligible position also has a dedicated slot, so there is no player who can fill
     a slot that a higher-scoring player could not.
+
+    `ineligible` must contain anyone on IR. They accrue points in `players_points` but cannot
+    legally be started, so counting them inflates the optimal lineup and therefore the benched
+    total -- which in a post that grades people publicly means accusing someone of leaving
+    points on the bench that they were never allowed to play. BBrown16 had Alec Pierce on IR
+    scoring 8.10 in Week 1 of 2026; including him overstated his benched points by 1.30 and
+    cost him 1.4 points of efficiency.
     """
     pool = []
     for pid, pts in (points_by_player or {}).items():
+        if str(pid) in ineligible:
+            continue
         pos = position(pid, extra)
         if pos:
             pool.append((pts, str(pid), pos))
@@ -133,9 +142,23 @@ def best_lineup(points_by_player, slots, extra=None):
     return chosen, bench
 
 
-def week_facts(season, week, live=False):
-    matchups = get(f"{API}/league/{LEAGUE_ID}/matchups/{week}")
-    rosters = get(f"{API}/league/{LEAGUE_ID}/rosters")
+def week_facts(season, week, fixture=None):
+    """
+    `fixture` reads matchups.json / rosters.json from a directory instead of calling Sleeper.
+
+    Sleeper has no point-in-time endpoint -- /matchups/{week} always returns the week as it
+    stands now -- so the only way to reproduce a mid-week state, or to test the Monday edition
+    after the week has finished, is from a snapshot captured at the time. Also useful for
+    backfilling: drop a saved response in a directory and derive against it offline.
+    """
+    if fixture:
+        with open(os.path.join(fixture, "matchups.json")) as f:
+            matchups = json.load(f)
+        with open(os.path.join(fixture, "rosters.json")) as f:
+            rosters = json.load(f)
+    else:
+        matchups = get(f"{API}/league/{LEAGUE_ID}/matchups/{week}")
+        rosters = get(f"{API}/league/{LEAGUE_ID}/rosters")
     rid2uid = {r["roster_id"]: r.get("owner_id") for r in rosters}
     slots = starter_slots(season)
 
@@ -151,18 +174,23 @@ def week_facts(season, week, live=False):
         # rookies and new signings are missing. Fall back rather than printing a raw id.
         extra = get(f"{API}/players/nfl")
 
+    reserve_by_roster = {
+        r["roster_id"]: {str(p) for p in (r.get("reserve") or [])} for r in rosters
+    }
+
     teams = {}
     for e in matchups:
         uid = rid2uid.get(e["roster_id"])
         name = handle(uid)
         pp = e.get("players_points") or {}
-        starters = [str(x) for x in (e.get("starters") or [])]
-        chosen, bench = best_lineup(pp, slots, extra)
+        starter_ids = [str(x) for x in (e.get("starters") or []) if str(x) != "0"]
+        on_ir = reserve_by_roster.get(e["roster_id"], set())
+        chosen, bench = best_lineup(pp, slots, extra, ineligible=on_ir)
         optimal = sum(p for _, p, _, _ in chosen)
         scored = e.get("points") or 0.0
         yet_to_play = [
-            player_name(pid, extra) for pid in starters
-            if str(pid) != "0" and (pp.get(str(pid)) or 0) == 0
+            player_name(pid, extra) for pid in starter_ids
+            if (pp.get(pid) or 0) == 0
         ]
         teams[name] = {
             "manager": name,
@@ -173,12 +201,21 @@ def week_facts(season, week, live=False):
             "optimal": round(optimal, 2),
             "benched": round(optimal - scored, 2),
             "efficiency": round(scored / optimal * 100, 1) if optimal else None,
-            "starters_yet_to_play": yet_to_play if live else [],
+            "starters_yet_to_play": yet_to_play,
             "best_benched": sorted(
                 ({"player": player_name(p, extra), "points": pts} for p, pts, _ in bench),
                 key=lambda x: -x["points"],
             )[:3],
+            # Who they ACTUALLY started, which is not the same list as the optimal lineup and
+            # must never be confused with it -- writing "X started Y" off the optimal lineup
+            # invents a decision nobody made. In Week 1 of 2026 the optimal lineup put Kyle
+            # Pitts in tuckersdumbteam's tight end slot; he actually started Travis Kelce.
             "started": sorted(
+                ({"player": player_name(p, extra), "points": pp.get(p) or 0.0}
+                 for p in starter_ids),
+                key=lambda x: -x["points"],
+            ),
+            "optimal_lineup": sorted(
                 ({"player": player_name(p, extra), "points": pts, "slot": slot}
                  for p, pts, _, slot in chosen),
                 key=lambda x: -x["points"],
@@ -212,7 +249,14 @@ def week_facts(season, week, live=False):
             # What the trailing team needs to win outright: strictly more than the margin,
             # which at two decimals means margin + 0.01.
             "trailer_needs": round(a["scored"] - b["scored"] + 0.01, 2),
-            "live": bool(a["starters_yet_to_play"] or b["starters_yet_to_play"]),
+            # A result can only still change if the TRAILING team has someone left. If only
+            # the leader does, the game is decided and the leader is merely padding. Asking
+            # "does anyone have a zero" instead flagged all five Week 1 games as live when
+            # two were over -- and a zero is ambiguous anyway, since it equally means a
+            # player who has finished and scored nothing.
+            "trailer_can_still_win": bool(b["starters_yet_to_play"]),
+            "leader_still_playing": bool(a["starters_yet_to_play"]),
+            "trailer_yet_to_play": b["starters_yet_to_play"],
         })
 
     perf = []
@@ -340,9 +384,12 @@ def main():
     ap.add_argument("week", nargs="?", type=int)
     ap.add_argument("--season", default=None)
     ap.add_argument("--json", action="store_true")
-    ap.add_argument("--live", action="store_true", help="flag starters yet to play")
+    ap.add_argument("--live", action="store_true",
+                    help="also list every team's starters yet to play, not just trailing teams")
     ap.add_argument("--h2h", nargs=2, metavar=("A", "B"))
     ap.add_argument("--history", action="store_true")
+    ap.add_argument("--fixture", metavar="DIR",
+                    help="read matchups.json/rosters.json from DIR instead of calling Sleeper")
     args = ap.parse_args()
 
     if args.history:
@@ -363,8 +410,9 @@ def main():
     if args.week is None:
         ap.error("give a week number, or use --h2h / --history")
 
-    season = args.season or get(f"{API}/state/nfl")["season"]
-    f = week_facts(season, args.week, live=args.live)
+    season = args.season or (HISTORY.get("generated", "")[:4] if args.fixture
+                             else get(f"{API}/state/nfl")["season"])
+    f = week_facts(season, args.week, fixture=args.fixture)
 
     if args.json:
         print(json.dumps(f, indent=1))
@@ -377,11 +425,19 @@ def main():
               f"{t['benched']:8.2f} {str(t['efficiency'])+'%':>6s} {t['all_play']:>9s}")
     print("\nGAMES")
     for g in f["games"]:
-        state = "LIVE" if g["live"] else "final"
+        if g["trailer_can_still_win"]:
+            state = "MAYBE LIVE -- confirm"
+        elif g["leader_still_playing"]:
+            state = "decided (leader padding)"
+        else:
+            state = "final"
         print(f"  {g['leader']:12s} {g['leader_points']:7.2f}  def.  {g['trailer']:12s} "
               f"{g['trailer_points']:7.2f}  (margin {g['margin']}, {state})")
-        if g["live"]:
-            print(f"      {g['trailer']} needs {g['trailer_needs']} to win")
+        if g["trailer_can_still_win"]:
+            print(f"      {g['trailer']} needs {g['trailer_needs']} from "
+                  f"{', '.join(g['trailer_yet_to_play'])}")
+            print(f"      ^ verify these have not already played -- a 0.0 starter is equally "
+                  f"someone who finished and scored nothing")
     print("\nTOP PERFORMANCES (started)")
     for p in f["top_performances"][:5]:
         print(f"  {p['points']:6.2f}  {p['player']:22s} {p['manager']}")
