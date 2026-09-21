@@ -9,7 +9,7 @@ Week 2 is on course to produce the lowest-scoring matchup in the history of this
 ## THE SCOREBOARD
 
 **Tupac on da bench 104.36 — Slim Pickens 102.54** · final
-The rivalry game, by 1.82. More on this below, because it deserves worse than a line.
+The rivalry game, by 1.82 — the tightest meeting in the history of this fixture. More on this below, because it deserves worse than a line.
 
 **tuckersdumbteam 104.90 — TnT44 91.22** · decided
 Tucker still has Davante Adams tonight. TnT44 has nobody. Josh Allen went 45.82 and it wasn't close to enough.
@@ -124,15 +124,27 @@ Counting only the slots whose player has finished. Five managers still have a st
 
 ## THE RIVALRY GAME
 
-**mikestreinz 104.36, Gurret 102.54.**
+**mikestreinz 104.36 — Gurret 102.54.** The closest these two have ever played, and it is not close.
+
+Nine meetings since 2022. Run the margins in order: 89.84, 57.62, 32.52, 28.32, 24.24, 21.10, 8.82, 4.00 — and now **1.82**. This rivalry has never come down this far. It has never come close to coming down this far.
+
+It came down to one bench slot.
 
 Gurret had Matthew Golden on his bench. Golden scored 7.8. He started J.K. Dobbins, who scored 3.6.
 
 Start Golden and the final reads **106.74 to 104.36**.
 
-The detail that makes it art: jonahcartwright dropped Matthew Golden on August 30th. Gurret picked him up on September 7th, specifically, deliberately, off the wire. Two weeks later he left him on the bench in the one game of the season he most wanted to win.
+The detail that makes it art: jonahcartwright dropped Matthew Golden on August 30th. Gurret went and got him on September 7th — specifically, deliberately, off the wire, a week before any of this mattered. Then he left him on the bench in the one game of the season he most wanted to win.
 
-Streinz, for his part, left 11.10 on his own bench — Josh Downs (10.7) and Romeo Doubs (10.1) both sat — and won anyway. The series goes to **5-4 Streinz**, who has now outscored Gurret 1035.16 to 948.40 across nine meetings.
+And here is the part that will keep him up: **Gurret was the better manager on the day.** 96.1% efficiency to 90.4%. Streinz left 11.10 on his own bench — Josh Downs (10.7) and Romeo Doubs (10.1) both sat — and had a lineup in his roster capable of 115.46. He could have won this by thirteen. He was not asked to.
+
+### Nine weeks in 2022, and never again
+
+Some history, because this one has some. In 2023 Streinz beat Gurret twice, by 57.62 and by 89.84 — a combined 147.46 points across two afternoons. He posted 162.48 in Week 3 and 168.12 in Week 12 doing it, and those are still the **fifth- and fourth-highest scores in the history of this league**. No other manager has had to sit through both.
+
+Which makes Sunday the cruel one. **104.36 is the lowest score Streinz has ever beaten him with.** Survive the 168, survive the 162, then lose to a hundred and four.
+
+The series goes to **5-4 Streinz**, who has outscored Gurret 1035.16 to 948.40 across nine meetings. Gurret has led this rivalry exactly once in five years: for the nine weeks between the first meeting in 2022 and the second.
 
 ## THE INJURY WARD
 
