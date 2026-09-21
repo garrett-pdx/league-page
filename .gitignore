@@ -13,3 +13,6 @@ build
 # skills that SHOULD be committed and shared, so don't ignore .claude wholesale.
 .claude/worktrees/
 .claude/settings.local.json
+
+# Python bytecode from ad-hoc imports of scripts/
+__pycache__/
