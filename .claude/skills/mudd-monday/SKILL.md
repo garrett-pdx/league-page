@@ -68,6 +68,30 @@ the margin — at two decimals that is margin + 0.01. `week-facts.py` computes `
 for exactly this. Getting it right is the difference between "needs 21.12" (a tie) and "needs
 21.13" (a win).
 
+**A pending starter is not a benching, and the optimal lineup cannot tell the difference.**
+A starter whose game has not kicked off sits on 0.0, so `best_lineup` cheerfully replaces him
+with any bench player who has already scored — and charges the manager for it. In Week 2 of
+2026 this hit five of ten teams, and the entire 11.00 "benched" on tuckersdumbteam was Xavier
+Worthy standing in for a receiver who had not played yet. Published as-is it read as a
+judgement on a decision the week had not finished making.
+
+On a Monday, grade only the slots whose player has finished: keep each pending starter in his
+slot and optimise the rest over players who have actually played. Sanity-check the result —
+every manager with nobody pending must come out unchanged, and if they don't, the calculation
+is ignoring slot eligibility. Corrected, kshoyer went from 95.2% to a perfect 100%.
+
+**Do not call a start/sit decision a mistake without checking the ranks.** The optimal lineup
+is pure hindsight. It says nothing about whether a call was defensible when it was made, and a
+post that treats the two as the same thing is just bullying whoever got unlucky. Check the
+market before writing the barb — FantasyCalc values live in
+`~/Desktop/ff_keeper/public/value-snapshot.json`, keyed by Sleeper id, and this league's config
+is `numQbs=1, numTeams=10, ppr=0.5`.
+
+Kabroa's Week 2 lineup was written up as four bad calls. He had in fact started the
+higher-ranked player at all four slots — 49 over 147, 60 over 103, 86 over 177, 119 over 129 —
+and his bench simply went off. "He got it right and was punished for it" is both the true
+story and the better one.
+
 **Efficiency is the spine.** Scored versus optimal is the one number that separates bad luck
 from bad management, and this league's managers care about it more than the result. Order the
 table worst-last so it ends on the disaster.

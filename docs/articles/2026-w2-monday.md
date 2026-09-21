@@ -37,7 +37,7 @@ So Isaiah Likely walks into SoFi Stadium tonight carrying two entirely separate 
 
 **130.96 points. 97.8% efficiency. 2.90 left on the bench. 9-0 against the field.**
 
-Top score in the league, best all-play record, and the only lineup this week that was essentially correct. Dak Prescott 37.76, DeVonta Smith 22.7, Derrick Henry 16.2, Kittle 16.0. His one mistake was Luther Burden (4.7) in a FLEX where MarShawn Lloyd (7.6) belonged, which is the kind of error you have to go looking for.
+Top score in the league and the best all-play record. Dak Prescott 37.76, DeVonta Smith 22.7, Derrick Henry 16.2, Kittle 16.0. His one mistake was Luther Burden (4.7) in a FLEX where MarShawn Lloyd (7.6) belonged, which is the kind of error you have to go looking for.
 
 He was 0-1 coming in, having lost Week 1 by 3.40 when Rashee Rice came up 3.41 short of what he needed on Monday night. This is what the schedule owed him.
 
@@ -51,13 +51,26 @@ Week 2: started Justin Herbert for **6.88**. Sat Mahomes, who put up **34.98**. 
 
 He is ahead, for now. He is ahead because he drew the only team in the league that has scored less than he has — and Kabroa still has a tight end on the field tonight. Start Mahomes and he has 86.48. That still only beats one team in this league this week — the same one he was already playing — but it keeps his name out of the record book entirely, which was the part worth having.
 
-**Kabroa left 12.30 on the bench, and it's the composition that hurts.**
+**Kabroa made the correct call four times out of four and it cost him 11.40.**
 
-On Wednesday he added Chris Godwin, Dallas Goedert and Emmett Johnson. All three were on his bench Sunday. All three belonged in his lineup. He did the work, identified the players, spent the roster spots — and then started David Montgomery (3.4), Rhamondre Stevenson (3.1) and **DJ Moore for -0.1** instead. Negative one tenth of a point, from a receiver with an AC sprain.
+This one deserves a defence rather than a kicking. The optimal lineup says he should have started Chris Godwin, Dallas Goedert, Woody Marks and Emmett Johnson. Here is where the market had those men ranked in August, against the players he actually started:
 
-**malstol left 17.30 on the bench and it wouldn't have mattered.**
+| Slot | Started | Sat |
+| --- | --- | --- |
+| RB | D. Montgomery (49) | W. Marks (147) |
+| WR | DJ Moore (60) | C. Godwin (103) |
+| RB | R. Stevenson (86) | E. Johnson (177) |
+| TE | I. Likely (119) | D. Goedert (129) |
 
-TreVeyon Henderson (13.6) sat. But his perfect lineup is 113.12 and paulslaats has already posted 121.18 with a running back still to play. No arrangement of Sunday would have put the defending champion in front. Everything he has left is Skattebo.
+He started the higher-ranked player at every slot. Four for four, by the book, exactly what you are supposed to do. Then Montgomery gave him 3.4, Stevenson gave him 3.1, and **DJ Moore left with an AC sprain for -0.1** — while the three men he correctly benched went 7.3, 6.0 and 4.5.
+
+That is not a manager who got it wrong. That is a manager who got it right and was punished for it. The fourth decision is not even settled: Isaiah Likely is on the field tonight.
+
+*Ranks are FantasyCalc trade values as of August 22, on this league's exact settings — one quarterback, ten teams, half-PPR.*
+
+**malstol left 10.50 on the bench and it wouldn't have mattered.**
+
+TreVeyon Henderson (13.6) sat. But even crediting him the Skattebo slot as well — giving him a lineup he could not have set — his best possible Sunday is 113.12, and paulslaats has already posted 121.18 with a running back still to play. No arrangement of Sunday would have put the defending champion in front. Everything he has left is Skattebo.
 
 **Started a zero:** nobody, technically — every zero on the board tonight belongs to a player who hasn't kicked off yet.
 
@@ -67,22 +80,26 @@ kshoyer, Week 1: started Joe Burrow (16.16), benched Jalen Hurts (**30.72**). Co
 
 kshoyer, Week 2: started Jalen Hurts (20.16), benched Joe Burrow (**20.18**).
 
-Two hundredths of a point. He fixed it, and the league fined him anyway. For the record he went 95.2% efficient this week after 65.7% last week, posted the third-best score, and is currently losing.
+Two hundredths of a point. He fixed it, and the league fined him anyway.
+
+Those two hundredths are the **only** points kshoyer left on his bench all week. Judged on the slots whose players have finished, he set a perfect lineup — 100% efficiency, after 65.7% last week — posted the third-best score, and is currently losing.
 
 ## LINEUP EFFICIENCY
 
-| Team | Scored | Bench | Eff% |
-| --- | --- | --- | --- |
-| jonahcartwright | 130.96 | 2.90 | 97.8% |
-| TnT44 | 91.22 | 2.10 | 97.7% |
-| Gurret | 102.54 | 4.20 | 96.1% |
-| kshoyer | 106.36 | 5.42 | 95.2% |
-| paulslaats | 121.18 | 8.70 | 93.3% |
-| tuckersdumbteam | 104.90 | 11.00 | 90.5% |
-| mikestreinz | 104.36 | 11.10 | 90.4% |
-| malstol | 95.82 | 17.30 | 84.7% |
-| Kabroa | 48.52 | 12.30 | 79.8% |
-| BBrown16 | 58.38 | 35.40 | 62.3% |
+Counting only the slots whose player has finished. Five managers still have a starter on the field tonight, and a man sitting on 0.0 because his game has not kicked off is not a benching.
+
+| Team | Bench | Eff% |
+| --- | --- | --- |
+| kshoyer | 0.02 | 100.0% |
+| paulslaats | 1.40 | 98.9% |
+| jonahcartwright | 2.90 | 97.8% |
+| TnT44 | 2.10 | 97.7% |
+| tuckersdumbteam | 4.10 | 96.2% |
+| Gurret | 4.20 | 96.1% |
+| mikestreinz | 11.10 | 90.4% |
+| malstol | 10.50 | 90.1% |
+| Kabroa | 11.40 | 81.0% |
+| BBrown16 | 35.40 | 62.3% |
 
 ## SCHEDULE LUCK — record if you'd played all 9
 
@@ -99,7 +116,7 @@ Two hundredths of a point. He fixed it, and the league fined him anyway. For the
 | BBrown16 | 1-8 | LEADING |
 | Kabroa | 0-9 | trailing |
 
-**ROBBED: kshoyer.** Third-best score in the league, 95.2% efficiency, beats seven of the other nine teams with 106.36 — and drew the one who posted 130.96. Last week he lost because of his lineup. This week he is losing in spite of it.
+**ROBBED: kshoyer.** Third-best score in the league, a perfect lineup, beats seven of the other nine teams with 106.36 — and drew the one who posted 130.96. Last week he lost because of his lineup. This week he is losing in spite of it.
 
 **GETTING AWAY WITH IT, SO FAR: BBrown16.** One-and-eight against the field. He beats exactly one team with 58.38, and that is the team he happened to be playing. Winning at 1-8 has happened nine times before, to six different managers, so the all-play record alone isn't remarkable. The score is. If Likely stays quiet tonight, no one has ever won a game in this league with fewer points — and the man who currently holds that record, Gurret at 64.12, was also 1-8 that week.
 
@@ -148,3 +165,7 @@ Note what that means: **Nabers, Skattebo and Likely are all Giants**, and **Kyre
 ---
 
 By midnight Brenden could own the lowest winning score in league history and have had a 34-point quarterback on his bench while doing it. Or Isaiah Likely catches six passes and leaves him with neither the record nor the win. See you Wednesday.
+
+---
+
+*Correction: the efficiency table originally graded five managers on slots whose player had not yet kicked off. A starter sitting on 0.0 because his game has not started is not a bad decision, but the optimal-lineup calculation counts him as one — so tuckersdumbteam, paulslaats, kshoyer, malstol and Kabroa were all charged with bench points they had not left. The table now covers finished slots only: kshoyer moves from 95.2% to 100%, paulslaats from 93.3% to 98.9%, tuckersdumbteam from 90.5% to 96.2%, malstol from 84.7% to 90.1%, and Kabroa from 79.8% to 81.0%. The five managers with nobody left to play are unaffected, and BBrown16's 35.40 is still the week's largest by some distance. This post also originally called Kabroa's start/sit decisions mistakes. They were not — he started the higher-ranked player at all four slots.*
