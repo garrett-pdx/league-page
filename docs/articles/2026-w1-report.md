@@ -1,4 +1,4 @@
-# THE MUDD REPORT — WEEK 1
+# THE MUDD REPORT — WEEK 1 RECAP
 
 *Monday Sept 14 · 15 of 16 games final*
 
