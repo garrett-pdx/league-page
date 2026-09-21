@@ -1,4 +1,4 @@
-# THE MUDD REPORT — WEEK 2
+# THE MUDD REPORT — WEEK 2 PREVIEW
 
 *Wednesday Sept 16 · Week 1 in the books · Lions at Bills Thursday, 8:15*
 

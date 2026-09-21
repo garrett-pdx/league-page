@@ -49,7 +49,7 @@ on consequence — what the results actually did to everyone, and who has to ans
 ## Structure
 
 ```
-# THE MUDD REPORT — WEEK N
+# THE MUDD REPORT — WEEK N PREVIEW
 *<day> <date> · Week N-1 in the books · <TNF matchup and time>*
 
 <standfirst: three clauses, ending on the matchup that matters most>
@@ -124,6 +124,16 @@ So re-run `week-facts.py` and check the draft against it line by line:
 
 ## Publishing
 
+**The title must end in `PREVIEW`.** Both editions cover the same week number, and
+`publish-article.mjs` matches on title to decide between updating and creating. Titling this
+post `WEEK N` would silently overwrite the Monday `WEEK N RECAP` rather than publish a second
+post. The two titles are:
+
+| Edition | Title |
+| --- | --- |
+| Monday | `THE MUDD REPORT — WEEK N RECAP` |
+| Midweek | `THE MUDD REPORT — WEEK N PREVIEW` |
+
 ```bash
 node scripts/publish-article.mjs docs/articles/<season>-w<week>-preview.md \
   --type Recap --author Gurret --featured --dry-run
@@ -131,6 +141,10 @@ node scripts/publish-article.mjs docs/articles/<season>-w<week>-preview.md \
 
 Dry run, check the block counts, then publish without the flag. It updates in place on a title
 match, so corrections go to the live post instead of creating a second copy.
+
+Then **unfeature the previous post** -- `HomePost.svelte` takes the first `featured` entry and
+`getBlogPosts` requests no explicit order, so leaving two featured makes the home page
+undefined rather than merely untidy.
 
 Then verify on the site: tables rendered as tables, no literal Markdown, and — because this is
 read on phones — no horizontal scrolling. Keep cells short; numeric columns don't wrap.

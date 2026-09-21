@@ -29,7 +29,7 @@ That tension is the whole edition. A post that reads like a settled recap has mi
 Adapt to the week, but this shape has worked twice:
 
 ```
-# THE MUDD REPORT — WEEK N
+# THE MUDD REPORT — WEEK N RECAP
 *Monday <date> · <n> of <m> games final*
 
 <standfirst: the week in three clauses, one of them the live game>
@@ -113,6 +113,17 @@ by hand, because they are the classes that break:
 
 ## Publishing
 
+**The title must end in `RECAP`.** Both editions cover the same week number, and
+`publish-article.mjs` matches on title to decide between updating and creating. Titling this
+post `WEEK N` would silently overwrite the midweek `WEEK N PREVIEW` instead of publishing a
+second post -- the live article would be replaced, with no warning and no second entry. The
+two titles are:
+
+| Edition | Title |
+| --- | --- |
+| Monday | `THE MUDD REPORT — WEEK N RECAP` |
+| Midweek | `THE MUDD REPORT — WEEK N PREVIEW` |
+
 ```bash
 node scripts/publish-article.mjs docs/articles/<season>-w<week>-monday.md \
   --type Recap --author Gurret --featured --dry-run
@@ -121,6 +132,11 @@ node scripts/publish-article.mjs docs/articles/<season>-w<week>-monday.md \
 Dry run first to see the block counts and catch a conversion problem. Then drop `--dry-run`.
 It updates in place if a post with that title already exists, so re-running after an edit
 corrects the live post rather than duplicating it.
+
+Then **unfeature the previous week's post**, or the home page has two featured posts to choose
+between and picks whichever Contentful returns first. `HomePost.svelte` takes the first
+`featured` entry it sees and `getBlogPosts` requests no explicit order, so this is genuinely
+undefined rather than merely untidy.
 
 Afterwards, confirm on the live site that the tables rendered as tables and nothing arrived as
 literal Markdown.
