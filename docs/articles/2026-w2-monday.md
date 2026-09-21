@@ -2,7 +2,7 @@
 
 *Monday Sept 21 · 15 of 16 games final*
 
-Week 2 produced the lowest-scoring matchup in the history of this league, a man who benched Patrick Mahomes for the second Sunday in a row and won anyway, and a rivalry game decided by 1.82 points that one manager had already bought the solution to and left on his bench. Three matchups are still alive and every single player who can change them is in the same game tonight.
+Week 2 is on course to produce the lowest-scoring matchup in the history of this league, a man who benched Patrick Mahomes for the second Sunday in a row and leads anyway, and a rivalry game decided by 1.82 points that one manager had already bought the solution to and left on his bench. Three matchups are still alive and every single player who can change them is in the same game tonight.
 
 ---
 
@@ -49,7 +49,7 @@ Week 1: started Justin Herbert for 15.26, sat Mahomes, who put up 25.66. He lost
 
 Week 2: started Justin Herbert for **6.88**. Sat Mahomes, who put up **34.98**. That is a 28.10-point gap between the two quarterbacks he owns, and it is the second consecutive week he has chosen wrong between exactly those two men. He left 35.40 on his bench in total, the most of anyone this week.
 
-He won. He won because he drew the only team in the league that scored less than he did. Start Mahomes and he has 86.48. That still only beats one team in this league this week — the same one he was already playing — but it keeps his name out of the record book entirely, which was the part worth having.
+He is ahead, for now. He is ahead because he drew the only team in the league that has scored less than he has — and Kabroa still has a tight end on the field tonight. Start Mahomes and he has 86.48. That still only beats one team in this league this week — the same one he was already playing — but it keeps his name out of the record book entirely, which was the part worth having.
 
 **Kabroa left 12.30 on the bench, and it's the composition that hurts.**
 
@@ -57,7 +57,7 @@ On Wednesday he added Chris Godwin, Dallas Goedert and Emmett Johnson. All three
 
 **malstol left 17.30 on the bench and it wouldn't have mattered.**
 
-TreVeyon Henderson (13.6) sat. But his perfect lineup is 113.12 and paulslaats has already posted 121.18 with a running back still to play. There was no version of Sunday where the defending champion won this game.
+TreVeyon Henderson (13.6) sat. But his perfect lineup is 113.12 and paulslaats has already posted 121.18 with a running back still to play. No arrangement of Sunday would have put the defending champion in front. Everything he has left is Skattebo.
 
 **Started a zero:** nobody, technically — every zero on the board tonight belongs to a player who hasn't kicked off yet.
 
@@ -101,7 +101,7 @@ Two hundredths of a point. He fixed it, and the league fined him anyway. For the
 
 **ROBBED: kshoyer.** Third-best score in the league, 95.2% efficiency, beats seven of the other nine teams with 106.36 — and drew the one who posted 130.96. Last week he lost because of his lineup. This week he is losing in spite of it.
 
-**GOT AWAY WITH IT: BBrown16.** One-and-eight against the field. He beats exactly one team with 58.38, and that is the team he happened to be playing. Winning at 1-8 has happened nine times before, to six different managers, so the all-play record alone isn't remarkable. The score is. If Likely stays quiet tonight, no one has ever won a game in this league with fewer points — and the man who currently holds that record, Gurret at 64.12, was also 1-8 that week.
+**GETTING AWAY WITH IT, SO FAR: BBrown16.** One-and-eight against the field. He beats exactly one team with 58.38, and that is the team he happened to be playing. Winning at 1-8 has happened nine times before, to six different managers, so the all-play record alone isn't remarkable. The score is. If Likely stays quiet tonight, no one has ever won a game in this league with fewer points — and the man who currently holds that record, Gurret at 64.12, was also 1-8 that week.
 
 **Also worth saying: TnT44 did nothing wrong.** 97.7% efficiency, 2.10 on the bench, and he is 0-2. Josh Allen scored 45.82 — the biggest performance of the week anywhere — and outscored the other seven players in TnT44's lineup **combined**, 45.82 to 45.40. You cannot manage your way out of that.
 
@@ -147,4 +147,4 @@ Note what that means: **Nabers, Skattebo and Likely are all Giants**, and **Kyre
 
 ---
 
-Brenden has the lowest winning score in league history and a 34-point quarterback on his bench. Both of those can still be true at midnight. See you Wednesday.
+By midnight Brenden could own the lowest winning score in league history and have had a 34-point quarterback on his bench while doing it. Or Isaiah Likely catches six passes and leaves him with neither the record nor the win. See you Wednesday.

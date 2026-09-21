@@ -110,6 +110,21 @@ by hand, because they are the classes that break:
 - **Counts** — "four teams left points on the bench that would have changed the result" is a
   claim with an answer; compute it.
 - **Player ownership** — check the player is actually on that roster now. Rosters churn.
+- **Tense, and it is its own check.** Every number in the Week 2 2026 post verified — every
+  score, every table cell, every ranking — and the post still said a man had *won* a matchup
+  it had itself labelled **LIVE** four paragraphs earlier. A numeric check cannot catch this,
+  because no number is wrong.
+
+  So after the numbers pass, read the draft again asking only: *which games does this claim are
+  over?* For each one, confirm the trailer has nobody left. That post asserted a win in four
+  places — the standfirst ("won anyway"), the lowlight reel ("He won. He won because…"), a
+  section label ("GOT AWAY WITH IT"), and the closing line ("Brenden **has** the lowest winning
+  score in league history") — and a reader caught it.
+
+  A live game is only ever *leading*, *ahead*, *on course*, or *could own by midnight*. The same
+  applies to any record riding on a live score: provisional until the last player is off the
+  field. Watch section labels and closing lines especially — both compress, and compression is
+  where the hedge gets dropped.
 
 ## Publishing
 
