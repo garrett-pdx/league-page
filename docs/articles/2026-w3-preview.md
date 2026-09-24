@@ -1,6 +1,6 @@
 # THE MUDD REPORT — WEEK 3 PREVIEW
 
-*Thursday Sept 24 · Week 2 in the books · Falcons at Packers tonight, 8:15*
+*Thursday Sept 24 · Week 2 in the books · Falcons at Packers tonight, 8:15 · 7 min read*
 
 Monday night made both of Brenden's records permanent, paulslaats paid $29 to rescue a receiver he had cut for nothing three weeks earlier, and two of the league's three unbeaten teams meet this week — one of whom has posted the top score in both weeks.
 
