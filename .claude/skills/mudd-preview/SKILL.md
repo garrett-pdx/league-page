@@ -50,7 +50,7 @@ on consequence — what the results actually did to everyone, and who has to ans
 
 ```
 # THE MUDD REPORT — WEEK N PREVIEW
-*<day> <date> · Week N-1 in the books · <TNF matchup and time>*
+*<day> <date> · Week N-1 in the books · <TNF matchup and time> · <N> min read*
 
 <standfirst: three clauses, ending on the matchup that matters most>
 
@@ -123,6 +123,17 @@ So re-run `week-facts.py` and check the draft against it line by line:
 - **FAAB.** Refetch rosters; a pre-waiver snapshot reports everyone at full budget.
 
 ## Publishing
+
+**Add the reading time last.** After the final edit, run
+
+```bash
+python3 scripts/reading-time.py docs/articles/<season>-w<week>-preview.md
+```
+
+and put its figure at the end of the dateline, as `· N min read`. Do it after the fact check,
+not before: corrections change the length, and a stale estimate is a small wrong number sitting
+at the very top of the post. The script rounds up from 230 words a minute, because tables and
+scores read slower than prose.
 
 **The title must end in `PREVIEW`.** Both editions cover the same week number, and
 `publish-article.mjs` matches on title to decide between updating and creating. Titling this

@@ -30,7 +30,7 @@ Adapt to the week, but this shape has worked twice:
 
 ```
 # THE MUDD REPORT — WEEK N RECAP
-*Monday <date> · <n> of <m> games final*
+*Monday <date> · <n> of <m> games final · <N> min read*
 
 <standfirst: the week in three clauses, one of them the live game>
 
@@ -151,6 +151,17 @@ by hand, because they are the classes that break:
   where the hedge gets dropped.
 
 ## Publishing
+
+**Add the reading time last.** After the final edit, run
+
+```bash
+python3 scripts/reading-time.py docs/articles/<season>-w<week>-monday.md
+```
+
+and put its figure at the end of the dateline, as `· N min read`. Do it after the fact check,
+not before: corrections change the length, and a stale estimate is a small wrong number sitting
+at the very top of the post. The script rounds up from 230 words a minute, because tables and
+scores read slower than prose.
 
 **The title must end in `RECAP`.** Both editions cover the same week number, and
 `publish-article.mjs` matches on title to decide between updating and creating. Titling this
