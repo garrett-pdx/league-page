@@ -74,7 +74,7 @@ The rest of it is nonsense, which is what two weeks of standings always are. All
 
 ## WEEK 3
 
-A strange thing about this week's schedule: **the three highest scores in league history were all posted in fixtures being played this week.** Streinz's 193.04 came against TnT44. malstol's 181.26 came against Kabroa. Jonah's 169.06 came against Brenden. The history is sitting right there.
+**The three highest scores in league history were all put up by someone against the manager he plays this week.** Streinz scored 193.04 against TnT44 in 2023. malstol scored 181.26 against Kabroa later that same season. Jonah scored 169.06 against Brenden in 2024. All three pairs meet again on this week's schedule.
 
 ### tuckersdumbteam vs paulslaats — the unbeatens
 
