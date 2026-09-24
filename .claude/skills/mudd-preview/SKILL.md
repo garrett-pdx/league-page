@@ -132,8 +132,8 @@ python3 scripts/reading-time.py docs/articles/<season>-w<week>-preview.md
 
 and put its figure at the end of the dateline, as `· N min read`. Do it after the fact check,
 not before: corrections change the length, and a stale estimate is a small wrong number sitting
-at the very top of the post. The script rounds up from 230 words a minute, because tables and
-scores read slower than prose.
+at the very top of the post. The script counts prose only -- tables are scanned, not read, so
+their cells are left out -- at 230 words a minute, rounded up.
 
 **The title must end in `PREVIEW`.** Both editions cover the same week number, and
 `publish-article.mjs` matches on title to decide between updating and creating. Titling this
