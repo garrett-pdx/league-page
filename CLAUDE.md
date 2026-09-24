@@ -26,8 +26,11 @@ Still outstanding, in rough priority order:
   league doesn't want comments, and the management token that writing them would require is
   the one genuinely dangerous variable under Vite's browser-exposing `VITE_` prefix, so it
   is deliberately unset. See `src/lib/utils/CLAUDE.md` before re-enabling.
-  The three weekly in-season posts and the skill to draft them are still planned
-  (`docs/post-generator-skill.md`), not built.
+  Two weekly posts are live, each written by a project skill: `mudd-monday` (the Monday
+  recap) and `mudd-preview` (the midweek preview), both built on `mudd-data`
+  (`scripts/week-facts.py`), with the house style in `docs/mudd-voice.md` and publishing via
+  `scripts/publish-article.mjs`. Titles end in `RECAP` / `PREVIEW` because the publisher
+  matches on title.
 - **`static/data/` is read in exactly one place.** `helperFunctions/leagueHistory.js` fetches
   `league-history.json` (memoized, SSR-safe) for the manager career band and the Hall of Fame.
   It is the only source for a full 1–10 finish — Sleeper exposes podium and toilet bowl only —

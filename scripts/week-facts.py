@@ -206,6 +206,25 @@ def week_facts(season, week, fixture=None):
             player_name(pid, extra) for pid in starter_ids
             if (pp.get(pid) or 0) == 0
         ]
+
+        # Efficiency judged only on the slots whose player has finished. A starter whose game
+        # has not kicked off sits on 0.0, and best_lineup happily swaps him for any bench
+        # player who has already scored -- charging the manager for a decision the week has
+        # not finished making. In Week 2 of 2026 that hit five of ten teams, and all 11.00 of
+        # tuckersdumbteam's "benched" was Xavier Worthy standing in for a receiver who had not
+        # played yet. Here each pending starter keeps his slot and the rest are optimised over
+        # players who have actually played. `starters` is index-aligned with the league's
+        # starting slots, so the slot each pending player holds is known exactly rather than
+        # guessed. Every 0.0 starter counts as pending, which carries the same ambiguity as
+        # `starters_yet_to_play`: confirm against the NFL schedule before leaning on it.
+        raw_starters = [str(x) for x in (e.get("starters") or [])]
+        pending = {pid for pid in starter_ids if (pp.get(pid) or 0) == 0}
+        open_slots = [slots[i] for i, pid in enumerate(raw_starters)
+                      if i < len(slots) and pid not in pending]
+        f_chosen, _ = best_lineup({k: v for k, v in pp.items() if str(k) not in pending},
+                                  open_slots, extra, ineligible=on_ir | pending)
+        f_optimal = sum(p for _, p, _, _ in f_chosen)
+        f_scored = sum(pp.get(pid) or 0.0 for pid in starter_ids if pid not in pending)
         teams[name] = {
             "manager": name,
             "user_id": uid,
@@ -216,6 +235,14 @@ def week_facts(season, week, fixture=None):
             "benched": round(optimal - scored, 2),
             "efficiency": round(scored / optimal * 100, 1) if optimal else None,
             "starters_yet_to_play": yet_to_play,
+            # Use these, not benched/efficiency, for any team with a starter still to play.
+            # With nobody pending they equal benched/efficiency exactly.
+            "finished_benched": round(f_optimal - f_scored, 2),
+            "finished_efficiency": round(f_scored / f_optimal * 100, 1) if f_optimal else None,
+            # Not "players on the bench": these are the best players the OPTIMAL lineup left
+            # out, which can include players who were actually started in the wrong slot.
+            # Never write "X sat on his bench" from this list -- compare `started` with
+            # `optimal_lineup` for that.
             "best_benched": sorted(
                 ({"player": player_name(p, extra), "points": pts} for p, pts, _ in bench),
                 key=lambda x: -x["points"],
@@ -450,6 +477,13 @@ def main():
         if g["trailer_can_still_win"]:
             print(f"      {g['trailer']} needs {g['trailer_needs']} from "
                   f"{', '.join(g['trailer_yet_to_play'])}")
+            if g["leader_still_playing"]:
+                # The printed number is only the floor: whatever the leader's pending players
+                # score raises it. In Week 2 of 2026 malstol "needed 25.37 from Skattebo" while
+                # Kyren Williams was still to play for paulslaats -- the real bar was Skattebo
+                # beating Williams by 25.37.
+                print(f"      ^ and {g['leader']} still has players to come, so that is the "
+                      f"floor, not the target")
             print(f"      ^ verify these have not already played -- a 0.0 starter is equally "
                   f"someone who finished and scored nothing")
     print("\nTOP PERFORMANCES (started)")
@@ -460,6 +494,14 @@ def main():
         for t in f["teams"].values():
             if t["starters_yet_to_play"]:
                 print(f"  {t['manager']:12s} {', '.join(t['starters_yet_to_play'])}")
+    pending = [t for t in f["teams"].values() if t["starters_yet_to_play"]]
+    if pending:
+        print("\nON FINISHED SLOTS -- publish these, not the table above, for teams with a "
+              "starter still to play")
+        for t in pending:
+            print(f"  {t['manager']:12s} benched {t['finished_benched']:6.2f}   "
+                  f"eff {str(t['finished_efficiency'])+'%':>6s}   "
+                  f"(table above: {t['benched']:.2f}, {t['efficiency']}%)")
     return 0
 
 

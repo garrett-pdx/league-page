@@ -5,194 +5,138 @@ description: Write and publish The Mudd Report's Monday edition for the league b
 
 # The Mudd Report — Monday edition
 
-Written Monday, before the Monday night game kicks off. The hook is that the week **is not
-over**: some matchups are decided, one or two are not, and specific people are sitting on
-specific players who can still change their season.
+Written Monday, before the Monday night game. The hook is that the week **is not over**: some
+matchups are decided, some are not, and specific people are sitting on specific players who can
+still change their week. A post that reads like a settled recap has missed it.
 
-That tension is the whole edition. A post that reads like a settled recap has missed it.
+**Target: a five-minute read** — about 1,150 words of prose at most, tables not counted. The
+Week 2 2026 edition ran to ten minutes. Cut before you polish.
 
 ## Before drafting
 
-1. **Get the numbers.** Use the `mudd-data` skill:
-   ```bash
-   python3 scripts/week-facts.py <week> --live
-   ```
-   `--live` flags starters still on 0.0. Treat it as a lead, not a fact — it cannot tell a
-   player whose game has not started from one who scored nothing. Confirm against the real NFL
-   schedule and name the game.
-2. **Read `docs/mudd-voice.md`.** It defines the voice and, more usefully, the moves that work.
-3. **Check what's happened before.** `--history` and `--h2h` give the all-time context that
-   turns a result into a story.
+1. **Get the numbers** with the `mudd-data` skill: `python3 scripts/week-facts.py <week> --live`.
+   Read its `mudd-data` notes on `finished_*`, `best_benched` and `trailer_needs` before using
+   any of them — each has been misread once.
+2. **Confirm who is actually live.** A starter on 0.0 is ambiguous. Look up the real Monday
+   game and check each named player is in it.
+3. **Read `docs/mudd-voice.md`.** It defines the voice, and the rules that keep it honest.
+4. **Get the history.** `--history` for superlatives; `--h2h` for any game worth a paragraph.
 
 ## Structure
-
-Adapt to the week, but this shape has worked twice:
 
 ```
 # THE MUDD REPORT — WEEK N RECAP
 *Monday <date> · <n> of <m> games final · <N> min read*
 
-<standfirst: the week in three clauses, one of them the live game>
-
----
-
 ## THE SCOREBOARD
-<one line per matchup, bold, with LIVE or final; a sentence under each>
+<one bold line per matchup, LIVE / decided / final; one sentence under each>
+
+## <THE RIVALRY GAME, if designated rivals met — see below>
 
 ## TEAM OF THE WEEK — <manager>
-<top score, efficiency, what they got right, one historical barb>
-
 ## THE LOWLIGHT REEL
-<benched points, started zeros, the what-if that stings most>
-
-## LINEUP EFFICIENCY
-<table: scored / benched / efficiency, worst last -- four columns max, see below>
-
-## SCHEDULE LUCK
-<all-play table, then ROBBED and GOT AWAY WITH IT>
-
+## LINEUP EFFICIENCY          <table: team / bench / eff%, worst last>
+## SCHEDULE LUCK              <all-play table, then ROBBED and GOT AWAY WITH IT>
 ## THE INJURY WARD
-<real injury news, who it hurts, waiver names worth a look -- needs outside sources, see below>
-
 ## STILL ALIVE TONIGHT — <matchup, time>
-<who needs what from whom, and why it is or isn't likely>
 
 ---
 <closing line>
 ```
 
+No standfirst: the dateline and the scoreboard already say what the week was. Drop any section
+the week didn't earn.
+
 ## What makes this edition land
 
-**The "needs" number.** For a live matchup, the trailing manager needs *strictly more* than
-the margin — at two decimals that is margin + 0.01. `week-facts.py` computes `trailer_needs`
-for exactly this. Getting it right is the difference between "needs 21.12" (a tie) and "needs
-21.13" (a win).
-
-**A pending starter is not a benching, and the optimal lineup cannot tell the difference.**
-A starter whose game has not kicked off sits on 0.0, so `best_lineup` cheerfully replaces him
-with any bench player who has already scored — and charges the manager for it. In Week 2 of
-2026 this hit five of ten teams, and the entire 11.00 "benched" on tuckersdumbteam was Xavier
-Worthy standing in for a receiver who had not played yet. Published as-is it read as a
-judgement on a decision the week had not finished making.
-
-On a Monday, grade only the slots whose player has finished: keep each pending starter in his
-slot and optimise the rest over players who have actually played. Sanity-check the result —
-every manager with nobody pending must come out unchanged, and if they don't, the calculation
-is ignoring slot eligibility. Corrected, kshoyer went from 95.2% to a perfect 100%.
-
-**Do not call a start/sit decision a mistake without checking the ranks.** The optimal lineup
-is pure hindsight. It says nothing about whether a call was defensible when it was made, and a
-post that treats the two as the same thing is just bullying whoever got unlucky. Check the
-market before writing the barb — FantasyCalc values live in
-`~/Desktop/ff_keeper/public/value-snapshot.json`, keyed by Sleeper id, and this league's config
-is `numQbs=1, numTeams=10, ppr=0.5`.
-
-Kabroa's Week 2 lineup was written up as four bad calls. He had in fact started the
-higher-ranked player at all four slots — 49 over 147, 60 over 103, 86 over 177, 119 over 129 —
-and his bench simply went off. "He got it right and was punished for it" is both the true
-story and the better one.
-
-**Efficiency is the spine.** Scored versus optimal is the one number that separates bad luck
-from bad management, and this league's managers care about it more than the result. Order the
-table worst-last so it ends on the disaster.
-
-**Schedule luck sorts the complaints.** The all-play record tells you who was beaten and who
-was merely unlucky. A team that goes 6-3 against the field and loses got robbed; a team that
-goes 2-7 and wins should keep quiet. Both are worth naming.
-
-**The injury ward is the one section with no data behind it.** Sleeper exposes `reserve` (who
-is on IR) and nothing about why, and no committed file carries injury status or free-agent
-availability. Everything else in this post is derived; this part needs real reporting -- search
-for current injury news, and attribute it. If you cannot source it, write the IR moves you can
-see from `rosters` and leave the speculation out.
-
-**Keep tables to four columns.** `docs/mudd-voice.md` caps them there because these are read on
-a 375px phone. For efficiency, scored / benched / efficiency is enough -- quote the optimal
-figure in prose where it matters rather than adding a fifth column.
-
 **The still-alive section is the reason it's Monday.** Name the game, the players, the points
-needed, and whether it's plausible. If someone's own bench player is starting against them,
-that's the story.
+needed, and whether it's plausible. The trailer needs *strictly more* than the margin —
+`trailer_needs` is margin + 0.01. If the leader also has someone in the game, that number is
+only the floor: in Week 2 of 2026 malstol "needed 25.37 from Skattebo" while Kyren Williams was
+still to play for paulslaats, so the real bar was Skattebo *beating Williams* by 25.37. When
+three live games all run through one NFL game, say so; it's the best line of the night.
 
-## Before publishing — the two checks
+**Efficiency is the spine** — it separates bad luck from bad management, and this league cares
+about it more than results. But **grade only finished slots**: for any team with a starter
+still to play, use `finished_benched` / `finished_efficiency`, and say above the table that
+unfinished slots aren't counted. Publishing the raw figures in Week 2 of 2026 charged five
+managers for players who hadn't kicked off, and needed a correction.
 
-These are not optional, and the second one exists because it was learned the hard way.
+**Never call a start/sit call a mistake without checking the ranks.** The optimal lineup is
+hindsight. Kabroa's Week 2 2026 lineup was first written up as four bad calls; he had started
+the higher-ranked player at every slot and his bench simply went off. "He got it right and was
+punished for it" was the true story and the better one. See the market-rank source in
+`mudd-data`.
 
-**History check.** Every claim of the form "most ever", "first time", "league record", "worst
-since" gets verified against `python3 scripts/week-facts.py --history` or a direct query over
-`static/data/weeks.json`. If it cannot be verified, cut it. In the Week 1 post, a benched-points
-record and a prior-year figure were both wrong — the record belonged to a different week and
-the figure to a different manager.
+**Schedule luck sorts the complaints.** A 6-3 all-play team that loses got robbed; a 2-7 team
+that wins should keep quiet. Name both — and count carefully before calling a win "the
+luckiest ever" (1-8 wins had happened nine times before).
 
-**Fact check against final data.** Re-run `week-facts.py` immediately before publishing and
-confirm every number in the draft still matches. Then walk the draft and check each of these
-by hand, because they are the classes that break:
+**A rivalry game gets its own section.** Each manager's designated rival is in `leagueInfo.js`.
+When two rivals meet, a one-line result undersells it. Give the series: the record, who has led
+it and for how long, every margin (the ladder of margins in order is a strong device), the
+biggest scores inside it, and where this result ranks — "the closest these two have ever
+played" landed far better than "decided by 1.82".
 
-- **Rankings** — "second-highest", "fourth-best", "three of the five". These are right when
-  written and silently wrong after one more game.
+**The injury ward is the one section with no data behind it.** Search for current news and
+attribute it. Check QB depth from `rosters` when a quarterback goes down — "the only
+quarterback on his roster" is a fact worth stating — and name real free-agent replacements.
+Report actual injuries straight; the comedy belongs to lineup decisions.
+
+**Tables: four columns at most**, read on a 375px phone. Keep names short in cells.
+
+## Before publishing — the checks
+
+**History check.** Every "most ever", "first time", "lowest since" gets verified against
+`--history` or a direct query, counting from the full data. Unverifiable claims are cut, not
+softened.
+
+**Numbers check.** Re-run `week-facts.py` and confirm every figure in the draft still matches:
+table cells, player scores, and whether each player was actually started or benched.
+
+**Classes that break even when every number is right:**
+
+- **Tense — its own pass.** Read the draft asking only *which games does this say are over?*
+  For each, confirm the trailer has nobody left. The Week 2 2026 post called a man the winner of
+  a game it had labelled LIVE, in four places: the standfirst, the lowlight reel, a section
+  label ("GOT AWAY WITH IT") and the closing line. A live game is only ever *leading*, *ahead*,
+  *on course*. The same goes for anything riding on a live score: a record, "top score of the
+  week", "team of the week", "closest game of the week". Tucker took top score *and* team of the
+  week off Jonah on that Monday night with one Davante Adams game. Labels and closing lines
+  compress, and compression is where the hedge gets dropped.
+- **Rankings** — "second-highest", "three of the five" — silently wrong after one more game.
 - **Direction** — head-to-head records read fluently when reversed. Confirm who leads whom.
-- **Counts** — "four teams left points on the bench that would have changed the result" is a
-  claim with an answer; compute it.
-- **Player ownership** — check the player is actually on that roster now. Rosters churn.
-- **Tense, and it is its own check.** Every number in the Week 2 2026 post verified — every
-  score, every table cell, every ranking — and the post still said a man had *won* a matchup
-  it had itself labelled **LIVE** four paragraphs earlier. A numeric check cannot catch this,
-  because no number is wrong.
-
-  So after the numbers pass, read the draft again asking only: *which games does this claim are
-  over?* For each one, confirm the trailer has nobody left. That post asserted a win in four
-  places — the standfirst ("won anyway"), the lowlight reel ("He won. He won because…"), a
-  section label ("GOT AWAY WITH IT"), and the closing line ("Brenden **has** the lowest winning
-  score in league history") — and a reader caught it.
-
-  A live game is only ever *leading*, *ahead*, *on course*, or *could own by midnight*. The same
-  applies to any record riding on a live score: provisional until the last player is off the
-  field. Watch section labels and closing lines especially — both compress, and compression is
-  where the hedge gets dropped.
+- **Counts** — compute them. Don't read them off a truncated leaderboard.
+- **Player ownership** — confirm the player is on that roster now.
 
 ## Publishing
 
-**Add the reading time last.** After the final edit, run
+1. **Reading time, last.** After the final edit run
+   `python3 scripts/reading-time.py docs/articles/<season>-w<week>-monday.md` and end the
+   dateline with its `· N min read`. It counts prose only, tables excluded, at 230 words a
+   minute rounded up. Corrections change the length, so never estimate before the checks.
+2. **Title ends in `RECAP`.** `publish-article.mjs` matches on title to decide between updating
+   and creating, and both editions share a week number. A bare `WEEK N` would silently overwrite
+   the midweek `WEEK N PREVIEW`.
+3. **Publish.**
+   ```bash
+   node scripts/publish-article.mjs docs/articles/<season>-w<week>-monday.md \
+     --type Recap --author Gurret --featured --dry-run
+   ```
+   Check the block counts, then drop `--dry-run`. It updates in place on a title match.
+   Republishing any other post: omit `--featured`, or it goes back on the home page.
+4. **Unfeature the previous post.** `HomePost.svelte` shows the first `featured` entry and
+   `getBlogPosts` requests no order, so two featured posts make the home page undefined.
+5. **Verify live at phone width** — tables render as tables, no literal Markdown, and
+   `document.documentElement.scrollWidth` equals `clientWidth`.
 
-```bash
-python3 scripts/reading-time.py docs/articles/<season>-w<week>-monday.md
-```
-
-and put its figure at the end of the dateline, as `· N min read`. Do it after the fact check,
-not before: corrections change the length, and a stale estimate is a small wrong number sitting
-at the very top of the post. The script counts prose only -- tables are scanned, not read, so
-their cells are left out -- at 230 words a minute, rounded up.
-
-**The title must end in `RECAP`.** Both editions cover the same week number, and
-`publish-article.mjs` matches on title to decide between updating and creating. Titling this
-post `WEEK N` would silently overwrite the midweek `WEEK N PREVIEW` instead of publishing a
-second post -- the live article would be replaced, with no warning and no second entry. The
-two titles are:
-
-| Edition | Title |
-| --- | --- |
-| Monday | `THE MUDD REPORT — WEEK N RECAP` |
-| Midweek | `THE MUDD REPORT — WEEK N PREVIEW` |
-
-```bash
-node scripts/publish-article.mjs docs/articles/<season>-w<week>-monday.md \
-  --type Recap --author Gurret --featured --dry-run
-```
-
-Dry run first to see the block counts and catch a conversion problem. Then drop `--dry-run`.
-It updates in place if a post with that title already exists, so re-running after an edit
-corrects the live post rather than duplicating it.
-
-Then **unfeature the previous week's post**, or the home page has two featured posts to choose
-between and picks whichever Contentful returns first. `HomePost.svelte` takes the first
-`featured` entry it sees and `getBlogPosts` requests no explicit order, so this is genuinely
-undefined rather than merely untidy.
-
-Afterwards, confirm on the live site that the tables rendered as tables and nothing arrived as
-literal Markdown.
+**Correcting a published post.** Fix the text, and if a published *fact* changed, add an italic
+correction note at the bottom saying what it said and what's true. Trims and rewording need no
+note. To rename a post, change the title on the entry through the management API — republishing
+under a new title creates a duplicate and orphans the old entry.
 
 ## A note on timing
 
-This post is a snapshot and should say so in the standfirst ("15 of 16 games final"). That
-stamp is what makes it honest later — but it also means **its numbers are never a source for
-anything written afterwards**. The midweek preview re-derives everything from final data.
+This post is a snapshot, and the dateline says so ("15 of 16 games final"). That stamp keeps it
+honest later, but it also means **its numbers are never a source for anything written
+afterwards**. The midweek preview re-derives everything from final data.

@@ -91,7 +91,7 @@ Counting only the slots whose player has finished. Five managers still have a st
 | Team | Bench | Eff% |
 | --- | --- | --- |
 | kshoyer | 0.02 | 100.0% |
-| paulslaats | 1.40 | 98.9% |
+| paulslaats | 0.80 | 99.3% |
 | jonahcartwright | 2.90 | 97.8% |
 | TnT44 | 2.10 | 97.7% |
 | tuckersdumbteam | 4.10 | 96.2% |
@@ -180,4 +180,4 @@ By midnight Brenden could own the lowest winning score in league history and hav
 
 ---
 
-*Correction: the efficiency table originally graded five managers on slots whose player had not yet kicked off. A starter sitting on 0.0 because his game has not started is not a bad decision, but the optimal-lineup calculation counts him as one — so tuckersdumbteam, paulslaats, kshoyer, malstol and Kabroa were all charged with bench points they had not left. The table now covers finished slots only: kshoyer moves from 95.2% to 100%, paulslaats from 93.3% to 98.9%, tuckersdumbteam from 90.5% to 96.2%, malstol from 84.7% to 90.1%, and Kabroa from 79.8% to 81.0%. The five managers with nobody left to play are unaffected, and BBrown16's 35.40 is still the week's largest by some distance. This post also originally called Kabroa's start/sit decisions mistakes. They were not — he started the higher-ranked player at all four slots.*
+*Correction: the efficiency table originally graded five managers on slots whose player had not yet kicked off. A starter sitting on 0.0 because his game has not started is not a bad decision, but the optimal-lineup calculation counts him as one — so tuckersdumbteam, paulslaats, kshoyer, malstol and Kabroa were all charged with bench points they had not left. The table now covers finished slots only: kshoyer moves from 95.2% to 100%, paulslaats from 93.3% to 99.3%, tuckersdumbteam from 90.5% to 96.2%, malstol from 84.7% to 90.1%, and Kabroa from 79.8% to 81.0%. The five managers with nobody left to play are unaffected, and BBrown16's 35.40 is still the week's largest by some distance. This post also originally called Kabroa's start/sit decisions mistakes. They were not — he started the higher-ranked player at all four slots.*

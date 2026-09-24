@@ -77,6 +77,15 @@ it.
 - **Don't editorialise a result nobody could have changed.** malstol lost with the sixth-best
   score to the only team that broke 140. Say that, and let it sit.
 - **Avoid sportswriter throat-clearing.** No "as we head into", no "only time will tell".
+- **Don't call a sensible decision a mistake.** The optimal lineup is hindsight. Before
+  mocking a start/sit call, check where the market ranked the two players; if the manager
+  started the higher-ranked one, the story is that he did the right thing and lost anyway. It
+  usually is the better story.
+- **Don't let history read as news.** A fact about a past meeting has to say it's past — name
+  the year and the pairing. "The three highest scores in league history were all posted in
+  fixtures being played this week" read as though they'd happened this week.
+- **Don't say a live result is settled.** "Won", "has the record", "team of the week" all wait
+  for the last player to finish. Until then: leading, on course, could.
 
 ## Names
 
@@ -89,12 +98,18 @@ Both are fine in the same piece. What matters is that a reader always knows who 
 
 ## Shape
 
+Title, then an italic dateline — `*<day> <date> · <status> · <N> min read*` — then straight
+into the first section. No standfirst: it restated what the first section was about to say.
 Headers in caps for main sections (`## THE WAIVER WIRE`), sentence case for sub-sections
 (`### The cruelest thing that happened to anybody`). Tables for anything with more than three
-rows of numbers. A `---` divider after the standfirst and before the closing line.
+rows of numbers. A `---` divider before the closing line.
 
-Length is whatever the week earned. A week with two live games and a benched quarterback is
-long. A quiet week is short, and a short post about a quiet week is better than a long one.
+**Aim for a five-minute read** — about 1,150 words of prose at most; tables don't count, since
+they're scanned rather than read. That's a ceiling, not a quota. A quiet week is shorter, and a
+short post about a quiet week beats a long one. The cuts that cost least: the standfirst, a
+second sentence restating the first, the minor waiver moves, and any paragraph whose point is
+already in a table. The cuts that cost most: the one dry aside per section, and the specific
+number that makes a claim land.
 
 ## Formatting for the site
 
