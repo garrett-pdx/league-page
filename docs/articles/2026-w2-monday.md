@@ -1,6 +1,6 @@
 # THE MUDD REPORT — WEEK 2 RECAP
 
-*Monday Sept 21 · 15 of 16 games final*
+*Monday Sept 21 · 15 of 16 games final · 11 min read*
 
 Week 2 is on course to produce the lowest-scoring matchup in the history of this league, a man who benched Patrick Mahomes for the second Sunday in a row and leads anyway, and a rivalry game decided by 1.82 points that one manager had already bought the solution to and left on his bench. Three matchups are still alive and every single player who can change them is in the same game tonight.
 

@@ -1,6 +1,6 @@
 # THE MUDD REPORT — WEEK 1 RECAP
 
-*Monday Sept 14 · 15 of 16 games final*
+*Monday Sept 14 · 15 of 16 games final · 6 min read*
 
 Week 1 gave us a near-perfect manager, a guy who left a winning lineup rotting on his bench, a defending champ who scored the 4th-most points in the league and lost anyway, and two matchups that still aren't over. DEN/KC kicks at 8:15 with four of us still holding a live ticket.
 

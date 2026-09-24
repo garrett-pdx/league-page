@@ -1,6 +1,6 @@
 # THE MUDD REPORT — WEEK 2 PREVIEW
 
-*Wednesday Sept 16 · Week 1 in the books · Lions at Bills Thursday, 8:15*
+*Wednesday Sept 16 · Week 1 in the books · Lions at Bills Thursday, 8:15 · 7 min read*
 
 Every league has a week that tells you what kind of year it's going to be. This was one. Two matchups went to the final possession of Monday night, a man watched a quarterback he owns put up twenty-five points from his own bench while losing by less than four, and the man who scored 121.86 and lost anyway now has to play the one team that has always handled him.
 
