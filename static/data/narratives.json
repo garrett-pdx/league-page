@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-21T13:10:51",
+ "generated": "2026-09-24T09:35:00",
  "note": "Derived from weeks.json by scripts/derive-narratives.py. Authoring aid, not fetched at runtime. Regenerate after a season with: python3 scripts/derive-narratives.py",
  "seasons": [
   "2022",
@@ -8,7 +8,7 @@
   "2025",
   "2026"
  ],
- "count": 303,
+ "count": 302,
  "facts": [
   {
    "category": "season_mvp",
@@ -2024,9 +2024,9 @@
    ],
    "players": [],
    "values": {
-    "count": 151
+    "count": 150
    },
-   "text": "tuckersdumbteam has started a player who scored exactly nothing 151 times."
+   "text": "tuckersdumbteam has started a player who scored exactly nothing 150 times."
   },
   {
    "category": "zero_starts",
@@ -2037,9 +2037,9 @@
    ],
    "players": [],
    "values": {
-    "count": 149
+    "count": 148
    },
-   "text": "malstol has started a player who scored exactly nothing 149 times."
+   "text": "malstol has started a player who scored exactly nothing 148 times."
   },
   {
    "category": "zero_starts",
@@ -2050,9 +2050,9 @@
    ],
    "players": [],
    "values": {
-    "count": 145
+    "count": 144
    },
-   "text": "Kabroa has started a player who scored exactly nothing 145 times."
+   "text": "Kabroa has started a player who scored exactly nothing 144 times."
   },
   {
    "category": "zero_starts",
@@ -2076,9 +2076,9 @@
    ],
    "players": [],
    "values": {
-    "count": 142
+    "count": 141
    },
-   "text": "paulslaats has started a player who scored exactly nothing 142 times."
+   "text": "paulslaats has started a player who scored exactly nothing 141 times."
   },
   {
    "category": "closest_game",
@@ -3200,10 +3200,10 @@
    "values": {
     "wins_first": 4,
     "wins_second": 4,
-    "points_first": 726.0,
-    "points_second": 769.3
+    "points_first": 732.5,
+    "points_second": 784.0
    },
-   "text": "malstol and paulslaats have met 8 times: 4-4 to malstol, 726.0 against 769.3 all told."
+   "text": "malstol and paulslaats have met 8 times: 4-4 to malstol, 732.5 against 784.0 all told."
   },
   {
    "category": "head_to_head",
@@ -3285,10 +3285,10 @@
    "values": {
     "wins_first": 6,
     "wins_second": 2,
-    "points_first": 948.3,
+    "points_first": 948.9,
     "points_second": 860.5
    },
-   "text": "kshoyer and jonahcartwright have met 8 times: 6-2 to kshoyer, 948.3 against 860.5 all told."
+   "text": "kshoyer and jonahcartwright have met 8 times: 6-2 to kshoyer, 948.9 against 860.5 all told."
   },
   {
    "category": "head_to_head",
@@ -3302,10 +3302,10 @@
    "values": {
     "wins_first": 2,
     "wins_second": 6,
-    "points_first": 801.6,
+    "points_first": 807.4,
     "points_second": 802.9
    },
-   "text": "Kabroa and BBrown16 have met 8 times: 2-6 to BBrown16, 801.6 against 802.9 all told."
+   "text": "Kabroa and BBrown16 have met 8 times: 2-6 to BBrown16, 807.4 against 802.9 all told."
   },
   {
    "category": "head_to_head",
@@ -3387,10 +3387,10 @@
    "values": {
     "wins_first": 6,
     "wins_second": 1,
-    "points_first": 717.8,
+    "points_first": 753.3,
     "points_second": 587.3
    },
-   "text": "tuckersdumbteam and TnT44 have met 7 times: 6-1 to tuckersdumbteam, 717.8 against 587.3 all told."
+   "text": "tuckersdumbteam and TnT44 have met 7 times: 6-1 to tuckersdumbteam, 753.3 against 587.3 all told."
   },
   {
    "category": "head_to_head",
@@ -3963,9 +3963,9 @@
    ],
    "players": [],
    "values": {
-    "swing": -7
+    "swing": -6
    },
-   "text": "mikestreinz fell from 8 wins in 2025 to 1 in 2026."
+   "text": "mikestreinz fell from 8 wins in 2025 to 2 in 2026."
   },
   {
    "category": "season_swing",
@@ -4002,9 +4002,9 @@
    ],
    "players": [],
    "values": {
-    "swing": -9
+    "swing": -8
    },
-   "text": "tuckersdumbteam fell from 10 wins in 2025 to 1 in 2026."
+   "text": "tuckersdumbteam fell from 10 wins in 2025 to 2 in 2026."
   },
   {
    "category": "season_swing",
@@ -4031,19 +4031,6 @@
     "swing": -7
    },
    "text": "jonahcartwright fell from 11 wins in 2022 to 4 in 2023."
-  },
-  {
-   "category": "season_swing",
-   "season": "2026",
-   "week": null,
-   "managers": [
-    "612407006212468736"
-   ],
-   "players": [],
-   "values": {
-    "swing": -5
-   },
-   "text": "jonahcartwright fell from 5 wins in 2025 to 0 in 2026."
   },
   {
    "category": "season_swing",
@@ -4080,9 +4067,9 @@
    ],
    "players": [],
    "values": {
-    "swing": -6
+    "swing": -5
    },
-   "text": "paulslaats fell from 7 wins in 2025 to 1 in 2026."
+   "text": "paulslaats fell from 7 wins in 2025 to 2 in 2026."
   },
   {
    "category": "season_swing",
@@ -4093,9 +4080,9 @@
    ],
    "players": [],
    "values": {
-    "swing": -6
+    "swing": -5
    },
-   "text": "BBrown16 fell from 6 wins in 2025 to 0 in 2026."
+   "text": "BBrown16 fell from 6 wins in 2025 to 1 in 2026."
   },
   {
    "category": "draft_steal",
@@ -4406,22 +4393,6 @@
    "season": "2026",
    "week": null,
    "managers": [
-    "850475150817234944"
-   ],
-   "players": [
-    "12481"
-   ],
-   "values": {
-    "cost_round": 10,
-    "points": 13.1
-   },
-   "text": "malstol kept Cam Skattebo at a round 10 cost in 2026 and got 13.1 points out of him."
-  },
-  {
-   "category": "worst_keeper",
-   "season": "2026",
-   "week": null,
-   "managers": [
     "999190763323944960"
    ],
    "players": [
@@ -4432,6 +4403,22 @@
     "points": 17.7
    },
    "text": "BBrown16 kept Nico Collins at a round 12 cost in 2026 and got 17.7 points out of him."
+  },
+  {
+   "category": "worst_keeper",
+   "season": "2026",
+   "week": null,
+   "managers": [
+    "612407006212468736"
+   ],
+   "players": [
+    "10229"
+   ],
+   "values": {
+    "cost_round": 5,
+    "points": 19.2
+   },
+   "text": "jonahcartwright kept Rashee Rice at a round 5 cost in 2026 and got 19.2 points out of him."
   },
   {
    "category": "faab_splurge",

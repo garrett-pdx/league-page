@@ -36,7 +36,7 @@ on consequence — what the results actually did to everyone, and who has to ans
    curl -s "https://api.sleeper.app/v1/league/1312235880743706624/rosters"
    ```
    Rosters carry `settings.waiver_budget_used` for remaining FAAB — refetch after waivers run,
-   because a stale snapshot shows everyone at $0 spent.
+   because a stale snapshot shows everyone with nothing spent.
 4. **Get head-to-head history for every upcoming matchup.**
    ```bash
    python3 scripts/week-facts.py --h2h <A> <B>
