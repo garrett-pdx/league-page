@@ -14,7 +14,8 @@ open-source SvelteKit template, currently v2.5.1), not a project written from sc
 That fork relationship is the single most important fact about working here — see
 "Working in a fork" below.
 
-**Status: live at [mudd-league.vercel.app](https://mudd-league.vercel.app).** Every push to
+**Status: live at [muddleague.site](https://muddleague.site)** (bought through Vercel, which runs
+its DNS; `mudd-league.vercel.app` serves the same site, so old links still work). Every push to
 `master` deploys. `leagueInfo.js` is fully configured; all eleven managers (ten active plus
 Jordan Leonard in the Moratorium) have real names, hometowns, locally-served photos and
 bios; the constitution is this league's rules; the shell is rebranded.

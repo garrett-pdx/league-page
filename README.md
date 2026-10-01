@@ -3,7 +3,7 @@
 
 # The Mudd League
 
-**[mudd-league.vercel.app](https://mudd-league.vercel.app)**
+**[muddleague.site](https://muddleague.site)** (also at mudd-league.vercel.app)
 
 Standings, matchups, records, trades, rosters, manager bios, keepers and a league
 constitution — generated live from the Sleeper API.

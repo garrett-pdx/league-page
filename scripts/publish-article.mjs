@@ -215,6 +215,10 @@ A slug is set ONCE. Updates keep whatever slug the entry already has, even if th
 because a slug is a URL people have shared; deriving it afresh on every publish would break
 every link the first time a post was renamed (two already have been).
 */
+// The site's public address. mudd-league.vercel.app still serves the same site, so links
+// already shared keep working, but new links should use the league's own domain.
+const SITE = "https://muddleague.site";
+
 function deriveSlug(file, title) {
   const season = (path.basename(file).match(/^(\d{4})-/) || [])[1];
   let s = title
@@ -320,12 +324,12 @@ async function main() {
     entry = await entry.update();
     await entry.publish();
     console.log(`\nupdated blogPost ${entry.sys.id}`);
-    console.log(`url:      https://mudd-league.vercel.app/blog/${keptSlug}`);
+    console.log(`url:      ${SITE}/blog/${keptSlug}`);
   } else {
     entry = await environment.createEntry("blogPost", { fields: { ...fields, slug: { "en-US": derivedSlug } } });
     await entry.publish();
     console.log(`\npublished blogPost ${entry.sys.id}`);
-    console.log(`url:      https://mudd-league.vercel.app/blog/${derivedSlug}`);
+    console.log(`url:      ${SITE}/blog/${derivedSlug}`);
   }
 }
 
