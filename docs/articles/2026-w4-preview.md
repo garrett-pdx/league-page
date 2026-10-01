@@ -1,20 +1,36 @@
 # THE MUDD REPORT — WEEK 4 PREVIEW
 
-*Thursday Oct 1 · Week 3 in the books · Steelers at Browns tonight, 5:15 PT · 4 min read*
+*Thursday Oct 1 · Week 3 in the books · Steelers at Browns tonight, 5:15 PT · 5 min read*
+
+## THE HINGHAM QUARTERBACK CRISIS
+
+This publication does not usually lead with a manager's bench. But we are now entering **Week 4 of the Hingham Quarterback Crisis**, and the people of Hingham, Massachusetts deserve answers.
+
+The facts of the case: Kevin Shoyer owns two quarterbacks, Joe Burrow and Jalen Hurts. Each week he must start one. Each week he has started the wrong one.
+
+| Week | Started | Benched | Cost |
+| --- | --- | --- | --- |
+| 1 | Burrow 16.16 | Hurts 30.72 | 14.56 |
+| 2 | Hurts 20.16 | Burrow 20.18 | 0.02 |
+| 3 | Hurts 12.62 | Burrow 28.58 | 15.96 |
+
+That is 30.54 points across three weeks, including one decision lost by two hundredths of a point, which is roughly the width of a Sharpie line on a depth chart. kshoyer is 0-3.
+
+In his defence, this is a genuinely hard call. In August the market ranked Burrow 48th and Hurts 57th, nine places apart. And in a twist that should bring the town some peace, none of it has mattered: he has lost all three games by at least 24 points, so the right quarterback would not have saved him once. The crisis is real. The stakes are not.
+
+As of Thursday afternoon, the Week 4 starter is **Burrow**. We will be monitoring the situation.
 
 ## MONDAY NIGHT SETTLED IT
 
-Five managers had a starter in Eagles at Bears. Nothing changed hands.
+Five managers had a starter in Eagles at Bears, and every one of them went to bed with the same result they woke up with.
 
-**Tucker kept the top score.** Jonah needed 39.81 from DeVonta Smith to take it, and Smith gave him 9.50. That's three straight weeks with the league's best score, which ties Streinz's run from Weeks 11 to 13 of 2023. Four would be a record.
+**Tucker kept the top score.** Jonah needed 39.81 from DeVonta Smith to take it and got 9.50. That's three straight weeks with the league's top score, tying Streinz's run from Weeks 11 to 13 of 2023. One more and the record is his alone.
 
-**Saquon Barkley gave TnT44 8.50 of the 16.45 he needed.** TnT44 lost by 7.94 and is 0-3. Monday's edition said Tyler Shough's 6.02-point edge over Trevor Lawrence would matter only if Saquon had a middling night. He did, and Lawrence would still have won it by 1.92.
-
-**kshoyer started Jalen Hurts, who scored 12.62, and left Joe Burrow's 28.58 on the bench.** That's three weeks of choosing between them and the wrong answer every time: 14.56 points in Week 1, 0.02 in Week 2, 15.96 in Week 3. In fairness it's a coin flip — the market had Burrow 48th and Hurts 57th in August. kshoyer is 0-3, and as of Thursday afternoon he has gone back to Burrow.
+**Saquon Barkley gave TnT44 8.50 of the 16.45 he needed**, and TnT44 is 0-3. Monday's edition said Tyler Shough's edge over Trevor Lawrence would matter only if Saquon had a middling night. Saquon obliged, and Lawrence would still have won it by 1.92. Gurret's discard turned out to be a luxury, not a lifeline.
 
 ### The cruelest thing that happened to anybody
 
-paulslaats set a perfect lineup. His roster could not have produced a single point more than 148.38, which would have beaten every other team in the league by at least 23.34. It's the second-highest losing score in league history. The highest, BBrown16's 148.74 in 2024, was also posted against Tucker.
+paulslaats set a perfect lineup. Not a good one — a perfect one. His roster could not have produced a single point more than 148.38, which would have beaten every other team in Week 3 by at least 23.34. It's the second-highest losing score in league history. The highest, Brenden's 148.74 in 2024, was also posted against Tucker, who is apparently where big losing scores go to be framed.
 
 ## THE WAIVER WIRE
 
@@ -23,13 +39,13 @@ paulslaats set a perfect lineup. His roster could not have produced a single poi
 | Gurret | $7 | won |
 | mikestreinz | $6 | lost |
 
-The league's designated rivals bid against each other for a Jets back who carried four times for 14 yards last week, and Gurret won it by a dollar.
+The league's designated rivals went to war over a Jets back who carried four times for 14 yards last week. Gurret won by a dollar, paying 50 cents a yard, which only makes sense as a matter of principle.
 
-**malstol** paid $18 for Ollie Gordon, the week's biggest bid, after 17 carries for 41 yards and a touchdown. He has now spent $45, the most in the league. His $10 claim for Alvin Kamara failed, and twelve minutes later Streinz picked Kamara up as a free agent for nothing.
+**malstol** spent $18 on Ollie Gordon — 17 carries, 41 yards, a touchdown — the biggest bid of the week. That takes him to $45 spent, the most in the league, which is how a defending champion at 1-2 shops. He also put in $10 for Alvin Kamara and lost; twelve minutes later Streinz picked Kamara up as a free agent for nothing.
 
-**Tucker** cut Kyle Pitts, his own sixth-round pick, after one catch for 5 yards, and added Juwan Johnson, who had eight catches, 53 yards and two touchdowns. The best team in the league is still shopping.
+**Tucker** cut Kyle Pitts, his own sixth-round pick, after one catch for 5 yards, and replaced him with Juwan Johnson, who had eight catches and two touchdowns. The 3-0 team with the most points in the league is still clipping coupons.
 
-**paulslaats's** $29 receiver, Denzel Boston, sat on the bench last week and is on it again for tonight's game, in Cleveland.
+**paulslaats** has now paid $29 for Denzel Boston and started him zero times. Boston plays for Cleveland tonight, live on Prime Video, from paulslaats's bench.
 
 ## THE TABLE
 
@@ -46,29 +62,29 @@ The league's designated rivals bid against each other for a Jets back who carrie
 | TnT44 | 0-3 | 302.94 |
 | kshoyer | 0-3 | 265.74 |
 
-Tucker leads the league in points by 69.22. Streinz is also 3-0, with the sixth-most points; TnT44 is 0-3 and has outscored two teams with a win.
+Tucker leads the league in points by 69.22, which is more than Brenden scored in Week 3. Streinz is also unbeaten, from sixth place in points, while TnT44 is winless having outscored two teams that aren't.
 
 ## WEEK 4
 
-### tuckersdumbteam vs Kabroa — 0.72 points
+### tuckersdumbteam vs Kabroa — the 0.72 series
 
-**Kabroa leads this series 4-3, and across seven meetings the totals are 752.22 to 751.50.** No two current managers are closer. Kabroa is one of three managers with a winning record against Tucker, though Tucker has won the last two. Tucker needs the week's top score again to take the streak record outright. Kabroa needs a win after two losses by a combined 6.70 points.
+Seven meetings. Kabroa leads 4-3. Total points: **752.22 to 751.50.** No two current managers are closer. Kabroa is one of only three managers with a winning record against Tucker, though Tucker has taken the last two. Tucker is one top score from owning the streak record outright; Kabroa is one win from ending a run of losses by 4.06 and 2.64 that he'd like to discuss with someone.
 
 ### mikestreinz vs kshoyer — 3-0 against 0-3
 
-**Level at 3-3, though kshoyer has outscored Streinz by 51.28.** Streinz has won the last two meetings and has the league's least convincing unbeaten record. He starts Tyler Shough again — Gurret's discard — and now has Kamara too. kshoyer gets a head start tonight with Jaylen Warren; Streinz starts nobody in the game.
+The series is 3-3, and kshoyer has outscored Streinz by 51.28 in it, which is the most kshoyer thing imaginable. Streinz has won the last two meetings and starts Gurret's discarded quarterback, Tyler Shough, again. Hingham awaits.
 
-### TnT44 vs paulslaats — 4-4
+### TnT44 vs paulslaats — owed something
 
-**Dead level, with paulslaats ahead by 21.30 points over eight meetings.** TnT44's three losses have come by 15.08, 49.18 and 7.94. paulslaats lost last week with a lineup that couldn't have been improved. One of them is owed something.
+Even at 4-4, paulslaats ahead by 21.30 points. TnT44 has found a new way to lose every week — by 15.08, by 49.18, by 7.94 — and paulslaats has just discovered that perfection isn't enough. One of them gets paid back this week.
 
 ### Gurret vs BBrown16 — the 41
 
-**Gurret leads 4-1 and has outscored Brenden by 109.96.** The lowest score in league history, Brenden's 41.28 in Week 8 of 2025, was posted against Gurret. Brenden comes in 1-2 with the fewest points in the league and De'Von Achane on IR. Gurret has Jayden Daniels and Breece Hall on IR and starts Jared Goff.
+Gurret is 4-1 and has outscored Brenden by 109.96. The lowest score in league history, Brenden's 41.28 in Week 8 of 2025, was posted against Gurret. He was there for it. Brenden arrives with the fewest points in the league and De'Von Achane on IR; Gurret arrives with Jayden Daniels and Breece Hall on IR and Jared Goff, again.
 
-### jonahcartwright vs malstol — 3-3
+### jonahcartwright vs malstol — 0.58
 
-**Level, with malstol ahead by 10.50 points.** Their Week 14 meeting in 2022 finished 92.76 to 92.18 in Jonah's favour, still the third-closest finish in league history. malstol gets a head start tonight with Harold Fannin; Jonah has nobody in the game.
+Level at 3-3, malstol ahead by 10.50 points. Their Week 14 meeting in 2022 finished 92.76 to 92.18 to Jonah, still the third-closest finish in league history. Jonah has the third-most points this year; malstol has spent the most money. One of those is a better predictor.
 
 ## THURSDAY NIGHT — STEELERS @ BROWNS, 5:15 PT
 
@@ -77,8 +93,8 @@ Tucker leads the league in points by 69.22. Streinz is also 3-0, with the sixth-
 | kshoyer | Jaylen Warren | PIT |
 | malstol | Harold Fannin | CLE |
 
-Lineups as of Thursday afternoon. Two starters, and neither of their opponents starts anybody in it. On the benches: Denzel Boston and Quinshon Judkins (paulslaats), DK Metcalf (Streinz).
+Lineups as of Thursday afternoon. Two starters, and neither of their opponents starts anybody in the game, so kshoyer and malstol both get a head start. kshoyer hasn't finished a week ahead of anybody yet; tonight he gets to start one that way. On the benches: Denzel Boston and Quinshon Judkins (paulslaats), DK Metcalf (Streinz).
 
 ---
 
-Tucker goes for a record against the closest series in the league. Kickoff is at 5:15 PT.
+Tucker chases a record. Hingham chases closure. Kickoff at 5:15 PT.
