@@ -20,7 +20,10 @@ Week 2 2026 edition ran to ten minutes. Cut before you polish.
 2. **Confirm who is actually live.** A starter on 0.0 is ambiguous. Look up the real Monday
    game and check each named player is in it.
 3. **Read `docs/mudd-voice.md`.** It defines the voice, and the rules that keep it honest.
-4. **Get the history.** `--history` for superlatives; `--h2h` for any game worth a paragraph.
+4. **Read the last two published posts** in `docs/articles/`. Their stories are spent: a
+   story gets one full telling, and after that a single line only if it has a new
+   consequence. Pick lead stories they didn't tell.
+5. **Get the history.** `--history` for superlatives; `--h2h` for any game worth a paragraph.
 
 ## Structure
 
@@ -90,6 +93,12 @@ Report actual injuries straight; the comedy belongs to lineup decisions.
 **History check.** Every "most ever", "first time", "lowest since" gets verified against
 `--history` or a direct query, counting from the full data. Unverifiable claims are cut, not
 softened.
+
+**Repetition check.** `python3 scripts/repeat-check.py docs/articles/<file>.md` lists every
+figure and every six-word phrase the draft shares with the previous two posts (prose only;
+tables are exempt). Judge each figure: a callback with a new consequence stays, a
+re-telling goes. Shared phrases should be zero — they are stock lines turning into a
+template.
 
 **Numbers check.** Re-run `week-facts.py` and confirm every figure in the draft still matches:
 table cells, player scores, and whether each player was actually started or benched.

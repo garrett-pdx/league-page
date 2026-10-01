@@ -84,6 +84,19 @@ it.
 - **Don't let history read as news.** A fact about a past meeting has to say it's past — name
   the year and the pairing. "The three highest scores in league history were all posted in
   fixtures being played this week" read as though they'd happened this week.
+- **Don't re-tell what the last post told.** Most readers read both editions. A story gets
+  one full telling; after that it earns a line only when it has a new consequence — "Saquon
+  needed 16.45 and got 8.50" closes Monday's loop; restating paulslaats's 148.38 and the
+  second-highest losing score three days after the recap led with it does not. The Week 4 2026
+  preview did exactly that under a new heading, and the cruelest-thing slot went to a story
+  nobody had told yet instead (TnT44's 20-point rookie on the bench).
+- **Don't reuse a device every week.** "Start X and the final reads A to B" is the best move
+  in the book and it dies if it appears in every section of every post — once per post. Same
+  for the ladder of margins, "That is not a lead", and the standings comment's opening words.
+  Sub-headings should be fresh each week even where the section is fixed.
+- **Running bits advance; they don't recap.** The Hingham Quarterback Crisis (kshoyer's weekly
+  Burrow-or-Hurts call) is a running bit. Each week it adds the new week's row and a new joke,
+  and keeps the backstory to a table rather than re-narrating it.
 - **Don't say a live result is settled.** "Won", "has the record", "team of the week" all wait
   for the last player to finish. Until then: leading, on course, could.
 

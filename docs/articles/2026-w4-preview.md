@@ -28,9 +28,13 @@ Five managers had a starter in Eagles at Bears, and every one of them went to be
 
 **Saquon Barkley gave TnT44 8.50 of the 16.45 he needed**, and TnT44 is 0-3. Monday's edition said Tyler Shough's edge over Trevor Lawrence would matter only if Saquon had a middling night. Saquon obliged, and Lawrence would still have won it by 1.92. Gurret's discard turned out to be a luxury, not a lifeline.
 
-### The cruelest thing that happened to anybody
+### The cruelest thing: a rookie on TnT44's bench
 
-paulslaats set a perfect lineup. Not a good one — a perfect one. His roster could not have produced a single point more than 148.38, which would have beaten every other team in Week 3 by at least 23.34. It's the second-highest losing score in league history. The highest, Brenden's 148.74 in 2024, was also posted against Tucker, who is apparently where big losing scores go to be framed.
+TnT44 spent the first two weeks setting near-perfect lineups, 97.2% and 97.7% efficient, and losing anyway. In Week 3 he left more on his bench than in the first two weeks combined, and this time it would have mattered.
+
+He started Brian Thomas, his fourth-round pick, who scored 1.30. On the bench sat Kenyon Sadiq, a rookie tight end nobody in this league drafted, whom TnT44 had picked up as a free agent in Week 2. Sadiq scored 20.00. Start him and TnT44 wins **108.56 to 97.80** and is 1-2 instead of 0-3.
+
+Nobody would have made that call: the market had Thomas 80th in August and Sadiq 150th. It is the only week of the three in which TnT44's best possible lineup would have won.
 
 ## THE WAIVER WIRE
 
@@ -62,17 +66,17 @@ The league's designated rivals went to war over a Jets back who carried four tim
 | TnT44 | 0-3 | 302.94 |
 | kshoyer | 0-3 | 265.74 |
 
-Tucker leads the league in points by 69.22, which is more than Brenden scored in Week 3. Streinz is also unbeaten, from sixth place in points, while TnT44 is winless having outscored two teams that aren't.
+The gap between Tucker and the second-highest scorer is now 69.22 points, more than Brenden managed all of Week 3. Streinz is also unbeaten, from sixth place in points, while TnT44 is winless having outscored two teams that aren't.
 
 ## WEEK 4
 
 ### tuckersdumbteam vs Kabroa — the 0.72 series
 
-Seven meetings. Kabroa leads 4-3. Total points: **752.22 to 751.50.** No two current managers are closer. Kabroa is one of only three managers with a winning record against Tucker, though Tucker has taken the last two. Tucker is one top score from owning the streak record outright; Kabroa is one win from ending a run of losses by 4.06 and 2.64 that he'd like to discuss with someone.
+Seven meetings. Kabroa leads 4-3. Total points: **752.22 to 751.50.** No two current managers are closer. Kabroa is one of only three managers with a winning record against Tucker, though Tucker has taken the last two. Tucker is one top score from owning the streak record outright; Kabroa is trying to end a run of near-misses.
 
 ### mikestreinz vs kshoyer — 3-0 against 0-3
 
-The series is 3-3, and kshoyer has outscored Streinz by 51.28 in it, which is the most kshoyer thing imaginable. Streinz has won the last two meetings and starts Gurret's discarded quarterback, Tyler Shough, again. Hingham awaits.
+The series is 3-3, and kshoyer has outscored Streinz by 51.28 in it, which is the most kshoyer thing imaginable. Streinz has won the last two meetings. Hingham awaits.
 
 ### TnT44 vs paulslaats — owed something
 

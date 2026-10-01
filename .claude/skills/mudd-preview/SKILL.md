@@ -44,6 +44,10 @@ is 880. One paragraph per matchup preview.
    TNF game, then check each roster's *current* week starters (`/matchups/<next_week>`) for
    players on either team. Starters, not just rostered players.
 6. **Read `docs/mudd-voice.md`** before writing prose.
+7. **Read the last two published posts** in `docs/articles/` — especially the Monday recap,
+   which covered the same week. Its stories are spent: this edition reports what changed
+   (how Monday night resolved, what waivers did) and finds new ones. The Week 4 2026 draft
+   re-ran the recap's lead under a new heading.
 
 ## Structure
 
@@ -110,6 +114,12 @@ immediately before publishing and stamp the table "as of Thursday afternoon".
 
 **History check.** Every superlative against `--history`, counted from full data.
 Unverifiable claims are cut.
+
+**Repetition check.** `python3 scripts/repeat-check.py docs/articles/<file>.md` lists every
+figure and every six-word phrase the draft shares with the previous two posts (prose only;
+tables are exempt). Judge each figure: a callback with a new consequence stays, a
+re-telling goes. Shared phrases should be zero — they are stock lines turning into a
+template.
 
 **Numbers check.** Re-run `week-facts.py` and check the draft line by line. Then the classes
 that break even when every number is right:
