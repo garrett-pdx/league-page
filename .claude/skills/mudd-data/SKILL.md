@@ -80,7 +80,9 @@ consolation game, classify it from `static/data/league-history.json`:
   receiver he had drafted and cut for nothing.
 - **Transaction history:** `static/data/transactions.json` keys adds and drops by **player
   id**, not name. Count "the Nth time X has been on this roster" from the ids — a
-  "third stint" was published that was really a second.
+  "third stint" was published that was really a second. **Filter `status == "complete"`**:
+  failed waiver claims are recorded as adds too, so Denzel Boston shows four adds for the week
+  he was won, three of them losing bids.
 - **Unrostered players' production:**
   `https://api.sleeper.app/v1/stats/nfl/regular/<season>/<week>` returns every player's stat
   line. Its points use Sleeper's generic half-PPR, not this league's scoring (six-point passing
