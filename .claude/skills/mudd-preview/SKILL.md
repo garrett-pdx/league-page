@@ -1,14 +1,19 @@
 ---
 name: mudd-preview
-description: Write and publish The Mudd Report's midweek edition for the league blog — written Wednesday or Thursday before the next NFL week kicks off, covering how Monday night settled the previous week, the waiver and FAAB results, the current standings, a preview of every upcoming matchup with its head-to-head history, and which managers have players in the Thursday night game. Use this whenever asked for the midweek post, the week-ahead preview, "preview next week", "who plays who", a waiver-wire writeup, a Thursday-night exposure rundown, or a recap once the previous week is fully final. Handles the whole job: pulls fresh data, drafts in the league's house voice, fact-checks every claim against final data and league history, then publishes to Contentful.
+description: Write and publish The Mudd Report's midweek edition for the league blog — written Wednesday or Thursday before the next NFL week kicks off, covering the waiver and FAAB results, the current standings, a preview of every upcoming matchup with its head-to-head history, and which managers have players in the Thursday night game. Use this whenever asked for the midweek post, the week-ahead preview, "preview next week", "who plays who", a waiver-wire writeup, a Thursday-night exposure rundown, or a recap once the previous week is fully final. Handles the whole job: pulls fresh data, drafts in the league's house voice, fact-checks every claim against final data and league history, then publishes to Contentful.
 ---
 
 # The Mudd Report — midweek edition
 
 Written Wednesday or Thursday, after the previous week is final and before the next one
-starts. Three jobs: **settle** last week, **report** the waiver aftermath, **preview** what's
-coming, ending on the Thursday night game. Where the Monday edition trades on suspense, this
-one trades on consequence.
+starts. It looks **forward**: the waiver aftermath, the standings, a preview of every game,
+ending on the Thursday night game.
+
+**It does not recap last week.** The Monday edition already did, and most readers read both.
+There is no "how Monday night went" section — a recurring recap of the recap is exactly the
+repetition the league asked to be rid of. If a Monday result changes a story going forward
+(a record now within reach, a team falling to 0-3), it gets one clause inside the preview it
+affects. Last week can still supply a lead, but only a story no post has told.
 
 **It must be published before Thursday kickoff** — the Thursday section is worthless after. If
 it's late, still do the whole job, but check the clock before promising "tonight".
@@ -45,9 +50,9 @@ is 880. One paragraph per matchup preview.
    players on either team. Starters, not just rostered players.
 6. **Read `docs/mudd-voice.md`** before writing prose.
 7. **Read the last two published posts** in `docs/articles/` — especially the Monday recap,
-   which covered the same week. Its stories are spent: this edition reports what changed
-   (how Monday night resolved, what waivers did) and finds new ones. The Week 4 2026 draft
-   re-ran the recap's lead under a new heading.
+   which covered the same week. Its stories are spent. The Week 4 2026 draft re-ran the
+   recap's lead under a new heading, then opened with a "Monday night settled it" section
+   that was the recap again with the live games filled in; both were cut.
 
 ## Structure
 
@@ -55,10 +60,8 @@ is 880. One paragraph per matchup preview.
 # THE MUDD REPORT — WEEK N PREVIEW
 *<day> <date> · Week N-1 in the books · <TNF game and time> · <N> min read*
 
-## MONDAY NIGHT SETTLED IT
-<what the live games needed and got; records that became final>
-### The cruelest thing that happened to anybody
-<the single worst beat, with the what-if arithmetic>
+## <AN UNTOLD STORY FROM LAST WEEK, if there is one — fresh heading every week>
+<the best what-if no post has covered, with the arithmetic and the market ranks>
 
 ## THE WAIVER WIRE
 <contested claim as a table, the story behind it, then the other moves in a line each>
@@ -99,7 +102,7 @@ Name the year and the pairing: "Streinz scored 193.04 against TnT44 in 2023."
 the series properly: record, who has led it and for how long, the margins, the biggest scores
 inside it.
 
-**The cruelest beat needs the ranks, not just the arithmetic.** A bench player who would have
+**A what-if needs the ranks, not just the arithmetic.** A bench player who would have
 won the game only indicts the manager if starting him was a defensible call at the time. Check
 the market ranks (`mudd-data`) before writing it as a mistake; when the manager made the
 sensible call and lost anyway, that's the crueler story.
@@ -117,8 +120,9 @@ Unverifiable claims are cut.
 
 **Repetition check.** `python3 scripts/repeat-check.py docs/articles/<file>.md` lists every
 figure and every six-word phrase the draft shares with the previous two posts (prose only;
-tables are exempt). Judge each figure: a callback with a new consequence stays, a
-re-telling goes. Shared phrases should be zero — they are stock lines turning into a
+tables are exempt). Aim for zero of both. A shared figure survives only inside a genuinely
+new story (Streinz's 97.80 appearing in a TnT44 what-if no post had run); a Monday result
+restated with its outcome is a recap and goes. Shared phrases are stock lines turning into a
 template.
 
 **Numbers check.** Re-run `week-facts.py` and check the draft line by line. Then the classes

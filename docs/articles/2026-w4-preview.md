@@ -1,6 +1,6 @@
 # THE MUDD REPORT — WEEK 4 PREVIEW
 
-*Thursday Oct 1 · Week 3 in the books · Steelers at Browns tonight, 5:15 PT · 5 min read*
+*Thursday Oct 1 · Week 3 in the books · Steelers at Browns tonight, 5:15 PT · 4 min read*
 
 ## THE HINGHAM QUARTERBACK CRISIS
 
@@ -20,15 +20,7 @@ In his defence, this is a genuinely hard call. In August the market ranked Burro
 
 As of Thursday afternoon, the Week 4 starter is **Burrow**. We will be monitoring the situation.
 
-## MONDAY NIGHT SETTLED IT
-
-Five managers had a starter in Eagles at Bears, and every one of them went to bed with the same result they woke up with.
-
-**Tucker kept the top score.** Jonah needed 39.81 from DeVonta Smith to take it and got 9.50. That's three straight weeks with the league's top score, tying Streinz's run from Weeks 11 to 13 of 2023. One more and the record is his alone.
-
-**Saquon Barkley gave TnT44 8.50 of the 16.45 he needed**, and TnT44 is 0-3. Monday's edition said Tyler Shough's edge over Trevor Lawrence would matter only if Saquon had a middling night. Saquon obliged, and Lawrence would still have won it by 1.92. Gurret's discard turned out to be a luxury, not a lifeline.
-
-### The cruelest thing: a rookie on TnT44's bench
+## A ROOKIE ON TNT44'S BENCH
 
 TnT44 spent the first two weeks setting near-perfect lineups, 97.2% and 97.7% efficient, and losing anyway. In Week 3 he left more on his bench than in the first two weeks combined, and this time it would have mattered.
 
@@ -72,7 +64,7 @@ The gap between Tucker and the second-highest scorer is now 69.22 points, more t
 
 ### tuckersdumbteam vs Kabroa — the 0.72 series
 
-Seven meetings. Kabroa leads 4-3. Total points: **752.22 to 751.50.** No two current managers are closer. Kabroa is one of only three managers with a winning record against Tucker, though Tucker has taken the last two. Tucker is one top score from owning the streak record outright; Kabroa is trying to end a run of near-misses.
+Seven meetings. Kabroa leads 4-3. Total points: **752.22 to 751.50.** No two current managers are closer. Kabroa is one of only three managers with a winning record against Tucker, though Tucker has taken the last two. Tucker's three straight weeks with the league's top score tie Streinz's run from 2023, and one more makes the record his alone; Kabroa is trying to end a run of near-misses.
 
 ### mikestreinz vs kshoyer — 3-0 against 0-3
 

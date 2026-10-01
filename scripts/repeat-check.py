@@ -12,9 +12,10 @@ under a new heading.
 
 Compares prose only (tables are reference, and standings repeat by design) and reports:
 
-  * every two-decimal figure the draft shares with an earlier post, with the draft's sentence,
-    so each can be judged: a callback that adds a consequence ("he needed 16.45 and got 8.50")
-    is fine; a re-telling is not;
+  * every two-decimal figure the draft shares with an earlier post, with the draft's sentence.
+    Aim for zero: a figure survives only inside a genuinely new story. Restating how Monday's
+    live games turned out ("he needed 16.45 and got 8.50") is a recap of the recap, and the
+    league asked for those to go;
   * every phrase of six or more words the draft shares with an earlier post -- the stock
     lines and devices that make a series read like a template.
 

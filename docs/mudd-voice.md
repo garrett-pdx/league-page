@@ -85,11 +85,11 @@ it.
   the year and the pairing. "The three highest scores in league history were all posted in
   fixtures being played this week" read as though they'd happened this week.
 - **Don't re-tell what the last post told.** Most readers read both editions. A story gets
-  one full telling; after that it earns a line only when it has a new consequence — "Saquon
-  needed 16.45 and got 8.50" closes Monday's loop; restating paulslaats's 148.38 and the
-  second-highest losing score three days after the recap led with it does not. The Week 4 2026
-  preview did exactly that under a new heading, and the cruelest-thing slot went to a story
-  nobody had told yet instead (TnT44's 20-point rookie on the bench).
+  one full telling, and a recurring section that re-covers the previous post is the worst
+  version of the problem. The Week 4 2026 preview opened with "Monday night settled it" —
+  who needed what on Monday and whether they got it — directly after a recap that had set up
+  every one of those games, then restated paulslaats's 148.38 under a new heading. Both went.
+  If a past result changes a story going forward, it gets one clause inside that story.
 - **Don't reuse a device every week.** "Start X and the final reads A to B" is the best move
   in the book and it dies if it appears in every section of every post — once per post. Same
   for the ladder of margins, "That is not a lead", and the standings comment's opening words.
@@ -114,7 +114,7 @@ Both are fine in the same piece. What matters is that a reader always knows who 
 Title, then an italic dateline — `*<day> <date> · <status> · <N> min read*` — then straight
 into the first section. No standfirst: it restated what the first section was about to say.
 Headers in caps for main sections (`## THE WAIVER WIRE`), sentence case for sub-sections
-(`### The cruelest thing that happened to anybody`). Tables for anything with more than three
+(`### tuckersdumbteam vs Kabroa — the 0.72 series`). Tables for anything with more than three
 rows of numbers. A `---` divider before the closing line.
 
 **Aim for a five-minute read** — about 1,150 words of prose at most; tables don't count, since
