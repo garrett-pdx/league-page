@@ -87,10 +87,23 @@ consolation game, classify it from `static/data/league-history.json`:
   `https://api.sleeper.app/v1/stats/nfl/regular/<season>/<week>` returns every player's stat
   line. Its points use Sleeper's generic half-PPR, not this league's scoring (six-point passing
   touchdowns), so quote the stat line — catches, yards, touchdowns — never its points.
-- **Market ranks, for judging a start/sit call:**
-  `~/Desktop/ff_keeper/public/value-snapshot.json` (FantasyCalc, keyed by Sleeper id; use the
-  `numQbs=1, numTeams=10, ppr=0.5` entry). It is a preseason snapshot, so say "ranked Nth in
-  August", not "ranked Nth".
+- **Weekly projections, for judging a start/sit call:**
+  `python3 scripts/projections.py <week> "Player A" "Player B"` prints Sleeper's projection for
+  that week, rescored with this league's settings, and each player's projected rank at his
+  position (QB10, TE23). This is what the manager saw in the app when he set the lineup, so it
+  is the fair test of whether a call was defensible. **Don't cite preseason ranks** ("ranked
+  48th in August") — a trade value from August says nothing about a Week 3 matchup.
+  Sleeper's own `pts_half_ppr` uses four-point passing touchdowns; the script rescores the
+  projected stat lines with the league's `scoring_settings`, and proves the recipe on every run
+  by rescoring each player's actual stat line beside the points the league credited.
+- **Projection snapshots.** Sleeper serves past weeks' projections but doesn't document whether
+  they are frozen at kickoff. `python3 scripts/projections.py <week> --snapshot` saves the
+  week's projections to `static/data/projections/<season>-w<week>.json` with a capture time;
+  take it in the midweek run before Thursday kickoff and commit it. Later lookups read the
+  snapshot and flag any player whose live projection has since changed. The first snapshot is
+  Week 4 2026 (captured Thursday 4:18 PT); comparing it with the live endpoint after Week 4
+  will show whether Sleeper rewrites old weeks. Until then, a week without a snapshot is
+  "Sleeper's projection for that week", not a timestamped pre-game figure.
 
 ## Refreshing the committed dataset
 

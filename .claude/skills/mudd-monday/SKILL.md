@@ -65,11 +65,14 @@ still to play, use `finished_benched` / `finished_efficiency`, and say above the
 unfinished slots aren't counted. Publishing the raw figures in Week 2 of 2026 charged five
 managers for players who hadn't kicked off, and needed a correction.
 
-**Never call a start/sit call a mistake without checking the ranks.** The optimal lineup is
-hindsight. Kabroa's Week 2 2026 lineup was first written up as four bad calls; he had started
-the higher-ranked player at every slot and his bench simply went off. "He got it right and was
-punished for it" was the true story and the better one. See the market-rank source in
-`mudd-data`.
+**Never call a start/sit call a mistake without checking that week's projections.** The
+optimal lineup is hindsight. Kabroa's Week 2 2026 lineup was first written up as four bad
+calls; Sleeper had projected every one of his starters above the bench player who outscored
+him (Montgomery 15.85 to Woody Marks's 7.97, for one), and his bench simply went off.
+"He got it right and was punished for it" was the true story and the better one. Use
+`scripts/projections.py` (see `mudd-data`), never preseason ranks. Projections also make better
+jokes than ranks: kshoyer owned the projected QB1 and QB2 in Week 1, started No. 1, and No. 2
+beat him by 14.56.
 
 **Schedule luck sorts the complaints.** A 6-3 all-play team that loses got robbed; a 2-7 team
 that wins should keep quiet. Name both — and count carefully before calling a win "the

@@ -1,6 +1,6 @@
 # THE MUDD REPORT — WEEK 4 PREVIEW
 
-*Thursday Oct 1 · Week 3 in the books · Steelers at Browns tonight, 5:15 PT · 4 min read*
+*Thursday Oct 1 · Week 3 in the books · Steelers at Browns tonight, 5:15 PT · 5 min read*
 
 ## THE HINGHAM QUARTERBACK CRISIS
 
@@ -16,9 +16,11 @@ The facts of the case: Kevin Shoyer owns two quarterbacks, Joe Burrow and Jalen 
 
 That is 30.54 points across three weeks, including one decision lost by two hundredths of a point, which is roughly the width of a Sharpie line on a depth chart. kshoyer is 0-3.
 
-In his defence, this is a genuinely hard call. In August the market ranked Burrow 48th and Hurts 57th, nine places apart. And in a twist that should bring the town some peace, none of it has mattered: he has lost all three games by at least 24 points, so the right quarterback would not have saved him once. The crisis is real. The stakes are not.
+In his defence, he has mostly done what he was told. In Week 1, Sleeper projected Burrow as the No. 1 quarterback in football and Hurts as No. 2; kshoyer owned both, started No. 1, and No. 2 beat him by 14.56. In Week 2 he again started the projected favourite, Hurts, and lost the argument by two hundredths. In Week 3 the projections had them 0.13 points apart, QB10 and QB11, and for the first time he went against them. He was wrong by 15.96.
 
-As of Thursday afternoon, the Week 4 starter is **Burrow**. We will be monitoring the situation.
+Follow the projections, wrong. Ignore them, wrong. And in a twist that should bring the town some peace, none of it has mattered: he has lost all three games by at least 24 points, so the right quarterback would not have saved him once. The crisis is real. The stakes are not.
+
+As of Thursday afternoon, the Week 4 starter is **Burrow**, projected as QB6 against Hurts at QB20 — the widest gap of the season, and so, by the crisis's own logic, the most dangerous. We will be monitoring the situation.
 
 ## A ROOKIE ON TNT44'S BENCH
 
@@ -26,7 +28,7 @@ TnT44 spent the first two weeks setting near-perfect lineups, 97.2% and 97.7% ef
 
 He started Brian Thomas, his fourth-round pick, who scored 1.30. On the bench sat Kenyon Sadiq, a rookie tight end nobody in this league drafted, whom TnT44 had picked up as a free agent in Week 2. Sadiq scored 20.00. Start him and TnT44 wins **108.56 to 97.80** and is 1-2 instead of 0-3.
 
-Nobody would have made that call: the market had Thomas 80th in August and Sadiq 150th. It is the only week of the three in which TnT44's best possible lineup would have won.
+Nobody would have made that call. Sleeper projected Thomas for 7.47 and Sadiq for 6.79, so TnT44 started the projected pick, by 0.68 points. It is the only week of the three in which his best possible lineup would have won.
 
 ## THE WAIVER WIRE
 

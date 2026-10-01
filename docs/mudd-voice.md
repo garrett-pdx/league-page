@@ -78,9 +78,10 @@ it.
   score to the only team that broke 140. Say that, and let it sit.
 - **Avoid sportswriter throat-clearing.** No "as we head into", no "only time will tell".
 - **Don't call a sensible decision a mistake.** The optimal lineup is hindsight. Before
-  mocking a start/sit call, check where the market ranked the two players; if the manager
-  started the higher-ranked one, the story is that he did the right thing and lost anyway. It
-  usually is the better story.
+  mocking a start/sit call, check what Sleeper projected for both players that week
+  (`scripts/projections.py`); if the manager started the projected pick, the story is that he
+  did the right thing and lost anyway. It usually is the better story. Don't cite preseason
+  ranks — "ranked 48th in August" says nothing about the week in question.
 - **Don't let history read as news.** A fact about a past meeting has to say it's past — name
   the year and the pairing. "The three highest scores in league history were all posted in
   fixtures being played this week" read as though they'd happened this week.

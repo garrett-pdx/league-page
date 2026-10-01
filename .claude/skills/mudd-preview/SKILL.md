@@ -48,8 +48,10 @@ is 880. One paragraph per matchup preview.
 5. **The Thursday game and who's exposed.** Sleeper has no schedule endpoint: look up the real
    TNF game, then check each roster's *current* week starters (`/matchups/<next_week>`) for
    players on either team. Starters, not just rostered players.
-6. **Read `docs/mudd-voice.md`** before writing prose.
-7. **Read the last two published posts** in `docs/articles/` — especially the Monday recap,
+6. **Snapshot the coming week's projections** before Thursday kickoff and commit the file:
+   `python3 scripts/projections.py <next_week> --snapshot`. Next week's what-ifs depend on it.
+7. **Read `docs/mudd-voice.md`** before writing prose.
+8. **Read the last two published posts** in `docs/articles/` — especially the Monday recap,
    which covered the same week. Its stories are spent. The Week 4 2026 draft re-ran the
    recap's lead under a new heading, then opened with a "Monday night settled it" section
    that was the recap again with the live games filled in; both were cut.
@@ -61,7 +63,7 @@ is 880. One paragraph per matchup preview.
 *<day> <date> · Week N-1 in the books · <TNF game and time> · <N> min read*
 
 ## <AN UNTOLD STORY FROM LAST WEEK, if there is one — fresh heading every week>
-<the best what-if no post has covered, with the arithmetic and the market ranks>
+<the best what-if no post has covered, with the arithmetic and that week's projections>
 
 ## THE WAIVER WIRE
 <contested claim as a table, the story behind it, then the other moves in a line each>
@@ -102,10 +104,11 @@ Name the year and the pairing: "Streinz scored 193.04 against TnT44 in 2023."
 the series properly: record, who has led it and for how long, the margins, the biggest scores
 inside it.
 
-**A what-if needs the ranks, not just the arithmetic.** A bench player who would have
-won the game only indicts the manager if starting him was a defensible call at the time. Check
-the market ranks (`mudd-data`) before writing it as a mistake; when the manager made the
-sensible call and lost anyway, that's the crueler story.
+**A what-if needs that week's projections, not just the arithmetic.** A bench player who
+would have won the game only indicts the manager if starting him was a defensible call at the
+time. Check `scripts/projections.py` for the week before writing it as a mistake; when the
+manager started the projected pick and lost anyway, that's the crueler story. Never cite
+preseason ranks.
 
 **Thursday exposure matters when it's one-sided.** Say how many managers start someone
 tonight, and whether any of their opponents do. Lineups change until lock: re-check them
