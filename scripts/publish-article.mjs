@@ -204,6 +204,27 @@ function arg(flag, fallback = null) {
     : fallback;
 }
 
+/*
+The post's URL slug: /blog/2026-week-4-preview rather than /blog/<Contentful entry id>.
+
+Derived from the file name's season and the title, minus the series prefix: "THE MUDD REPORT —
+WEEK 4 PREVIEW" in 2026-w4-preview.md becomes 2026-week-4-preview. The year is always in it, so
+next season's Week 4 preview can't collide with this one. --slug overrides the derivation.
+
+A slug is set ONCE. Updates keep whatever slug the entry already has, even if the title changes,
+because a slug is a URL people have shared; deriving it afresh on every publish would break
+every link the first time a post was renamed (two already have been).
+*/
+function deriveSlug(file, title) {
+  const season = (path.basename(file).match(/^(\d{4})-/) || [])[1];
+  let s = title
+    .replace(/^THE MUDD REPORT\s*[—–-]\s*/i, "")
+    .normalize("NFKD").replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  if (season && !s.startsWith(season)) s = `${season}-${s}`;
+  return s;
+}
+
 async function main() {
   const file = process.argv[2];
   if (!file || file.startsWith("--")) {
@@ -234,6 +255,13 @@ async function main() {
   console.log(`type:     ${type}`);
   console.log(`author:   ${author}`);
   console.log(`featured: ${featured}`);
+  const explicitSlug = arg("--slug");
+  const derivedSlug = explicitSlug || deriveSlug(file, title);
+  if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(derivedSlug)) {
+    console.error(`bad slug "${derivedSlug}" -- lowercase letters, digits and single hyphens only`);
+    process.exit(1);
+  }
+  console.log(`slug:     ${derivedSlug}${explicitSlug ? "" : " (an existing post keeps its current slug)"}`);
   console.log(`blocks:   ${JSON.stringify(counts)}`);
 
   if (dryRun) {
@@ -285,14 +313,19 @@ async function main() {
   let entry;
   if (existing.items.length) {
     entry = existing.items[0];
-    entry.fields = fields;
+    // `entry.fields = fields` replaces every field, so the slug has to be carried across
+    // explicitly or each republish would erase it and break the post's URL.
+    const keptSlug = explicitSlug || entry.fields.slug?.["en-US"] || derivedSlug;
+    entry.fields = { ...fields, slug: { "en-US": keptSlug } };
     entry = await entry.update();
     await entry.publish();
     console.log(`\nupdated blogPost ${entry.sys.id}`);
+    console.log(`url:      https://mudd-league.vercel.app/blog/${keptSlug}`);
   } else {
-    entry = await environment.createEntry("blogPost", { fields });
+    entry = await environment.createEntry("blogPost", { fields: { ...fields, slug: { "en-US": derivedSlug } } });
     await entry.publish();
     console.log(`\npublished blogPost ${entry.sys.id}`);
+    console.log(`url:      https://mudd-league.vercel.app/blog/${derivedSlug}`);
   }
 }
 

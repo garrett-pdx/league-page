@@ -20,8 +20,10 @@
     onMount(async()=> {
         [leagueTeamManagersDataLoaded, postsDataLoaded] = await waitForAll(leagueTeamManagersData,
         postsData);
-        const post = postsDataLoaded.posts.filter(p => p.sys.id === postID)[0];
-        id = post.sys.id;
+        // Ours: readable URLs. Match the post's slug field first, then fall back to the
+        // Contentful entry id so every link shared before slugs existed keeps working.
+        const post = postsDataLoaded.posts.filter(p => p.fields.slug === postID || p.sys.id === postID)[0];
+        id = post?.sys.id;
 
         if(post != null) {
             createdAt = post.sys.createdAt;

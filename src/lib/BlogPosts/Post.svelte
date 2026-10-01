@@ -262,7 +262,7 @@
             </div>
             
             <div class="viewFull">
-                <a class="button" href="/blog/{id}">View Full Post</a>
+                <a class="button" href="/blog/{post.slug || id}">View Full Post</a>
             </div>
 
             <hr class="divider" />
