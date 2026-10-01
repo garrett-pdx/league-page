@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-24T09:35:00",
+ "generated": "2026-10-01T15:49:28",
  "note": "Derived from weeks.json by scripts/derive-narratives.py. Authoring aid, not fetched at runtime. Regenerate after a season with: python3 scripts/derive-narratives.py",
  "seasons": [
   "2022",
@@ -621,9 +621,9 @@
     "8151"
    ],
    "values": {
-    "points": 53.4
+    "points": 73.7
    },
-   "text": "Kenneth Walker was Gurret's 2026 MVP, worth 53.4 points in the starting lineup."
+   "text": "Kenneth Walker was Gurret's 2026 MVP, worth 73.7 points in the starting lineup."
   },
   {
    "category": "season_mvp",
@@ -636,9 +636,9 @@
     "4984"
    ],
    "values": {
-    "points": 84.5
+    "points": 101.4
    },
-   "text": "Josh Allen was TnT44's 2026 MVP, worth 84.5 points in the starting lineup."
+   "text": "Josh Allen was TnT44's 2026 MVP, worth 101.4 points in the starting lineup."
   },
   {
    "category": "season_mvp",
@@ -651,9 +651,9 @@
     "7547"
    ],
    "values": {
-    "points": 54.4
+    "points": 64.3
    },
-   "text": "Amon-Ra St. Brown was mikestreinz's 2026 MVP, worth 54.4 points in the starting lineup."
+   "text": "Amon-Ra St. Brown was mikestreinz's 2026 MVP, worth 64.3 points in the starting lineup."
   },
   {
    "category": "season_mvp",
@@ -666,9 +666,9 @@
     "9221"
    ],
    "values": {
-    "points": 51.4
+    "points": 89.3
    },
-   "text": "Jahmyr Gibbs was tuckersdumbteam's 2026 MVP, worth 51.4 points in the starting lineup."
+   "text": "Jahmyr Gibbs was tuckersdumbteam's 2026 MVP, worth 89.3 points in the starting lineup."
   },
   {
    "category": "season_mvp",
@@ -678,12 +678,12 @@
     "870570674836656128"
    ],
    "players": [
-    "6786"
+    "8183"
    ],
    "values": {
-    "points": 44.2
+    "points": 71.8
    },
-   "text": "CeeDee Lamb was paulslaats's 2026 MVP, worth 44.2 points in the starting lineup."
+   "text": "Brock Purdy was paulslaats's 2026 MVP, worth 71.8 points in the starting lineup."
   },
   {
    "category": "season_mvp",
@@ -696,9 +696,9 @@
     "3294"
    ],
    "values": {
-    "points": 56.2
+    "points": 77.1
    },
-   "text": "Dak Prescott was jonahcartwright's 2026 MVP, worth 56.2 points in the starting lineup."
+   "text": "Dak Prescott was jonahcartwright's 2026 MVP, worth 77.1 points in the starting lineup."
   },
   {
    "category": "season_mvp",
@@ -708,12 +708,12 @@
     "611630747161358336"
    ],
    "players": [
-    "10236"
+    "8138"
    ],
    "values": {
-    "points": 34.5
+    "points": 47.2
    },
-   "text": "Dalton Kincaid was kshoyer's 2026 MVP, worth 34.5 points in the starting lineup."
+   "text": "James Cook was kshoyer's 2026 MVP, worth 47.2 points in the starting lineup."
   },
   {
    "category": "season_mvp",
@@ -726,9 +726,9 @@
     "6794"
    ],
    "values": {
-    "points": 34.2
+    "points": 38.4
    },
-   "text": "Justin Jefferson was BBrown16's 2026 MVP, worth 34.2 points in the starting lineup."
+   "text": "Justin Jefferson was BBrown16's 2026 MVP, worth 38.4 points in the starting lineup."
   },
   {
    "category": "season_mvp",
@@ -738,12 +738,12 @@
     "611649934390870016"
    ],
    "players": [
-    "8167"
+    "9509"
    ],
    "values": {
-    "points": 41.8
+    "points": 69.2
    },
-   "text": "Christian Watson was Kabroa's 2026 MVP, worth 41.8 points in the starting lineup."
+   "text": "Bijan Robinson was Kabroa's 2026 MVP, worth 69.2 points in the starting lineup."
   },
   {
    "category": "season_mvp",
@@ -756,9 +756,9 @@
     "9488"
    ],
    "values": {
-    "points": 60.2
+    "points": 90.6
    },
-   "text": "Jaxon Smith-Njigba was malstol's 2026 MVP, worth 60.2 points in the starting lineup."
+   "text": "Jaxon Smith-Njigba was malstol's 2026 MVP, worth 90.6 points in the starting lineup."
   },
   {
    "category": "career_mvp",
@@ -801,9 +801,9 @@
     "7564"
    ],
    "values": {
-    "points": 948.9
+    "points": 969.2
    },
-   "text": "Across every season, no player has scored more for mikestreinz than Ja'Marr Chase: 948.9 points."
+   "text": "Across every season, no player has scored more for mikestreinz than Ja'Marr Chase: 969.2 points."
   },
   {
    "category": "career_mvp",
@@ -831,9 +831,9 @@
     "6786"
    ],
    "values": {
-    "points": 441.1
+    "points": 457.8
    },
-   "text": "Across every season, no player has scored more for paulslaats than CeeDee Lamb: 441.1 points."
+   "text": "Across every season, no player has scored more for paulslaats than CeeDee Lamb: 457.8 points."
   },
   {
    "category": "career_mvp",
@@ -861,9 +861,9 @@
     "6904"
    ],
    "values": {
-    "points": 803.0
+    "points": 815.7
    },
-   "text": "Across every season, no player has scored more for kshoyer than Jalen Hurts: 803.0 points."
+   "text": "Across every season, no player has scored more for kshoyer than Jalen Hurts: 815.7 points."
   },
   {
    "category": "career_mvp",
@@ -921,9 +921,9 @@
     "9226"
    ],
    "values": {
-    "points": 549.5
+    "points": 551.2
    },
-   "text": "Across every season, no player has scored more for BBrown16 than De'Von Achane: 549.5 points."
+   "text": "Across every season, no player has scored more for BBrown16 than De'Von Achane: 551.2 points."
   },
   {
    "category": "league_season_leader",
@@ -1102,10 +1102,10 @@
     "4984"
    ],
    "values": {
-    "points": 84.5,
+    "points": 101.4,
     "rank": 1
    },
-   "text": "Josh Allen was the 1st highest-scoring started player in the league in 2026, with 84.5."
+   "text": "Josh Allen was the 1st highest-scoring started player in the league in 2026, with 101.4."
   },
   {
    "category": "league_season_leader",
@@ -1116,10 +1116,10 @@
     "9488"
    ],
    "values": {
-    "points": 60.2,
+    "points": 90.6,
     "rank": 2
    },
-   "text": "Jaxon Smith-Njigba was the 2nd highest-scoring started player in the league in 2026, with 60.2."
+   "text": "Jaxon Smith-Njigba was the 2nd highest-scoring started player in the league in 2026, with 90.6."
   },
   {
    "category": "league_season_leader",
@@ -1127,13 +1127,13 @@
    "week": null,
    "managers": [],
    "players": [
-    "3294"
+    "9221"
    ],
    "values": {
-    "points": 56.2,
+    "points": 89.3,
     "rank": 3
    },
-   "text": "Dak Prescott was the 3rd highest-scoring started player in the league in 2026, with 56.2."
+   "text": "Jahmyr Gibbs was the 3rd highest-scoring started player in the league in 2026, with 89.3."
   },
   {
    "category": "top_week_performance",
@@ -1774,74 +1774,9 @@
    ],
    "players": [],
    "values": {
-    "count": 20
+    "count": 19
    },
-   "text": "mikestreinz has started the optimal lineup 20 times."
-  },
-  {
-   "category": "perfect_lineups",
-   "season": null,
-   "week": null,
-   "managers": [
-    "850475150817234944"
-   ],
-   "players": [],
-   "values": {
-    "count": 18
-   },
-   "text": "malstol has started the optimal lineup 18 times."
-  },
-  {
-   "category": "perfect_lineups",
-   "season": null,
-   "week": null,
-   "managers": [
-    "612407006212468736"
-   ],
-   "players": [],
-   "values": {
-    "count": 18
-   },
-   "text": "jonahcartwright has started the optimal lineup 18 times."
-  },
-  {
-   "category": "perfect_lineups",
-   "season": null,
-   "week": null,
-   "managers": [
-    "611649934390870016"
-   ],
-   "players": [],
-   "values": {
-    "count": 18
-   },
-   "text": "Kabroa has started the optimal lineup 18 times."
-  },
-  {
-   "category": "perfect_lineups",
-   "season": null,
-   "week": null,
-   "managers": [
-    "999190763323944960"
-   ],
-   "players": [],
-   "values": {
-    "count": 18
-   },
-   "text": "BBrown16 has started the optimal lineup 18 times."
-  },
-  {
-   "category": "perfect_lineups",
-   "season": null,
-   "week": null,
-   "managers": [
-    "611697269254791168"
-   ],
-   "players": [],
-   "values": {
-    "count": 17
-   },
-   "text": "TnT44 has started the optimal lineup 17 times."
+   "text": "mikestreinz has started the optimal lineup 19 times."
   },
   {
    "category": "perfect_lineups",
@@ -1861,26 +1796,78 @@
    "season": null,
    "week": null,
    "managers": [
-    "611630747161358336"
+    "850475150817234944"
    ],
    "players": [],
    "values": {
     "count": 17
    },
-   "text": "kshoyer has started the optimal lineup 17 times."
+   "text": "malstol has started the optimal lineup 17 times."
   },
   {
    "category": "perfect_lineups",
    "season": null,
    "week": null,
    "managers": [
-    "76909640692416512"
+    "612407006212468736"
+   ],
+   "players": [],
+   "values": {
+    "count": 17
+   },
+   "text": "jonahcartwright has started the optimal lineup 17 times."
+  },
+  {
+   "category": "perfect_lineups",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611649934390870016"
+   ],
+   "players": [],
+   "values": {
+    "count": 17
+   },
+   "text": "Kabroa has started the optimal lineup 17 times."
+  },
+  {
+   "category": "perfect_lineups",
+   "season": null,
+   "week": null,
+   "managers": [
+    "999190763323944960"
+   ],
+   "players": [],
+   "values": {
+    "count": 17
+   },
+   "text": "BBrown16 has started the optimal lineup 17 times."
+  },
+  {
+   "category": "perfect_lineups",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611697269254791168"
    ],
    "players": [],
    "values": {
     "count": 16
    },
-   "text": "Gurret has started the optimal lineup 16 times."
+   "text": "TnT44 has started the optimal lineup 16 times."
+  },
+  {
+   "category": "perfect_lineups",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [],
+   "values": {
+    "count": 16
+   },
+   "text": "kshoyer has started the optimal lineup 16 times."
   },
   {
    "category": "perfect_lineups",
@@ -1894,6 +1881,19 @@
     "count": 16
    },
    "text": "tuckersdumbteam has started the optimal lineup 16 times."
+  },
+  {
+   "category": "perfect_lineups",
+   "season": null,
+   "week": null,
+   "managers": [
+    "76909640692416512"
+   ],
+   "players": [],
+   "values": {
+    "count": 15
+   },
+   "text": "Gurret has started the optimal lineup 15 times."
   },
   {
    "category": "bench_outscored_starters",
@@ -2024,9 +2024,9 @@
    ],
    "players": [],
    "values": {
-    "count": 150
+    "count": 142
    },
-   "text": "tuckersdumbteam has started a player who scored exactly nothing 150 times."
+   "text": "tuckersdumbteam has started a player who scored exactly nothing 142 times."
   },
   {
    "category": "zero_starts",
@@ -2037,9 +2037,9 @@
    ],
    "players": [],
    "values": {
-    "count": 148
+    "count": 140
    },
-   "text": "malstol has started a player who scored exactly nothing 148 times."
+   "text": "malstol has started a player who scored exactly nothing 140 times."
   },
   {
    "category": "zero_starts",
@@ -2050,22 +2050,9 @@
    ],
    "players": [],
    "values": {
-    "count": 144
+    "count": 136
    },
-   "text": "Kabroa has started a player who scored exactly nothing 144 times."
-  },
-  {
-   "category": "zero_starts",
-   "season": null,
-   "week": null,
-   "managers": [
-    "605683461667229696"
-   ],
-   "players": [],
-   "values": {
-    "count": 143
-   },
-   "text": "mikestreinz has started a player who scored exactly nothing 143 times."
+   "text": "Kabroa has started a player who scored exactly nothing 136 times."
   },
   {
    "category": "zero_starts",
@@ -2076,9 +2063,22 @@
    ],
    "players": [],
    "values": {
-    "count": 141
+    "count": 133
    },
-   "text": "paulslaats has started a player who scored exactly nothing 141 times."
+   "text": "paulslaats has started a player who scored exactly nothing 133 times."
+  },
+  {
+   "category": "zero_starts",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [],
+   "values": {
+    "count": 132
+   },
+   "text": "kshoyer has started a player who scored exactly nothing 132 times."
   },
   {
    "category": "closest_game",
@@ -2353,6 +2353,21 @@
   },
   {
    "category": "unluckiest_loss",
+   "season": "2026",
+   "week": 3,
+   "managers": [
+    "870570674836656128",
+    "611664340277383168"
+   ],
+   "players": [],
+   "values": {
+    "points": 148.4,
+    "opponent_points": 155.3
+   },
+   "text": "paulslaats scored 148.4 in week 3 of 2026 and still lost, because tuckersdumbteam went for 155.3."
+  },
+  {
+   "category": "unluckiest_loss",
    "season": "2023",
    "week": 4,
    "managers": [
@@ -2410,21 +2425,6 @@
     "opponent_points": 153.4
    },
    "text": "jonahcartwright scored 130.8 in week 15 of 2023 and still lost, because mikestreinz went for 153.4."
-  },
-  {
-   "category": "unluckiest_loss",
-   "season": "2024",
-   "week": 14,
-   "managers": [
-    "605683461667229696",
-    "611697269254791168"
-   ],
-   "players": [],
-   "values": {
-    "points": 129.2,
-    "opponent_points": 131.0
-   },
-   "text": "mikestreinz scored 129.2 in week 14 of 2024 and still lost, because TnT44 went for 131.0."
   },
   {
    "category": "luckiest_win",
@@ -2532,6 +2532,20 @@
   },
   {
    "category": "highest_scoring_matchup",
+   "season": "2026",
+   "week": 3,
+   "managers": [
+    "611664340277383168",
+    "870570674836656128"
+   ],
+   "players": [],
+   "values": {
+    "total": 303.7
+   },
+   "text": "tuckersdumbteam and paulslaats combined for 303.7 in week 3 of 2026 (155.3 to 148.4)."
+  },
+  {
+   "category": "highest_scoring_matchup",
    "season": "2023",
    "week": 4,
    "managers": [
@@ -2571,20 +2585,6 @@
     "total": 292.4
    },
    "text": "BBrown16 and Kabroa combined for 292.4 in week 17 of 2024 (153.9 to 138.6)."
-  },
-  {
-   "category": "highest_scoring_matchup",
-   "season": "2024",
-   "week": 15,
-   "managers": [
-    "612407006212468736",
-    "999190763323944960"
-   ],
-   "players": [],
-   "values": {
-    "total": 288.2
-   },
-   "text": "jonahcartwright and BBrown16 combined for 288.2 in week 15 of 2024 (169.1 to 119.2)."
   },
   {
    "category": "championship_run",
@@ -2772,9 +2772,9 @@
    ],
    "players": [],
    "values": {
-    "length": 5
+    "length": 6
    },
-   "text": "kshoyer's longest losing run is 5 games, 2022 week 5 through 2022 week 9."
+   "text": "kshoyer's longest losing run is 6 games, 2025 week 15 through 2026 week 3."
   },
   {
    "category": "longest_win_streak",
@@ -2850,9 +2850,9 @@
    ],
    "players": [],
    "values": {
-    "length": 12
+    "length": 13
    },
-   "text": "TnT44's longest losing run is 12 games, 2025 week 6 through 2026 week 2."
+   "text": "TnT44's longest losing run is 13 games, 2025 week 6 through 2026 week 3."
   },
   {
    "category": "longest_win_streak",
@@ -3006,6 +3006,40 @@
    "season": null,
    "week": null,
    "managers": [
+    "611630747161358336",
+    "76909640692416512"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 5,
+    "wins_second": 5,
+    "points_first": 1080.8,
+    "points_second": 1138.9
+   },
+   "text": "kshoyer and Gurret have met 10 times: 5-5 to kshoyer, 1080.8 against 1138.9 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "605683461667229696",
+    "611697269254791168"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 7,
+    "wins_second": 2,
+    "points_first": 1093.6,
+    "points_second": 871.5
+   },
+   "text": "mikestreinz and TnT44 have met 9 times: 7-2 to mikestreinz, 1093.6 against 871.5 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
     "611664340277383168",
     "850475150817234944"
    ],
@@ -3051,23 +3085,6 @@
     "points_second": 1011.5
    },
    "text": "mikestreinz and jonahcartwright have met 9 times: 5-4 to mikestreinz, 1026.9 against 1011.5 all told."
-  },
-  {
-   "category": "head_to_head",
-   "season": null,
-   "week": null,
-   "managers": [
-    "611630747161358336",
-    "76909640692416512"
-   ],
-   "players": [],
-   "values": {
-    "wins_first": 5,
-    "wins_second": 4,
-    "points_first": 1005.6,
-    "points_second": 1031.0
-   },
-   "text": "kshoyer and Gurret have met 9 times: 5-4 to kshoyer, 1005.6 against 1031.0 all told."
   },
   {
    "category": "head_to_head",
@@ -3159,17 +3176,17 @@
    "season": null,
    "week": null,
    "managers": [
-    "605683461667229696",
-    "611697269254791168"
+    "611664340277383168",
+    "870570674836656128"
    ],
    "players": [],
    "values": {
     "wins_first": 6,
     "wins_second": 2,
-    "points_first": 995.8,
-    "points_second": 781.6
+    "points_first": 886.4,
+    "points_second": 840.1
    },
-   "text": "mikestreinz and TnT44 have met 8 times: 6-2 to mikestreinz, 995.8 against 781.6 all told."
+   "text": "tuckersdumbteam and paulslaats have met 8 times: 6-2 to tuckersdumbteam, 886.4 against 840.1 all told."
   },
   {
    "category": "head_to_head",
@@ -3296,6 +3313,23 @@
    "week": null,
    "managers": [
     "611649934390870016",
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 3,
+    "wins_second": 5,
+    "points_first": 841.5,
+    "points_second": 884.3
+   },
+   "text": "Kabroa and malstol have met 8 times: 3-5 to malstol, 841.5 against 884.3 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611649934390870016",
     "999190763323944960"
    ],
    "players": [],
@@ -3306,23 +3340,6 @@
     "points_second": 802.9
    },
    "text": "Kabroa and BBrown16 have met 8 times: 2-6 to BBrown16, 807.4 against 802.9 all told."
-  },
-  {
-   "category": "head_to_head",
-   "season": null,
-   "week": null,
-   "managers": [
-    "611664340277383168",
-    "870570674836656128"
-   ],
-   "players": [],
-   "values": {
-    "wins_first": 5,
-    "wins_second": 2,
-    "points_first": 731.0,
-    "points_second": 691.7
-   },
-   "text": "tuckersdumbteam and paulslaats have met 7 times: 5-2 to tuckersdumbteam, 731.0 against 691.7 all told."
   },
   {
    "category": "head_to_head",
@@ -3499,17 +3516,17 @@
    "season": null,
    "week": null,
    "managers": [
-    "611649934390870016",
-    "850475150817234944"
+    "612407006212468736",
+    "999190763323944960"
    ],
    "players": [],
    "values": {
-    "wins_first": 3,
-    "wins_second": 4,
-    "points_first": 730.4,
-    "points_second": 770.6
+    "wins_first": 4,
+    "wins_second": 3,
+    "points_first": 817.0,
+    "points_second": 746.6
    },
-   "text": "Kabroa and malstol have met 7 times: 3-4 to malstol, 730.4 against 770.6 all told."
+   "text": "jonahcartwright and BBrown16 have met 7 times: 4-3 to jonahcartwright, 817.0 against 746.6 all told."
   },
   {
    "category": "head_to_head",
@@ -3612,23 +3629,6 @@
     "points_second": 653.4
    },
    "text": "tuckersdumbteam and BBrown16 have met 6 times: 2-4 to BBrown16, 597.7 against 653.4 all told."
-  },
-  {
-   "category": "head_to_head",
-   "season": null,
-   "week": null,
-   "managers": [
-    "612407006212468736",
-    "999190763323944960"
-   ],
-   "players": [],
-   "values": {
-    "wins_first": 3,
-    "wins_second": 3,
-    "points_first": 692.0,
-    "points_second": 679.3
-   },
-   "text": "jonahcartwright and BBrown16 have met 6 times: 3-3 to jonahcartwright, 692.0 against 679.3 all told."
   },
   {
    "category": "head_to_head",
@@ -3924,9 +3924,9 @@
    ],
    "players": [],
    "values": {
-    "swing": -11
+    "swing": -10
    },
-   "text": "Gurret fell from 12 wins in 2025 to 1 in 2026."
+   "text": "Gurret fell from 12 wins in 2025 to 2 in 2026."
   },
   {
    "category": "season_swing",
@@ -3963,9 +3963,9 @@
    ],
    "players": [],
    "values": {
-    "swing": -6
+    "swing": -5
    },
-   "text": "mikestreinz fell from 8 wins in 2025 to 2 in 2026."
+   "text": "mikestreinz fell from 8 wins in 2025 to 3 in 2026."
   },
   {
    "category": "season_swing",
@@ -4002,9 +4002,9 @@
    ],
    "players": [],
    "values": {
-    "swing": -8
+    "swing": -7
    },
-   "text": "tuckersdumbteam fell from 10 wins in 2025 to 2 in 2026."
+   "text": "tuckersdumbteam fell from 10 wins in 2025 to 3 in 2026."
   },
   {
    "category": "season_swing",
@@ -4054,9 +4054,9 @@
    ],
    "players": [],
    "values": {
-    "swing": -9
+    "swing": -8
    },
-   "text": "malstol fell from 9 wins in 2025 to 0 in 2026."
+   "text": "malstol fell from 9 wins in 2025 to 1 in 2026."
   },
   {
    "category": "season_swing",
@@ -4224,9 +4224,9 @@
    ],
    "values": {
     "round": 9,
-    "points": 60.6
+    "points": 80.6
    },
-   "text": "Patrick Mahomes went in round 9 of the 2026 draft to BBrown16 and scored 60.6 that season."
+   "text": "Patrick Mahomes went in round 9 of the 2026 draft to BBrown16 and scored 80.6 that season."
   },
   {
    "category": "draft_bust",
@@ -4345,22 +4345,6 @@
    "season": "2026",
    "week": null,
    "managers": [
-    "611649934390870016"
-   ],
-   "players": [
-    "11604"
-   ],
-   "values": {
-    "cost_round": 8,
-    "points": 0.0
-   },
-   "text": "Kabroa kept Brock Bowers at a round 8 cost in 2026 and got 0.0 points out of him."
-  },
-  {
-   "category": "worst_keeper",
-   "season": "2026",
-   "week": null,
-   "managers": [
     "611630747161358336"
    ],
    "players": [
@@ -4371,22 +4355,6 @@
     "points": 9.9
    },
    "text": "kshoyer kept Puka Nacua at a round 12 cost in 2026 and got 9.9 points out of him."
-  },
-  {
-   "category": "worst_keeper",
-   "season": "2026",
-   "week": null,
-   "managers": [
-    "76909640692416512"
-   ],
-   "players": [
-    "8137"
-   ],
-   "values": {
-    "cost_round": 5,
-    "points": 11.3
-   },
-   "text": "Gurret kept George Pickens at a round 5 cost in 2026 and got 11.3 points out of him."
   },
   {
    "category": "worst_keeper",
@@ -4409,16 +4377,48 @@
    "season": "2026",
    "week": null,
    "managers": [
-    "612407006212468736"
+    "999190763323944960"
    ],
    "players": [
-    "10229"
+    "9226"
    ],
    "values": {
-    "cost_round": 5,
-    "points": 19.2
+    "cost_round": 11,
+    "points": 21.1
    },
-   "text": "jonahcartwright kept Rashee Rice at a round 5 cost in 2026 and got 19.2 points out of him."
+   "text": "BBrown16 kept De'Von Achane at a round 11 cost in 2026 and got 21.1 points out of him."
+  },
+  {
+   "category": "worst_keeper",
+   "season": "2026",
+   "week": null,
+   "managers": [
+    "611649934390870016"
+   ],
+   "players": [
+    "11604"
+   ],
+   "values": {
+    "cost_round": 8,
+    "points": 22.6
+   },
+   "text": "Kabroa kept Brock Bowers at a round 8 cost in 2026 and got 22.6 points out of him."
+  },
+  {
+   "category": "worst_keeper",
+   "season": "2026",
+   "week": null,
+   "managers": [
+    "870570674836656128"
+   ],
+   "players": [
+    "11564"
+   ],
+   "values": {
+    "cost_round": 12,
+    "points": 22.6
+   },
+   "text": "paulslaats kept Drake Maye at a round 12 cost in 2026 and got 22.6 points out of him."
   },
   {
    "category": "faab_splurge",

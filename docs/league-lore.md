@@ -55,30 +55,30 @@ it exists so writing a recap or a bio starts from facts rather than a fresh quer
 - De'Von Achane was BBrown16's 2025 MVP, worth 288.3 points in the starting lineup.
 - Bijan Robinson was Kabroa's 2025 MVP, worth 324.5 points in the starting lineup.
 - Patrick Mahomes was malstol's 2025 MVP, worth 326.2 points in the starting lineup.
-- Kenneth Walker was Gurret's 2026 MVP, worth 53.4 points in the starting lineup.
-- Josh Allen was TnT44's 2026 MVP, worth 84.5 points in the starting lineup.
-- Amon-Ra St. Brown was mikestreinz's 2026 MVP, worth 54.4 points in the starting lineup.
-- Jahmyr Gibbs was tuckersdumbteam's 2026 MVP, worth 51.4 points in the starting lineup.
-- CeeDee Lamb was paulslaats's 2026 MVP, worth 44.2 points in the starting lineup.
-- Dak Prescott was jonahcartwright's 2026 MVP, worth 56.2 points in the starting lineup.
-- Dalton Kincaid was kshoyer's 2026 MVP, worth 34.5 points in the starting lineup.
-- Justin Jefferson was BBrown16's 2026 MVP, worth 34.2 points in the starting lineup.
-- Christian Watson was Kabroa's 2026 MVP, worth 41.8 points in the starting lineup.
-- Jaxon Smith-Njigba was malstol's 2026 MVP, worth 60.2 points in the starting lineup.
+- Kenneth Walker was Gurret's 2026 MVP, worth 73.7 points in the starting lineup.
+- Josh Allen was TnT44's 2026 MVP, worth 101.4 points in the starting lineup.
+- Amon-Ra St. Brown was mikestreinz's 2026 MVP, worth 64.3 points in the starting lineup.
+- Jahmyr Gibbs was tuckersdumbteam's 2026 MVP, worth 89.3 points in the starting lineup.
+- Brock Purdy was paulslaats's 2026 MVP, worth 71.8 points in the starting lineup.
+- Dak Prescott was jonahcartwright's 2026 MVP, worth 77.1 points in the starting lineup.
+- James Cook was kshoyer's 2026 MVP, worth 47.2 points in the starting lineup.
+- Justin Jefferson was BBrown16's 2026 MVP, worth 38.4 points in the starting lineup.
+- Bijan Robinson was Kabroa's 2026 MVP, worth 69.2 points in the starting lineup.
+- Jaxon Smith-Njigba was malstol's 2026 MVP, worth 90.6 points in the starting lineup.
 
 ## Career MVPs
 
 - Across every season, no player has scored more for Gurret than Amon-Ra St. Brown: 700.4 points.
 - Across every season, no player has scored more for TnT44 than Brock Purdy: 493.3 points.
-- Across every season, no player has scored more for mikestreinz than Ja'Marr Chase: 948.9 points.
+- Across every season, no player has scored more for mikestreinz than Ja'Marr Chase: 969.2 points.
 - Across every season, no player has scored more for tuckersdumbteam than Josh Allen: 1244.4 points.
-- Across every season, no player has scored more for paulslaats than CeeDee Lamb: 441.1 points.
+- Across every season, no player has scored more for paulslaats than CeeDee Lamb: 457.8 points.
 - Across every season, no player has scored more for jonahcartwright than Jared Goff: 526.4 points.
-- Across every season, no player has scored more for kshoyer than Jalen Hurts: 803.0 points.
+- Across every season, no player has scored more for kshoyer than Jalen Hurts: 815.7 points.
 - Across every season, no player has scored more for JJJet than Patrick Mahomes: 476.9 points.
 - Across every season, no player has scored more for Kabroa than Jalen Hurts: 664.7 points.
 - Across every season, no player has scored more for malstol than Breece Hall: 605.9 points.
-- Across every season, no player has scored more for BBrown16 than De'Von Achane: 549.5 points.
+- Across every season, no player has scored more for BBrown16 than De'Von Achane: 551.2 points.
 
 ## League scoring leaders
 
@@ -94,9 +94,9 @@ it exists so writing a recap or a bio starts from facts rather than a fresh quer
 - Josh Allen was the 1st highest-scoring started player in the league in 2025, with 410.6.
 - Christian McCaffrey was the 2nd highest-scoring started player in the league in 2025, with 354.9.
 - Jonathan Taylor was the 3rd highest-scoring started player in the league in 2025, with 333.4.
-- Josh Allen was the 1st highest-scoring started player in the league in 2026, with 84.5.
-- Jaxon Smith-Njigba was the 2nd highest-scoring started player in the league in 2026, with 60.2.
-- Dak Prescott was the 3rd highest-scoring started player in the league in 2026, with 56.2.
+- Josh Allen was the 1st highest-scoring started player in the league in 2026, with 101.4.
+- Jaxon Smith-Njigba was the 2nd highest-scoring started player in the league in 2026, with 90.6.
+- Jahmyr Gibbs was the 3rd highest-scoring started player in the league in 2026, with 89.3.
 
 ## Biggest single weeks
 
@@ -162,24 +162,24 @@ it exists so writing a recap or a bio starts from facts rather than a fresh quer
 
 ## Perfect lineups
 
-- mikestreinz has started the optimal lineup 20 times.
-- malstol has started the optimal lineup 18 times.
-- jonahcartwright has started the optimal lineup 18 times.
-- Kabroa has started the optimal lineup 18 times.
-- BBrown16 has started the optimal lineup 18 times.
-- TnT44 has started the optimal lineup 17 times.
+- mikestreinz has started the optimal lineup 19 times.
 - paulslaats has started the optimal lineup 17 times.
-- kshoyer has started the optimal lineup 17 times.
-- Gurret has started the optimal lineup 16 times.
+- malstol has started the optimal lineup 17 times.
+- jonahcartwright has started the optimal lineup 17 times.
+- Kabroa has started the optimal lineup 17 times.
+- BBrown16 has started the optimal lineup 17 times.
+- TnT44 has started the optimal lineup 16 times.
+- kshoyer has started the optimal lineup 16 times.
 - tuckersdumbteam has started the optimal lineup 16 times.
+- Gurret has started the optimal lineup 15 times.
 
 ## Started a zero
 
-- tuckersdumbteam has started a player who scored exactly nothing 150 times.
-- malstol has started a player who scored exactly nothing 148 times.
-- Kabroa has started a player who scored exactly nothing 144 times.
-- mikestreinz has started a player who scored exactly nothing 143 times.
-- paulslaats has started a player who scored exactly nothing 141 times.
+- tuckersdumbteam has started a player who scored exactly nothing 142 times.
+- malstol has started a player who scored exactly nothing 140 times.
+- Kabroa has started a player who scored exactly nothing 136 times.
+- paulslaats has started a player who scored exactly nothing 133 times.
+- kshoyer has started a player who scored exactly nothing 132 times.
 
 ## Closest games
 
@@ -206,11 +206,11 @@ it exists so writing a recap or a bio starts from facts rather than a fresh quer
 ## Unluckiest losses
 
 - BBrown16 scored 148.7 in week 8 of 2024 and still lost, because tuckersdumbteam went for 150.3.
+- paulslaats scored 148.4 in week 3 of 2026 and still lost, because tuckersdumbteam went for 155.3.
 - Gurret scored 140.0 in week 4 of 2023 and still lost, because kshoyer went for 160.5.
 - Kabroa scored 138.6 in week 17 of 2024 and still lost, because BBrown16 went for 153.9.
 - kshoyer scored 137.9 in week 16 of 2025 and still lost, because tuckersdumbteam went for 142.8.
 - jonahcartwright scored 130.8 in week 15 of 2023 and still lost, because mikestreinz went for 153.4.
-- mikestreinz scored 129.2 in week 14 of 2024 and still lost, because TnT44 went for 131.0.
 
 ## Luckiest wins
 
@@ -224,10 +224,10 @@ it exists so writing a recap or a bio starts from facts rather than a fresh quer
 ## Shootouts
 
 - TnT44 and mikestreinz combined for 315.6 in week 5 of 2023 (122.5 to 193.0).
+- tuckersdumbteam and paulslaats combined for 303.7 in week 3 of 2026 (155.3 to 148.4).
 - Gurret and kshoyer combined for 300.5 in week 4 of 2023 (140.0 to 160.5).
 - tuckersdumbteam and BBrown16 combined for 299.1 in week 8 of 2024 (150.3 to 148.7).
 - BBrown16 and Kabroa combined for 292.4 in week 17 of 2024 (153.9 to 138.6).
-- jonahcartwright and BBrown16 combined for 288.2 in week 15 of 2024 (169.1 to 119.2).
 
 ## Longest winning runs
 
@@ -247,10 +247,10 @@ it exists so writing a recap or a bio starts from facts rather than a fresh quer
 
 - Gurret's longest losing run is 5 games, 2023 week 1 through 2023 week 5.
 - mikestreinz's longest losing run is 5 games, 2025 week 10 through 2025 week 14.
-- kshoyer's longest losing run is 5 games, 2022 week 5 through 2022 week 9.
+- kshoyer's longest losing run is 6 games, 2025 week 15 through 2026 week 3.
 - Kabroa's longest losing run is 6 games, 2024 week 17 through 2025 week 5.
 - tuckersdumbteam's longest losing run is 3 games, 2022 week 9 through 2022 week 11.
-- TnT44's longest losing run is 12 games, 2025 week 6 through 2026 week 2.
+- TnT44's longest losing run is 13 games, 2025 week 6 through 2026 week 3.
 - jonahcartwright's longest losing run is 7 games, 2024 week 8 through 2024 week 14.
 - malstol's longest losing run is 7 games, 2024 week 9 through 2024 week 15.
 - JJJet's longest losing run is 5 games, 2022 week 10 through 2022 week 14.
@@ -260,33 +260,34 @@ it exists so writing a recap or a bio starts from facts rather than a fresh quer
 ## Big year-on-year swings
 
 - Gurret fell from 11 wins in 2022 to 5 in 2023.
-- Gurret fell from 12 wins in 2025 to 1 in 2026.
+- Gurret fell from 12 wins in 2025 to 2 in 2026.
 - mikestreinz climbed from 6 wins in 2022 to 13 in 2023.
 - mikestreinz fell from 13 wins in 2023 to 5 in 2024.
-- mikestreinz fell from 8 wins in 2025 to 2 in 2026.
+- mikestreinz fell from 8 wins in 2025 to 3 in 2026.
 - kshoyer climbed from 6 wins in 2022 to 12 in 2023.
 - kshoyer fell from 10 wins in 2025 to 0 in 2026.
-- tuckersdumbteam fell from 10 wins in 2025 to 2 in 2026.
+- tuckersdumbteam fell from 10 wins in 2025 to 3 in 2026.
 - TnT44 fell from 9 wins in 2024 to 3 in 2025.
 - jonahcartwright fell from 11 wins in 2022 to 4 in 2023.
 - malstol climbed from 3 wins in 2024 to 9 in 2025.
-- malstol fell from 9 wins in 2025 to 0 in 2026.
+- malstol fell from 9 wins in 2025 to 1 in 2026.
 - paulslaats fell from 7 wins in 2025 to 2 in 2026.
 - BBrown16 fell from 6 wins in 2025 to 1 in 2026.
 
 ## Head to head
 
 - kshoyer and tuckersdumbteam have met 11 times: 4-7 to tuckersdumbteam, 1139.4 against 1192.0 all told.
+- kshoyer and Gurret have met 10 times: 5-5 to kshoyer, 1080.8 against 1138.9 all told.
+- mikestreinz and TnT44 have met 9 times: 7-2 to mikestreinz, 1093.6 against 871.5 all told.
 - tuckersdumbteam and malstol have met 9 times: 5-4 to tuckersdumbteam, 963.1 against 962.0 all told.
 - mikestreinz and paulslaats have met 9 times: 7-2 to mikestreinz, 936.7 against 886.8 all told.
 - mikestreinz and jonahcartwright have met 9 times: 5-4 to mikestreinz, 1026.9 against 1011.5 all told.
-- kshoyer and Gurret have met 9 times: 5-4 to kshoyer, 1005.6 against 1031.0 all told.
 - mikestreinz and Gurret have met 9 times: 5-4 to mikestreinz, 1035.2 against 948.4 all told.
 - jonahcartwright and paulslaats have met 9 times: 3-6 to paulslaats, 820.9 against 934.7 all told.
 - kshoyer and Kabroa have met 9 times: 4-5 to Kabroa, 825.8 against 881.7 all told.
 - Gurret and malstol have met 9 times: 6-3 to Gurret, 950.0 against 788.9 all told.
 - mikestreinz and malstol have met 8 times: 4-4 to mikestreinz, 766.0 against 718.3 all told.
-- mikestreinz and TnT44 have met 8 times: 6-2 to mikestreinz, 995.8 against 781.6 all told.
+- tuckersdumbteam and paulslaats have met 8 times: 6-2 to tuckersdumbteam, 886.4 against 840.1 all told.
 - Kabroa and Gurret have met 8 times: 3-5 to Gurret, 826.5 against 835.5 all told.
 - malstol and paulslaats have met 8 times: 4-4 to malstol, 732.5 against 784.0 all told.
 - mikestreinz and tuckersdumbteam have met 8 times: 2-6 to tuckersdumbteam, 790.7 against 856.7 all told.
@@ -294,8 +295,8 @@ it exists so writing a recap or a bio starts from facts rather than a fresh quer
 - Gurret and paulslaats have met 8 times: 3-5 to paulslaats, 953.9 against 958.8 all told.
 - TnT44 and paulslaats have met 8 times: 4-4 to TnT44, 788.7 against 810.0 all told.
 - kshoyer and jonahcartwright have met 8 times: 6-2 to kshoyer, 948.9 against 860.5 all told.
+- Kabroa and malstol have met 8 times: 3-5 to malstol, 841.5 against 884.3 all told.
 - Kabroa and BBrown16 have met 8 times: 2-6 to BBrown16, 807.4 against 802.9 all told.
-- tuckersdumbteam and paulslaats have met 7 times: 5-2 to tuckersdumbteam, 731.0 against 691.7 all told.
 - jonahcartwright and Gurret have met 7 times: 2-5 to Gurret, 742.8 against 841.5 all told.
 - TnT44 and malstol have met 7 times: 3-4 to malstol, 644.4 against 651.8 all told.
 - Kabroa and tuckersdumbteam have met 7 times: 4-3 to Kabroa, 752.2 against 751.5 all told.
@@ -306,14 +307,13 @@ it exists so writing a recap or a bio starts from facts rather than a fresh quer
 - mikestreinz and Kabroa have met 7 times: 4-3 to mikestreinz, 689.9 against 678.3 all told.
 - kshoyer and malstol have met 7 times: 4-3 to kshoyer, 775.5 against 692.9 all told.
 - tuckersdumbteam and Gurret have met 7 times: 3-4 to Gurret, 697.9 against 708.5 all told.
-- Kabroa and malstol have met 7 times: 3-4 to malstol, 730.4 against 770.6 all told.
+- jonahcartwright and BBrown16 have met 7 times: 4-3 to jonahcartwright, 817.0 against 746.6 all told.
 - kshoyer and TnT44 have met 6 times: 6-0 to kshoyer, 643.8 against 533.8 all told.
 - kshoyer and paulslaats have met 6 times: 5-1 to kshoyer, 749.8 against 587.5 all told.
 - TnT44 and Gurret have met 6 times: 2-4 to Gurret, 676.7 against 730.0 all told.
 - jonahcartwright and malstol have met 6 times: 3-3 to jonahcartwright, 559.2 against 569.7 all told.
 - mikestreinz and kshoyer have met 6 times: 3-3 to mikestreinz, 573.5 against 624.8 all told.
 - tuckersdumbteam and BBrown16 have met 6 times: 2-4 to BBrown16, 597.7 against 653.4 all told.
-- jonahcartwright and BBrown16 have met 6 times: 3-3 to jonahcartwright, 692.0 against 679.3 all told.
 - paulslaats and BBrown16 have met 6 times: 4-2 to paulslaats, 653.6 against 606.9 all told.
 - kshoyer and BBrown16 have met 6 times: 4-2 to kshoyer, 641.3 against 586.9 all told.
 - TnT44 and BBrown16 have met 6 times: 2-4 to BBrown16, 603.0 against 628.1 all told.
@@ -337,7 +337,7 @@ it exists so writing a recap or a bio starts from facts rather than a fresh quer
 - Tua Tagovailoa went in round 8 of the 2023 draft to TnT44 and scored 310.7 that season.
 - Jayden Daniels went in round 10 of the 2024 draft to Gurret and scored 396.6 that season.
 - Drake Maye went in round 12 of the 2025 draft to tuckersdumbteam and scored 360.4 that season.
-- Patrick Mahomes went in round 9 of the 2026 draft to BBrown16 and scored 60.6 that season.
+- Patrick Mahomes went in round 9 of the 2026 draft to BBrown16 and scored 80.6 that season.
 
 ## Draft busts
 
@@ -358,11 +358,11 @@ it exists so writing a recap or a bio starts from facts rather than a fresh quer
 
 ## Keepers that did not
 
-- Kabroa kept Brock Bowers at a round 8 cost in 2026 and got 0.0 points out of him.
 - kshoyer kept Puka Nacua at a round 12 cost in 2026 and got 9.9 points out of him.
-- Gurret kept George Pickens at a round 5 cost in 2026 and got 11.3 points out of him.
 - BBrown16 kept Nico Collins at a round 12 cost in 2026 and got 17.7 points out of him.
-- jonahcartwright kept Rashee Rice at a round 5 cost in 2026 and got 19.2 points out of him.
+- BBrown16 kept De'Von Achane at a round 11 cost in 2026 and got 21.1 points out of him.
+- Kabroa kept Brock Bowers at a round 8 cost in 2026 and got 22.6 points out of him.
+- paulslaats kept Drake Maye at a round 12 cost in 2026 and got 22.6 points out of him.
 
 ## Biggest FAAB bids
 
