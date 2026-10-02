@@ -174,7 +174,7 @@ export const managers = [
       "name": "Brenden Brown",
       "location": "Castro Valley, CA",
       "photo": "/managers/bbrown16.webp",
-      "bio": "<strong>#16 &middot; QB &middot; 6'4&quot; &middot; 215 lbs &middot; Castro Valley HS</strong><br /><em>CMS career: 17 G &middot; 0 GS &middot; 32/59 (54.2%) &middot; 369 yds &middot; 4 TD &middot; 1 INT &middot; long 30</em><br />Quarterback and 2018 SCIAC All-Academic selection who appeared in 17 games across four years. Came off the bench against Northwestern and threw two touchdown passes that accounted for every point CMS scored in a 14-3 win. Finished up in the NCAA Tournament against Whitworth. Absolute charmer with the CMS Cheer team. Son of Mary Janatpour and Mark Brown.<br /><em>Mudd League: Joined in 2023 and won the title in his second season, putting up 153.86 against Kabroa in the 2024 final.</em>",
+      "bio": "<strong>#16 &middot; QB &middot; 6'4&quot; &middot; 215 lbs &middot; Castro Valley HS</strong><br /><em>CMS career: 17 G &middot; 0 GS &middot; 32/59 (54.2%) &middot; 369 yds &middot; 4 TD &middot; 1 INT &middot; long 30</em><br />Quarterback and 2018 SCIAC All-Academic selection who appeared in 17 games across four years. Came off the bench against Northwestern he threw two touchdown passes that accounted for every point CMS scored in a 14-3 win. Finished up in the NCAA Tournament against Whitworth. Absolute charmer with the CMS Cheer team. Son of Mary Janatpour and Mark Brown.<br /><em>Mudd League: Joined in 2023 and won the title in his second season, putting up 153.86 against Kabroa in the 2024 final.</em>",
       "rival": {
         name: "Kanoa Gilliland",
         link: 8,
