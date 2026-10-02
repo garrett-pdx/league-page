@@ -15,9 +15,84 @@ bundled into the JS. ~950 KB total, so fetch only the file you need.
 | `ownership.json` | 70 KB | player → who rostered them, when |
 | `keepers.json` | 32 KB | keeper chains, cost in rounds, rule check |
 | `players.json` | 20 KB | player_id → name / position / team |
+| `games.json` | 21 KB (4 KB gz) | one row per team per game — **the file pages fetch** |
+| `season-notes.json` | 24 KB (4 KB gz) | per-season trades, top scorers, high and low weeks |
 
 Manager IDs everywhere are Sleeper `user_id`s, matching `managerID` in
 `src/lib/utils/leagueInfo.js`. Player IDs resolve through `players.json`.
+
+The last two are not pulled: `scripts/derive-site-data.py` (`npm run derive-site-data`)
+builds them from the others, offline, and they are small on purpose so the site's history
+pages can fetch them. Run it after every pull.
+
+## `games.json` — the game table
+
+Every completed game, one row per team (so each game appears twice), stored columnar:
+
+```
+generated, count
+through      {season, week}  the last completed week -- the "data through week N" stamp
+nfl_state    copied from league-history.json, the input that decided "completed"
+managers[]   user_ids; the manager and opponent columns are indexes into this
+kinds[]      ["regular", "playoff", "placement", "consolation"]; kind is an index into it
+columns[]    ["season", "week", "manager", "opponent", "pf", "pa", "result", "kind"]
+data[][]     one array per column, in that order, all the same length
+```
+
+`season` and `week` are numbers; `pf`/`pa` are the official score to the hundredth (a
+commissioner's `custom_points` wins over `points`); `result` is `"W"`, `"L"` or `"T"`. Rows are
+sorted by season, week, user_id. In the browser, `getLeagueGames()` in
+`src/lib/utils/helperFunctions/leagueGames.js` decodes it to row objects.
+
+What is in and out:
+
+- **Completed weeks only**, judged per week from `nfl_state` (not per season): a half-played
+  week has real points in it and still isn't a result.
+- **No week 18 and no byes.** Rows with a falsy `matchup_id` are not games — the fictional
+  week 18, and the teams outside both brackets in weeks 16–17.
+- **`kind` comes from the brackets, never the week number.** Bracket rows carry roster IDs,
+  mapped through that season's own `records[season].roster_id`. Winners-bracket semifinals and
+  the final are `playoff`; the winners-bracket third-place game (`p: 3`) is `placement`; every
+  losers-bracket game (5th–8th here) is `consolation`. Weeks before `playoff_week_start` are
+  `regular`.
+
+The script refuses to write anything (exit 1) unless:
+
+1. each manager's regular-season W/L/T, points for and points against match
+   `managers.*.records` — W/L/T exactly, points to the cent, except four manager-seasons where
+   a stat correction after settlement moved the weekly scores by 1–2 points (pinned to the cent
+   in `STAT_CORRECTIONS`; no result changes);
+2. every regular-season week has exactly five games and every row has its mirror.
+
+**There is no `max_pf` column.** The spec allowed a per-week best-possible lineup if its
+season totals agreed with Sleeper's `potential_points` within 1% for every manager-season. 48
+of 50 do; 2024 TnT44 (+1.65%, Taysom Hill's week-to-week eligibility) and 2025 paulslaats
+(−1.42%, Travis Hunter listed as `DB`) don't, because `players.json` holds only today's primary
+position and `weeks.json` doesn't record IR. The script still computes and reports the check
+on every run, and will emit the column if it ever passes. Records' Lineup IQ keeps using
+Sleeper's own `potential_points`.
+
+## `season-notes.json`
+
+`seasons.<year>`:
+
+```
+through_week   last completed week in that season
+trades[]       {week, date, id, teams: [{user_id, players[], picks[], faab}]}
+               completed trades only; each team lists what it RECEIVED.
+               players: {id, name, pos}; picks: {season, round, original_owner}
+               (original_owner is a user_id, resolved through that season's roster map);
+               faab: dollars received
+top_scorers    {user_id: [{id, name, pos, points, starts}] x3}
+               points scored in the STARTING lineup, every completed fixture week,
+               playoffs and consolation included -- the same rule as derive-narratives'
+               season MVPs, so the site and the blog agree
+high_weeks[]   the season's three highest single-team scores
+low_weeks[]    ... and three lowest: {week, user_id, opponent_id, points, kind}
+```
+
+Exists so `transactions.json` (322 KB) never ships to a browser. Pre-draft trades are filed
+under week 1 of the league they happened in, which is why a 2024 trade can move 2024 picks.
 
 ## `final_standings` and `traded_picks` (in `league-history.json`)
 
