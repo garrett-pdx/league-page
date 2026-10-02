@@ -25,7 +25,10 @@
         }
 
         requestAnimationFrame(() => {
-            const top = target.getBoundingClientRect().top + window.pageYOffset;
+            // On phones the nav bar is sticky (Nav/index.svelte); land below it, not under it.
+            const nav = document.querySelector('main > nav');
+            const navOffset = nav && getComputedStyle(nav).position === 'sticky' ? nav.offsetHeight + 8 : 0;
+            const top = target.getBoundingClientRect().top + window.pageYOffset - navOffset;
             window.scrollTo({left: 0, top, behavior: 'smooth'});
         });
     }
