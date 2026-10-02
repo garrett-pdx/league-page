@@ -45,6 +45,19 @@
 		.small {
 			display: block;
 		}
+
+		/* Phones only: a compact bar that stays put on 5,000-7,000px pages, so the menu is
+		   always one tap away. Desktop keeps its non-sticky header on purpose: NavLarge
+		   positions its dropdown from getBoundingClientRect, untested under a sticky bar. */
+		nav {
+			position: sticky;
+			top: 0;
+		}
+
+		#logo {
+			width: 48px;
+			padding: 6px;
+		}
 	}
 </style>
 

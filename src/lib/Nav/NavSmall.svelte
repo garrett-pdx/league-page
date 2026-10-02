@@ -5,7 +5,6 @@
 	  Header,
 	  Title,
 	} from '@smui/drawer';
-	import { Icon } from '@smui/tab';
   	import List, { Item, Text, Graphic, Meta, Separator, Subheader } from '@smui/list';
 	import { goto, preloadData } from '$app/navigation';
     import { page } from '$app/state';
@@ -49,18 +48,38 @@
 </script>
 
 <style>
-	:global(.menuIcon) {
+	/* A real button: the old bare <i> had no role, no label and no focus, so the menu was
+	   unreachable by keyboard. 44x44 hit area, vertically centred in the compact 61px phone bar
+	   that Nav/index.svelte sets up. */
+	.menuButton {
 		position: absolute;
-		top: 15px;
-		left: 15px;
-		font-size: 2em;
-		color: #888;
-		padding: 6px;
+		top: 8px;
+		left: 8px;
+		width: 44px;
+		height: 44px;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: none;
+		border: none;
+		border-radius: var(--radiusSm);
+		color: var(--accentInk);
 		cursor: pointer;
 	}
 
-	:global(.menuIcon:hover) {
+	.menuButton .material-icons {
+		font-size: 32px;
+	}
+
+	.menuButton:hover {
 		color: var(--blueOne);
+	}
+
+	.menuButton:focus-visible {
+		outline: 2px solid var(--blueOne);
+		outline-offset: 2px;
 	}
 
 	:global(.nav-drawer) {
@@ -69,8 +88,21 @@
 		left: 0;
 	}
 
+	/* #858585 measured about 3.7:1 on the drawer's white; --g555 (#555) is 7.46:1. */
 	:global(.nav-item) {
-		color: #858585 !important;
+		color: var(--g555) !important;
+	}
+
+	/* MDC's drawer squeezes list items to 40px; 44px is the minimum tap target. Three classes
+	   so this beats MDC's own `.mdc-drawer .mdc-deprecated-list-item` whatever the load order. */
+	:global(.mdc-drawer.nav-drawer .mdc-deprecated-list-item) {
+		height: 44px;
+	}
+
+	/* The menu is taller than a phone screen now; keep a scroll inside it from also
+	   scrolling the page behind. */
+	:global(.nav-drawer .mdc-drawer__content) {
+		overscroll-behavior: contain;
 	}
 
 	:global(.nav-drawer .externalIcon) {
@@ -101,7 +133,9 @@
 	}
 </style>
 
-<Icon class="material-icons menuIcon" onclick={() => open = true} ripple={false} touch={true}>menu</Icon>
+<button class="menuButton" type="button" aria-label="Open menu" aria-expanded={open} onclick={() => open = true}>
+	<span class="material-icons" aria-hidden="true">menu</span>
+</button>
 
 <div class="nav-back" style="pointer-events: {open ? "visible" : "none"}; opacity: {open ? 1 : 0};" onclick={() => open = false}></div>
 
