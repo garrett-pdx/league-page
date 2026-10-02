@@ -5,16 +5,16 @@ the current Sleeper league and pulls every season. Re-run after a season ends an
 the diff. Nothing here is hand-edited.
 
 These live in `static/` so they are served as-is and can be `fetch`ed on demand rather than
-bundled into the JS. ~880 KB total, so fetch only the file you need.
+bundled into the JS. ~950 KB total, so fetch only the file you need.
 
 | file | size | what it is |
 | --- | --- | --- |
-| `league-history.json` | 114 KB | seasons, managers, records, drafts, brackets, final standings, traded picks |
-| `transactions.json` | 301 KB | every add / drop / waiver / trade |
-| `weeks.json` | 357 KB | **weekly roster snapshots — the time machine** |
-| `ownership.json` | 62 KB | player → who rostered them, when |
-| `keepers.json` | 25 KB | keeper chains, cost in rounds, rule check |
-| `players.json` | 19 KB | player_id → name / position / team |
+| `league-history.json` | 131 KB | seasons, managers, records, drafts, brackets, final standings, traded picks |
+| `transactions.json` | 322 KB | every add / drop / waiver / trade |
+| `weeks.json` | 372 KB | **weekly roster snapshots — the time machine** |
+| `ownership.json` | 70 KB | player → who rostered them, when |
+| `keepers.json` | 32 KB | keeper chains, cost in rounds, rule check |
+| `players.json` | 20 KB | player_id → name / position / team |
 
 Manager IDs everywhere are Sleeper `user_id`s, matching `managerID` in
 `src/lib/utils/leagueInfo.js`. Player IDs resolve through `players.json`.
@@ -53,13 +53,32 @@ players_points{}   player_id -> points, for everyone rostered
 This is the only reliable record of who was on a roster at a given moment — it is a real
 snapshot, not something reconstructed from transactions. Pair two teams by `matchup_id` to
 get the head-to-head, and walk weeks 1..N summing wins to build standings as of any week.
-Weeks with no games played are omitted; `seasons.<year>.weeks_played` lists what exists.
+
+**Only completed weeks are written**, and `seasons.<year>.weeks_played` lists exactly the
+weeks present. Sleeper serves every scheduled week of the current season as soon as the
+schedule exists — ten rosters, real `matchup_id`s, every score 0.0 — and the week in progress
+with some games scored and the rest on 0.0. The pull drops both: for the season in progress
+a week counts only once the NFL calendar has moved past it (`week < nfl_state.week` during
+the regular season), and only if somebody scored a point in it. A Monday pull therefore
+stops at the previous week rather than committing a half-played one. Every week of a
+completed season is kept, including the fictional week 18 (see `has_matchup()` in the
+derive scripts).
+
+## `nfl_state` (in `league-history.json`)
+
+`{season, season_type, week, fetched}` — Sleeper's `/state/nfl` at the moment of the pull,
+with `fetched` as a UTC timestamp. It is the one input the completed-week rule takes from
+outside the league, recorded so that every script downstream of the pull (`derive-site-data`,
+`derive-narratives`) is reproducible from the committed files alone. On 2026-10-02 it read
+`2026 regular, week 4`, with Thursday night's game played: week 4 was partly scored, so
+`weeks_played` for 2026 is `[1, 2, 3]`.
 
 ## `ownership.json`
 
 `ownership.<player_id>[]` is a run-length timeline of continuous ownership, derived from
 the weekly snapshots: `{u: user_id, s: season, w0: first_week, w1: last_week}`. Use this to
-answer "who had him, and when" without replaying the transaction log.
+answer "who had him, and when" without replaying the transaction log. Spans stop at the
+last completed week, so a player picked up for the week in progress has no span yet.
 
 A new span starts on a change of owner, on a season boundary, **and on any gap in
 consecutive weeks** — the merge requires `w1 == week - 1`. Every completed season currently

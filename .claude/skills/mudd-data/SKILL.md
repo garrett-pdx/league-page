@@ -120,9 +120,11 @@ doesn't strictly need the pull — but `--history` reads only the committed file
 
 Each of these produced a wrong fact once.
 
-- **A mid-week pull commits a partial week.** Pulled on a Monday, `weeks.json` holds the
-  current week with Monday's players on 0.0, and `--history` treats those scores as final. Any
-  superlative touching the current week is provisional until it's re-pulled after Monday night.
+- **A mid-week pull used to commit a partial week.** Pulled on a Monday, `weeks.json` held the
+  current week with Monday's players on 0.0, and `--history` treated those scores as final. The
+  pull now writes only weeks the NFL calendar has moved past (`nfl_state` in
+  `league-history.json` records what it saw), so a Monday pull stops at the previous week and
+  `--history` knows nothing about the week in progress. Use the live fact block for that week.
 - **IR is read from today's rosters.** Recomputing a past week can count a player who was on IR
   *that* week and has since come off it — Alec Pierce's 8.10 from BBrown16's Week 1 2026 IR slot
   re-entered his optimal lineup when the week was recomputed later. Don't re-quote a past
