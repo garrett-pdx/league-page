@@ -101,3 +101,33 @@
     min-height: 44px;
   }
 }
+
+/* ---- The footer must not move while the page loads ----------------------------------------------
+   Footer.svelte pins itself with `position: absolute; bottom: 0` to the nearest positioned
+   ancestor (<body>), and holds a JS-measured `.footerSpacer` open above it. <main> has no minimum
+   height, so while a page is still loading (a spinner, ten lines tall) the footer sits on screen,
+   then is thrown to the bottom of the real content when the data lands: layout shift 0.4-0.8 on
+   /standings and /manager, the most-visited pages.
+
+   Instead: <main> is at least a screen tall, and the footer hangs off its bottom edge (`top: 100%`)
+   rather than sitting inside it. At load it is below the fold, and when content arrives it moves
+   from one off-screen place to another, which the layout-shift metric does not count. The
+   spacer is redundant once the footer is outside the flow, so it is hidden.
+
+   `footer[class]` is there for specificity only: the component's scoped rule is `footer.s-HASH`
+   (0,1,1) and a bare `main > footer` (0,0,2) would lose to it. An attribute selector weighs the
+   same as a class, so (0,1,2) wins without !important and without knowing the hash. */
+main {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+main > footer[class] {
+  top: 100%;
+  bottom: auto;
+}
+
+main > .footerSpacer {
+  display: none;
+}
