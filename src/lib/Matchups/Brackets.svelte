@@ -1,7 +1,7 @@
 <script>
     import { goto } from "$app/navigation";
     import { onMount } from "svelte";
-    import Button, { Group, Label } from '@smui/button';
+    import { SegmentedControl } from '$lib/Design';
     import BracketsColumn from "./BracketsColumn.svelte";
     import Matchup from "./Matchup.svelte";
 
@@ -68,6 +68,10 @@
     }
 
     let matchupWeek = 1;
+    const weekOptions = [
+        { value: 1, label: 'First Week' },
+        { value: 2, label: 'Second Week' },
+    ];
 
     const changeMatchupGame = (week) => {
         matchupWeek = week;
@@ -97,6 +101,7 @@
         flex-direction: column;
         align-items: center;
         margin: 3em 0;
+        padding: 0 12px;
     }
 </style>
 
@@ -120,16 +125,7 @@
     {#if matchup}
         {#if matchup[0].starters[2] }
             <div class="buttonHolder">
-                <Group variant="outlined">
-                    <!-- Regular Season -->
-                    <Button class="selectionButtons" onclick={() => changeMatchupGame(1)} variant="{matchupWeek == 1 ? "raised" : "outlined"}">
-                        <Label>First Week</Label>
-                    </Button>
-                    <!-- Championship Bracket -->
-                    <Button class="selectionButtons" onclick={() => changeMatchupGame(2)} variant="{matchupWeek == 2 ? "raised" : "outlined"}">
-                        <Label>Second Week</Label>
-                    </Button>
-                </Group>
+                <SegmentedControl options={weekOptions} bind:value={matchupWeek} ariaLabel="Matchup week" />
             </div>
         {/if}
         <Matchup ix={selected} active={selected} {matchup} {matchupWeek} {players} {displayWeek} expandOverride={true} {leagueTeamManagers} />

@@ -95,16 +95,19 @@
 
     let innerWidth;
 
-    const calcHeight = () => {
-        let multiplier = 73;
-        if(innerWidth < 500) {
-            multiplier = 72;
-        }
-        if(innerWidth < 410) {
-            multiplier = 71;
-        }
+    let rostersEl;
+
+    /*
+    Measured rather than estimated. The old per-row multiplier (71-73px) assumed fixed-size text,
+    which stops being true once names, scores and team labels keep a readable size: a wrapped
+    name, or the stacked layout below 410px, makes a row taller and the last rows were clipped.
+    Both arguments exist only so the template re-runs this once the element is bound and
+    when the viewport width changes.
+    */
+    const calcHeight = (el, width) => {
+        if(el) return el.scrollHeight + 1;
         const startersLength = matchupWeek ? home.starters[matchupWeek].length : home.starters.length;
-        return startersLength * multiplier + 37;
+        return startersLength * 73 + 37;
     }
 
 </script>
@@ -320,7 +323,7 @@
         color: #888;
         font-style: italic;
         text-align: center;
-        font-size: 0.5em;
+        font-size: 0.75rem;
     }
 
     .playerName {
@@ -333,45 +336,6 @@
 
     .playerNameAway {
         text-align: right;
-    }
-
-    @media (max-width: 500px) {
-        .name {
-            font-size: 0.8em;
-        }
-        .totalPoints {
-            font-size: 0.8em;
-        }
-        .nameHolder {
-            font-size: 0.8em;
-        }
-        .points {
-            font-size: 0.9em;
-        }
-    }
-
-    @media (max-width: 410px) {
-        .name {
-            font-size: 0.7em;
-        }
-        .totalPoints {
-            font-size: 0.7em;
-        }
-        .nameHolder {
-            font-size: 0.7em;
-        }
-        .points {
-            font-size: 0.75em;
-        }
-    }
-
-    @media (max-width: 360px) {
-        .name {
-            font-size: 0.5em;
-        }
-        .totalPoints {
-            font-size: 0.5em;
-        }
     }
 
     .dividerLine {
@@ -431,8 +395,14 @@
 
     .totalProjection {
         color: #ccc;
-        font-size: 0.7em;
+        font-size: 0.75em;
         font-style: italic;
+    }
+
+    /* The roster rows are on white, where #ccc is 1.6:1 -- invisible. The header's projections
+       sit on the navy and red bars and keep #ccc. */
+    .points .totalProjection {
+        color: var(--g555);
     }
 
     .points {
@@ -478,6 +448,46 @@
             left: -7px;
         }
     }
+
+    /*
+    Below 410px a player's score sits under their name instead of being squeezed in beside the
+    avatar. It sits at the end of the sheet because it has to come after the base .points rule.
+    This replaces the old 500/410/360px blocks, which shrank the text instead (down to
+    5px). A player's half of the row is only about 150px wide here, and the badge, the avatar and
+    an absolutely positioned score do not share that.
+    */
+    @media (max-width: 499px) {
+        .name {
+            font-size: 0.875rem;
+        }
+    }
+
+    /* At 320px each side of the header is ~140px: with the avatar and the score, the name was left
+       about 50px and broke mid-word. The avatar is decoration here, so it goes. */
+    @media (max-width: 359px) {
+        .avatar {
+            display: none;
+        }
+    }
+
+    @media (max-width: 409px) {
+        .playerTeam {
+            display: block;
+            text-align: inherit;
+            padding: 0 6px;
+        }
+        .points {
+            position: static;
+            display: block;
+            padding: 0 6px;
+        }
+        .playerHome .points {
+            text-align: left;
+        }
+        .playerAway .points {
+            text-align: right;
+        }
+    }
 </style>
 
 <div class="matchup">
@@ -495,7 +505,7 @@
         </div>
     </div>
 
-    <div class="rosters" style="max-height: {active == ix ? calcHeight() + "px" : "0"}; {active != ix ? "border: none" : ""};">
+    <div class="rosters" bind:this={rostersEl} style="max-height: {active == ix ? calcHeight(rostersEl, innerWidth) + "px" : "0"}; {active != ix ? "border: none" : ""};">
         {#each starters as player}
             <div class="line">
                 <div class="player playerHome">

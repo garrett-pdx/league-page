@@ -258,7 +258,7 @@
     }
 
     .projectedPoints {
-        font-size: 0.8em;
+        font-size: 0.75rem;
         color: var(--g999);
     }
 
@@ -294,10 +294,16 @@
         }
 	}
 
+    /* The cards used to shrink with the viewport -- width 80px and font-size 0.6em at 375px,
+       which put the scores at 6.5px. They now stay at a readable size and only narrow a little,
+       enough for two columns (semifinal and final) to sit side by side down to 320px. */
     @media (max-width: 610px) {
         .match {
-            width: 130px;
-            font-size: 0.9em;
+            width: 150px;
+        }
+
+        .name {
+            font-size: 0.875rem;
         }
 
         .avatar {
@@ -308,15 +314,14 @@
 
     @media (max-width: 500px) {
         .match {
-            width: 110px;
-            font-size: 0.8em;
+            width: 140px;
         }
     }
 
     @media (max-width: 410px) {
         .match {
-            width: 80px;
-            font-size: 0.6em;
+            width: 130px;
+            margin: 1em 0.5em;
         }
     }
 

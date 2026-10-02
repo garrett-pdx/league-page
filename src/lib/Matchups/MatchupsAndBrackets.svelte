@@ -3,11 +3,10 @@
 	import LinearProgress from '@smui/linear-progress';
 	import MatchupWeeks from './MatchupWeeks.svelte';
 	import Brackets from './Brackets.svelte';
-    import Button, { Group, Label } from '@smui/button';
     import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
     import { loadPlayers, getUpcomingDraft } from '$lib/utils/helper';
-    import { SectionHeading, Countdown } from '$lib/Design';
+    import { SectionHeading, Countdown, SegmentedControl } from '$lib/Design';
 
     /*
     Preseason only. This page previously rendered the single line "No upcoming matchups..." with
@@ -70,6 +69,15 @@
     }
 
     let selection = 'regular';
+
+    const modeOptions = [
+        { value: 'regular', label: 'Regular Season' },
+        { value: 'champions', label: 'Playoffs' },
+    ];
+    const bracketOptions = [
+        { value: 'champions', label: "Champions' Bracket" },
+        { value: 'losers', label: "Losers' Bracket" },
+    ];
 </script>
 
 <style>
@@ -94,7 +102,9 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        gap: 0.75em;
         margin: 3em 0;
+        padding: 0 12px;
     }
 </style>
 
@@ -113,27 +123,9 @@
 {:else}
     {#if matchupWeeks.length}
         <div class="buttonHolder">
-            <Group variant="outlined">
-                <!-- Regular Season -->
-                <Button class="selectionButtons" onclick={() => changeSelection('regular')} variant="{selection == 'regular' ? "raised" : "outlined"}">
-                    <Label>Regular Season</Label>
-                </Button>
-                <!-- Championship Bracket -->
-                <Button class="selectionButtons" onclick={() => changeSelection('champions')} variant="{selection == 'champions' || selection == 'losers' ? "raised" : "outlined"}">
-                    <Label>Playoffs</Label>
-                </Button>
-            </Group>
+            <SegmentedControl options={modeOptions} value={selection == 'regular' ? 'regular' : 'champions'} onchange={changeSelection} ariaLabel="Regular season or playoffs" />
             {#if selection == 'champions' || selection == 'losers'}
-                <Group variant="outlined">
-                    <!-- Championship Bracket -->
-                    <Button class="selectionButtons" onclick={() => changeSelection('champions')} variant="{selection == 'champions' ? "raised" : "outlined"}">
-                        <Label>Champions' Bracket</Label>
-                    </Button>
-                    <!-- Losers Bracket -->
-                    <Button class="selectionButtons" onclick={() => changeSelection('losers')} variant="{selection == 'losers' ? "raised" : "outlined"}">
-                        <Label>Losers' Bracket</Label>
-                    </Button>
-                </Group>
+                <SegmentedControl options={bracketOptions} value={selection} onchange={changeSelection} ariaLabel="Champions' or losers' bracket" />
             {/if}
         </div>
         {#if selection == 'regular'}
