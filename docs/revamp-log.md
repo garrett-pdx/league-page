@@ -12,9 +12,9 @@ The plans being carried out:
 
 | Step | Work | Why here | Status |
 | --- | --- | --- | --- |
-| 1 | **A. The nav**, plus the voted 2026 roster-change text (F) | Every page benefits; the new pages need its groups; the roster text is wrong on the live site today | pending |
+| 1 | **A. The nav**, plus the voted 2026 roster-change text (F) | Every page benefits; the new pages need its groups; the roster text is wrong on the live site today | done |
 | 2 | **C1–C3.** Records, Matchups, Standings readable on phones; creates `src/theme/_site.scss` | The worst phone problems, on the most-used pages | pending |
-| 3 | **History step 0 + 1.** The game table, then schedule luck on Standings | Foundation for four pages; most useful mid-season | pending |
+| 3 | **History step 0 + 1.** The game table, then schedule luck on Standings | Foundation for four pages; most useful mid-season | step 0 running in parallel (worktree) |
 | 4 | **B1–B3.** `PageHeader` on every page, text fixes, the page jumping as it loads | History pages reuse `PageHeader` | pending |
 | 5 | **D.** Links between pages, plus **History step 2**, the head-to-head grid | Both work on Rivalry and manager links | pending |
 | 6 | **C4–C5 + B4–B5.** Drafts, remaining small text and tap targets, blog typography, desktop layouts | Polish on less-used pages | pending |
@@ -36,3 +36,34 @@ The plans being carried out:
 ## Log
 
 _Each step adds what was done, what was found, and any changes to the remaining plan._
+
+### Step 1: nav and roster text (done, Opus, about 21 minutes)
+
+Commits `3e70099`..`0674023`, 13 files. The node-adapter build passes.
+
+- **Top bar:** Managers, Matchups, Standings, Free Agents, Trades & Waivers, Blog, League ▾.
+  - Home is dropped.
+  - Tab padding is 12px between 951px and 1100px so all seven tabs fit (885px).
+- **League menu:** grouped into This Season, History and Rules & Tools. Off-site links show ↗.
+- **Highlight** follows client-side navigation. /manager lights Managers. Each dropdown item is
+  marked when it's the current page.
+- **Tab titles** match the nav labels. Manager pages show the manager's name; blog posts show
+  the post title.
+- **Phone menu:**
+  - a real 44px button;
+  - items at 7.46:1 contrast and 44px tall;
+  - a sticky 61px bar on phones only.
+- **Roster change:** five bench spots and thirteen rounds, with an amendment note in the
+  constitution.
+
+**Changes to the remaining plan:**
+- **Sticky bar offset.** Anything that sticks or jumps to an in-page anchor on phones must
+  allow for the 61px bar. Steps 2, 4 and 6 carry this.
+- **Footer links** are 37px tall: added to C5 (step 6).
+- **Layout shift** measured 0.72 on /standings at 375px: B3 (step 4) owns it.
+- **The blog can't be checked locally:** there's no Contentful token in `.env`. Check B4's
+  blog typography by reading the code, or against the live site.
+- **New pages in the nav:** Seasons and Stat Lab go under `{ group: 'History' }`. Titles and
+  highlighting then work automatically, through a first-segment fallback.
+- **Dropdown accessibility.** The desktop dropdown's items stay in the DOM while hidden, which
+  predates this work. Possibly reachable by screen readers. Added to step 10's audit.
