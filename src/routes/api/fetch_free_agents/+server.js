@@ -1,6 +1,7 @@
 import { leagueID } from "$lib/utils/leagueInfo"
 import { waitForAll } from "$lib/utils/helperFunctions/multiPromise"
 import { json, error } from '@sveltejs/kit';
+import { REFRESH_WINDOW_MS, currentRefreshWindow } from '$lib/FreeAgents/refreshWindow';
 
 /*
 Unrostered QB/RB/WR/TE with their depth-chart slot, for /free-agents.
@@ -24,12 +25,12 @@ Three things this encodes, all verified against live data:
 /players/nfl is ~15MB; the cache header below is what keeps that (and the ESPN fan-out) off
 every page view.
 
-REFRESH: the page's Refresh button asks for ?fresh=<unix minute>. Vercel's CDN caches each URL
-separately, so a new minute misses the cache and pulls fresh -- but only the current minute (+/-1
-for clock skew and requests that straddle the boundary) is accepted. Anything else is a 400 before
-any fetching, so nobody can force a 15MB pull per request with random values: with three valid
-values at any moment, the whole site gets at most ~3 fresh pulls a minute however many people
-click (in practice one -- honest clients all send the current minute).
+REFRESH: the page's Refresh button asks for ?fresh=<window>, where a window is REFRESH_WINDOW_MS
+(5 min, in $lib/FreeAgents/refreshWindow.js). Vercel's CDN caches each URL separately, so a new
+window misses the cache and pulls fresh -- but only the current window (+/-1 for clock skew and
+requests that straddle the boundary) is accepted. Anything else is a 400 before any fetching, so
+nobody can force a 15MB pull per request with random values: in practice the whole site gets one
+fresh pull per window however many people click (three at the very most).
 */
 
 const POSITIONS = ['QB', 'RB', 'WR', 'TE'];
@@ -114,8 +115,7 @@ const getReturnDates = async (injured, season) => {
 export async function GET({ url, setHeaders }) {
     const fresh = url.searchParams.get('fresh');
     if(fresh != null) {
-        const minute = Math.floor(Date.now() / 60000);
-        if(!/^\d+$/.test(fresh) || Math.abs(parseInt(fresh) - minute) > 1) {
+        if(!/^\d+$/.test(fresh) || Math.abs(parseInt(fresh) - currentRefreshWindow()) > 1) {
             throw error(400, 'Stale refresh token');
         }
     }
@@ -194,7 +194,7 @@ export async function GET({ url, setHeaders }) {
     }
 
     setHeaders({'cache-control': fresh != null
-        ? 'public, s-maxage=60'
+        ? `public, s-maxage=${REFRESH_WINDOW_MS / 1000}`
         : 'public, s-maxage=900, stale-while-revalidate=3600'});
     return json({
         updated: new Date().toISOString(),

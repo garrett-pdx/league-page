@@ -4,6 +4,7 @@
     import { players as playersStore } from '$lib/stores';
     import { Card, SectionHeading, SegmentedControl } from '$lib/Design';
     import TeamPicker from './TeamPicker.svelte';
+    import { REFRESH_WINDOW_MS, currentRefreshWindow } from './refreshWindow';
 
     /*
     Free agents filtered by NFL depth-chart slot ("show me every RB2"). League-specific; the data
@@ -13,8 +14,9 @@
     scored with this league's settings) rather than recomputed on the server. That cache lives
     24h in localStorage; when it comes back stale we reload it in the background, as Rosters does.
 
-    Refresh asks the endpoint for ?fresh=<current minute> to step past the CDN's 15-minute cache;
-    the server's comment explains why only the current minute is accepted. Filters are plain
+    Refresh asks the endpoint for ?fresh=<current 5-minute window> to step past the CDN's 15-minute
+    cache; the server's comment explains why only the current window is accepted. A second click
+    inside the same window gets the same copy back, so we say so rather than look broken. Filters are plain
     state and survive it.
 
     Refresh also reloads projections, by calling fetch_players_info directly: loadPlayers() can't be
@@ -24,7 +26,7 @@
     it is skipped while the saved copy is under PROJ_MIN_AGE old -- Sleeper only revises
     projections a few times a day.
     */
-    const PROJ_MIN_AGE = 15 * 60;       // seconds
+    const PROJ_MIN_AGE = 60 * 60;       // seconds
     const PLAYERS_TTL = 24 * 3600;      // must match loadPlayers' expiration in players.js
     let { faData: initialData, playersInfo = {}, nflState = {} } = $props();
 
@@ -32,6 +34,7 @@
     let players = $state(playersInfo.players ?? {});
     let refreshing = $state(false);
     let refreshError = $state('');
+    let refreshNote = $state('');
     let now = $state(Date.now());
 
     onMount(() => {
@@ -43,9 +46,13 @@
     });
 
     const refreshFreeAgents = async () => {
-        const res = await fetch(`/api/fetch_free_agents?fresh=${Math.floor(Date.now() / 60000)}`);
+        const res = await fetch(`/api/fetch_free_agents?fresh=${currentRefreshWindow()}`);
         if(!res.ok) throw new Error(res.status);
-        faData = await res.json();
+        const data = await res.json();
+        if(data.updated == faData.updated) {
+            refreshNote = `Already current (refreshes every ${REFRESH_WINDOW_MS / 60000} min)`;
+        }
+        faData = data;
     };
 
     const refreshProjections = async () => {
@@ -68,6 +75,7 @@
     const refresh = async () => {
         refreshing = true;
         refreshError = '';
+        refreshNote = '';
         const [list, proj] = await Promise.allSettled([refreshFreeAgents(), refreshProjections()]);
         if(list.status == 'rejected' && proj.status == 'rejected') refreshError = "Couldn't refresh; try again.";
         else if(list.status == 'rejected') refreshError = "Couldn't refresh the list; try again.";
@@ -113,13 +121,50 @@
         })
     );
 
+    /*
+    Sortable columns. Each has the direction a first click should give -- higher is better for
+    everything except Sleeper's rank, where 1 is best -- and a second click reverses it. Players
+    with no value (no projection, no snaps yet, not trending) always sort last, whichever way.
+    Ties fall back to Sleeper rank so the order is stable.
+    */
+    const sortCols = {
+        proj: {first: 'desc', get: (p) => p.bye ? null : p.proj},
+        snap: {first: 'desc', get: (p) => p.snap},
+        trend: {first: 'desc', get: (p) => p.trend},
+        rank: {first: 'asc', get: (p) => p.rank},
+    };
+    let sortKey = $state('proj');
+    let sortDir = $state('desc');
+
+    const sortBy = (key) => {
+        if(sortKey == key) {
+            sortDir = sortDir == 'asc' ? 'desc' : 'asc';
+        } else {
+            sortKey = key;
+            sortDir = sortCols[key].first;
+        }
+    };
+
+    const compare = (a, b) => {
+        const get = sortCols[sortKey].get;
+        const va = get(a) ?? null, vb = get(b) ?? null;
+        if(va == null || vb == null) {
+            if(va != vb) return va == null ? 1 : -1;
+        } else if(va != vb) {
+            return sortDir == 'asc' ? va - vb : vb - va;
+        }
+        return (a.rank ?? 1e9) - (b.rank ?? 1e9);
+    };
+
+    const ariaSort = (key) => sortKey != key ? 'none' : sortDir == 'asc' ? 'ascending' : 'descending';
+
     const shown = $derived(
         withProj
             .filter((p) => p.pos == pos)
             .filter((p) => depth == 'Any' || p.depth == depth)
             .filter((p) => selectedTeams.includes(p.t))
             .filter((p) => !query || p.n.toLowerCase().includes(query.toLowerCase()))
-            .sort((a, b) => (b.proj ?? -1) - (a.proj ?? -1) || (a.rank ?? 1e9) - (b.rank ?? 1e9))
+            .sort(compare)
     );
 
     const fmtDate = (iso) => new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-US', {month: 'short', day: 'numeric', timeZone: 'UTC'});
@@ -177,6 +222,39 @@
         text-align: left;
         padding: 0.6em 0.7em;
         border-bottom: 2px solid var(--accentBorder);
+    }
+
+    .sort {
+        font: inherit;
+        color: inherit;
+        text-transform: inherit;
+        letter-spacing: inherit;
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3em;
+        white-space: nowrap;
+    }
+
+    .sort.active { color: var(--navy700); }
+
+    .sort:focus-visible {
+        outline: 2px solid var(--blueOne);
+        outline-offset: 2px;
+    }
+
+    .arrow {
+        font-size: 0.8em;
+        opacity: 0.45;
+    }
+
+    .sort.active .arrow { opacity: 1; }
+
+    @media (hover: hover) {
+        .sort:hover { color: var(--accentInk); }
     }
 
     td {
@@ -255,7 +333,9 @@
 
     .status {
         display: flex;
+        flex-wrap: wrap;
         justify-content: flex-end;
+        text-align: right;
         align-items: center;
         gap: 0.7em;
         margin: 0 0 0.5em;
@@ -329,7 +409,7 @@
     </div>
 
     <div class="status" aria-live="polite">
-        {#if refreshError}<span class="error">{refreshError}</span>{/if}
+        {#if refreshError}<span class="error">{refreshError}</span>{:else if refreshNote}<span>{refreshNote}</span>{/if}
         <span>Updated {age}</span>
         <button class="refresh" type="button" onclick={refresh} disabled={refreshing}>
             <span class="spin" aria-hidden="true">↻</span>{refreshing ? 'Refreshing…' : 'Refresh'}
@@ -342,10 +422,20 @@
                 <tr>
                     <th>Player</th>
                     <th>Depth</th>
-                    {#if week}<th class="num">Wk {week} proj</th>{/if}
-                    <th class="num" title="Share of the team's offensive snaps this season">Snap %</th>
-                    <th class="num hideSmall" title="Sleeper-wide adds in the last 48 hours">Trending</th>
-                    <th class="num hideSmall" title="Sleeper's overall player rank">Rank</th>
+                    {#if week}
+                        <th class="num" aria-sort={ariaSort('proj')}>
+                            <button class="sort" class:active={sortKey == 'proj'} type="button" onclick={() => sortBy('proj')}>Wk {week} proj<span class="arrow" aria-hidden="true">{sortKey == 'proj' ? (sortDir == 'asc' ? '▲' : '▼') : '↕'}</span></button>
+                        </th>
+                    {/if}
+                    <th class="num" aria-sort={ariaSort('snap')}>
+                        <button class="sort" class:active={sortKey == 'snap'} type="button" title="Share of the team's offensive snaps this season" onclick={() => sortBy('snap')}>Snap %<span class="arrow" aria-hidden="true">{sortKey == 'snap' ? (sortDir == 'asc' ? '▲' : '▼') : '↕'}</span></button>
+                    </th>
+                    <th class="num hideSmall" aria-sort={ariaSort('trend')}>
+                        <button class="sort" class:active={sortKey == 'trend'} type="button" title="Sleeper-wide adds in the last 48 hours" onclick={() => sortBy('trend')}>Trending<span class="arrow" aria-hidden="true">{sortKey == 'trend' ? (sortDir == 'asc' ? '▲' : '▼') : '↕'}</span></button>
+                    </th>
+                    <th class="num hideSmall" aria-sort={ariaSort('rank')}>
+                        <button class="sort" class:active={sortKey == 'rank'} type="button" title="Sleeper's overall player rank" onclick={() => sortBy('rank')}>Rank<span class="arrow" aria-hidden="true">{sortKey == 'rank' ? (sortDir == 'asc' ? '▲' : '▼') : '↕'}</span></button>
+                    </th>
                 </tr>
             </thead>
             <tbody>
