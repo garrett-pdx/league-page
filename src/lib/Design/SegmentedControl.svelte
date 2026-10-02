@@ -3,13 +3,22 @@
     A small in-card filter toggle -- Active / Moratorium on the managers page being the first use,
     mirroring the "Active Owners / Retired Owners" tabs on the reference sites.
 
-    SCOPE: this is for 2-4 option filters INSIDE a page. @smui/tab-bar is already a dependency and
+    SCOPE: this is for 2-7 option filters INSIDE a page. @smui/tab-bar is already a dependency and
     is what NavLarge uses; keep it for anything page-level rather than reimplementing it here.
 
     A11Y: it swaps a filter, not a panel, so it is a radiogroup -- not a tablist. That means roving
     tabindex (exactly one button is tabbable) plus arrow-key movement, which is implemented below.
     The selected state is a navy FILL, not just a colour change, so it does not rely on colour
     alone (WCAG 1.4.1).
+
+    WRAPPING: the group wraps rather than overflows. Seven labels (the Records bar-chart picker)
+    do not fit a 375px phone on one line, and a row that scrolls sideways hides its own options.
+    Wrapped segments stretch to fill each row (flex-grow), so a two-row group still reads as one
+    tidy block. The container's radius is a fixed 28px rather than a pill for the same reason: a
+    999px radius on a multi-row box turns the ends into half-circles.
+
+    TOUCH: segments are at least 44px tall on phones and touch screens (WCAG 2.5.5), and keep the
+    compact 34px / 30px sizing for a mouse on desktop.
     */
     let {
         options = [],           // ['A','B'] or [{value, label, disabled?}]
@@ -68,11 +77,12 @@
 <style>
     .segmented {
         display: inline-flex;
+        flex-wrap: wrap;
         padding: 3px;
         gap: 3px;
         background-color: var(--navy050);
         border: 1px solid var(--accentBorder);
-        border-radius: var(--radiusPill);
+        border-radius: 28px;
         box-sizing: border-box;
         max-width: 100%;
     }
@@ -96,7 +106,11 @@
     }
 
     .md .segment { font-size: 0.86em; padding: 0.5em 1.15em; }
-    .sm .segment { font-size: 0.74em; padding: 0.35em 0.8em; }
+    .sm .segment { font-size: 0.75em; padding: 0.35em 0.8em; }
+
+    @media (max-width: 700px), (pointer: coarse) {
+        .segment { min-height: 44px; }
+    }
 
     @media (hover: hover) {
         .segment:hover:not(.selected):not(:disabled) { background-color: var(--navy100); }
