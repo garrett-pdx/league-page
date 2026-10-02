@@ -27,7 +27,10 @@ export async function load({ url, fetch }) {
     const props = {
         manager: manager && manager < managersObj.length ? manager : -1,
         managers: managersObj,
-        managersInfo
+        managersInfo,
+        // Ours: the browser tab title (see $lib/utils/pageTitle). A plain array lookup, so the
+        // unawaited-promise pattern above is untouched; an invalid index just yields undefined.
+        title: managersObj[manager]?.name,
     }
 
     return props;

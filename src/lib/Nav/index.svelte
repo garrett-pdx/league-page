@@ -3,10 +3,11 @@
 	import NavLarge from './NavLarge.svelte';
     import { page } from '$app/state';
 	import { leagueName } from '$lib/utils/leagueInfo';
+	import { pageTitle } from '$lib/utils/pageTitle';
 </script>
 
 <svelte:head>
-	<title>{!page.url.pathname[1] ? 'Home' : page.url.pathname[1].toUpperCase() + page.url.pathname.slice(2)} | {leagueName}</title>
+	<title>{pageTitle(page)} | {leagueName}</title>
 </svelte:head>
 
 <style>
