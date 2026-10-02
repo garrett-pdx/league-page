@@ -32,11 +32,15 @@ Still outstanding, in rough priority order:
   (`scripts/week-facts.py`), with the house style in `docs/mudd-voice.md` and publishing via
   `scripts/publish-article.mjs`. Titles end in `RECAP` / `PREVIEW` because the publisher
   matches on title.
-- **`static/data/` is read in exactly one place.** `helperFunctions/leagueHistory.js` fetches
+- **`static/data/` is read in exactly two places.** `helperFunctions/leagueHistory.js` fetches
   `league-history.json` (memoized, SSR-safe) for the manager career band and the Hall of Fame.
   It is the only source for a full 1–10 finish — Sleeper exposes podium and toilet bowl only —
-  and it keys on `user_id`, which sidesteps roster IDs moving between seasons. **No other file in
-  `static/data/` is fetched at runtime**, `weeks.json` included.
+  and it keys on `user_id`, which sidesteps roster IDs moving between seasons.
+  `helperFunctions/leagueGames.js` fetches `games.json` (same pattern) for the history pages,
+  and holds the pure `filterGames` / `allPlay` / `headToHead` / `standingsFrom` /
+  `liveSeasonGames` they compute with. `games.json` and `season-notes.json` are built by
+  `npm run derive-site-data` and are size-budgeted for the browser (~4 KB gzipped each).
+  **No other file in `static/data/` is fetched at runtime**, `weeks.json` included.
 - **`weeks.json` is mined offline instead.** `npm run derive-narratives` reads it (plus the draft,
   keeper and transaction files) and writes `static/data/narratives.json` and `docs/league-lore.md`
   — 278 facts across 25 categories, each with structured fields *and* a plain-English `text`.
