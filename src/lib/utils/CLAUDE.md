@@ -188,6 +188,6 @@ path and there shouldn't be one. Endpoints in use: `/league/{id}`, `/league/{id}
 `/draft/{id}/picks`, `/players/nfl`, `/state/nfl`, plus the unversioned
 `/projections/nfl/{year}/{week}`.
 
-`/players/nfl` is **~5MB** — that's why it's fetched through the server route
+`/players/nfl` is **~15MB** (was ~5MB in 2025) — that's why it's fetched through the server route
 `/api/fetch_players_info` and cached in `localStorage`, not requested from every page.
 Don't add a direct browser call to it.

@@ -89,6 +89,11 @@ export const tabs = [
                 dest: '/rosters',
             },
             {
+                icon: 'person_search',
+                label: 'Free Agents',
+                dest: '/free-agents',
+            },
+            {
                 icon: 'history_edu',
                 label: 'Constitution',
                 dest: '/constitution',
