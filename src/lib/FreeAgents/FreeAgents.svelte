@@ -1,8 +1,8 @@
 <script>
-    import { leagueName, loadPlayers, managers } from '$lib/utils/helper';
+    import { loadPlayers, managers } from '$lib/utils/helper';
     import { onMount } from 'svelte';
     import { players as playersStore } from '$lib/stores';
-    import { Card, SectionHeading, SegmentedControl } from '$lib/Design';
+    import { Card, SegmentedControl } from '$lib/Design';
     import TeamPicker from './TeamPicker.svelte';
     import { REFRESH_WINDOW_MS, currentRefreshWindow } from './refreshWindow';
     import { projectionWeek } from './projectionWeek';
@@ -190,14 +190,6 @@
         width: 94%;
         max-width: var(--pageMax);
         margin: 0 auto 5em;
-    }
-
-    .blurb {
-        text-align: center;
-        color: var(--g555);
-        margin: 0 auto 1.6em;
-        max-width: 36em;
-        line-height: 1.4em;
     }
 
     .controls {
@@ -470,13 +462,6 @@
 </style>
 
 <div class="wrap">
-    <SectionHeading eyebrow={leagueName} level={2}>Free Agents</SectionHeading>
-
-    <p class="blurb">
-        Every unrostered player, by where he sits on his NFL team's depth chart. Looking for a
-        handcuff? Start with the RB2s.
-    </p>
-
     <div class="controls">
         <SegmentedControl options={positions} bind:value={pos} ariaLabel="Position" />
         <SegmentedControl options={depthOptions} bind:value={depth} size="sm" ariaLabel="Depth chart slot" />

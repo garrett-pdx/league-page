@@ -119,7 +119,7 @@
 </style>
 
 {#if champions.length}
-    <SectionHeading eyebrow="The Mudd League" accent="gold">Hall of Fame</SectionHeading>
+    <SectionHeading level={3} eyebrow={null} accent="gold">Hall of Fame</SectionHeading>
 
     <div class="plaques">
         {#each champions as champ (champ.year)}

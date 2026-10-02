@@ -1,7 +1,6 @@
 <script>
-    import { leagueName } from '$lib/utils/helper';
     import { getDatesActive } from '$lib/utils/helperFunctions/universalFunctions';
-    import { SectionHeading, SegmentedControl } from '$lib/Design';
+    import { SegmentedControl } from '$lib/Design';
     import ManagerRow from './ManagerRow.svelte'
 
     let { managers, leagueTeamManagers } = $props();
@@ -70,8 +69,6 @@
 </style>
 
 <div class="managerContainer">
-    <SectionHeading eyebrow={leagueName} level={2}>Managers</SectionHeading>
-
     {#if departed.length}
         <div class="controls">
             <SegmentedControl {options} bind:value={view} ariaLabel="Show active managers or the Moratorium" />

@@ -1,7 +1,7 @@
 <script>
     import { goto } from "$app/navigation";
     import Pagination from "$lib/Pagination.svelte";
-    import { getBlogPosts, leagueName, waitForAll } from "$lib/utils/helper";
+    import { getBlogPosts, waitForAll } from "$lib/utils/helper";
     import LinearProgress from "@smui/linear-progress";
     import { onMount } from "svelte";
     import Post from "./Post.svelte";
@@ -83,11 +83,6 @@
 </script>
 
 <style>
-    h2 {
-        font-size: 3em;
-        text-align: center;
-        margin-bottom: 0.2em;
-    }
 	.loading {
 		display: block;
 		position: relative;
@@ -141,7 +136,9 @@
     }
 </style>
 
-<h2 bind:this={el}>{leagueName} Blog</h2>
+<!-- The page title ("The Mudd Report") is a PageHeader in routes/blog/+page.svelte. This empty
+     element only stays as the scroll target the pagination measures from. -->
+<div bind:this={el}></div>
 
 {#if loading}
     <div class="loading" >

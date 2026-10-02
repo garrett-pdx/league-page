@@ -77,17 +77,22 @@
 
     .actions { flex-shrink: 0; }
 
+    /* A section inside a page (level 3 and up) reads one step down from the page title. */
+    .heading.sub { font-size: 1.55em; }
+    .wrap.sub { margin-top: 2.5em; }
+
     @media (max-width: 500px) {
         .heading { font-size: 1.6em; }
+        .heading.sub { font-size: 1.35em; }
     }
 </style>
 
-<div class="wrap {align} {className}">
+<div class="wrap {align} {className}" class:sub={level >= 3}>
     <div>
         {#if eyebrow}
             <p class="eyebrow">{eyebrow}</p>
         {/if}
-        <svelte:element this={tag} class="heading">
+        <svelte:element this={tag} class="heading" class:sub={level >= 3}>
             {@render children?.()}
         </svelte:element>
         {#if rule}

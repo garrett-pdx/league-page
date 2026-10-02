@@ -13,3 +13,4 @@ export { default as Countdown } from './Countdown.svelte';
 export { default as StatTile } from './StatTile.svelte';
 export { default as SectionHeading } from './SectionHeading.svelte';
 export { default as SegmentedControl } from './SegmentedControl.svelte';
+export { default as PageHeader } from './PageHeader.svelte';

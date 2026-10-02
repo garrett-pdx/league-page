@@ -1,5 +1,6 @@
 <script>
 	import SingleNews from "./SingleNews.svelte"
+    import { SectionHeading } from "$lib/Design";
 	import Pagination from "../Pagination.svelte"
     import { getNews } from "$lib/utils/helper";
 	import { onMount } from 'svelte';
@@ -50,10 +51,6 @@
         margin-bottom: 60px;
     }
 
-    h4 {
-        text-align: center;
-    }
-
     .articles {
         width: 85%;
         margin: 0 auto;
@@ -67,7 +64,7 @@
 
 <div class="pageBody">
     <div class="banner" bind:this={el}>
-        <h4>Fantasy Football News and Updates</h4>
+        <SectionHeading level={3}>Fantasy Football News and Updates</SectionHeading>
     </div>
 
     <div class="articles">

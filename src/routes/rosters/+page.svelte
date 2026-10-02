@@ -1,6 +1,7 @@
 <script>
 	import LinearProgress from '@smui/linear-progress';
 	import { Rosters } from '$lib/components'
+	import { PageHeader } from '$lib/Design';
 
 	export let data;
 	const rostersInfo = data.rostersInfo;
@@ -18,6 +19,8 @@
 		margin: 80px auto;
 	}
 </style>
+
+<PageHeader title="Rosters" intro="Every roster, as it stands right now. Scouting is allowed." />
 
 <div class="holder">
 	{#await rostersInfo}

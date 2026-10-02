@@ -1,6 +1,7 @@
 <script>
 	import LinearProgress from '@smui/linear-progress';
 	import { Rivalry } from '$lib/components'
+	import { PageHeader } from '$lib/Design';
 	import { waitForAll } from '$lib/utils/helper';
 
 	export let data;
@@ -26,6 +27,8 @@
 		margin: 80px auto;
 	}
 </style>
+
+<PageHeader title="Rivalry" intro="Pick any two managers. The history is already in the books." />
 
 <div class="holder">
 	{#await waitForAll(leagueTeamManagerData, playersData, transactionsData, recordsData)}

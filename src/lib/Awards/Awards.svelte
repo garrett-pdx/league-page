@@ -1,5 +1,6 @@
 <script>
     import { gotoManager } from '$lib/utils/helper';
+    import { SectionHeading } from '$lib/Design';
 	import { getAvatarFromTeamManagers, getNestedTeamNamesFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
 	export let podium, leagueTeamManagers;
 
@@ -9,10 +10,6 @@
 <style>
 	* {
 		color: var(--g555);
-	}
-
-	h3 {
-		margin: 2.5em 0 1.5em;
 	}
 
 	.awards {
@@ -87,10 +84,6 @@
 	.third {
 		bottom: 39%;
 		left: 80%;
-	}
-
-	h3 {
-		text-align: center;
 	}
 
 	.leaderBlock {
@@ -369,7 +362,7 @@
 </style>
 
 <div class="awards">
-	<h3>{year} Awards</h3>
+	<SectionHeading level={3} accent="gold">{year} Awards</SectionHeading>
 
 	<!-- The ribbon is now decoration and the words are real markup, so they follow the display
 	     font, can be selected and translated, and reach a screen reader as text rather than as

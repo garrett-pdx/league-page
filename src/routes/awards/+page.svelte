@@ -3,6 +3,7 @@
 	import HallOfFame from '$lib/Awards/HallOfFame.svelte';
 	import { waitForAll } from '$lib/utils/helper';
 	import LinearProgress from '@smui/linear-progress';
+	import { PageHeader } from '$lib/Design';
 
     export let data;
     const {awardsData, teamManagersData, leagueHistoryData} = data;
@@ -34,6 +35,8 @@
 		text-align: center;
 	}
 </style>
+
+<PageHeader title="Trophy Room" intro="Champions, podiums and toilet bowl losers, kept permanently." />
 
 <div class="awards">
 	{#await waitForAll(awardsData, teamManagersData, leagueHistoryData) }

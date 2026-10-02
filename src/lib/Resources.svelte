@@ -1,6 +1,7 @@
 <script>
     import List, { Item, Graphic, Separator, Text } from '@smui/list';
 import { dynasty } from './utils/helper';
+    import { SectionHeading } from '$lib/Design';
 
     const today = new Date();
     const resources = [
@@ -127,10 +128,6 @@ import { dynasty } from './utils/helper';
         text-decoration: none;
     }
 
-    h4 {
-        text-align: center;
-    }
-
     .disclaimer {
         color: #888;
         text-align: center;
@@ -139,7 +136,7 @@ import { dynasty } from './utils/helper';
 
 <div class="pageBody">
     <div class="banner">
-        <h4>Helpful {dynasty ? "Dynasty " : ""}Resources</h4>
+        <SectionHeading level={3}>Helpful {dynasty ? "Dynasty " : ""}Resources</SectionHeading>
     </div>
 
     <List class="list" dense>

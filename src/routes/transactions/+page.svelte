@@ -1,6 +1,7 @@
 <script>
 	import LinearProgress from '@smui/linear-progress';
 	import { TransactionsPage } from '$lib/components'
+	import { PageHeader } from '$lib/Design';
     import { waitForAll } from '$lib/utils/helper';
 
     export let data;
@@ -29,6 +30,8 @@
 		margin: 80px auto;
 	}
 </style>
+
+<PageHeader title="Trades & Waivers" intro="Every trade and waiver claim since 2022, newest first. Receipts, for anyone who remembers it differently." />
 
 <div id="main">
     {#await waitForAll(transactionsData, playersData, leagueTeamManagersData)}

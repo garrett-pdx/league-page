@@ -1,6 +1,7 @@
 <script>
 	import LinearProgress from '@smui/linear-progress';
     import FreeAgents from '$lib/FreeAgents/FreeAgents.svelte';
+	import { PageHeader } from '$lib/Design';
 
 	export let data;
 	const {freeAgents, extras} = data;
@@ -18,6 +19,8 @@
         margin: 80px auto;
     }
 </style>
+
+<PageHeader title="Free Agents" intro="Every unrostered player, by depth-chart slot. Handcuff hunters: start with the RB2s. Turn on Show rostered to see who's already taken." />
 
 <div class="main">
     {#await Promise.all([freeAgents, extras])}

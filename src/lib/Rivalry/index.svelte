@@ -126,11 +126,6 @@
         padding: 2em 0;
         max-width: var(--pageMax);
     }
-    h2 {
-        text-align: center;
-        font-size: 2.4em;
-        margin: 1.3em 0 0;
-    }
     h3 {
         text-align: center;
         font-size: 1.9em;
@@ -161,17 +156,13 @@
         }
     }
     @media (max-width: 400px) {
-        h2 {
-            font-size: 2em;
-        }
         h3 {
             font-size: 1.3em;
         }
     }
 </style>
 
-<h2>Rivalry</h2>
-
+<!-- The page title is a PageHeader in routes/rivalry/+page.svelte. -->
 <div class="rivalrySelection">
     <ManagerSelectors bind:playerOne={playerOne} bind:playerTwo={playerTwo} {leagueTeamManagers} />
 </div>
@@ -219,7 +210,7 @@
     {#if playerOne && playerTwo && playerOneRecords && playerTwoRecords }
         <div class="scoreBoard">
             <!-- record comparisson -->
-            <h3>Performance Comparisson</h3>
+            <h3>Performance Comparison</h3>
             <ComparissonBar
                 sideOne={parseFloat(round(
                     playerOneRecords.wins/(playerOneRecords.wins + playerOneRecords.ties + playerOneRecords.losses) * 100

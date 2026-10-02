@@ -165,11 +165,6 @@
 		text-align: center;
 	}
 
-	h5 {
-		text-align: center;
-		margin: 30px auto 16px;
-	}
-
 	.buttons {
 		margin: 40px auto 0;
 	}
@@ -210,7 +205,7 @@
 			<Label>Waivers</Label>
 		</Button>
 		<Button class="{show == "both" ? "disabled" : ""}" color="primary" onclick={() => setShow("both")} variant="{show == "both" ? "raised" : "outlined"}" touch>
-			<Label>Both</Label>
+			<Label>All</Label>
 		</Button>
 	</div>
 	<div class="buttons {show == "waiver" ? "" : "invis-buttons"}">
@@ -221,7 +216,7 @@
 			<Label>Waivers</Label>
 		</Button>
 		<Button class="{show == "both" ? "disabled" : ""}" color="primary" onclick={() => setShow("both")} variant="{show == "both" ? "raised" : "outlined"}" touch>
-			<Label>Both</Label>
+			<Label>All</Label>
 		</Button>
 	</div>
 	<div class="buttons {show == "both" ? "" : "invis-buttons"}">
@@ -232,7 +227,7 @@
 			<Label>Waivers</Label>
 		</Button>
 		<Button class="{show == "both" ? "disabled" : ""}" color="primary" onclick={() => setShow("both")} variant="{show == "both" ? "raised" : "outlined"}" touch>
-			<Label>Both</Label>
+			<Label>All</Label>
 		</Button>
 	</div>
 	<div class="searchContainer">
@@ -254,17 +249,9 @@
 	</div>
 
 	<div class="transactions" bind:this={el}>
-		{#if show == "both"}
-			<!-- trades -->
-			<h5>Recent Transactions</h5>
-		{:else if show == "trade"}
-			<!-- trades -->
-			<h5>Recent Trades</h5>
-		{:else}
-			<!-- waiver -->
-			<h5>Recent Waivers</h5>
-		{/if}
-
+		<!-- No heading here: the page title is a PageHeader in routes/transactions, and the Manager
+		     page already sits this under its own "Team Transactions". The buttons above say which
+		     filter is on. -->
 		<Pagination {perPage} total={totalTransactions} bind:page={page} target={top} scroll={false} />
 		<div class="transactions-child">
 			{#each displayTransactions as transaction (transaction.id)}

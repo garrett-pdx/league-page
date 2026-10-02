@@ -1,6 +1,7 @@
 <script>
 	import LinearProgress from '@smui/linear-progress';
     import {AllManagers} from '$lib/components';
+	import { PageHeader } from '$lib/Design';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 
@@ -26,6 +27,8 @@
         margin: 80px auto;
     }
 </style>
+
+<PageHeader title="Managers" intro="Ten managers and one group chat. Pick a name for the bio, the roster and the record." />
 
 <div class="main">
     {#await leagueTeamManagersData}
