@@ -1,5 +1,5 @@
 <script>
-    import Button, { Group, Label } from '@smui/button';
+    import { SegmentedControl } from '$lib/Design';
     import { generateGraph, gotoManager, round } from '$lib/utils/helper';
 
   	import DataTable, { Head, Body, Row, Cell } from '@smui/data-table';
@@ -299,6 +299,7 @@
     $: changeTable(curGraph);
     $: changeGraph(curTable);
     $: setTables(lineupIQs)
+    $: tableOptions = tables.map((table, ix) => ({value: ix, label: table}));
     
     let innerWidth;
 
@@ -398,8 +399,8 @@
         font-style: italic;
         /* was 0.7em #888: grey at 3.54:1, below AA, at the smallest size on the page.
            --g555 measures 7.46:1 on white, and 0.8em keeps it subordinate without shrinking
-           it past legibility. */
-        font-size: 0.8em;
+           it past legibility. Fixed at 12px: as a percentage of a 14px table cell it was 11.2px. */
+        font-size: 0.75rem;
         color: var(--g555);
         line-height: 1.2em;
     }
@@ -424,6 +425,7 @@
     .buttonHolder {
         text-align: center;
         margin: 2em 0 4em;
+        padding: 0 12px;
     }
 
     :global(.cellName) {
@@ -448,150 +450,6 @@
     :global(.mdc-data-table__cell, .mdc-data-table__header-cell) {
         border-bottom-color: var(--borderOverride);
     }
-
-    /* Start button resizing */
-
-    @media (max-width: 540px) {
-        :global(.buttonHolder .selectionButtons) {
-            font-size: 0.6em;
-        }
-    }
-
-    @media (max-width: 415px) {
-        :global(.buttonHolder .selectionButtons) {
-            font-size: 0.5em;
-            padding: 0 6px;
-            height: 30px;
-        }
-    }
-
-    @media (max-width: 315px) {
-        :global(.buttonHolder .selectionButtons) {
-            font-size: 0.45em;
-            padding: 0 3px;
-        }
-    }
-
-    @media (max-width: 265px) {
-        :global(.buttonHolder .selectionButtons) {
-            font-size: 0.4em;
-            padding: 0 2px;
-            height: 24px;
-            min-width: 40px;
-        }
-    }
-
-    /* End button resizing */
-
-    /* Start record table resizing */
-
-    @media (max-width: 510px) {
-        :global(.recordTable th) {
-            font-size: 0.8em;
-            padding: 1px 12px;
-        }
-        :global(.recordTable td) {
-            font-size: 0.8em;
-            padding: 1px 12px;
-        }
-
-        .vsRecord {
-            margin: .6em 0;
-        }
-    }
-
-    @media (max-width: 480px) {
-        :global(.rank) {
-            padding: 1px 0 1px 5px !important;
-        }
-        :global(.rank) {
-            padding: 1px 0 1px 5px !important;
-        }
-    }
-
-    @media (max-width: 460px) {
-        :global(.recordTable th) {
-            font-size: 0.6em;
-            padding: 1px 12px;
-        }
-        :global(.recordTable td) {
-            font-size: 0.6em;
-            padding: 1px 12px;
-        }
-    }
-
-    @media (max-width: 365px) {
-        :global(.recordTable th) {
-            font-size: 0.5em;
-            padding: 1px 8px;
-        }
-        :global(.recordTable td) {
-            font-size: 0.5em;
-            padding: 1px 8px;
-        }
-    }
-
-    @media (max-width: 265px) {
-        :global(.recordTable th) {
-            font-size: 0.4em;
-            padding: 1px 5px;
-        }
-        :global(.recordTable td) {
-            font-size: 0.4em;
-            padding: 1px 5px;
-        }
-    }
-
-    /* END record table resizing */
-
-    /* Start ranking table resizing */
-
-    @media (max-width: 570px) {
-        :global(.rankingTable th) {
-            font-size: 0.8em;
-            max-width: 110px;
-            white-space: break-spaces;
-            padding: 1px 12px;
-        }
-        :global(.rankingTable td) {
-            font-size: 0.8em;
-            max-width: 110px;
-            white-space: break-spaces;
-            padding: 1px 12px;
-        }
-    }
-
-    @media (max-width: 410px) {
-        :global(.rankingTable th) {
-            font-size: 0.6em;
-            max-width: 90px;
-            white-space: break-spaces;
-            padding: 1px 12px;
-        }
-        :global(.rankingTable td) {
-            font-size: 0.6em;
-            max-width: 90px;
-            white-space: break-spaces;
-            padding: 1px 12px;
-        }
-    }
-
-    @media (max-width: 340px) {
-        :global(.rankingTable th) {
-            font-size: 0.55em;
-            max-width: 80px;
-            white-space: break-spaces;
-            padding: 1px 6px;
-        }
-        :global(.rankingTable td) {
-            font-size: 0.55em;
-            max-width: 80px;
-            white-space: break-spaces;
-            padding: 1px 6px;
-        }
-    }
-
-    /* END ranking table resizing */
 </style>
 
 <h4>{prefix} Records</h4>
@@ -961,11 +819,5 @@
 </div>
 
 <div class="buttonHolder">
-    <Group variant="outlined">
-        {#each tables as table, ix}
-            <Button class="selectionButtons" onclick={() => curTable = ix} variant="{curTable == ix ? "raised" : "outlined"}">
-                <Label>{table}</Label>
-            </Button>
-        {/each}
-    </Group>
+    <SegmentedControl options={tableOptions} bind:value={curTable} ariaLabel="Ranking table" />
 </div>

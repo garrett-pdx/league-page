@@ -28,9 +28,9 @@
     }
 
     .managerNames {
-        font-size: 0.75em;
+        font-size: 0.75rem;
         font-style: italic;
-        color: var(--g999);
+        color: var(--g555);
         max-width: 180px;
         white-space: normal;
         text-align: left;

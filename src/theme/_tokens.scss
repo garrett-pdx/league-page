@@ -17,6 +17,11 @@
 //   * src/app.html:12,16             -- mask-icon and msapplication-TileColor HTML attributes
 // Change those by hand if the brand colour ever moves.
 
+// League-owned global rules: layout fixes and overrides of upstream :global rules, kept out of
+// upstream's files. Sass requires @use to come before any rule, hence its position here.
+// This is also why _site.scss reaches the build with no line added to _smui-theme.scss.
+@use 'site';
+
 :root {
   /* ---- Type families ------------------------------------------------------------------ */
   // Oswald is much narrower than Roboto, so the swap-in reflow at heading sizes is visible.

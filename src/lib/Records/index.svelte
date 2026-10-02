@@ -1,5 +1,5 @@
 <script>
-    import Button, { Group, Label } from '@smui/button';
+    import { SegmentedControl } from '$lib/Design';
     import { getLeagueRecords, getLeagueTransactions } from '$lib/utils/helper';
     import AllTimeRecords from './AllTimeRecords.svelte';
     import PerSeasonRecords from './PerSeasonRecords.svelte';
@@ -60,6 +60,15 @@
 
     let display = $state("allTime");
 
+    const seasonOptions = [
+        { value: "regularSeasonData", label: "Regular Season" },
+        { value: "playoffData", label: "Playoffs" },
+    ];
+    const displayOptions = [
+        { value: "allTime", label: "All-Time Records" },
+        { value: "season", label: "Season Records" },
+    ];
+
 </script>
 
 <style>
@@ -76,55 +85,20 @@
 
     /* Button Styling */
     .buttonHolder {
-        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75em;
         margin: 2em 0 0;
+        padding: 0 12px;
     }
-
-    /* Start button resizing */
-
-    @media (max-width: 540px) {
-        :global(.buttonHolder .selectionButtons) {
-            font-size: 0.6em;
-        }
-    }
-
-    @media (max-width: 415px) {
-        :global(.buttonHolder .selectionButtons) {
-            font-size: 0.5em;
-            padding: 0 6px;
-        }
-    }
-
-    @media (max-width: 315px) {
-        :global(.buttonHolder .selectionButtons) {
-            font-size: 0.45em;
-            padding: 0 3px;
-        }
-    }
-
-    /* End button resizing */
 </style>
 
 <div class="rankingsWrapper">
 
     <div class="buttonHolder">
-        <Group variant="outlined">
-            <Button class="selectionButtons" onclick={() => key = "regularSeasonData"} variant="{key == "regularSeasonData" ? "raised" : "outlined"}">
-                <Label>Regular Season</Label>
-            </Button>
-            <Button class="selectionButtons" onclick={() => key = "playoffData"} variant="{key == "playoffData" ? "raised" : "outlined"}">
-                <Label>Playoffs</Label>
-            </Button>
-        </Group>
-        <br />
-        <Group variant="outlined">
-            <Button class="selectionButtons" onclick={() => display = "allTime"} variant="{display == "allTime" ? "raised" : "outlined"}">
-                <Label>All-Time Records</Label>
-            </Button>
-            <Button class="selectionButtons" onclick={() => display = "season"} variant="{display == "season" ? "raised" : "outlined"}">
-                <Label>Season Records</Label>
-            </Button>
-        </Group>
+        <SegmentedControl options={seasonOptions} bind:value={key} ariaLabel="Regular season or playoff records" />
+        <SegmentedControl options={displayOptions} bind:value={display} ariaLabel="All-time records or a single season" />
     </div>
 
     {#if display == "allTime"}

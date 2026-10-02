@@ -1,5 +1,5 @@
 <script>
-    import Button, { Group, Label } from '@smui/button';
+    import { SegmentedControl } from '$lib/Design';
     import {round} from '$lib/utils/helper'
   	import RecordsAndRankings from './RecordsAndRankings.svelte';
 
@@ -120,49 +120,22 @@
 
     let display = 0;
 
+    $: yearOptions = years.map(({year}, ix) => ({value: ix, label: String(year)}));
+
     $: setData(leagueRosterRecords);
 </script>
 
 <style>
-    /* Button Styling */
     .buttonHolder {
-        text-align: center;
-        margin: 0;
+        display: flex;
+        justify-content: center;
+        margin: 0.75em 0 0;
+        padding: 0 12px;
     }
-
-    /* Start button resizing */
-
-    @media (max-width: 540px) {
-        :global(.buttonHolder .selectionButtons) {
-            font-size: 0.6em;
-        }
-    }
-
-    @media (max-width: 415px) {
-        :global(.buttonHolder .selectionButtons) {
-            font-size: 0.5em;
-            padding: 0 6px;
-        }
-    }
-
-    @media (max-width: 315px) {
-        :global(.buttonHolder .selectionButtons) {
-            font-size: 0.45em;
-            padding: 0 3px;
-        }
-    }
-
-    /* End button resizing */
 </style>
 
 <div class="buttonHolder">
-    <Group variant="outlined">
-        {#each years as {year}, ix}
-            <Button class="selectionButtons" onclick={() => display = ix} variant="{display == ix ? "raised" : "outlined"}">
-                <Label>{year}</Label>
-            </Button>
-        {/each}
-    </Group>
+    <SegmentedControl options={yearOptions} bind:value={display} ariaLabel="Season" />
 </div>
 
 <RecordsAndRankings

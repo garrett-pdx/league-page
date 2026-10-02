@@ -1,0 +1,103 @@
+// League-owned global stylesheet for The Mudd League.
+//
+// WHAT THIS IS FOR
+//   Layout fixes, and overrides of upstream `:global(...)` rules, that would otherwise mean
+//   editing a file we share with nmelhado/league-page. Every rule here exists so that an
+//   upstream component can stay byte-identical (or as close as it already is).
+//
+// WHAT IT IS NOT FOR
+//   * Tokens: those live in _tokens.scss, which `@use`s this file.
+//   * Scoped component rules. Svelte stamps a hash class on every scoped selector, so a rule here
+//     cannot override one without !important or guessing the hash. If the culprit is scoped, edit
+//     the component, keep the diff to the lines that need changing, and say so in the log.
+//   * Anything that can live in a league-owned component (src/lib/Design/*). Put it there.
+//
+// HOW IT IS LOADED
+//   _tokens.scss -> `@use 'site';` at the bottom -> _smui-theme.scss's one `@use 'tokens';` line,
+//   so no upstream file gained a line for this. Like the tokens, it only reaches the LIGHT build
+//   (src/theme/_smui-theme.scss), never src/theme/dark, whose include path cannot resolve it.
+//   `npm run dev` does not recompile Sass: run `npm run smui-theme-light` after every edit.
+//
+// THE TYPE RULE THESE FIXES ARE HELD TO
+//   Nothing under 12px, table data at least 14px. When content does not fit, change the layout
+//   (stack it, or scroll it inside its own container with a sticky first column). Never shrink it.
+
+/* ---- Records and rankings tables on phones ------------------------------------------------
+   RecordsAndRankings.svelte names its tables with `:global(.recordTable)` / `:global(.rankingTable)`
+   (and `.rank`, `.cellName`), which is why they can be reached from here.
+
+   Both table families put a rank in column 1 and the manager (or matchup) in column 2. Below
+   700px that pair is pinned, and the rest of the row scrolls sideways inside the table's own
+   container -- MDC's `.mdc-data-table__table-container` already supplies `overflow-x: auto`.
+   Above 700px none of this applies, so desktop is as it was. */
+@media (max-width: 700px) {
+  // The component's own :global rules for these classes load after this sheet and have the same
+  // specificity, so the extra class is what lets these win.
+  .mdc-data-table.recordTable,
+  .mdc-data-table.rankingTable {
+    // This cap is what keeps the scroll INSIDE the table: without it the table's intrinsic
+    // width wins and the whole page scrolls sideways.
+    max-width: calc(100% - 1rem);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  // `display: table` (set by the component for the ranking tables) ignores max-width.
+  .mdc-data-table.rankingTable {
+    display: block;
+    width: fit-content;
+  }
+
+  .recordTable td,
+  .recordTable th,
+  .rankingTable td,
+  .rankingTable th {
+    padding: 0 10px;
+  }
+
+  .recordTable tr > :nth-child(1),
+  .rankingTable tr > :nth-child(1),
+  .recordTable tr > :nth-child(2),
+  .rankingTable tr > :nth-child(2) {
+    position: sticky;
+    z-index: 1;
+    background-color: var(--fff);
+  }
+
+  // Rank. A fixed width so the second pinned column knows where to pin.
+  .recordTable tr > :nth-child(1),
+  .rankingTable tr > :nth-child(1) {
+    left: 0;
+    box-sizing: border-box;
+    width: 40px;
+    min-width: 40px;
+    max-width: 40px;
+    padding-left: 12px;
+    padding-right: 0;
+  }
+
+  // Manager / matchup. A soft edge on the right shows there is more to scroll.
+  .recordTable tr > :nth-child(2),
+  .rankingTable tr > :nth-child(2) {
+    left: 40px;
+    box-shadow: 4px 0 4px -3px rgba(0, 0, 0, 0.18);
+  }
+
+  // The title row is one cell spanning the table, so there is nothing to pin. Left-align it so
+  // it is readable at scroll position 0 instead of centred somewhere off the right edge.
+  .recordTable .headerPrimary,
+  .rankingTable .headerPrimary {
+    position: static;
+    box-shadow: none;
+    text-align: left;
+    width: auto;
+    max-width: none;
+    padding: 12px 16px;
+    background-color: var(--headerPrimary);
+  }
+
+  // The sort buttons are the header cells' only tap target.
+  .rankingTable .sortBtn {
+    min-height: 44px;
+  }
+}
