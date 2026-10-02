@@ -1,4 +1,4 @@
-import { getLeagueTeamManagers, loadPlayers, getLeagueTransactions, getLeagueRecords } from '$lib/utils/helper';
+import { getLeagueTeamManagers, loadPlayers, getLeagueTransactions, getLeagueRecords, getLeagueGames } from '$lib/utils/helper';
 
 export async function load({url, fetch}) {
 
@@ -10,6 +10,8 @@ export async function load({url, fetch}) {
         playersData: loadPlayers(fetch),
         transactionsData: getLeagueTransactions(),
         recordsData: getLeagueRecords(),
+        // for the head-to-head grid: the committed game table, a small static file
+        gamesData: getLeagueGames(fetch),
         playerOne,
         playerTwo,
     };
