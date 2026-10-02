@@ -16,10 +16,11 @@
 
     // Least important to most important (i.e. the most important [usually wins] goes last)
     // Edit this to match your leagues settings
-    const sortOrder = ["fptsAgainst", "divisionTies", "divisionWins", "fpts", "ties", "wins"];
+    // This league has no divisions and no ties, so neither appears here or in the columns below.
+    const sortOrder = ["fptsAgainst", "fpts", "wins"];
 
     // Column order from left to right
-    const columnOrder = [{name: "W", field: "wins"}, {name: "T", field: "ties"}, {name: "L", field: "losses"}, {name: "Div W", field: "divisionWins"}, {name: "Div T", field: "divisionTies"}, {name: "Div L", field: "divisionLosses"}, {name: "FPTS", field: "fpts"}, {name: "FPTS Against", field: "fptsAgainst"}, {name: "Streak", field: "streak"}]
+    const columnOrder = [{name: "W", field: "wins"}, {name: "L", field: "losses"}, {name: "FPTS", field: "fpts"}, {name: "FPTS Against", field: "fptsAgainst"}, {name: "Streak", field: "streak"}]
 
     let loading = true;
     let preseason = false;
@@ -98,8 +99,43 @@
 
     .standingsTable {
         max-width: 100%;
-        overflow-x: scroll;
+        overflow-x: auto;
         margin: 0.5em 0 5em;
+    }
+
+    /* The table scrolls inside its own container, with the Team column pinned. For position:
+       sticky to work the scrolling box has to be the DataTable's own table container (the
+       nearest ancestor with overflow), so the DataTable is capped at the page width instead of
+       growing past it and leaving the outer div to scroll. */
+    .standingsTable :global(.mdc-data-table) {
+        max-width: 100%;
+    }
+
+    .standingsTable :global(th:first-child),
+    .standingsTable :global(td:first-child) {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+        background-color: var(--fff);
+        box-shadow: 4px 0 4px -3px rgba(0, 0, 0, 0.18);
+    }
+
+    .standingsTable :global(.contrastRow td:first-child) {
+        background-color: var(--f8f8f8);
+    }
+
+    @media (max-width: 700px) {
+        .standingsTable :global(th:first-child),
+        .standingsTable :global(td:first-child) {
+            min-width: 130px;
+            max-width: 150px;
+            white-space: normal;
+        }
+
+        .standingsTable :global(th),
+        .standingsTable :global(td) {
+            padding: 0 8px;
+        }
     }
 
     .errorMessage {

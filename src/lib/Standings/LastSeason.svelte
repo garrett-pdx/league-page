@@ -90,12 +90,15 @@
 
     .head {
         font-family: var(--fontDisplay);
-        font-size: 0.72em;
+        font-size: 0.75rem;
         text-transform: uppercase;
         letter-spacing: 0.1em;
         color: var(--g555);
         background-color: var(--navy050);
     }
+
+    /* .num is 0.9em, which inside the 12px header came to 10.8px */
+    .head .num { font-size: inherit; }
 
     .place {
         font-family: var(--fontMono);
