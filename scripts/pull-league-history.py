@@ -17,6 +17,13 @@ Outputs (all documented in static/data/README.md):
 
 Sleeper's API is public, read-only and unauthenticated. Re-run after a season
 ends (or whenever) and commit the diff.
+
+Only COMPLETED weeks are written. Once Sleeper publishes a schedule, every week of
+the season comes back from /matchups fully formed -- rosters, starters, real
+matchup_ids -- with every score 0.0, and the week in progress has real scores for
+the games already played and 0.0 for the rest. Neither is a result. See
+completed_weeks() for the rule, and `nfl_state` in league-history.json for the
+input it used, so anything derived from this pull is reproducible offline.
 """
 import json, os, sys, time, urllib.request, urllib.error
 from collections import defaultdict
@@ -60,7 +67,66 @@ def fetch_seasons():
     return chain
 
 
-def fetch_all(chain):
+def fetch_nfl_state():
+    """
+    Sleeper's view of the NFL calendar right now: season, season_type, week.
+
+    The one input completed_weeks() cannot get from the league itself. It is saved into
+    league-history.json as `nfl_state`, because everything downstream of this pull
+    (derive-site-data, derive-narratives) must be reproducible from the committed files
+    without asking Sleeper what week it was.
+    """
+    state = get("state/nfl")
+    if not state or not state.get("season") or state.get("week") is None:
+        raise SystemExit("state/nfl came back empty -- cannot tell which weeks are complete, "
+                         "aborting rather than writing unplayed weeks as results")
+    return {
+        "season": str(state["season"]),
+        "season_type": state.get("season_type"),
+        "week": int(state["week"]),
+        "fetched": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+    }
+
+
+def completed_weeks(league, matchups, state):
+    """
+    The weeks of one season that have actually been played to the end.
+
+    A finished season is every week that came back with rosters. The season in progress is
+    the hard case, because Sleeper serves every scheduled week whether or not it has
+    happened: on 2026-10-02 weeks 1-18 all came back, weeks 5-18 with every score 0.0 and
+    week 4 with Thursday night's game scored and everything else 0.0. Neither is a result,
+    and the partial week is the dangerous one -- it has real points in it, so a "was a
+    point scored?" test (season_played() in derive-narratives.py) waves it straight through.
+
+    So for the current season a week counts only once the NFL has moved past it: week < the
+    current NFL week while the regular season is running. Sleeper's NFL week covers the
+    fantasy playoffs too (weeks 16-17 here), so the same rule holds through them. A week
+    must also have had a point scored in it, which costs nothing and catches a state/nfl
+    response that is somehow ahead of reality.
+    """
+    weeks = sorted(int(w) for w in matchups)
+    season = league["season"]
+    status = league.get("status")
+
+    if status == "complete" or int(season) < int(state["season"]):
+        done = weeks
+    elif int(season) > int(state["season"]):
+        done = []      # next season's league, set up during this one's offseason
+    elif state["season_type"] == "regular":
+        done = [w for w in weeks if w < state["week"]]
+    elif state["season_type"] == "post":
+        done = weeks   # NFL postseason: every fantasy week, week 18 included, is over
+    else:
+        # "pre" or "off" during this league's own season: nothing played yet, unless the
+        # league itself says it has reached its playoffs or beyond
+        done = weeks if status in ("post_season", "complete") else []
+
+    return [w for w in done
+            if any((m.get("points") or 0) > 0 for m in matchups[str(w)])]
+
+
+def fetch_all(chain, state):
     raw = {}
     for league in chain:
         lid, season = league["league_id"], league["season"]
@@ -89,7 +155,13 @@ def fetch_all(chain):
             if mu and any(m.get("players") for m in mu):
                 node["matchups"][str(wk)] = mu
             time.sleep(0.08)
-        print(f" {ntx} transactions, {len(node['matchups'])} played weeks")
+        # Drop scheduled-but-unplayed and in-progress weeks before anything is built from
+        # them: weeks.json, weeks_played and the ownership spans all key off this dict.
+        done = completed_weeks(league, node["matchups"], state)
+        skipped = len(node["matchups"]) - len(done)
+        node["matchups"] = {str(w): node["matchups"][str(w)] for w in done}
+        print(f" {ntx} transactions, {len(done)} played weeks"
+              + (f" ({skipped} scheduled or in progress, skipped)" if skipped else ""))
 
         # A failed users/rosters fetch degrades to [] and would otherwise sail
         # through: the season would end up with an empty roster map, no records,
@@ -129,7 +201,9 @@ def resolve_players(raw):
     print(f"  resolving {len(ids)} player ids (~5MB dictionary)")
     allp = get("players/nfl") or {}
     slim = {}
-    for pid in ids:
+    # sorted, so the file only changes when its content does -- iterating the set directly
+    # reorders players.json on every run (string hashing is randomised per process)
+    for pid in sorted(ids):
         p = allp.get(str(pid))
         if not p:
             continue
@@ -139,7 +213,7 @@ def resolve_players(raw):
     return slim
 
 
-def build(raw, players):
+def build(raw, players, state):
     managers, season_meta, drafts_out, brackets_out = {}, {}, {}, {}
     ledger, weeks, traded_picks = [], {}, {}
     records, roster_keepers = defaultdict(dict), defaultdict(dict)
@@ -246,6 +320,12 @@ def build(raw, players):
                     "players": m.get("players") or [],
                     "players_points": m.get("players_points") or {},
                 }
+                # A commissioner score override. When set it is the official score -- Sleeper's
+                # records and season points use it -- while `points` stays the computed one.
+                # Only present where set: 2024 week 8, tuckersdumbteam v BBrown16, is the one
+                # case so far. Sleeper returns it as a float32 (137.74000549316406), so round.
+                if m.get("custom_points") is not None:
+                    snap[uid]["custom_points"] = round(m["custom_points"], 2)
                 for pid in (m.get("players") or []):
                     owners[str(pid)] = uid
             weeks[season][wk] = snap
@@ -291,7 +371,7 @@ def build(raw, players):
 
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     return {
-        "league-history.json": {"generated": today, "seasons": season_meta,
+        "league-history.json": {"generated": today, "nfl_state": state, "seasons": season_meta,
                                 "managers": managers, "drafts": drafts_out,
                                 "brackets": brackets_out, "final_standings": standings,
                                 "traded_picks": traded_picks},
@@ -481,9 +561,11 @@ def main():
         print("could not reach Sleeper", file=sys.stderr)
         return 1
     print(f"seasons: {', '.join(c['season'] for c in chain)}")
-    raw = fetch_all(chain)
+    state = fetch_nfl_state()
+    print(f"NFL state: {state['season']} {state['season_type']}, week {state['week']}")
+    raw = fetch_all(chain, state)
     players = resolve_players(raw)
-    outputs = build(raw, players)
+    outputs = build(raw, players, state)
     print()
     for name, payload in outputs.items():
         path = os.path.join(OUT, name)

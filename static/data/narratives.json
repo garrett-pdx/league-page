@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-01T15:49:28",
+ "generated": "2026-10-02T13:45:45",
  "note": "Derived from weeks.json by scripts/derive-narratives.py. Authoring aid, not fetched at runtime. Regenerate after a season with: python3 scripts/derive-narratives.py",
  "seasons": [
   "2022",
@@ -8,7 +8,7 @@
   "2025",
   "2026"
  ],
- "count": 302,
+ "count": 301,
  "facts": [
   {
    "category": "season_mvp",
@@ -1774,9 +1774,9 @@
    ],
    "players": [],
    "values": {
-    "count": 19
+    "count": 4
    },
-   "text": "mikestreinz has started the optimal lineup 19 times."
+   "text": "mikestreinz has started the optimal lineup 4 times."
   },
   {
    "category": "perfect_lineups",
@@ -1787,9 +1787,9 @@
    ],
    "players": [],
    "values": {
-    "count": 17
+    "count": 2
    },
-   "text": "paulslaats has started the optimal lineup 17 times."
+   "text": "paulslaats has started the optimal lineup 2 times."
   },
   {
    "category": "perfect_lineups",
@@ -1800,9 +1800,9 @@
    ],
    "players": [],
    "values": {
-    "count": 17
+    "count": 2
    },
-   "text": "malstol has started the optimal lineup 17 times."
+   "text": "malstol has started the optimal lineup 2 times."
   },
   {
    "category": "perfect_lineups",
@@ -1813,9 +1813,9 @@
    ],
    "players": [],
    "values": {
-    "count": 17
+    "count": 2
    },
-   "text": "jonahcartwright has started the optimal lineup 17 times."
+   "text": "jonahcartwright has started the optimal lineup 2 times."
   },
   {
    "category": "perfect_lineups",
@@ -1826,9 +1826,9 @@
    ],
    "players": [],
    "values": {
-    "count": 17
+    "count": 2
    },
-   "text": "Kabroa has started the optimal lineup 17 times."
+   "text": "Kabroa has started the optimal lineup 2 times."
   },
   {
    "category": "perfect_lineups",
@@ -1839,9 +1839,9 @@
    ],
    "players": [],
    "values": {
-    "count": 17
+    "count": 2
    },
-   "text": "BBrown16 has started the optimal lineup 17 times."
+   "text": "BBrown16 has started the optimal lineup 2 times."
   },
   {
    "category": "perfect_lineups",
@@ -1852,9 +1852,9 @@
    ],
    "players": [],
    "values": {
-    "count": 16
+    "count": 1
    },
-   "text": "TnT44 has started the optimal lineup 16 times."
+   "text": "TnT44 has started the optimal lineup 1 time."
   },
   {
    "category": "perfect_lineups",
@@ -1865,9 +1865,9 @@
    ],
    "players": [],
    "values": {
-    "count": 16
+    "count": 1
    },
-   "text": "kshoyer has started the optimal lineup 16 times."
+   "text": "kshoyer has started the optimal lineup 1 time."
   },
   {
    "category": "perfect_lineups",
@@ -1878,22 +1878,9 @@
    ],
    "players": [],
    "values": {
-    "count": 16
+    "count": 1
    },
-   "text": "tuckersdumbteam has started the optimal lineup 16 times."
-  },
-  {
-   "category": "perfect_lineups",
-   "season": null,
-   "week": null,
-   "managers": [
-    "76909640692416512"
-   ],
-   "players": [],
-   "values": {
-    "count": 15
-   },
-   "text": "Gurret has started the optimal lineup 15 times."
+   "text": "tuckersdumbteam has started the optimal lineup 1 time."
   },
   {
    "category": "bench_outscored_starters",
@@ -2024,9 +2011,9 @@
    ],
    "players": [],
    "values": {
-    "count": 142
+    "count": 22
    },
-   "text": "tuckersdumbteam has started a player who scored exactly nothing 142 times."
+   "text": "tuckersdumbteam has started a player who scored exactly nothing 22 times."
   },
   {
    "category": "zero_starts",
@@ -2037,9 +2024,9 @@
    ],
    "players": [],
    "values": {
-    "count": 140
+    "count": 20
    },
-   "text": "malstol has started a player who scored exactly nothing 140 times."
+   "text": "malstol has started a player who scored exactly nothing 20 times."
   },
   {
    "category": "zero_starts",
@@ -2050,9 +2037,22 @@
    ],
    "players": [],
    "values": {
-    "count": 136
+    "count": 16
    },
-   "text": "Kabroa has started a player who scored exactly nothing 136 times."
+   "text": "Kabroa has started a player who scored exactly nothing 16 times."
+  },
+  {
+   "category": "zero_starts",
+   "season": null,
+   "week": null,
+   "managers": [
+    "605683461667229696"
+   ],
+   "players": [],
+   "values": {
+    "count": 15
+   },
+   "text": "mikestreinz has started a player who scored exactly nothing 15 times."
   },
   {
    "category": "zero_starts",
@@ -2063,22 +2063,9 @@
    ],
    "players": [],
    "values": {
-    "count": 133
+    "count": 13
    },
-   "text": "paulslaats has started a player who scored exactly nothing 133 times."
-  },
-  {
-   "category": "zero_starts",
-   "season": null,
-   "week": null,
-   "managers": [
-    "611630747161358336"
-   ],
-   "players": [],
-   "values": {
-    "count": 132
-   },
-   "text": "kshoyer has started a player who scored exactly nothing 132 times."
+   "text": "paulslaats has started a player who scored exactly nothing 13 times."
   },
   {
    "category": "closest_game",
@@ -2429,92 +2416,92 @@
   {
    "category": "luckiest_win",
    "season": "2026",
-   "week": 9,
+   "week": 2,
    "managers": [
     "999190763323944960",
-    "611664340277383168"
+    "611649934390870016"
    ],
    "players": [],
    "values": {
-    "points": 0.0,
-    "opponent_points": 0.0
+    "points": 58.4,
+    "opponent_points": 54.3
    },
-   "text": "BBrown16 won week 9 of 2026 with just 0.0 -- tuckersdumbteam managed only 0.0."
+   "text": "BBrown16 won week 2 of 2026 with just 58.4 -- Kabroa managed only 54.3."
   },
   {
    "category": "luckiest_win",
-   "season": "2026",
-   "week": 9,
+   "season": "2025",
+   "week": 14,
    "managers": [
-    "850475150817234944",
-    "611697269254791168"
+    "76909640692416512",
+    "850475150817234944"
    ],
    "players": [],
    "values": {
-    "points": 0.0,
-    "opponent_points": 0.0
+    "points": 64.1,
+    "opponent_points": 52.7
    },
-   "text": "malstol won week 9 of 2026 with just 0.0 -- TnT44 managed only 0.0."
+   "text": "Gurret won week 14 of 2025 with just 64.1 -- malstol managed only 52.7."
   },
   {
    "category": "luckiest_win",
-   "season": "2026",
-   "week": 9,
+   "season": "2023",
+   "week": 4,
+   "managers": [
+    "611697269254791168",
+    "611649934390870016"
+   ],
+   "players": [],
+   "values": {
+    "points": 68.2,
+    "opponent_points": 47.8
+   },
+   "text": "TnT44 won week 4 of 2023 with just 68.2 -- Kabroa managed only 47.8."
+  },
+  {
+   "category": "luckiest_win",
+   "season": "2025",
+   "week": 17,
    "managers": [
     "612407006212468736",
-    "76909640692416512"
-   ],
-   "players": [],
-   "values": {
-    "points": 0.0,
-    "opponent_points": 0.0
-   },
-   "text": "jonahcartwright won week 9 of 2026 with just 0.0 -- Gurret managed only 0.0."
-  },
-  {
-   "category": "luckiest_win",
-   "season": "2026",
-   "week": 9,
-   "managers": [
-    "611649934390870016",
-    "605683461667229696"
-   ],
-   "players": [],
-   "values": {
-    "points": 0.0,
-    "opponent_points": 0.0
-   },
-   "text": "Kabroa won week 9 of 2026 with just 0.0 -- mikestreinz managed only 0.0."
-  },
-  {
-   "category": "luckiest_win",
-   "season": "2026",
-   "week": 9,
-   "managers": [
-    "611630747161358336",
     "870570674836656128"
    ],
    "players": [],
    "values": {
-    "points": 0.0,
-    "opponent_points": 0.0
+    "points": 70.7,
+    "opponent_points": 60.8
    },
-   "text": "kshoyer won week 9 of 2026 with just 0.0 -- paulslaats managed only 0.0."
+   "text": "jonahcartwright won week 17 of 2025 with just 70.7 -- paulslaats managed only 60.8."
   },
   {
    "category": "luckiest_win",
-   "season": "2026",
-   "week": 8,
+   "season": "2022",
+   "week": 6,
    "managers": [
-    "870570674836656128",
-    "605683461667229696"
+    "611697269254791168",
+    "611664340277383168"
    ],
    "players": [],
    "values": {
-    "points": 0.0,
-    "opponent_points": 0.0
+    "points": 74.3,
+    "opponent_points": 68.6
    },
-   "text": "paulslaats won week 8 of 2026 with just 0.0 -- mikestreinz managed only 0.0."
+   "text": "TnT44 won week 6 of 2022 with just 74.3 -- tuckersdumbteam managed only 68.6."
+  },
+  {
+   "category": "luckiest_win",
+   "season": "2023",
+   "week": 15,
+   "managers": [
+    "611649934390870016",
+    "611630747161358336"
+   ],
+   "players": [],
+   "values": {
+    "points": 74.5,
+    "opponent_points": 71.2
+   },
+   "text": "Kabroa won week 15 of 2023 with just 74.5 -- kshoyer managed only 71.2."
   },
   {
    "category": "highest_scoring_matchup",

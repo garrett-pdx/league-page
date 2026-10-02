@@ -18,6 +18,7 @@ import { getBrackets } from './helperFunctions/leagueBrackets';
 import { getBlogPosts, generateParagraph } from './helperFunctions/getBlogPosts';
 import { getLeagueStandings } from './helperFunctions/leagueStandings';
 import { getLeagueHistory, getManagerCareer, ordinal } from './helperFunctions/leagueHistory';
+import { getLeagueGames, filterGames, allPlay, headToHead, standingsFrom, liveSeasonGames } from './helperFunctions/leagueGames';
 
 export {
     enableBlog,
@@ -59,4 +60,10 @@ export {
     getLeagueHistory,
     getManagerCareer,
     ordinal,
+    getLeagueGames,
+    filterGames,
+    allPlay,
+    headToHead,
+    standingsFrom,
+    liveSeasonGames,
 }

@@ -5,19 +5,94 @@ the current Sleeper league and pulls every season. Re-run after a season ends an
 the diff. Nothing here is hand-edited.
 
 These live in `static/` so they are served as-is and can be `fetch`ed on demand rather than
-bundled into the JS. ~880 KB total, so fetch only the file you need.
+bundled into the JS. ~950 KB total, so fetch only the file you need.
 
 | file | size | what it is |
 | --- | --- | --- |
-| `league-history.json` | 114 KB | seasons, managers, records, drafts, brackets, final standings, traded picks |
-| `transactions.json` | 301 KB | every add / drop / waiver / trade |
-| `weeks.json` | 357 KB | **weekly roster snapshots — the time machine** |
-| `ownership.json` | 62 KB | player → who rostered them, when |
-| `keepers.json` | 25 KB | keeper chains, cost in rounds, rule check |
-| `players.json` | 19 KB | player_id → name / position / team |
+| `league-history.json` | 131 KB | seasons, managers, records, drafts, brackets, final standings, traded picks |
+| `transactions.json` | 322 KB | every add / drop / waiver / trade |
+| `weeks.json` | 372 KB | **weekly roster snapshots — the time machine** |
+| `ownership.json` | 70 KB | player → who rostered them, when |
+| `keepers.json` | 32 KB | keeper chains, cost in rounds, rule check |
+| `players.json` | 20 KB | player_id → name / position / team |
+| `games.json` | 21 KB (4 KB gz) | one row per team per game — **the file pages fetch** |
+| `season-notes.json` | 24 KB (4 KB gz) | per-season trades, top scorers, high and low weeks |
 
 Manager IDs everywhere are Sleeper `user_id`s, matching `managerID` in
 `src/lib/utils/leagueInfo.js`. Player IDs resolve through `players.json`.
+
+The last two are not pulled: `scripts/derive-site-data.py` (`npm run derive-site-data`)
+builds them from the others, offline, and they are small on purpose so the site's history
+pages can fetch them. Run it after every pull.
+
+## `games.json` — the game table
+
+Every completed game, one row per team (so each game appears twice), stored columnar:
+
+```
+generated, count
+through      {season, week}  the last completed week -- the "data through week N" stamp
+nfl_state    copied from league-history.json, the input that decided "completed"
+managers[]   user_ids; the manager and opponent columns are indexes into this
+kinds[]      ["regular", "playoff", "placement", "consolation"]; kind is an index into it
+columns[]    ["season", "week", "manager", "opponent", "pf", "pa", "result", "kind"]
+data[][]     one array per column, in that order, all the same length
+```
+
+`season` and `week` are numbers; `pf`/`pa` are the official score to the hundredth (a
+commissioner's `custom_points` wins over `points`); `result` is `"W"`, `"L"` or `"T"`. Rows are
+sorted by season, week, user_id. In the browser, `getLeagueGames()` in
+`src/lib/utils/helperFunctions/leagueGames.js` decodes it to row objects.
+
+What is in and out:
+
+- **Completed weeks only**, judged per week from `nfl_state` (not per season): a half-played
+  week has real points in it and still isn't a result.
+- **No week 18 and no byes.** Rows with a falsy `matchup_id` are not games — the fictional
+  week 18, and the teams outside both brackets in weeks 16–17.
+- **`kind` comes from the brackets, never the week number.** Bracket rows carry roster IDs,
+  mapped through that season's own `records[season].roster_id`. Winners-bracket semifinals and
+  the final are `playoff`; the winners-bracket third-place game (`p: 3`) is `placement`; every
+  losers-bracket game (5th–8th here) is `consolation`. Weeks before `playoff_week_start` are
+  `regular`.
+
+The script refuses to write anything (exit 1) unless:
+
+1. each manager's regular-season W/L/T, points for and points against match
+   `managers.*.records` — W/L/T exactly, points to the cent, except four manager-seasons where
+   a stat correction after settlement moved the weekly scores by 1–2 points (pinned to the cent
+   in `STAT_CORRECTIONS`; no result changes);
+2. every regular-season week has exactly five games and every row has its mirror.
+
+**There is no `max_pf` column.** The spec allowed a per-week best-possible lineup if its
+season totals agreed with Sleeper's `potential_points` within 1% for every manager-season. 48
+of 50 do; 2024 TnT44 (+1.65%, Taysom Hill's week-to-week eligibility) and 2025 paulslaats
+(−1.42%, Travis Hunter listed as `DB`) don't, because `players.json` holds only today's primary
+position and `weeks.json` doesn't record IR. The script still computes and reports the check
+on every run, and will emit the column if it ever passes. Records' Lineup IQ keeps using
+Sleeper's own `potential_points`.
+
+## `season-notes.json`
+
+`seasons.<year>`:
+
+```
+through_week   last completed week in that season
+trades[]       {week, date, id, teams: [{user_id, players[], picks[], faab}]}
+               completed trades only; each team lists what it RECEIVED.
+               players: {id, name, pos}; picks: {season, round, original_owner}
+               (original_owner is a user_id, resolved through that season's roster map);
+               faab: dollars received
+top_scorers    {user_id: [{id, name, pos, points, starts}] x3}
+               points scored in the STARTING lineup, every completed fixture week,
+               playoffs and consolation included -- the same rule as derive-narratives'
+               season MVPs, so the site and the blog agree
+high_weeks[]   the season's three highest single-team scores
+low_weeks[]    ... and three lowest: {week, user_id, opponent_id, points, kind}
+```
+
+Exists so `transactions.json` (322 KB) never ships to a browser. Pre-draft trades are filed
+under week 1 of the league they happened in, which is why a 2024 trade can move 2024 picks.
 
 ## `final_standings` and `traded_picks` (in `league-history.json`)
 
@@ -48,18 +123,44 @@ starters[]         player_ids in lineup order (QB,RB,RB,WR,WR,TE,FLEX,FLEX)
 starters_points[]  parallel array of what each starter scored
 players[]          the FULL roster that week, starters + bench
 players_points{}   player_id -> points, for everyone rostered
+custom_points      ONLY where a commissioner overrode the score; then it is the official one
 ```
+
+`custom_points` appears exactly twice so far: 2024 week 8, tuckersdumbteam 137.74 (computed
+150.34) v BBrown16 122.54 (computed 148.74). Sleeper's records and season points use the
+override, `points` does not, so anything that totals points must prefer `custom_points` when
+it is present (`derive-site-data` does; `derive-narratives` and `week-facts` still read
+`points`). The result is the same either way.
 
 This is the only reliable record of who was on a roster at a given moment — it is a real
 snapshot, not something reconstructed from transactions. Pair two teams by `matchup_id` to
 get the head-to-head, and walk weeks 1..N summing wins to build standings as of any week.
-Weeks with no games played are omitted; `seasons.<year>.weeks_played` lists what exists.
+
+**Only completed weeks are written**, and `seasons.<year>.weeks_played` lists exactly the
+weeks present. Sleeper serves every scheduled week of the current season as soon as the
+schedule exists — ten rosters, real `matchup_id`s, every score 0.0 — and the week in progress
+with some games scored and the rest on 0.0. The pull drops both: for the season in progress
+a week counts only once the NFL calendar has moved past it (`week < nfl_state.week` during
+the regular season), and only if somebody scored a point in it. A Monday pull therefore
+stops at the previous week rather than committing a half-played one. Every week of a
+completed season is kept, including the fictional week 18 (see `has_matchup()` in the
+derive scripts).
+
+## `nfl_state` (in `league-history.json`)
+
+`{season, season_type, week, fetched}` — Sleeper's `/state/nfl` at the moment of the pull,
+with `fetched` as a UTC timestamp. It is the one input the completed-week rule takes from
+outside the league, recorded so that every script downstream of the pull (`derive-site-data`,
+`derive-narratives`) is reproducible from the committed files alone. On 2026-10-02 it read
+`2026 regular, week 4`, with Thursday night's game played: week 4 was partly scored, so
+`weeks_played` for 2026 is `[1, 2, 3]`.
 
 ## `ownership.json`
 
 `ownership.<player_id>[]` is a run-length timeline of continuous ownership, derived from
 the weekly snapshots: `{u: user_id, s: season, w0: first_week, w1: last_week}`. Use this to
-answer "who had him, and when" without replaying the transaction log.
+answer "who had him, and when" without replaying the transaction log. Spans stop at the
+last completed week, so a player picked up for the week in progress has no span yet.
 
 A new span starts on a change of owner, on a season boundary, **and on any gap in
 consecutive weeks** — the merge requires `w1 == week - 1`. Every completed season currently

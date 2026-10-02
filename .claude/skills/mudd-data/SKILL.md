@@ -110,19 +110,27 @@ consolation game, classify it from `static/data/league-history.json`:
 ```bash
 python3 scripts/pull-league-history.py    # rewrites static/data/*.json
 npm run derive-narratives                 # rebuilds narratives.json + docs/league-lore.md
+npm run derive-site-data                  # rebuilds games.json + season-notes.json for the site
 ```
 
 Run it after a week completes and commit the diff; it also picks up in-season rookies, who
-otherwise print as raw ids. `week-facts.py` reads live Sleeper for the current week, so a post
+otherwise print as raw ids. `derive-site-data` feeds the site's history pages (schedule luck,
+the head-to-head grid, the Seasons archive, Stat Lab), which show "through week N" from it, so
+running all three twice a week keeps them current. It self-checks against Sleeper's records
+and **exits non-zero without writing anything** if a check fails. A records mismatch for the
+current season right after a week ends usually means Sleeper has finalised the week before
+its NFL calendar has rolled past it; re-pull later rather than editing anything. `week-facts.py` reads live Sleeper for the current week, so a post
 doesn't strictly need the pull — but `--history` reads only the committed files.
 
 ## Traps this data has already sprung
 
 Each of these produced a wrong fact once.
 
-- **A mid-week pull commits a partial week.** Pulled on a Monday, `weeks.json` holds the
-  current week with Monday's players on 0.0, and `--history` treats those scores as final. Any
-  superlative touching the current week is provisional until it's re-pulled after Monday night.
+- **A mid-week pull used to commit a partial week.** Pulled on a Monday, `weeks.json` held the
+  current week with Monday's players on 0.0, and `--history` treated those scores as final. The
+  pull now writes only weeks the NFL calendar has moved past (`nfl_state` in
+  `league-history.json` records what it saw), so a Monday pull stops at the previous week and
+  `--history` knows nothing about the week in progress. Use the live fact block for that week.
 - **IR is read from today's rosters.** Recomputing a past week can count a player who was on IR
   *that* week and has since come off it — Alec Pierce's 8.10 from BBrown16's Week 1 2026 IR slot
   re-entered his optimal lineup when the week was recomputed later. Don't re-quote a past
