@@ -52,8 +52,9 @@ the component itself.
 This league's actual rules, rewritten from scratch — nine sections covering format,
 rosters, scoring, keepers, the draft, waivers, trades, the postseason and league votes.
 Every mechanical rule was sourced from the live Sleeper config rather than assumed, so
-treat the numbers as load-bearing: no kicker or defense slot, half-PPR, 14-round snake,
-$100 FAAB, week 12 trade deadline, four-team playoff over weeks 16-17.
+treat the numbers as load-bearing: no kicker or defense slot, half-PPR, 13-round snake
+(14 through 2025; the five-spot bench and the lost round were voted 7–3 for 2026), $100
+FAAB, week 12 trade deadline, four-team playoff over weeks 16-17.
 
 Pure content, and the one place in `routes/` to edit freely. Three things to preserve:
 

@@ -60,7 +60,7 @@
     }
 
     /*
-    The board is 1200px wide and fourteen rounds tall, so on a phone you are looking at roughly
+    The board is 1200px wide and thirteen rounds tall (fourteen through 2025), so on a phone you are looking at roughly
     three of ten columns through a moving window. Two things make that navigable.
 
     The wrapper owns a right-edge fade, which is the only signal that more teams exist off-screen.

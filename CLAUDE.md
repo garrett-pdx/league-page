@@ -104,7 +104,8 @@ for how the board computes things. See the collision note below before "fixing" 
   | 2023 | `982140218121711616` |
   | 2022 (first) | `819042960179077120` |
 - Scoring **0.5 PPR**, 6-point passing TDs. Starters: QB, RB, RB, WR, WR, TE, FLEX, FLEX,
-  6 bench, 2 IR. Playoffs: 4 teams, starting week 16. Waivers: FAAB, $100 budget.
+  5 bench, 2 IR (6 bench through 2025; the league voted 7–3 to cut it, and the draft from 14
+  rounds to 13, for 2026). Playoffs: 4 teams, starting week 16. Waivers: FAAB, $100 budget.
   Trade deadline week 12.
 - Keepers: **2 per team** (`max_keepers` on the Sleeper league). The full rule set —
   cost = the round the player was drafted last year, +1 round of inflation when the *same

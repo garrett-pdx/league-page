@@ -344,7 +344,8 @@
             <p>Lineups lock at each player's individual kickoff. A player left in a starting slot after his game has finished scores zero for that slot; it is each manager's responsibility to set a valid lineup.</p>
 
             <h3 class="subSectionHeading" bind:this={twoTwo}>2.2 Bench and Injured Reserve</h3>
-            <p>Rosters carry six bench spots, for fourteen roster spots in total, plus two Injured Reserve slots that do not count against the roster limit.</p>
+            <p>Rosters carry five bench spots, for thirteen roster spots in total, plus two Injured Reserve slots that do not count against the roster limit.</p>
+            <p>The bench was six spots deep through 2025. The league voted 7&ndash;3 to cut it to five for the 2026 season, and the draft lost a round with it (see 5.1).</p>
             <p>A player may be placed on IR only while Sleeper lists him as Out, Not Active (PUP/NFI), Suspended, or on the COVID list. Players listed as Doubtful or Did Not Report are not IR-eligible. A player who returns to active status must be moved off IR before he can be started.</p>
         </div>
     </details>
@@ -415,7 +416,8 @@
         </summary>
         <div class="sectionBody">
             <h3 class="subSectionHeading" bind:this={fiveOne}>5.1 Draft Format</h3>
-            <p>The draft is a fourteen-round snake draft with a two-minute pick timer. Draft picks may be traded (see Section 7).</p>
+            <p>The draft is a thirteen-round snake draft with a two-minute pick timer &mdash; one round for every roster spot. Draft picks may be traded (see Section 7).</p>
+            <p>It ran fourteen rounds through 2025; the same 7&ndash;3 vote that took away a bench spot made it thirteen from 2026.</p>
 
             <h3 class="subSectionHeading" bind:this={fiveTwo}>5.2 Keepers on the Board</h3>
             <p>Keepers occupy their cost round on the draft board before the draft begins. A team that keeps two players has two fewer picks to make.</p>
