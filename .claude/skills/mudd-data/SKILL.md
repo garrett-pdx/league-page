@@ -110,10 +110,16 @@ consolation game, classify it from `static/data/league-history.json`:
 ```bash
 python3 scripts/pull-league-history.py    # rewrites static/data/*.json
 npm run derive-narratives                 # rebuilds narratives.json + docs/league-lore.md
+npm run derive-site-data                  # rebuilds games.json + season-notes.json for the site
 ```
 
 Run it after a week completes and commit the diff; it also picks up in-season rookies, who
-otherwise print as raw ids. `week-facts.py` reads live Sleeper for the current week, so a post
+otherwise print as raw ids. `derive-site-data` feeds the site's history pages (schedule luck,
+the head-to-head grid, the Seasons archive, Stat Lab), which show "through week N" from it, so
+running all three twice a week keeps them current. It self-checks against Sleeper's records
+and **exits non-zero without writing anything** if a check fails. A records mismatch for the
+current season right after a week ends usually means Sleeper has finalised the week before
+its NFL calendar has rolled past it; re-pull later rather than editing anything. `week-facts.py` reads live Sleeper for the current week, so a post
 doesn't strictly need the pull — but `--history` reads only the committed files.
 
 ## Traps this data has already sprung

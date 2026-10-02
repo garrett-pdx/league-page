@@ -56,6 +56,7 @@
     "format": "prettier --write --plugin-search-dir=. .",
     "render-icons": "node scripts/render-icons.js",
     "derive-narratives": "python3 scripts/derive-narratives.py",
+    "derive-site-data": "python3 scripts/derive-site-data.py",
     "derive-draft-report": "python3 scripts/derive-draft-report.py"
   },
   "type": "module",
