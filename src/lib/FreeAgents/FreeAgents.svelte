@@ -5,6 +5,7 @@
     import { Card, SectionHeading, SegmentedControl } from '$lib/Design';
     import TeamPicker from './TeamPicker.svelte';
     import { REFRESH_WINDOW_MS, currentRefreshWindow } from './refreshWindow';
+    import { projectionWeek } from './projectionWeek';
 
     /*
     Free agents filtered by NFL depth-chart slot ("show me every RB2"). League-specific; the data
@@ -92,7 +93,8 @@
         return hrs < 24 ? `${hrs} hr ago` : new Date(faData.updated).toLocaleDateString('en-US', {month: 'short', day: 'numeric'});
     });
 
-    const week = nflState.display_week ?? nflState.week ?? 0;
+    // Sleeper's week lags the NFL's by a day; see projectionWeek.js
+    const week = projectionWeek(nflState);
     const positions = ['QB', 'RB', 'WR', 'TE'];
 
     let pos = $state('RB');
