@@ -201,7 +201,9 @@ def resolve_players(raw):
     print(f"  resolving {len(ids)} player ids (~5MB dictionary)")
     allp = get("players/nfl") or {}
     slim = {}
-    for pid in ids:
+    # sorted, so the file only changes when its content does -- iterating the set directly
+    # reorders players.json on every run (string hashing is randomised per process)
+    for pid in sorted(ids):
         p = allp.get(str(pid))
         if not p:
             continue
@@ -318,6 +320,12 @@ def build(raw, players, state):
                     "players": m.get("players") or [],
                     "players_points": m.get("players_points") or {},
                 }
+                # A commissioner score override. When set it is the official score -- Sleeper's
+                # records and season points use it -- while `points` stays the computed one.
+                # Only present where set: 2024 week 8, tuckersdumbteam v BBrown16, is the one
+                # case so far. Sleeper returns it as a float32 (137.74000549316406), so round.
+                if m.get("custom_points") is not None:
+                    snap[uid]["custom_points"] = round(m["custom_points"], 2)
                 for pid in (m.get("players") or []):
                     owners[str(pid)] = uid
             weeks[season][wk] = snap

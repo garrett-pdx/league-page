@@ -48,7 +48,14 @@ starters[]         player_ids in lineup order (QB,RB,RB,WR,WR,TE,FLEX,FLEX)
 starters_points[]  parallel array of what each starter scored
 players[]          the FULL roster that week, starters + bench
 players_points{}   player_id -> points, for everyone rostered
+custom_points      ONLY where a commissioner overrode the score; then it is the official one
 ```
+
+`custom_points` appears exactly twice so far: 2024 week 8, tuckersdumbteam 137.74 (computed
+150.34) v BBrown16 122.54 (computed 148.74). Sleeper's records and season points use the
+override, `points` does not, so anything that totals points must prefer `custom_points` when
+it is present (`derive-site-data` does; `derive-narratives` and `week-facts` still read
+`points`). The result is the same either way.
 
 This is the only reliable record of who was on a roster at a given moment — it is a real
 snapshot, not something reconstructed from transactions. Pair two teams by `matchup_id` to
