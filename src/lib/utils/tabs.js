@@ -1,10 +1,11 @@
 import {leagueID} from '$lib/utils/leagueInfo';
 
 /*
-Nav structure. Managers and Standings are top-level on purpose -- Managers especially, since it
-is the page this league actually uses and it used to sit three levels deep in a dropdown.
+Nav structure. There is no Home tab: the seal above the nav links home, and dropping the tab is
+what lets eight destinations fit the desktop bar. Managers leads because it is the page this
+league actually uses -- it used to sit three levels deep in a dropdown.
 
-Three constraints this file has to respect, all of which live in NavLarge/NavSmall/Footer:
+Constraints this file has to respect, all of which live in NavLarge/NavSmall/Footer:
 
   * EXACTLY ONE tab may have `nest: true`. NavLarge picks the submenu contents with
     `for(const tab of tabs) if(tab.nest) tabChildren = tab.children` -- last one wins -- and
@@ -15,17 +16,22 @@ Three constraints this file has to respect, all of which live in NavLarge/NavSma
     keep exactly this label, or it starts showing again while the feature is off.
   * The Managers entry is hidden when the `managers` array is empty, also by label.
 
+Group entries. Inside the nested tab's `children`, an entry of the form `{ group: 'History' }`
+is a heading, not a destination: it has no `dest`, no `label` and no `icon`. NavLarge renders it
+as a small caption, NavSmall as a list Subheader, and the Footer drops it with its
+`.filter((link) => link.dest)`. Everything up to the next group entry belongs to that group.
+Groups exist only inside the nested tab; a group entry at the top level would render as an
+empty tab.
+
 Off-site destinations are handled by testing the URL, not the label -- see navigate() and the
 preload guards in NavLarge/NavSmall. Don't reintroduce a label test for external links; that is
-what broke when the Keeper Draft Board was added alongside Go to Sleeper.
+what broke when the Keeper Draft Board was added alongside Go to Sleeper. The same `^https?://`
+test adds the trailing open_in_new icon that marks a link as leaving the site.
+
+Labels double as browser tab titles (src/lib/utils/pageTitle.js matches them on the path), so
+renaming one renames the page's title too.
 */
 export const tabs = [
-    {
-        icon: 'home',
-        label: 'Home',
-        dest: '/',
-        key: 'home',
-    },
     {
         icon: 'groups',
         label: 'Managers',
@@ -45,6 +51,12 @@ export const tabs = [
         key: 'standings',
     },
     {
+        icon: 'person_search',
+        label: 'Free Agents',
+        dest: '/free-agents',
+        key: 'free_agents',
+    },
+    {
         icon: 'swap_horiz',
         label: 'Trades & Waivers',
         dest: '/transactions',
@@ -59,10 +71,17 @@ export const tabs = [
     },
     {
         icon: 'view_comfy',
-        label: 'League Info',
+        label: 'League',
         nest: true,
-        key: 'league_info',
+        key: 'league',
         children: [
+            { group: 'This Season' },
+            {
+                icon: 'storage',
+                label: 'Rosters',
+                dest: '/rosters',
+            },
+            { group: 'History' },
             {
                 icon: 'emoji_events',
                 label: 'Trophy Room',
@@ -74,29 +93,26 @@ export const tabs = [
                 dest: '/records',
             },
             {
-                icon: 'view_comfy',
-                label: 'Drafts',
-                dest: '/drafts',
-            },
-            {
                 icon: 'local_fire_department',
                 label: 'Rivalry',
                 dest: '/rivalry',
             },
             {
-                icon: 'storage',
-                label: 'Rosters',
-                dest: '/rosters',
+                icon: 'view_comfy',
+                label: 'Drafts',
+                dest: '/drafts',
             },
-            {
-                icon: 'person_search',
-                label: 'Free Agents',
-                dest: '/free-agents',
-            },
+            { group: 'Rules & Tools' },
             {
                 icon: 'history_edu',
                 label: 'Constitution',
                 dest: '/constitution',
+            },
+            {
+                // companion project: separate repo, separate app, same league
+                icon: 'calculate',
+                label: 'Keeper Draft Board',
+                dest: 'https://garrett-pdx.github.io/keeper-draft-board/',
             },
             {
                 icon: 'lightbulb',
@@ -108,12 +124,42 @@ export const tabs = [
                 label: 'Go to Sleeper',
                 dest: `https://sleeper.app/leagues/${leagueID}`,
             },
-            {
-                // companion project: separate repo, separate app, same league
-                icon: 'calculate',
-                label: 'Keeper Draft Board',
-                dest: 'https://garrett-pdx.github.io/keeper-draft-board/',
-            },
         ]
     },
 ];
+
+// Routes that belong to a tab without being its `dest`. The nav highlight and the tab title
+// both treat a path listed here as if it were the tab it points at. /manager (one manager's
+// page) lives under the Managers tab.
+export const tabAliases = {
+    '/manager': '/managers',
+};
+
+// The tab or dropdown child whose destination matches `pathname`, after aliasing; undefined
+// for a page that isn't in the nav (the home page). A nested path with no tab of its own
+// falls back to its first segment, so /blog/<slug> belongs to Blog.
+// Returns [topLevelTab, child-or-undefined].
+export const findTab = (pathname) => {
+    const path = tabAliases[pathname] || pathname;
+    const match = matchTab(path);
+    if(match[0] || path.indexOf('/', 1) < 0) return match;
+    return matchTab(path.slice(0, path.indexOf('/', 1)));
+}
+
+const matchTab = (path) => {
+    for(const tab of tabs) {
+        if(tab.dest == path) return [tab, undefined];
+        if(tab.nest) {
+            const child = tab.children.find(subTab => subTab.dest == path);
+            if(child) return [tab, child];
+        }
+    }
+    return [undefined, undefined];
+}
+
+// The `dest` of the nav entry that should be highlighted for `pathname`: the dropdown child if
+// one matches, else the top-level tab. Undefined when nothing should be lit.
+export const currentDest = (pathname) => {
+    const [tab, child] = findTab(pathname);
+    return (child || tab)?.dest;
+}

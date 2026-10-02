@@ -130,6 +130,15 @@
 		outline-offset: -2px;
 	}
 
+	.srOnly {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+		white-space: nowrap;
+	}
+
 	.credit {
 		font-size: 0.82em;
 		line-height: 1.7;
@@ -166,7 +175,7 @@
 					     with target=_blank: without noopener the opened page gets a window.opener
 					     handle and can navigate ours out from under the reader. -->
 					{#if /^https?:\/\//.test(link.dest)}
-						<a class="navLink" href={link.dest} target="_blank" rel="noopener noreferrer">{link.label}</a>
+						<a class="navLink" href={link.dest} target="_blank" rel="noopener noreferrer">{link.label}<span aria-hidden="true"> &#8599;</span><span class="srOnly"> (opens in a new tab)</span></a>
 					{:else}
 						<a class="navLink" href={link.dest}>{link.label}</a>
 					{/if}

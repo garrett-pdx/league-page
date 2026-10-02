@@ -1,18 +1,23 @@
 <script>
-	import { tabs } from '$lib/utils/tabs';
+	import { tabs, currentDest } from '$lib/utils/tabs';
 	import Drawer, {
 	  Content,
 	  Header,
 	  Title,
 	} from '@smui/drawer';
 	import { Icon } from '@smui/tab';
-  	import List, { Item, Text, Graphic, Separator, Subheader } from '@smui/list';
+  	import List, { Item, Text, Graphic, Meta, Separator, Subheader } from '@smui/list';
 	import { goto, preloadData } from '$app/navigation';
     import { page } from '$app/state';
 	import { leagueName } from '$lib/utils/helper';
 	import { enableBlog, managers } from '$lib/utils/leagueInfo';
 
-	let active = $state(page.url.pathname);
+	// Derived, not captured once: client-side navigation never remounts the nav, so a value
+	// read at mount kept highlighting the page you landed on. currentDest (tabs.js) also
+	// lights Managers on /manager and Blog on a post.
+	let active = $derived(currentDest(page.url.pathname));
+
+	const isExternal = (dest) => /^https?:\/\//.test(dest);
 
 	let open = $state(false);
 
@@ -68,6 +73,20 @@
 		color: #858585 !important;
 	}
 
+	:global(.nav-drawer .externalIcon) {
+		font-size: 18px;
+		color: var(--g555);
+	}
+
+	.srOnly {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+		white-space: nowrap;
+	}
+
 	.nav-back {
 		position: fixed;
 		z-index: 8;
@@ -103,9 +122,14 @@
 			{#each tabs as tab}
 				{#if tab.nest}
 					<Separator />
-					<Subheader>{tab.label}</Subheader>
+					{#if !tab.children[0]?.group}
+						<Subheader>{tab.label}</Subheader>
+					{/if}
 					{#each tab.children as subTab}
-						{#if subTab.label == 'Managers'}
+						{#if subTab.group}
+							<!-- a group heading from tabs.js, not a destination -->
+							<Subheader>{subTab.group}</Subheader>
+						{:else if subTab.label == 'Managers'}
 							{#if managers.length}
 								<Item href="javascript:void(0)" onSMUIAction={() => selectTab(subTab)} activated={active == subTab.dest}  ontouchstart={() => preload(subTab.dest)} onmouseover={() => preload(subTab.dest)}>
 									<Graphic class="material-icons{active == subTab.dest ? "" : " nav-item"}" aria-hidden="true">{subTab.icon}</Graphic>
@@ -115,7 +139,10 @@
 						{:else}
 							<Item href="javascript:void(0)" onSMUIAction={() => selectTab(subTab)} activated={active == subTab.dest}  ontouchstart={() => preload(subTab.dest)} onmouseover={() => preload(subTab.dest)}>
 								<Graphic class="material-icons{active == subTab.dest ? "" : " nav-item"}" aria-hidden="true">{subTab.icon}</Graphic>
-								<Text class="{active == subTab.dest ? "" : "nav-item"}">{subTab.label}</Text>
+								<Text class="{active == subTab.dest ? "" : "nav-item"}">{subTab.label}{#if isExternal(subTab.dest)}<span class="srOnly"> (opens in a new tab)</span>{/if}</Text>
+								{#if isExternal(subTab.dest)}
+									<Meta class="material-icons externalIcon" aria-hidden="true">open_in_new</Meta>
+								{/if}
 							</Item>
 						{/if}
 					{/each}
