@@ -91,12 +91,6 @@
         line-height: 1.2em;
     }
 
-    h1 {
-        font-size: 2.2em;
-        line-height: 1.3em;
-        margin: 1.5em 0 2em;
-    }
-
     .standingsTable {
         max-width: 100%;
         overflow-x: auto;
@@ -145,12 +139,8 @@
     }
 </style>
 
-<!-- In preseason LastSeason renders its own SectionHeading for the season it is showing, so a
-     second "2026 Standings" title above an obviously-2025 table would just be wrong. -->
-{#if !preseason && !loadError}
-    <h1>{year ?? ''} {leagueName} Standings</h1>
-{/if}
-
+<!-- The page title ("Standings") is a PageHeader mounted in routes/standings/+page.svelte. In
+     preseason LastSeason renders its own SectionHeading naming the season it is showing. -->
 {#if loadError}
     <p class="errorMessage">Something went wrong loading standings. Try refreshing the page.</p>
 {:else if loading}

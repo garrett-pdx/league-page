@@ -156,7 +156,7 @@
 </style>
 
 {#if rows.length}
-    <SectionHeading eyebrow="Last completed season" accent="gold">{season} Final Standings</SectionHeading>
+    <SectionHeading level={3} eyebrow="Last completed season" accent="gold">{season} Final Standings</SectionHeading>
 
     <p class="intro">The {season} season is in the books. Here is how it finished while we wait for
     week one.</p>
