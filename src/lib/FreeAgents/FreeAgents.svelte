@@ -1,5 +1,6 @@
 <script>
-    import { leagueName } from '$lib/utils/helper';
+    import { leagueName, loadPlayers } from '$lib/utils/helper';
+    import { onMount } from 'svelte';
     import { Card, SectionHeading, SegmentedControl } from '$lib/Design';
     import TeamPicker from './TeamPicker.svelte';
 
@@ -8,9 +9,50 @@
     and its traps are documented in routes/api/fetch_free_agents/+server.js.
 
     Projections are joined client-side from the shared players cache (fetch_players_info, already
-    scored with this league's settings) rather than recomputed on the server.
+    scored with this league's settings) rather than recomputed on the server. That cache lives
+    24h in localStorage; when it comes back stale we reload it in the background, as Rosters does.
+
+    Refresh asks the endpoint for ?fresh=<current minute> to step past the CDN's 15-minute cache;
+    the server's comment explains why only the current minute is accepted. Only the free-agent
+    list refreshes -- filters are plain state and survive it.
     */
-    let { faData, players = {}, nflState = {} } = $props();
+    let { faData: initialData, playersInfo = {}, nflState = {} } = $props();
+
+    let faData = $state(initialData);
+    let players = $state(playersInfo.players ?? {});
+    let refreshing = $state(false);
+    let refreshError = $state(false);
+    let now = $state(Date.now());
+
+    onMount(() => {
+        if(playersInfo.stale) {
+            loadPlayers(null, true).then((res) => { players = res.players; }).catch(() => {});
+        }
+        const tick = setInterval(() => { now = Date.now(); }, 30000);
+        return () => clearInterval(tick);
+    });
+
+    const refresh = async () => {
+        refreshing = true;
+        refreshError = false;
+        try {
+            const res = await fetch(`/api/fetch_free_agents?fresh=${Math.floor(Date.now() / 60000)}`);
+            if(!res.ok) throw new Error(res.status);
+            faData = await res.json();
+            now = Date.now();
+        } catch {
+            refreshError = true;
+        }
+        refreshing = false;
+    };
+
+    const age = $derived.by(() => {
+        const mins = Math.floor((now - new Date(faData.updated).getTime()) / 60000);
+        if(mins < 1) return 'just now';
+        if(mins < 60) return `${mins} min ago`;
+        const hrs = Math.floor(mins / 60);
+        return hrs < 24 ? `${hrs} hr ago` : new Date(faData.updated).toLocaleDateString('en-US', {month: 'short', day: 'numeric'});
+    });
 
     const week = nflState.display_week ?? nflState.week ?? 0;
     const positions = ['QB', 'RB', 'WR', 'TE'];
@@ -19,10 +61,11 @@
     let depth = $state('2');
     let query = $state('');
 
-    const teams = [...new Set(faData.players.map((p) => p.t))].sort();
+    // the team list is fixed at first load so a refresh can't reset the picker
+    const teams = [...new Set(initialData.players.map((p) => p.t))].sort();
     let selectedTeams = $state([...teams]);
 
-    const withProj = faData.players.map((p) => {
+    const withProj = $derived(faData.players.map((p) => {
         const info = players[p.id]?.wi;
         const wk = info && week ? info[week] : null;
         return {
@@ -31,7 +74,7 @@
             opp: wk ? wk.o : null,
             bye: Boolean(info && week && !wk),
         };
-    });
+    }));
 
     const depthOptions = $derived(
         ['1', '2', '3', 'Any'].map((d) => {
@@ -180,6 +223,50 @@
         padding: 2em 1em;
     }
 
+    .status {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 0.7em;
+        margin: 0 0 0.5em;
+        font-size: 0.85em;
+        color: var(--g555);
+    }
+
+    .status .error { color: var(--cardinal); }
+
+    .refresh {
+        font: inherit;
+        font-family: var(--fontDisplay);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3em;
+        color: var(--accentInk);
+        background: var(--fff);
+        border: 1px solid var(--accentBorder);
+        border-radius: var(--radiusPill);
+        padding: 0.25em 0.9em;
+        cursor: pointer;
+    }
+
+    .refresh:disabled { cursor: default; opacity: 0.6; }
+
+    .refresh:focus-visible {
+        outline: 2px solid var(--blueOne);
+        outline-offset: 2px;
+    }
+
+    .spin { display: inline-block; }
+    .refresh:disabled .spin { animation: spin 0.9s linear infinite; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (prefers-reduced-motion: reduce) {
+        .refresh:disabled .spin { animation: none; }
+    }
+
     .foot {
         text-align: center;
         color: var(--g555);
@@ -209,6 +296,14 @@
         <SegmentedControl options={depthOptions} bind:value={depth} size="sm" ariaLabel="Depth chart slot" />
         <TeamPicker {teams} bind:selected={selectedTeams} />
         <input class="search" type="search" placeholder="Player name" aria-label="Filter by player name" bind:value={query} />
+    </div>
+
+    <div class="status" aria-live="polite">
+        {#if refreshError}<span class="error">Couldn't refresh; try again.</span>{/if}
+        <span>Updated {age}</span>
+        <button class="refresh" type="button" onclick={refresh} disabled={refreshing}>
+            <span class="spin" aria-hidden="true">↻</span>{refreshing ? 'Refreshing…' : 'Refresh'}
+        </button>
     </div>
 
     <Card padding="none">
@@ -265,6 +360,6 @@
     <p class="foot">
         Depth charts from Sleeper; injury return dates from ESPN. Players out for the season are
         hidden, and the player behind them moves up. A recently dropped player may still be on
-        waivers rather than free. Updated {new Date(faData.updated).toLocaleString('en-US', {month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit'})}.
+        waivers rather than free.
     </p>
 </div>

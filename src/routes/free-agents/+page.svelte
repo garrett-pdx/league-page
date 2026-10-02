@@ -26,7 +26,7 @@
             <LinearProgress indeterminate />
         </div>
     {:then [faData, [playersData, nflState]]}
-        <FreeAgents {faData} players={playersData.players} {nflState} />
+        <FreeAgents {faData} playersInfo={playersData} {nflState} />
     {:catch error}
         <p>Something went wrong: {error.message}</p>
     {/await}
