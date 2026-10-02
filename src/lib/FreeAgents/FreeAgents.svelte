@@ -1,6 +1,7 @@
 <script>
     import { leagueName, loadPlayers } from '$lib/utils/helper';
     import { onMount } from 'svelte';
+    import { players as playersStore } from '$lib/stores';
     import { Card, SectionHeading, SegmentedControl } from '$lib/Design';
     import TeamPicker from './TeamPicker.svelte';
 
@@ -13,15 +14,24 @@
     24h in localStorage; when it comes back stale we reload it in the background, as Rosters does.
 
     Refresh asks the endpoint for ?fresh=<current minute> to step past the CDN's 15-minute cache;
-    the server's comment explains why only the current minute is accepted. Only the free-agent
-    list refreshes -- filters are plain state and survive it.
+    the server's comment explains why only the current minute is accepted. Filters are plain
+    state and survive it.
+
+    Refresh also reloads projections, by calling fetch_players_info directly: loadPlayers() can't be
+    forced (it returns the in-memory store first) and players.js is upstream's. The result is
+    written back to the same localStorage keys and store loadPlayers uses, so every other page gets
+    the fresh copy too. That endpoint is uncached and rebuilds ~2MB from Sleeper on every call, so
+    it is skipped while the saved copy is under PROJ_MIN_AGE old -- Sleeper only revises
+    projections a few times a day.
     */
+    const PROJ_MIN_AGE = 15 * 60;       // seconds
+    const PLAYERS_TTL = 24 * 3600;      // must match loadPlayers' expiration in players.js
     let { faData: initialData, playersInfo = {}, nflState = {} } = $props();
 
     let faData = $state(initialData);
     let players = $state(playersInfo.players ?? {});
     let refreshing = $state(false);
-    let refreshError = $state(false);
+    let refreshError = $state('');
     let now = $state(Date.now());
 
     onMount(() => {
@@ -32,17 +42,37 @@
         return () => clearInterval(tick);
     });
 
+    const refreshFreeAgents = async () => {
+        const res = await fetch(`/api/fetch_free_agents?fresh=${Math.floor(Date.now() / 60000)}`);
+        if(!res.ok) throw new Error(res.status);
+        faData = await res.json();
+    };
+
+    const refreshProjections = async () => {
+        const nowSec = Math.round(Date.now() / 1000);
+        let expiration = null;
+        try { expiration = parseInt(localStorage.getItem('expiration')); } catch {}
+        if(expiration && PLAYERS_TTL - (expiration - nowSec) < PROJ_MIN_AGE) return;
+
+        const res = await fetch('/api/fetch_players_info');
+        if(!res.ok) throw new Error(res.status);
+        const data = await res.json();
+        try {
+            localStorage.setItem('playersInfo', JSON.stringify(data));
+            localStorage.setItem('expiration', nowSec + PLAYERS_TTL);
+        } catch {}
+        playersStore.set(data);
+        players = data;
+    };
+
     const refresh = async () => {
         refreshing = true;
-        refreshError = false;
-        try {
-            const res = await fetch(`/api/fetch_free_agents?fresh=${Math.floor(Date.now() / 60000)}`);
-            if(!res.ok) throw new Error(res.status);
-            faData = await res.json();
-            now = Date.now();
-        } catch {
-            refreshError = true;
-        }
+        refreshError = '';
+        const [list, proj] = await Promise.allSettled([refreshFreeAgents(), refreshProjections()]);
+        if(list.status == 'rejected' && proj.status == 'rejected') refreshError = "Couldn't refresh; try again.";
+        else if(list.status == 'rejected') refreshError = "Couldn't refresh the list; try again.";
+        else if(proj.status == 'rejected') refreshError = "Couldn't refresh projections; try again.";
+        now = Date.now();
         refreshing = false;
     };
 
@@ -299,7 +329,7 @@
     </div>
 
     <div class="status" aria-live="polite">
-        {#if refreshError}<span class="error">Couldn't refresh; try again.</span>{/if}
+        {#if refreshError}<span class="error">{refreshError}</span>{/if}
         <span>Updated {age}</span>
         <button class="refresh" type="button" onclick={refresh} disabled={refreshing}>
             <span class="spin" aria-hidden="true">↻</span>{refreshing ? 'Refreshing…' : 'Refresh'}
