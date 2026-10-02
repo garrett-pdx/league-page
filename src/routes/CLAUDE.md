@@ -92,13 +92,16 @@ Server-side endpoints, running on Vercel functions:
   2026-10; it was ~5MB when this note was first written) plus weekly projections. This
   exists so browsers don't pull that payload directly; keep it that way.
 - `fetch_free_agents` — ours, backs `/free-agents` (search free agents by depth-chart slot,
-  "every RB2"). Unrostered QB/RB/WR/TE with a depth rank, injury, season snap share and
-  Sleeper trending adds. CDN-cached 15 min; that header is what keeps the 15MB pull off every
+  "every RB2"). Every QB/RB/WR/TE with a depth rank, injury, season snap share and Sleeper
+  trending adds; rostered players carry `own` (owner user_id → Sleeper handle via `owners`) and
+  show only when the page's "Show rostered" toggle is on. Despite the name it is no longer
+  free-agents-only. Every outbound request is time-limited (Sleeper 20s, ESPN 8s, the whole ESPN
+  step 15s): before that, one stalled request hung the whole response with no answer. CDN-cached 15 min; that header is what keeps the 15MB pull off every
   view. Traps it encodes:
   - `depth_chart_order` is per team+position (WRs share one sequence across LWR/RWR/SWR) and
     has gaps and duplicates, so it **dense-ranks** by sort rather than trusting the number.
-  - **Players out for the season are excluded**, and are removed *before* ranking so the
-    next man up takes the slot. Sleeper can't tell you this (IR = four games, no return date),
+  - **Players out for the season are excluded** — rostered ones too — and are removed
+    *before* ranking so the next man up takes the slot. Sleeper can't tell you this (IR = four games, no return date),
     so the return date comes from ESPN's core API (`details.returnDate`; season-ending gets a
     date past the season, e.g. `2027-02-15`) compared against the end of the league's title
     week. Sleeper's `espn_id` is mostly null for fringe players, so it falls back to a

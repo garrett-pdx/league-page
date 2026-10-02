@@ -1,5 +1,5 @@
 <script>
-    import { leagueName, loadPlayers } from '$lib/utils/helper';
+    import { leagueName, loadPlayers, managers } from '$lib/utils/helper';
     import { onMount } from 'svelte';
     import { players as playersStore } from '$lib/stores';
     import { Card, SectionHeading, SegmentedControl } from '$lib/Design';
@@ -105,6 +105,16 @@
     const teams = [...new Set(initialData.players.map((p) => p.t))].sort();
     let selectedTeams = $state([...teams]);
 
+    /*
+    Rostered players come back from the endpoint too (with `own`, their owner's user_id); they only
+    appear when Show rostered is on, in grey rows with the owner's Sleeper handle. The handle links
+    to that manager's page when they're in leagueInfo's managers array -- /manager?manager=N is
+    positional, so N is the index into that array.
+    */
+    let showRostered = $state(false);
+    const managerIndex = Object.fromEntries(managers.map((m, i) => [m.managerID, i]));
+    const visible = (p) => showRostered || !p.own;
+
     const withProj = $derived(faData.players.map((p) => {
         const info = players[p.id]?.wi;
         const wk = info && week ? info[week] : null;
@@ -118,7 +128,7 @@
 
     const depthOptions = $derived(
         ['1', '2', '3', 'Any'].map((d) => {
-            const count = withProj.filter((p) => p.pos == pos && selectedTeams.includes(p.t) && (d == 'Any' || p.depth == d)).length;
+            const count = withProj.filter((p) => visible(p) && p.pos == pos && selectedTeams.includes(p.t) && (d == 'Any' || p.depth == d)).length;
             return {value: d, label: d == 'Any' ? `Any (${count})` : `${pos}${d} (${count})`};
         })
     );
@@ -165,6 +175,7 @@
             .filter((p) => p.pos == pos)
             .filter((p) => depth == 'Any' || p.depth == depth)
             .filter((p) => selectedTeams.includes(p.t))
+            .filter(visible)
             .filter((p) => !query || p.n.toLowerCase().includes(query.toLowerCase()))
             .sort(compare)
     );
@@ -196,6 +207,38 @@
         align-items: center;
         gap: 0.8em;
         margin: 0 auto 1.4em;
+    }
+
+    .toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5em;
+        padding: 0.45em 0.9em;
+        border: 1px solid var(--accentBorder);
+        border-radius: var(--radiusPill);
+        background: var(--fff);
+        color: var(--navy700);
+        cursor: pointer;
+        white-space: nowrap;
+        user-select: none;
+    }
+
+    .toggle.on {
+        border-color: var(--accentFill);
+        font-weight: 500;
+    }
+
+    .toggle input {
+        accent-color: var(--accentFill);
+        margin: 0;
+        width: 1em;
+        height: 1em;
+        cursor: pointer;
+    }
+
+    .toggle:focus-within {
+        outline: 2px solid var(--blueOne);
+        outline-offset: 2px;
     }
 
     .search {
@@ -266,6 +309,35 @@
     }
 
     tr:last-child td { border-bottom: none; }
+
+    tr.rostered td { background: var(--f3f3f3); }
+
+    /* clip the grey rows to the card's rounded corners */
+    :global(.faTable) { overflow: hidden; }
+
+    .owner {
+        display: inline-block;
+        font-size: 0.75em;
+        font-weight: 500;
+        color: var(--accentInk);
+        background: var(--fff);
+        border: 1px solid var(--accentBorder);
+        border-radius: var(--radiusPill);
+        padding: 0.05em 0.55em;
+        margin-left: 0.45em;
+        text-decoration: none;
+        white-space: nowrap;
+        vertical-align: 0.1em;
+    }
+
+    a.owner:focus-visible {
+        outline: 2px solid var(--blueOne);
+        outline-offset: 1px;
+    }
+
+    @media (hover: hover) {
+        a.owner:hover { border-color: var(--accentInk); }
+    }
 
     .num { text-align: right; }
 
@@ -391,7 +463,9 @@
     @media (max-width: 640px) {
         .hideSmall { display: none; }
         td, th { padding: 0.55em 0.4em; }
-        .team { display: block; margin-left: 0; }
+        .meta { display: block; }
+        .team { margin-left: 0; }
+        .owner { margin-left: 0.4em; }
     }
 </style>
 
@@ -407,6 +481,10 @@
         <SegmentedControl options={positions} bind:value={pos} ariaLabel="Position" />
         <SegmentedControl options={depthOptions} bind:value={depth} size="sm" ariaLabel="Depth chart slot" />
         <TeamPicker {teams} bind:selected={selectedTeams} />
+        <label class="toggle" class:on={showRostered}>
+            <input type="checkbox" role="switch" bind:checked={showRostered} />
+            Show rostered
+        </label>
         <input class="search" type="search" placeholder="Player name" aria-label="Filter by player name" bind:value={query} />
     </div>
 
@@ -418,7 +496,7 @@
         </button>
     </div>
 
-    <Card padding="none">
+    <Card padding="none" class="faTable">
         <table>
             <thead>
                 <tr>
@@ -442,9 +520,9 @@
             </thead>
             <tbody>
                 {#each shown as p (p.id)}
-                    <tr>
+                    <tr class:rostered={p.own}>
                         <td>
-                            <span class="name">{p.n}</span><span class="team">{p.t}</span>
+                            <span class="name">{p.n}</span><span class="meta"><span class="team">{p.t}</span>{#if p.own}{#if managerIndex[p.own] != null}<a class="owner" href="/manager?manager={managerIndex[p.own]}" title="Rostered by {faData.owners?.[p.own] ?? 'a manager'}">{faData.owners?.[p.own] ?? 'Rostered'}</a>{:else}<span class="owner" title="Rostered">{faData.owners?.[p.own] ?? 'Rostered'}</span>{/if}{/if}</span>
                             {#if p.is}
                                 <span class="inj {injuryClass(p.is)}">{p.is}{#if p.ret} · back ~{fmtDate(p.ret)}{/if}</span>
                             {/if}
@@ -473,7 +551,7 @@
                         <td class="num hideSmall">{#if p.rank}{p.rank}{:else}<span class="muted">—</span>{/if}</td>
                     </tr>
                 {:else}
-                    <tr><td class="empty" colspan="6">{selectedTeams.length ? 'No free agents match.' : 'No teams selected.'}</td></tr>
+                    <tr><td class="empty" colspan="6">{!selectedTeams.length ? 'No teams selected.' : showRostered ? 'No players match.' : 'No free agents match.'}</td></tr>
                 {/each}
             </tbody>
         </table>
