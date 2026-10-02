@@ -1,10 +1,16 @@
 <script>
 	import { goto } from "$app/navigation";
 	import { getTeamData } from "$lib/utils/helperFunctions/universalFunctions";
+	import { managers } from "$lib/utils/leagueInfo";
 
     export let playerOne, playerTwo, leagueTeamManagers;
 
     const users = Object.keys(leagueTeamManagers.users);
+
+    // The configured real name from `managers`, else the Sleeper handle for anyone not listed there.
+    const nameOf = (userID) => managers.find(m => m.managerID == userID)?.name
+        ?? leagueTeamManagers.users[userID].user_name
+        ?? leagueTeamManagers.users[userID].display_name;
 
     $: usersOne = users.filter(u => u !== playerTwo);
     $: usersTwo = users.filter(u => u !== playerOne);
@@ -130,7 +136,7 @@
             <select class="selectInput left" id="managerOne" name="managerOne" bind:value={playerOne}>
                 <option value={null}>Select a manager</option>
                 {#each usersOne as user}
-                    <option value={user}>{leagueTeamManagers.users[user].display_name}</option>
+                    <option value={user}>{nameOf(user)}</option>
                 {/each}
             </select>
             {#if playerOne}
@@ -143,10 +149,10 @@
     <!-- manager 2 -->
     <div class="manager">
         <div class="container">
-            <select class="selectInput right" id="managerOne" name="managerOne" bind:value={playerTwo}>
+            <select class="selectInput right" id="managerTwo" name="managerTwo" bind:value={playerTwo}>
                 <option value={null}>Select a manager</option>
                 {#each usersTwo as user}
-                    <option value={user}>{leagueTeamManagers.users[user].display_name}</option>
+                    <option value={user}>{nameOf(user)}</option>
                 {/each}
             </select>
             {#if playerTwo}
