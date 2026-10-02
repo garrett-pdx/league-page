@@ -15,10 +15,10 @@ The plans being carried out:
 | 1 | **A. The nav**, plus the voted 2026 roster-change text (F) | Every page benefits; the new pages need its groups; the roster text is wrong on the live site today | done |
 | 2 | **C1–C3.** Records, Matchups, Standings readable on phones; creates `src/theme/_site.scss` | The worst phone problems, on the most-used pages | done |
 | 3 | **History step 0 + 1.** The game table, then schedule luck on Standings | Foundation for four pages; most useful mid-season | step 0 done (merged); step 1 merged into step 4 |
-| 4 | **B1–B3 + schedule luck.** `PageHeader` on every page, text fixes, the page jumping as it loads, then the all-play table on Standings | Both edit the Standings route; History pages reuse `PageHeader` | running (Sonnet) |
-| 5 | **D.** Links between pages, plus **History step 2**, the head-to-head grid | Both work on Rivalry and manager links | pending |
+| 4 | **B1–B3 + schedule luck.** `PageHeader` on every page, text fixes, the page jumping as it loads, then the all-play table on Standings | Both edit the Standings route; History pages reuse `PageHeader` | done |
+| 5 | **D.** Links between pages, plus **History step 2**, the head-to-head grid | Both work on Rivalry and manager links | running (Sonnet); lore-script fix running in parallel (Opus, worktree) |
 | 6 | **C4–C5 + B4–B5.** Drafts, remaining small text and tap targets, blog typography, desktop layouts | Polish on less-used pages | pending |
-| 7 | **E. Content:** bio typos and league lines (7a, running in parallel in a worktree, Opus); home page copy, Resources, countdown (7b) | Writing, once the page frames are settled | 7a running |
+| 7 | **E. Content:** bio typos and league lines (7a, running in parallel in a worktree, Opus); home page copy, Resources, countdown (7b) | Writing, once the page frames are settled | 7a done (merged); 7b pending |
 | 8 | **History step 3.** Seasons archive | Biggest new page | pending |
 | 9 | **History step 4.** Stat Lab, first release | Built on everything above | pending |
 | 10 | **F wrap-up.** `CLAUDE.md` corrections, end-of-season checklist, `mudd-preview` post type, full-site audit | Docs describe the finished state | pending |
@@ -117,3 +117,46 @@ Commits `901adce`..`f587e7e`.
 - **Step 3 is folded into step 4.** Both edit the Standings route, and the API is ready.
 - **Bio work moved forward.** Step 7a (bio typos and league lines) runs in parallel now,
   because it needs no browser.
+
+### Step 4: page headers, text fixes, layout shift, schedule luck (done, Sonnet, about 20 minutes)
+
+Commits `78437cd`..`48e85ee`.
+
+- **`PageHeader`** (`$lib/Design`) is on every page, with one-line intros in the league's
+  voice. The full list of intros is in the agent's report.
+- **Layout shift** is fixed with CSS only, in `_site.scss`:
+  - /standings: 0.78 → 0.02 at 375px, 0.29 → 0.03 at 1024px.
+  - /manager: 0.66 → 0 at 375px, 0.41 → 0 at 1024px.
+- **Schedule luck** on Standings, using `AllPlayTable` (display only) and `ScheduleLuck` (live
+  vs. preseason data).
+  - Checked: every team's all-play is 27 games (9 × 3).
+  - Luck sums to about 0.
+  - tuckersdumbteam is 27-0; mikestreinz has the top luck at +1.56.
+- **Small text fixes:**
+  - Rivalry dropdowns show real names, and the duplicate ids are fixed.
+  - The Mudd Report naming, "Comparison", "Upcoming", "All".
+
+### Step 7a: bios (done, Opus, in parallel; merged as `95021d8`)
+
+- **Typos fixed,** including 32/59 = 54.2%. The coordinator added a comma to the
+  Northwestern line.
+- **A Mudd League line for each of the 10 active managers.** Every figure was recomputed from
+  the data, and none can go stale mid-season.
+
+**Found:** the lore file and the voice doc carry wrong figures.
+- Kabroa's "72.1 points left on the bench" was really 54.0.
+- MVP and keeper "returned" figures count points scored on the bench.
+
+A lore-script fix now runs in parallel with step 5.
+
+**Changes to the remaining plan:**
+- **Step 5:** filter `Football_Team` (never held a roster) out of the Rivalry dropdown and the
+  grid, and turn the Standing rows' clickable div into a link.
+- **Step 6:**
+  - check the blog's pagination scroll target, now an empty div, by reading the code;
+  - the Drafts h6 and the Awards division captions;
+  - the Drafts h4s were kept, because step 6 reorders that page.
+- **Step 8:** reuse `AllPlayTable` (not `ScheduleLuck`) on the Seasons pages.
+- **Step 10:** list the newly diverged upstream files in `CLAUDE.md`: `News/index`,
+  `Rivalry/ManagerSelectors`, `Drafts/Draft`, and the route files for rosters, rivalry, drafts,
+  transactions, resources and records.
