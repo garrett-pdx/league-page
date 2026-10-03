@@ -35,10 +35,9 @@ Still outstanding, in rough priority order:
   the posts' own `type` values, and Contentful's field has no allowed-values list): Monday
   posts are `Recap`, previews `Preview`. The week 2–4 previews went out as `Recap` and still
   need retagging in Contentful.
-- **The home page copy is waiting on Garrett.** `homepageText` was rewritten in the 2026-10
-  revamp (shorter intro, a "Find your way" row, the rules reduced to one line pointing at the
-  constitution, no hand-kept champion paragraph). It must be approved before `site-revamp`
-  is pushed — every push to `master` deploys.
+- **The home page copy was approved by Garrett on 2026-10-03.** `homepageText` was rewritten
+  in the 2026-10 revamp: a shorter intro, a "Find your way" row, the rules reduced to one line
+  pointing at the constitution, and no hand-kept champion paragraph.
 - **`static/data/` is fetched at runtime by three helpers, and only for five files.** All three
   memoize per session, take SvelteKit's `fetch` so they work during SSR, and never cache a
   failed fetch. Sizes are raw / gzipped:

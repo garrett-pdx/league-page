@@ -18,10 +18,10 @@ The plans being carried out:
 | 4 | **B1–B3 + schedule luck.** `PageHeader` on every page, text fixes, the page jumping as it loads, then the all-play table on Standings | Both edit the Standings route; History pages reuse `PageHeader` | done |
 | 5 | **D.** Links between pages, plus **History step 2**, the head-to-head grid | Both work on Rivalry and manager links | done; lore-script fix done (merged) |
 | 6 | **C4–C5 + B4–B5.** Drafts, remaining small text and tap targets, blog typography, desktop layouts | Polish on less-used pages | done |
-| 7 | **E. Content:** bio typos and league lines (7a, running in parallel in a worktree, Opus); home page copy, Resources, countdown (7b) | Writing, once the page frames are settled | done (home copy awaiting Garrett's review) |
+| 7 | **E. Content:** bio typos and league lines (7a, running in parallel in a worktree, Opus); home page copy, Resources, countdown (7b) | Writing, once the page frames are settled | done (home copy approved 2026-10-03) |
 | 8 | **History step 3.** Seasons archive | Biggest new page | done (merged) |
 | 9 | **History step 4.** Stat Lab, first release | Built on everything above | done |
-| 10 | **F wrap-up.** `CLAUDE.md` corrections, end-of-season checklist, `mudd-preview` post type, full-site audit | Docs describe the finished state | running (Opus) |
+| 10 | **F wrap-up.** `CLAUDE.md` corrections, end-of-season checklist, `mudd-preview` post type, full-site audit | Docs describe the finished state | done |
 
 ## Decisions already made (2026-10-02)
 
@@ -311,3 +311,32 @@ Commits `f93e917`..`3b83a00`.
   and the pinned stat corrections.
 - **A second release could add:** a matchups dataset and grid, a distribution chart, a
   minimum-games control, and keyboard focus for line and scatter points.
+
+### Step 10: docs, loose ends, full-site audit (done, Opus; interrupted by the usage limit and resumed)
+
+Commits `47b8c47`..`9d46ad2`.
+
+- **Docs:** all three `CLAUDE.md` files describe the finished site, including a list of the
+  upstream files that now differ (keep our side on the next merge) and end-of-season and
+  preseason checklists. `site-todo.md` is ticked off.
+- **`mudd-preview`** publishes as type Preview.
+- **Loose ends fixed:**
+  - the closed League menu is `inert`, and scrolls at 1024×768;
+  - error pages are titled "Not found" and light no tab;
+  - /manager no longer crashes when a Sleeper fetch fails;
+  - Records years link to their Seasons page;
+  - off-site footer and news links open a new tab.
+- **Audit:** 23 pages × 3 widths, all pass.
+  - smallest font at least 12px;
+  - no horizontal scroll;
+  - 44px targets at 375px;
+  - layout shift at most 0.05: Standings was 0.60, Home was 0.10.
+
+**Still open (in `site-todo.md`):**
+- **[Garrett]** retag 3 previews in Contentful;
+- **[Managers]** profile fields and Sleeper team names;
+- **Stat Lab second release**;
+- **optional lore card**.
+
+Garrett approved the home copy and asked for a direct push to `master` once the go-live checks
+pass.

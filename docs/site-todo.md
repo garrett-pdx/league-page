@@ -18,8 +18,8 @@ This list is everything else.
 Everything ticked below landed on the `site-revamp` branch; `docs/revamp-log.md` has the
 detail. What is left:
 
-- [ ] **[Garrett] Approve the home page copy** (`homepageText` in `leagueInfo.js`) before
-  `site-revamp` is pushed. Every push to `master` deploys.
+- [x] **[Garrett] Approve the home page copy** (`homepageText` in `leagueInfo.js`). Approved
+  2026-10-03.
 - [ ] **[Garrett] Retag the three previews in Contentful** from `Recap` to `Preview`: Week 2
   (`5XKBEmMeWJrgt0JTjcEA2R`), Week 3 (`6XqfrUTwqZHqXDJpzPF3Xo`) and Week 4
   (`7pgFzp2SPXlyLa10gexnEJ`). Republishing each with the `mudd-preview` skill's command
@@ -96,7 +96,7 @@ detail. What is left:
   (upstream)
 - [x] **Home page: add a "Find your way" row** to `homepageText` (ours): this week's matchups ·
   standings · Trophy Room · constitution.
-  → Done in step 7b (`3270061`); the copy awaits Garrett's approval (see Still open).
+  → Done in step 7b (`3270061`); the copy was approved by Garrett on 2026-10-03.
 
 ## Page names and headings
 
