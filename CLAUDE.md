@@ -291,6 +291,9 @@ Standings' schedule luck instead builds the current season from live Sleeper mat
    scoped to "2022 to 2025" and can be extended. Re-derive every figure; don't edit from
    memory. Also update `docs/mudd-voice.md`'s career figures and the Champions line in this
    file. The home page's champion panel updates itself.
+5. Re-check and refresh the Trophy Room's "From the archives" facts in
+   `src/lib/History/archiveFacts.js`. Recompute every figure from `static/data/`, move any
+   "through 2025" scope on to the new season, and replace a fact the season has broken.
 
 ### Preseason checklist
 
