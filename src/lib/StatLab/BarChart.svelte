@@ -145,5 +145,5 @@
     {/each}
 </ul>
 {#if total > rows.length}
-    <p class="more">Showing the top {rows.length} of {total}.</p>
+    <p class="more">Showing {rows.length} of {total}, in rank order.</p>
 {/if}

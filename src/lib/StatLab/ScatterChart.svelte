@@ -36,7 +36,8 @@
         return { ...t, s: linear([t.lo, t.hi], [r0, r1]) };
     };
     const X = $derived(axis(x, narrowScreen ? 4 : 6, m.left, m.left + plotW));
-    const Y = $derived(axis(y, 5, m.top + plotH, m.top));
+    // lower-is-better on the vertical axis (final place) puts 1st at the top
+    const Y = $derived(dy.low ? axis(y, 5, m.top, m.top + plotH) : axis(y, 5, m.top + plotH, m.top));
 
     const mean = (key) => pts.reduce((s, r) => s + r[key], 0) / (pts.length || 1);
     const mx = $derived(mean(x));

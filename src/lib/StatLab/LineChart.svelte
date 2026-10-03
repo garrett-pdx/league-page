@@ -61,7 +61,9 @@
     const yScale = $derived.by(() => {
         const vals = rows.map((r) => r[measure]).filter((v) => v !== null && v !== undefined);
         const t = niceTicks(Math.min(...vals), Math.max(...vals), narrowScreen ? 4 : 5);
-        return { ...t, y: linear([t.lo, t.hi], [m.top + plotH, m.top]) };
+        // a measure where lower is better (final place) runs 1st at the top
+        const range = def.low ? [m.top, m.top + plotH] : [m.top + plotH, m.top];
+        return { ...t, y: linear([t.lo, t.hi], range) };
     });
 
     const xAt = (i) => (xKeys.length < 2 ? m.left + plotW / 2 : m.left + (i * plotW) / (xKeys.length - 1));

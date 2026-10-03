@@ -178,7 +178,12 @@
     const managerOptions = uids.map((uid) => ({ value: people[uid].handle, label: people[uid].short }));
 
     const topN = $derived(view.top === 'all' ? Infinity : Number(view.top));
-    const barRows = $derived(sorted.slice(0, topN));
+    // The bars always rank the chart's measure. When the table is sorted by that measure they
+    // follow its direction too (so "lowest first" works); sorted by anything else, the table
+    // reorders and the ranking chart stays a ranking.
+    const barRows = $derived(
+        (view.sort === view.m ? sorted : sortRows(rows, view.m, defaultDir(view.m), nameOf)).slice(0, topN)
+    );
     const allowAll = $derived(sorted.length <= 100);
 
     const stamp = `Data through ${games.through.season} week ${games.through.week}`;

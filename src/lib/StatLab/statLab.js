@@ -418,5 +418,7 @@ export const quadrantLabels = (x, y) => {
     const known = QUADRANTS[`${x}|${y}`];
     if(known) return known;
     const X = MEASURES[x].short, Y = MEASURES[y].short;
-    return [`Low ${X}, high ${Y}`, `High ${X}, high ${Y}`, `Low ${X}, low ${Y}`, `High ${X}, low ${Y}`];
+    // a lower-is-better measure is drawn upside down (1st at the top), so its words swap too
+    const [top, bottom] = MEASURES[y].low ? ['low', 'high'] : ['high', 'low'];
+    return [`Low ${X}, ${top} ${Y}`, `High ${X}, ${top} ${Y}`, `Low ${X}, ${bottom} ${Y}`, `High ${X}, ${bottom} ${Y}`];
 };
