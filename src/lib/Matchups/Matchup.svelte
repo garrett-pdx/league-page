@@ -1,6 +1,7 @@
 <script>
     import {round} from '$lib/utils/helper'
 	import { getTeamFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
+    import { managerHref } from '$lib/utils/managerLink';
 
     export let matchup, players, active, ix, displayWeek, expandOverride=false, matchupWeek, leagueTeamManagers, year;
 
@@ -83,6 +84,13 @@
     let el;
 
     $: top = el?.getBoundingClientRect() ? el?.getBoundingClientRect().top  : 0;
+
+    // A team name in the header is a link to that manager's page; following it must not also
+    // open or close the card.
+    const headerClick = (e) => {
+        if(e.target.closest('a')) return;
+        expandClose();
+    }
 
     const expandClose = () => {
         if(expandOverride) return;
@@ -188,6 +196,25 @@
         word-break: break-word;
         color: #fff;
         font-style: italic;
+    }
+
+    /* The team name is a link that looks like the plain name it replaced. The padding gives it a
+       44px-ish hit area, and the matching negative margin keeps the header the same height. */
+    .nameLink {
+        display: block;
+        color: inherit;
+        text-decoration: none;
+        padding: 1.1em 0;
+        margin: -1.1em 0;
+    }
+
+    .nameLink:hover {
+        text-decoration: underline;
+    }
+
+    .nameLink:focus-visible {
+        outline: 2px solid #fff;
+        outline-offset: 2px;
     }
 
 	.avatar {
@@ -491,16 +518,16 @@
 </style>
 
 <div class="matchup">
-    <div class="header" onclick={() => expandClose()} bind:this={el} >
+    <div class="header" onclick={headerClick} bind:this={el} >
         <div class="opponent home{winning == "home" ? " homeGlow" : ""}">
             <img class="avatar" src={home.manager.avatar} alt="home team avatar" />
-            <div class="name">{home.manager.name}</div>
+            <div class="name"><a class="nameLink" href={managerHref({leagueTeamManagers, rosterID: home.roster_id, year})}>{home.manager.name}</a></div>
             <div class="totalPoints totalPointsR">{round(homePointsTotal)}<div class="totalProjection">{round(homeProjectionTotal)}</div></div>
         </div>
         <img class="divider" src="/{winning}Divider.jpg" alt="divider" />
         <div class="opponent away{winning == "away" ? " awayGlow" : ""}">
             <div class="totalPoints totalPointsL">{round(awayPointsTotal)}<div class="totalProjection">{round(awayProjectionTotal)}</div></div>
-            <div class="name" >{away.manager.name}</div>
+            <div class="name" ><a class="nameLink" href={managerHref({leagueTeamManagers, rosterID: away.roster_id, year})}>{away.manager.name}</a></div>
             <img class="avatar" src={away.manager.avatar} alt="away team avatar" />
         </div>
     </div>

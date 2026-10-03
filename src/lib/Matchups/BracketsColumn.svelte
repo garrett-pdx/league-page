@@ -1,6 +1,7 @@
 <script>
     import { round } from "$lib/utils/helper";
 	import { getAvatarFromTeamManagers, getTeamNameFromTeamManagers } from "$lib/utils/helperFunctions/universalFunctions";
+    import { managerHref } from "$lib/utils/managerLink";
 
     export let leagueTeamManagers, players, matchCol, playoffsStart, ix, playoffLength, consolation = false, losers = false, numRosters, consolationNum, selected;
 
@@ -166,7 +167,9 @@
     
     let innerWidth;
 
-    const changeSelection = (m, opponent) => {
+    const changeSelection = (m, opponent, e) => {
+        // a team name is a link to the manager's page; following it must not also select the match
+        if(e?.target?.closest('a')) return;
         if(m == selected || !opponent) return;
         selected = m;
     }
@@ -232,6 +235,24 @@
         word-break: break-word;
         color: var(--g444);
         width: 100%;
+    }
+
+    /* A team name that links to the manager's page but reads as the plain name it replaced. */
+    .nameLink {
+        display: block;
+        color: inherit;
+        text-decoration: none;
+        padding: 1.1em 0;
+        margin: -1.1em 0;
+    }
+
+    .nameLink:hover {
+        text-decoration: underline;
+    }
+
+    .nameLink:focus-visible {
+        outline: 2px solid var(--blueOne);
+        outline-offset: 2px;
     }
 
     .bye {
@@ -342,7 +363,7 @@
     {/if}
     <!-- If we need to draw a bracket, include anchor points and include svgs to draw the  bracket -->
     {#each matchCol as matchups, inx}
-        <div class="match{matchups[0].m == selected ? ' selected' : ''}{matchups[0].m && matchups[1].roster_id ? ' clickable' : ''}" bind:this={anchors[Math.floor(inx / 2)][inx % 2 == 0 ? 't' : 'b']} onclick={() => {changeSelection(matchups[0].m, matchups[1].roster_id)}}>
+        <div class="match{matchups[0].m == selected ? ' selected' : ''}{matchups[0].m && matchups[1].roster_id ? ' clickable' : ''}" bind:this={anchors[Math.floor(inx / 2)][inx % 2 == 0 ? 't' : 'b']} onclick={(e) => {changeSelection(matchups[0].m, matchups[1].roster_id, e)}}>
             {#each matchups as matchup}
                 <div class="manager">
                     <div class="avatarPointsBlock">
@@ -361,7 +382,13 @@
                             <span />
                         {/if}
                     </div>
-                    <div class="name{matchups.bye && !matchup.roster_id ? ' bye': ''}">{getPlayoffName(matchup.roster_id, matchups.bye, leagueTeamManagers.currentYear)}</div>
+                    <div class="name{matchups.bye && !matchup.roster_id ? ' bye': ''}">
+                        {#if matchup.roster_id}
+                            <a class="nameLink" href={managerHref({leagueTeamManagers, rosterID: matchup.roster_id, year: leagueTeamManagers.currentYear})}>{getPlayoffName(matchup.roster_id, matchups.bye, leagueTeamManagers.currentYear)}</a>
+                        {:else}
+                            {getPlayoffName(matchup.roster_id, matchups.bye, leagueTeamManagers.currentYear)}
+                        {/if}
+                    </div>
                 </div>
             {/each}
         </div>
