@@ -2,6 +2,10 @@
     import Paper, { Title, Content } from '@smui/paper';
 
     export let article;
+
+    // Ours: links inside a third-party article body open in a new tab, like the title link.
+    // A target already on the tag comes second, and the browser keeps the first.
+    const offsite = (html) => typeof html == 'string' ? html.replace(/<a\s/gi, '<a target="_blank" rel="noopener noreferrer" ') : html;
 </script>
 
 <style>
@@ -126,7 +130,7 @@
     </Title>
     <Content>
         <div class="body">
-            <div class="body-text">{@html article.article}</div>
+            <div class="body-text">{@html offsite(article.article)}</div>
         </div>
         <hr />
         {#if article.author}
