@@ -380,7 +380,7 @@ These can go in alongside anything else.
     that comment's own "?" note is stale too;
   - the Conventions section says the blog is off;
   - BBrown16's team name is out of date;
-  - `narratives.json` has 302 facts, not 278;
+  - `narratives.json` has 294 facts, not 278 (after the lore fix);
   - add the new override stylesheet and `Matchup.svelte` to the notes on files that differ from
     upstream.
 - **End-of-season checklist.** Add to `CLAUDE.md`:

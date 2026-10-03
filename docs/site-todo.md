@@ -128,7 +128,7 @@ This list is everything else.
 - [ ] **[Garrett] Blog post types:** previews publish as type "Recap", so the blog's category
   filter mixes them in. Pass `--type Preview` in the `mudd-preview` skill and retag the three
   existing previews in Contentful.
-- [ ] **League lore:** most of the 302 facts in `narratives.json` never appear on the site
+- [ ] **League lore:** most of the 294 facts in `narratives.json` never appear on the site
   (streaks, bench disasters, best and worst keepers, draft steals, FAAB splurges, luck). Some
   can go on the Seasons pages; consider a hand-picked lore card on Trophy Room as well.
   Don't fetch the full 97 KB file at runtime.
@@ -150,7 +150,7 @@ This list is everything else.
   - rival is no longer "The Field" for everyone;
   - the Conventions section still says the blog is off;
   - BBrown16's team name is out of date;
-  - `narratives.json` has 302 facts, not 278;
+  - `narratives.json` has 294 facts, not 278 (after the lore fix);
   - the 14-round and 6-bench mentions, once the roster change is confirmed.
 
 ## Phone and desktop

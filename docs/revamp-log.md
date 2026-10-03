@@ -16,7 +16,7 @@ The plans being carried out:
 | 2 | **C1–C3.** Records, Matchups, Standings readable on phones; creates `src/theme/_site.scss` | The worst phone problems, on the most-used pages | done |
 | 3 | **History step 0 + 1.** The game table, then schedule luck on Standings | Foundation for four pages; most useful mid-season | step 0 done (merged); step 1 merged into step 4 |
 | 4 | **B1–B3 + schedule luck.** `PageHeader` on every page, text fixes, the page jumping as it loads, then the all-play table on Standings | Both edit the Standings route; History pages reuse `PageHeader` | done |
-| 5 | **D.** Links between pages, plus **History step 2**, the head-to-head grid | Both work on Rivalry and manager links | done; lore-script fix running in parallel (Opus, worktree) |
+| 5 | **D.** Links between pages, plus **History step 2**, the head-to-head grid | Both work on Rivalry and manager links | done; lore-script fix done (merged) |
 | 6 | **C4–C5 + B4–B5.** Drafts, remaining small text and tap targets, blog typography, desktop layouts | Polish on less-used pages | running (Sonnet) |
 | 7 | **E. Content:** bio typos and league lines (7a, running in parallel in a worktree, Opus); home page copy, Resources, countdown (7b) | Writing, once the page frames are settled | 7a done (merged); 7b pending |
 | 8 | **History step 3.** Seasons archive | Biggest new page | pending |
@@ -144,7 +144,8 @@ Commits `78437cd`..`48e85ee`.
   the data, and none can go stale mid-season.
 
 **Found:** the lore file and the voice doc carry wrong figures.
-- Kabroa's "72.1 points left on the bench" was really 54.0.
+- Kabroa's "72.1 points left on the bench" (2025 week 15) was really 54.00. The real record
+  is Kabroa's 69.78, in a 2022 week 17 consolation game.
 - MVP and keeper "returned" figures count points scored on the bench.
 
 A lore-script fix now runs in parallel with step 5.
@@ -189,3 +190,28 @@ Commits `8b2e678`..`0c6b971`.
   layout changes.
 - **Step 10:** add `Standing.svelte`, `Bar.svelte` and `Transactions.svelte` to the
   diverged-files list.
+
+### Lore pipeline fix (done, Opus, in parallel; interrupted and resumed; merged)
+
+- **`derive-narratives.py`** now imports `derive-site-data.py`, so both share completed weeks,
+  official scores, the optimal lineup and `STAT_CORRECTIONS`.
+- **Player value counts starter points only.** That changes:
+  - TnT44's career MVP: Josh Jacobs 476.5, not Purdy 493.3;
+  - Daniels: 325.9, not 396.6;
+  - Purdy's 2023 keeper season: 190.66, not 353.6.
+- **Bench maths:** a table of the positions Sleeper allowed (Taysom Hill, Travis Hunter) makes
+  all 50 manager-seasons match Sleeper's `potential_points` to the cent.
+- **The commissioner override** is applied everywhere.
+- **Self-checks** exit before writing anything if a check fails.
+- **294 facts**, down from 301; the 2026 comparisons are gone.
+- **Voice doc:** the bench record line is fixed. kshoyer "shares" the best career record with
+  Tucker (both 40-23 in the regular season).
+- **Re-running the scripts after the merge** changes only timestamps.
+
+**Changes to the remaining plan:**
+- **Step 10:** `CLAUDE.md` says "278 facts"; it should be 294.
+- **Optional:** adding the same eligibility table to `derive-site-data.py` would let
+  `games.json` include `max_pf`. That unlocks max-points and bench measures in Stat Lab. Hand it
+  to step 9 as optional.
+- **For blog writers:** bench facts can't tell IR players apart, so check before mocking
+  anyone.
