@@ -1,10 +1,12 @@
 <script>
-	import { getAvatarFromTeamManagers, getTeamNameFromTeamManagers, gotoManager, round } from "./utils/helperFunctions/universalFunctions";
+	import { getAvatarFromTeamManagers, getTeamNameFromTeamManagers, round } from "./utils/helperFunctions/universalFunctions";
+    import { managerHref } from "./utils/managerLink";
 
 
     let {leagueTeamManagers, stat, label, xMin, xMax, secondStat, managerID, rosterID, color, year} = $props();
 
     let user = $derived(managerID ? leagueTeamManagers.users[managerID] : null);
+    let href = $derived(managerHref({year, leagueTeamManagers, managerID, rosterID}));
 </script>
 
 <style>
@@ -92,6 +94,25 @@
         cursor: pointer;
     }
 
+    /* The name is a link that looks like the plain text it replaced; the avatar's link is a
+       second way in for a mouse, skipped by the keyboard so each bar has one stop. */
+    a.managerName {
+        color: inherit;
+        text-decoration: none;
+        /* extra hit area above and below the text; the margin keeps the text where it was */
+        padding: 10px 0;
+        margin: -10px 0;
+    }
+
+    a.managerName:hover {
+        text-decoration: underline;
+    }
+
+    a.managerName:focus-visible {
+        outline: 2px solid var(--blueOne);
+        outline-offset: 2px;
+    }
+
     @media (max-width: 600px) {
         .barParent {
             /* margin-bottom: -10px; */
@@ -127,14 +148,14 @@
 </style>
 
 <div class="barParent">
-    <img alt="team avatar" onclick={() => gotoManager({year, leagueTeamManagers, managerID, rosterID})} style="border-color: var({color});" class="teamAvatar clickable" src="{user ? `https://sleepercdn.com/avatars/thumbs/${user.avatar}` : getAvatarFromTeamManagers(leagueTeamManagers, rosterID, year)}" />
-    <span class="managerName clickable" onclick={() => gotoManager({year, leagueTeamManagers, managerID, rosterID})}>
+    <a {href} tabindex="-1" aria-hidden="true"><img alt="team avatar" style="border-color: var({color});" class="teamAvatar clickable" src="{user ? `https://sleepercdn.com/avatars/thumbs/${user.avatar}` : getAvatarFromTeamManagers(leagueTeamManagers, rosterID, year)}" /></a>
+    <a {href} class="managerName clickable">
         {#if user}
             {user.display_name}
         {:else if rosterID}
             {getTeamNameFromTeamManagers(leagueTeamManagers, rosterID, year)}
         {/if}
-    </span>
+    </a>
     <div class="vCenter">
         <div class="statBars">
             <div class="leftSpacer" />

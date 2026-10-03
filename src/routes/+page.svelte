@@ -4,6 +4,7 @@
 	import { Transactions, PowerRankings, HomePost} from '$lib/components';
 	import { Countdown } from '$lib/Design';
 	import { getAvatarFromTeamManagers, getTeamFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
+    import { managerHref } from '$lib/utils/managerLink';
 
     const nflState = getNflState();
     const podiumsData = getAwards();
@@ -120,6 +121,27 @@
         border-left: 1px solid var(--ddd);
     }
 
+    /* One link around the champion's photo and team name, so it is a single stop for the keyboard. */
+    .champLink {
+        display: block;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .champLink:focus-visible, .bannerLink:focus-visible {
+        outline: 2px solid var(--blueTwo);
+        outline-offset: -4px;
+    }
+
+    /* The banner's own padding moves onto the link, so the whole bar is the hit area. */
+    .bannerLink {
+        display: block;
+        color: inherit;
+        text-decoration: none;
+        padding: 0.5em 0;
+        margin: -0.5em 0;
+    }
+
     #champ {
         position: relative;
         width: 150px;
@@ -198,6 +220,7 @@
                 <div class="center">Retrieving NFL state...</div>
                 <LinearProgress indeterminate />
             {:then nflStateData}
+                <a class="bannerLink" href="/matchups">
                 <div class="center">NFL {nflStateData.season} 
                     {#if nflStateData.season_type == 'pre'}
                         Preseason
@@ -207,6 +230,7 @@
                         Season - {nflStateData.week > 0 ? `Week ${nflStateData.week}` : "Preseason"}
                     {/if}
                 </div>
+                </a>
             {:catch error}
                 <div class="center">Something went wrong: {error.message}</div>
             {/await}
@@ -233,11 +257,13 @@
             {:then [podiums, leagueTeamManagers]}
                 {#if podiums[0]}
                     <h4>{podiums[0].year} Fantasy Champ</h4>
-                    <div id="champ" onclick={() => {if(managers.length) gotoManager({year: podiums[0].year, leagueTeamManagers, rosterID: parseInt(podiums[0].champion)})}} >
-                        <img src="{getAvatarFromTeamManagers(leagueTeamManagers, podiums[0].champion, podiums[0].year)}" class="first" alt="champion" />
-                        <img src="/brand/laurel.svg" class="laurel" alt="laurel" />
-                    </div>
-                    <span class="label" onclick={() => gotoManager({year: podiums[0].year, leagueTeamManagers, rosterID: parseInt(podiums[0].champion)})} >{getTeamFromTeamManagers(leagueTeamManagers, podiums[0].champion, podiums[0].year).name}</span>
+                    <a class="champLink" href={managerHref({year: podiums[0].year, leagueTeamManagers, rosterID: parseInt(podiums[0].champion)})}>
+                        <div id="champ">
+                            <img src="{getAvatarFromTeamManagers(leagueTeamManagers, podiums[0].champion, podiums[0].year)}" class="first" alt="champion" />
+                            <img src="/brand/laurel.svg" class="laurel" alt="laurel" />
+                        </div>
+                        <span class="label">{getTeamFromTeamManagers(leagueTeamManagers, podiums[0].champion, podiums[0].year).name}</span>
+                    </a>
                 {:else}
                     <p class="center">No former champs.</p>
                 {/if}

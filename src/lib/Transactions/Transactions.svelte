@@ -47,6 +47,9 @@
 	}
 
 	.link {
+		display: block;
+		text-align: center;
+		text-decoration: none;
 		cursor: pointer;
 		color: #888;
 		padding: 10px 20px;
@@ -74,7 +77,7 @@
 				<WaiverTransaction {players} {transaction} {leagueTeamManagers} />
 			{/each}
 
-			<p onclick={() => goto("/transactions?show=waiver&query=&page=1")} class="link">( view more )</p>
+			<a href="/transactions?show=waiver&query=&page=1" class="link">( view more )</a>
 		{:else}
 			<p class="nothingYet">No waiver moves have been made yet...</p>
 		{/if}
@@ -90,7 +93,7 @@
 				<TradeTransaction {players} {transaction} {leagueTeamManagers} />
 			{/each}
 
-			<p onclick={() => goto("/transactions?show=trade&query=&page=1")} class="link">( view more )</p>
+			<a href="/transactions?show=trade&query=&page=1" class="link">( view more )</a>
 		{:else}
 			<p class="nothingYet">No trades have been made yet...</p>
 		{/if}
