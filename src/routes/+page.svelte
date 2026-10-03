@@ -65,6 +65,25 @@
         margin: 10px auto;
     }
 
+    /*
+    Phones: one column, in reading order. Stacked as two boxes, the right rail fell below
+    everything in the left column, so the champion sat ~2,400px down, under the intro, the
+    latest blog post and the power rankings. Dissolving both columns (display: contents) makes
+    every block a flex item of #home, and `order` interleaves them: intro, week banner, draft
+    countdown, power rankings, champion, blog post, transactions. Desktop is untouched.
+    */
+    @media (max-width: 950px) {
+        #home { flex-direction: column; }
+        #main, .leagueData { display: contents; }
+        .text { order: 1; padding-top: 40px; padding-bottom: 20px; }
+        .homeBanner { order: 2; }
+        .nextEvent { order: 3; }
+        .rankings { order: 4; padding-bottom: 20px; }
+        #currentChamp { order: 5; }
+        .text.homePost { order: 6; padding-top: 0; }
+        .transactions { order: 7; }
+    }
+
     .center {
         text-align: center;
     }
@@ -206,12 +225,17 @@
             </div>
             <!-- homepageText contains the intro text for your league, this gets edited in /src/lib/utils/leagueInfo.js -->
             {@html homepageText }
-            <!-- Most recent Blog Post (if enabled) -->
-            {#if enableBlog}
-                <HomePost />
-            {/if}
         </div>
-        <PowerRankings />
+        <!-- Most recent Blog Post (if enabled). Its own .text block, not inside the one above, so
+             phones can move it below the rankings and the champion (see the order rules). -->
+        {#if enableBlog}
+            <div class="text homePost">
+                <HomePost />
+            </div>
+        {/if}
+        <div class="rankings">
+            <PowerRankings />
+        </div>
     </div>
     
     <div class="leagueData">

@@ -159,3 +159,80 @@ main > .footerSpacer {
     --stickyBar: 61px;
   }
 }
+
+/* ---- The home page's "Find your way" row ---------------------------------------------------------
+   This markup lives in `homepageText` (leagueInfo.js), which +page.svelte injects with {@html}.
+   Svelte's scoper never sees {@html} content, so a scoped rule in +page.svelte could not reach it;
+   it is styled here instead, and +page.svelte stays as upstream shaped it. Each link is a 44px
+   pill, and the row wraps rather than scrolls on a phone. */
+.homeLede {
+  font-family: var(--fontDisplay);
+  font-size: 1.25em;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--navy700);
+  text-align: center;
+}
+
+.homeLinks {
+  margin: 1.5em 0;
+  text-align: center;
+}
+
+.homeLinksLabel {
+  display: block;
+  font-family: var(--fontDisplay);
+  font-size: 0.8em;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--g555);
+  margin-bottom: 0.6em;
+}
+
+.homeLinks ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.homeLinks a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  border: 1px solid var(--accentBorder);
+  border-radius: var(--radiusPill);
+  background-color: var(--fff);
+  color: var(--accentInk);
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+@media (hover: hover) {
+  .homeLinks a:hover {
+    background-color: var(--navy050);
+    border-color: var(--accentInk);
+  }
+}
+
+.homeLinks a:focus-visible {
+  outline: 2px solid var(--accentInk);
+  outline-offset: 2px;
+}
+
+.homeRules {
+  color: var(--g555);
+  text-align: center;
+}
+
+/* The global link colour is --navy400, which fails AA at body size; these two are body text. */
+.homeRules a {
+  color: var(--accentInk);
+}
