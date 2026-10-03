@@ -2,6 +2,7 @@
 	import LinearProgress from '@smui/linear-progress';
 	import { Rosters } from '$lib/components'
 	import { PageHeader } from '$lib/Design';
+	import TeamChips from '$lib/Rosters/TeamChips.svelte';
 
 	export let data;
 	const rostersInfo = data.rostersInfo;
@@ -31,6 +32,7 @@
 		</div>
 	{:then [leagueData, rosterData, leagueTeamManagers, playersInfo]}
 		<!-- promise was fulfilled -->
+		<TeamChips rosters={rosterData.rosters} {leagueTeamManagers} />
 		<Rosters {leagueData} {rosterData} {leagueTeamManagers} {playersInfo} /> <!-- displays rosters -->
 	{:catch error}
 		<!-- promise was rejected -->

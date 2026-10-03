@@ -148,6 +148,8 @@
 
 	.team {
 		margin: 4px 10px 10px;
+		/* a jump from the team chips lands below the sticky phone bar */
+		scroll-margin-top: calc(var(--stickyBar, 0px) + 8px);
 	}
 
 	:global(.clickable) {
@@ -258,7 +260,7 @@
 	}
 </style>
 
-<div class="team">
+<div class="team" id="team-{roster.roster_id}">
 	<DataTable class="teamInner" table$aria-label="Team Name" style="width: {innerWidth * 0.95 > 380 ? 380 : innerWidth * 0.95}px;" >
 		<Head> <!-- Team name  -->
 			<Row>
