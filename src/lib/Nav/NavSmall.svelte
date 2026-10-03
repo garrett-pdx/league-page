@@ -14,7 +14,8 @@
 	// Derived, not captured once: client-side navigation never remounts the nav, so a value
 	// read at mount kept highlighting the page you landed on. currentDest (tabs.js) also
 	// lights Managers on /manager and Blog on a post.
-	let active = $derived(currentDest(page.url.pathname));
+	// An error page (a 404 under /seasons, say) lights nothing, though its path looks like a tab's.
+	let active = $derived(page.error ? undefined : currentDest(page.url.pathname));
 
 	const isExternal = (dest) => /^https?:\/\//.test(dest);
 

@@ -19,7 +19,8 @@
 	// page's tab lit. `noTab` is a hidden placeholder for those pages to activate instead.
 	const noTab = { key: 'none', label: '', hidden: true };
 	const barTabs = [...tabs, noTab];
-	const tabFor = (pathname) => findTab(pathname)[0] || noTab;
+	// An error page (a 404 under /seasons, say) lights nothing, though its path looks like a tab's.
+	const tabFor = (pathname) => (page.error ? undefined : findTab(pathname)[0]) || noTab;
 
 	let active = $state(tabFor(page.url.pathname));
 	const syncActive = () => {
@@ -28,7 +29,7 @@
 	$effect(syncActive);
 
 	// The current dropdown entry, for its `activated` state.
-	let activeDest = $derived(currentDest(page.url.pathname));
+	let activeDest = $derived(page.error ? undefined : currentDest(page.url.pathname));
 
 	const isExternal = (dest) => /^https?:\/\//.test(dest);
 
