@@ -450,9 +450,26 @@
     :global(.mdc-data-table__cell, .mdc-data-table__header-cell) {
         border-bottom-color: var(--borderOverride);
     }
+
+    /* Ours: a record's year links to that season's archive page. 44px tall so it is a real
+       tap target inside a 52px table row. */
+    .seasonLink {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        color: var(--accentInk);
+    }
+
+    .seasonPage {
+        text-align: center;
+        margin: -0.5em 0 0.5em;
+    }
 </style>
 
 <h4>{prefix} Records</h4>
+{#if !allTime}
+    <p class="seasonPage"><a class="seasonLink" href="/seasons/{prefix}">The {prefix} season page</a></p>
+{/if}
 
 <div class="fullFlex">
     {#if weekRecords && weekRecords.length}
@@ -475,7 +492,7 @@
                         <Cell class="cellName" onclick={() => gotoManager({year: leagueWeekRecord.year || prefix, leagueTeamManagers, rosterID: leagueWeekRecord.rosterID})}>
                             <RecordTeam {leagueTeamManagers} rosterID={leagueWeekRecord.rosterID} year={allTime ? leagueWeekRecord.year : prefix} />
                         </Cell>
-                        <Cell>{allTime ? leagueWeekRecord.year + " " : "" }{key == "regularSeasonData" ? "Week " : ""}{leagueWeekRecord.week}</Cell>
+                        <Cell>{#if allTime}<a class="seasonLink" href="/seasons/{leagueWeekRecord.year}">{leagueWeekRecord.year}</a> {/if}{key == "regularSeasonData" ? "Week " : ""}{leagueWeekRecord.week}</Cell>
                         <Cell>{round(leagueWeekRecord.fpts)}</Cell>
                     </Row>
                 {/each}
@@ -503,7 +520,7 @@
                         <Cell class="cellName" onclick={() => gotoManager({year: leagueWeekLow.year || prefix, leagueTeamManagers, rosterID: leagueWeekLow.rosterID})}>
                             <RecordTeam {leagueTeamManagers} rosterID={leagueWeekLow.rosterID} year={allTime ? leagueWeekLow.year : prefix} />
                         </Cell>
-                        <Cell>{allTime ? leagueWeekLow.year + " " : "" }{key == "regularSeasonData" ? "Week " : ""}{leagueWeekLow.week}</Cell>
+                        <Cell>{#if allTime}<a class="seasonLink" href="/seasons/{leagueWeekLow.year}">{leagueWeekLow.year}</a> {/if}{key == "regularSeasonData" ? "Week " : ""}{leagueWeekLow.week}</Cell>
                         <Cell>{round(leagueWeekLow.fpts)}</Cell>
                     </Row>
                 {/each}
@@ -532,7 +549,7 @@
                         <Cell class="cellName" onclick={() => gotoManager({year: mostSeasonLongPoint.year, leagueTeamManagers, rosterID: mostSeasonLongPoint.rosterID})}>
                             <RecordTeam {leagueTeamManagers} rosterID={mostSeasonLongPoint.rosterID} year={mostSeasonLongPoint.year} />
                         </Cell>
-                        <Cell>{mostSeasonLongPoint.year}</Cell>
+                        <Cell><a class="seasonLink" href="/seasons/{mostSeasonLongPoint.year}">{mostSeasonLongPoint.year}</a></Cell>
                         <Cell>{round(mostSeasonLongPoint.fpts)}</Cell>
                         <Cell>{mostSeasonLongPoint.fptsPerGame}</Cell>
                     </Row>
@@ -562,7 +579,7 @@
                         <Cell class="cellName" onclick={() => gotoManager({year: leastSeasonLongPoint.year, leagueTeamManagers, rosterID: leastSeasonLongPoint.rosterID})}>
                             <RecordTeam {leagueTeamManagers} rosterID={leastSeasonLongPoint.rosterID} year={leastSeasonLongPoint.year} />
                         </Cell>
-                        <Cell>{leastSeasonLongPoint.year}</Cell>
+                        <Cell><a class="seasonLink" href="/seasons/{leastSeasonLongPoint.year}">{leastSeasonLongPoint.year}</a></Cell>
                         <Cell>{round(leastSeasonLongPoint.fpts)}</Cell>
                         <Cell>{leastSeasonLongPoint.fptsPerGame}</Cell>
                     </Row>
@@ -601,7 +618,7 @@
                                 </div>
                             </div>
                         </Cell>
-                        <Cell>{allTime ? blowout.year + " " : "" }{key == "regularSeasonData" ? "Week " : ""}{blowout.week}</Cell>
+                        <Cell>{#if allTime}<a class="seasonLink" href="/seasons/{blowout.year}">{blowout.year}</a> {/if}{key == "regularSeasonData" ? "Week " : ""}{blowout.week}</Cell>
                         <Cell>{round(blowout.differential)}</Cell>
                     </Row>
                 {/each}
@@ -639,7 +656,7 @@
                                 </div>
                             </div>
                         </Cell>
-                        <Cell>{allTime ? closestMatchup.year + " " : "" }{key == "regularSeasonData" ? "Week " : ""}{closestMatchup.week}</Cell>
+                        <Cell>{#if allTime}<a class="seasonLink" href="/seasons/{closestMatchup.year}">{closestMatchup.year}</a> {/if}{key == "regularSeasonData" ? "Week " : ""}{closestMatchup.week}</Cell>
                         <Cell>{round(closestMatchup.differential)}</Cell>
                     </Row>
                 {/each}
