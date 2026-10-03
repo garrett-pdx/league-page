@@ -340,3 +340,36 @@ Commits `47b8c47`..`9d46ad2`.
 
 Garrett approved the home copy and asked for a direct push to `master` once the go-live checks
 pass.
+
+## Round 2 (branch `stat-lab-2`, 2026-10-03; not yet pushed)
+
+### Stat Lab: minimum-games filter and distribution chart (Sonnet)
+
+Commits `8be36cd`, `48ae88d`.
+
+- **Minimum games:**
+  - The default is worked out from the view: a third of the most games any row has, capped at
+    5 for Seasons and 10 for Careers. Opponent-filtered views use 2/5, capped at 4.
+  - It shows how many rows are hidden, and can show them in one tap. It's stored as `min` in the
+    address only when it differs from the default.
+  - Presets no longer let small samples win:
+    - Tucker's 2025 now leads luck;
+    - Garrett leads "Who owns whom".
+- **Distribution chart (`chart=dist`):**
+  - one 44px strip per manager, sorted by median;
+  - a fixed beeswarm, so dots never reshuffle;
+  - a median tick, and the middle-half band where a manager has 8 or more values;
+  - "Boom or bust" now uses it.
+  - Checked: Kevin's median, 110.08, matches Node.
+
+### Trophy Room: "From the archives" card (Opus)
+
+Commits `2d497c8`, `ce92d36`.
+
+- **Eight facts:** origins, closest finish, bench record, the 2025 title run, the Hurts keeper,
+  the Etienne pick, the biggest blowout, the biggest FAAB bid.
+- **All recomputed** from `static/data`, and all fixed through 2025.
+- **Stored** in `src/lib/History/archiveFacts.js`.
+- **Upkeep:** step 5 of the `CLAUDE.md` end-of-season checklist refreshes them.
+
+The build passes. Paused for Garrett's review before pushing.
