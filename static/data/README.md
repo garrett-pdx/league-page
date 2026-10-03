@@ -72,6 +72,15 @@ position and `weeks.json` doesn't record IR. The script still computes and repor
 on every run, and will emit the column if it ever passes. Records' Lineup IQ keeps using
 Sleeper's own `potential_points`.
 
+`derive-narratives` goes one step further for the blog: its `ELIGIBILITY` table gives Taysom
+Hill QB/TE from 2023 (TE in 2022) and Travis Hunter WR in 2025, and with those all 50
+manager-seasons reproduce `potential_points` **to the cent** (2023 TnT44, +0.60% here, is Hill
+too). Sleeper's figure is a slot-order greedy: in a week Hill outscored TnT44's quarterback it
+put him at QB and benched the quarterback, so twice (2023 week 9, 2024 week 11) Sleeper's
+"potential" is below the best legal lineup, and once below what TnT44 actually scored. The
+lore's bench facts use the true best lineup and are only stated for manager-seasons that pass
+that check.
+
 ## `season-notes.json`
 
 `seasons.<year>`:
@@ -129,8 +138,10 @@ custom_points      ONLY where a commissioner overrode the score; then it is the 
 `custom_points` appears exactly twice so far: 2024 week 8, tuckersdumbteam 137.74 (computed
 150.34) v BBrown16 122.54 (computed 148.74). Sleeper's records and season points use the
 override, `points` does not, so anything that totals points must prefer `custom_points` when
-it is present (`derive-site-data` does; `derive-narratives` and `week-facts` still read
-`points`). The result is the same either way.
+it is present. `derive-site-data`, `derive-narratives` and `week-facts` all do, for results,
+margins, highs and lows and records; player-level scoring, and bench and optimal-lineup maths,
+stay on the computed `points`. The result is the same either way; the margin and both totals
+are not.
 
 This is the only reliable record of who was on a roster at a given moment — it is a real
 snapshot, not something reconstructed from transactions. Pair two teams by `matchup_id` to

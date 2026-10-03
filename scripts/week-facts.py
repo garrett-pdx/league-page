@@ -23,6 +23,7 @@ Usage:
 """
 
 import argparse
+import importlib.util
 import json
 import os
 import sys
@@ -35,6 +36,8 @@ LEAGUE_ID = "1312235880743706624"
 API = "https://api.sleeper.app/v1"
 
 FLEX_OK = {"RB", "WR", "TE"}
+# One fullback exists in the player set; treat him as a running back, as derive-site-data does.
+POS_ALIAS = {"FB": "RB"}
 
 
 def get(url):
@@ -75,11 +78,43 @@ def uid_for(name):
 
 def position(pid, extra=None):
     p = PLAYERS.get(str(pid), {}).get("p")
-    if p:
-        return p
-    if extra:
-        return extra.get(str(pid), {}).get("position")
-    return None
+    if not p and extra:
+        p = extra.get(str(pid), {}).get("position")
+    return POS_ALIAS.get(p, p) if p else None
+
+
+def official_score(row):
+    """
+    The score that counted. A commissioner override (`custom_points`) beats the computed
+    `points`; Sleeper's records use it. Results, ranks, margins and all-play use this; benched
+    and efficiency compare the COMPUTED score with the optimal lineup, since both are sums of
+    recorded player points. One override so far: 2024 week 8, tuckersdumbteam v BBrown16.
+    """
+    if row.get("custom_points") is not None:
+        return row["custom_points"]
+    return row.get("points") or 0.0
+
+
+_LORE = None
+
+
+def lore():
+    """
+    derive-narratives.py, imported for the history paths so --history, --h2h and the lore file
+    share one definition of a completed fixture, an official score and an optimal lineup (which
+    it in turn shares with derive-site-data.py). Its optimal-lineup check runs here: bench
+    figures are only reported for manager-seasons that reproduce Sleeper's potential_points.
+    """
+    global _LORE
+    if _LORE is None:
+        path = os.path.join(ROOT, "scripts", "derive-narratives.py")
+        spec = importlib.util.spec_from_file_location("derive_narratives", path)
+        _LORE = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(_LORE)
+        _LORE.check_optimal()
+        if _LORE.FAILURES:
+            raise SystemExit("derive-narratives self-check failed:\n  " + "\n  ".join(_LORE.FAILURES[:20]))
+    return _LORE
 
 
 def player_name(pid, extra=None):
@@ -193,7 +228,8 @@ def week_facts(season, week, fixture=None):
         on_ir = reserve_by_roster.get(e["roster_id"], set()) - set(starter_ids)
         chosen, bench = best_lineup(pp, slots, extra, ineligible=on_ir)
         optimal = sum(p for _, p, _, _ in chosen)
-        scored = e.get("points") or 0.0
+        scored = e.get("points") or 0.0          # computed: what benched/efficiency compare
+        official = official_score(e)             # what counted: results, ranks, all-play
         # The optimal lineup is the best lineup available, so it can never be worse than the
         # one actually played. If this trips, the eligibility filter has excluded somebody who
         # was genuinely startable and every benched/efficiency figure downstream is wrong.
@@ -230,7 +266,10 @@ def week_facts(season, week, fixture=None):
             "user_id": uid,
             "roster_id": e["roster_id"],
             "matchup_id": e.get("matchup_id"),
-            "scored": round(scored, 2),
+            "scored": round(official, 2),
+            # Only differs from `scored` when a commissioner overrode the score.
+            "computed": round(scored, 2),
+            "override": e.get("custom_points") is not None,
             "optimal": round(optimal, 2),
             "benched": round(optimal - scored, 2),
             "efficiency": round(scored / optimal * 100, 1) if optimal else None,
@@ -335,32 +374,29 @@ def season_played(season):
 
 
 def all_results():
-    """Every completed fixture, 2022 onward, as (season, week, uid, points, opp_points)."""
+    """
+    Every completed fixture, 2022 onward, one row per team. `points` is the official score;
+    `optimal` and `benched` use the computed score and the shared optimal lineup, and are None
+    for a manager-season whose optimal lineup does not reproduce Sleeper's potential_points.
+    `kind` is regular / playoff / placement / consolation, from the brackets.
+    """
+    L = lore()
     out = []
-    for season in sorted(WEEKS):
-        if not season_played(season):
-            continue
-        slots = starter_slots(season)
-        for wk, rows in WEEKS[season].items():
-            groups = defaultdict(list)
-            for uid, row in rows.items():
-                if row.get("matchup_id"):
-                    groups[row["matchup_id"]].append((uid, row))
-            for mid, pair in groups.items():
-                if len(pair) != 2:
-                    continue
-                (ua, ra), (ub, rb) = pair
-                pa, pb = ra.get("points") or 0, rb.get("points") or 0
-                if pa == 0 and pb == 0:
-                    continue
-                for (u, r, mine, theirs) in ((ua, ra, pa, pb), (ub, rb, pb, pa)):
-                    chosen, _ = best_lineup(r.get("players_points"), slots)
-                    opt = sum(p for _, p, _, _ in chosen)
+    for season in L.played_seasons():
+        for wk in L.league_weeks(season):
+            for ua, ra, ub, rb in L.matchups(season, wk):
+                for (u, r, o) in ((ua, ra, rb), (ub, rb, ra)):
+                    mine, theirs = L.official(r), L.official(o)
+                    verified = (season, u) in L.VERIFIED_OPTIMAL
+                    opt = L.optimal_points(season, r) if verified else None
                     out.append({
                         "season": season, "week": int(wk), "uid": u, "manager": handle(u),
                         "points": round(mine, 2), "opponent_points": round(theirs, 2),
-                        "won": mine > theirs, "optimal": round(opt, 2),
-                        "benched": round(opt - mine, 2),
+                        "won": mine > theirs, "tied": mine == theirs,
+                        "kind": L.game_kind(season, wk, u),
+                        "override": L.overridden(r, o),
+                        "optimal": round(opt, 2) if verified else None,
+                        "benched": round(opt - L.computed(r), 2) if verified else None,
                     })
     return out
 
@@ -370,23 +406,36 @@ def history_report():
     def top(rows, key, n=5, reverse=True):
         return sorted(rows, key=lambda r: r[key], reverse=reverse)[:n]
 
-    print("Seasons with completed games:", ", ".join(s for s in sorted(WEEKS) if season_played(s)))
+    def tag(r):
+        bits = [] if r["kind"] == "regular" else [r["kind"]]
+        if r["override"]:
+            bits.append("commissioner override")
+        return f" [{', '.join(bits)}]" if bits else ""
+
+    print("Seasons with completed games:", ", ".join(lore().played_seasons()))
+    print("Official scores (a commissioner override wins); every completed fixture, playoff and "
+          "consolation games included and tagged.")
     print("\nHIGHEST SCORES")
     for r in top(res, "points"):
-        print(f"  {r['points']:7.2f}  {r['manager']:11s} {r['season']} wk{r['week']}")
+        print(f"  {r['points']:7.2f}  {r['manager']:11s} {r['season']} wk{r['week']}{tag(r)}")
     print("\nHIGHEST LOSING SCORES")
-    for r in top([r for r in res if not r["won"]], "points"):
-        print(f"  {r['points']:7.2f}  {r['manager']:11s} {r['season']} wk{r['week']} (lost to {r['opponent_points']})")
+    for r in top([r for r in res if not r["won"] and not r["tied"]], "points"):
+        print(f"  {r['points']:7.2f}  {r['manager']:11s} {r['season']} wk{r['week']} (lost to {r['opponent_points']}){tag(r)}")
     print("\nLOWEST SCORES")
     for r in top(res, "points", reverse=False):
-        print(f"  {r['points']:7.2f}  {r['manager']:11s} {r['season']} wk{r['week']}")
-    print("\nMOST POINTS LEFT ON THE BENCH")
-    for r in top(res, "benched"):
-        print(f"  {r['benched']:7.2f}  {r['manager']:11s} {r['season']} wk{r['week']} (scored {r['points']}, optimal {r['optimal']})")
+        print(f"  {r['points']:7.2f}  {r['manager']:11s} {r['season']} wk{r['week']}{tag(r)}")
+    print("\nMOST POINTS LEFT ON THE BENCH (best legal lineup minus the computed score)")
+    for r in top([r for r in res if r["benched"] is not None], "benched"):
+        print(f"  {r['benched']:7.2f}  {r['manager']:11s} {r['season']} wk{r['week']} "
+              f"(optimal {r['optimal']}){tag(r)}")
+    skipped = sorted({(r["season"], r["manager"]) for r in res if r["benched"] is None})
+    if skipped:
+        print("  not stated -- optimal lineup unverified against Sleeper: "
+              + ", ".join(f"{s} {m}" for s, m in skipped))
     print("\nCLOSEST FINISHES")
     margins = sorted(({"m": round(r["points"] - r["opponent_points"], 2), **r} for r in res if r["won"]), key=lambda x: x["m"])[:5]
     for r in margins:
-        print(f"  {r['m']:7.2f}  {r['manager']:11s} {r['season']} wk{r['week']} ({r['points']} to {r['opponent_points']})")
+        print(f"  {r['m']:7.2f}  {r['manager']:11s} {r['season']} wk{r['week']} ({r['points']} to {r['opponent_points']}){tag(r)}")
 
 
 def head_to_head(a, b):
@@ -394,18 +443,17 @@ def head_to_head(a, b):
     wa = wb = 0
     pa = pb = 0.0
     games = []
-    for season in sorted(WEEKS):
-        if not season_played(season):
-            continue
-        for wk, rows in WEEKS[season].items():
+    L = lore()
+    for season in L.played_seasons():
+        for wk in L.league_weeks(season):
+            rows = WEEKS[season][wk]
             ra, rb = rows.get(ua), rows.get(ub)
             if not ra or not rb:
                 continue
             if not ra.get("matchup_id") or ra.get("matchup_id") != rb.get("matchup_id"):
                 continue
-            x, y = ra.get("points") or 0, rb.get("points") or 0
-            if x == 0 and y == 0:
-                continue
+            # Official scores: 2024 week 8 tuckersdumbteam v BBrown16 was overridden.
+            x, y = L.official(ra), L.official(rb)
             pa += x
             pb += y
             games.append((season, int(wk), round(x, 2), round(y, 2)))

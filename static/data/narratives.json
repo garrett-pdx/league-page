@@ -1,6 +1,13 @@
 {
- "generated": "2026-10-02T13:45:45",
+ "generated": "2026-10-03T00:20:14",
  "note": "Derived from weeks.json by scripts/derive-narratives.py. Authoring aid, not fetched at runtime. Regenerate after a season with: python3 scripts/derive-narratives.py",
+ "definitions": [
+  "Game scores are official: a commissioner override (custom_points) beats the computed score. The one so far is 2024 week 8, tuckersdumbteam 137.74 v BBrown16 122.54 (computed 150.34 to 148.74); facts quoting it say so.",
+  "A player's points for a manager (MVPs, keepers, draft steals and busts, FAAB) are points scored in that manager's starting lineup, in real fixtures, playoff and consolation games included. Bench points and points scored for anyone else never count.",
+  "Week 18 and the weeks-16-17 byes of teams outside both brackets are not fixtures and count for nothing. Weekly facts from weeks 16-17 name the kind of game.",
+  "Points left on the bench = the best legal lineup from the whole roster minus the computed score. Every manager-season is checked against Sleeper's potential_points before its bench facts are stated.",
+  "A season in progress is labelled \"so far\" and kept out of whole-season comparisons (keepers, year-on-year swings)."
+ ],
  "seasons": [
   "2022",
   "2023",
@@ -8,7 +15,7 @@
   "2025",
   "2026"
  ],
- "count": 301,
+ "count": 294,
  "facts": [
   {
    "category": "season_mvp",
@@ -21,9 +28,10 @@
     "6794"
    ],
    "values": {
-    "points": 298.9
+    "points": 298.9,
+    "starts": 16
    },
-   "text": "Justin Jefferson was Gurret's 2022 MVP, worth 298.9 points in the starting lineup."
+   "text": "Justin Jefferson was Gurret's 2022 MVP: 298.9 points in his starting lineup (16 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -36,9 +44,10 @@
     "6151"
    ],
    "values": {
-    "points": 203.4
+    "points": 191.7,
+    "starts": 14
    },
-   "text": "Miles Sanders was TnT44's 2022 MVP, worth 203.4 points in the starting lineup."
+   "text": "Miles Sanders was TnT44's 2022 MVP: 191.7 points in his starting lineup (14 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -51,9 +60,10 @@
     "4034"
    ],
    "values": {
-    "points": 299.5
+    "points": 299.5,
+    "starts": 16
    },
-   "text": "Christian McCaffrey was mikestreinz's 2022 MVP, worth 299.5 points in the starting lineup."
+   "text": "Christian McCaffrey was mikestreinz's 2022 MVP: 299.5 points in his starting lineup (16 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -66,9 +76,10 @@
     "4984"
    ],
    "values": {
-    "points": 432.5
+    "points": 432.5,
+    "starts": 17
    },
-   "text": "Josh Allen was tuckersdumbteam's 2022 MVP, worth 432.5 points in the starting lineup."
+   "text": "Josh Allen was tuckersdumbteam's 2022 MVP: 432.5 points in his starting lineup (17 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -81,9 +92,10 @@
     "4881"
    ],
    "values": {
-    "points": 267.1
+    "points": 267.1,
+    "starts": 12
    },
-   "text": "Lamar Jackson was paulslaats's 2022 MVP, worth 267.1 points in the starting lineup."
+   "text": "Lamar Jackson was paulslaats's 2022 MVP: 267.1 points in his starting lineup (12 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -96,9 +108,10 @@
     "6770"
    ],
    "values": {
-    "points": 412.4
+    "points": 412.4,
+    "starts": 16
    },
-   "text": "Joe Burrow was jonahcartwright's 2022 MVP, worth 412.4 points in the starting lineup."
+   "text": "Joe Burrow was jonahcartwright's 2022 MVP: 412.4 points in his starting lineup (16 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -111,9 +124,10 @@
     "6904"
    ],
    "values": {
-    "points": 406.6
+    "points": 406.6,
+    "starts": 16
    },
-   "text": "Jalen Hurts was kshoyer's 2022 MVP, worth 406.6 points in the starting lineup."
+   "text": "Jalen Hurts was kshoyer's 2022 MVP: 406.6 points in his starting lineup (16 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -126,9 +140,10 @@
     "4046"
    ],
    "values": {
-    "points": 476.9
+    "points": 418.1,
+    "starts": 15
    },
-   "text": "Patrick Mahomes was JJJet's 2022 MVP, worth 476.9 points in the starting lineup."
+   "text": "Patrick Mahomes was JJJet's 2022 MVP: 418.1 points in his starting lineup (15 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -141,9 +156,10 @@
     "2449"
    ],
    "values": {
-    "points": 245.3
+    "points": 245.3,
+    "starts": 16
    },
-   "text": "Stefon Diggs was Kabroa's 2022 MVP, worth 245.3 points in the starting lineup."
+   "text": "Stefon Diggs was Kabroa's 2022 MVP: 245.3 points in his starting lineup (16 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -156,9 +172,10 @@
     "6797"
    ],
    "values": {
-    "points": 288.9
+    "points": 288.9,
+    "starts": 15
    },
-   "text": "Justin Herbert was malstol's 2022 MVP, worth 288.9 points in the starting lineup."
+   "text": "Justin Herbert was malstol's 2022 MVP: 288.9 points in his starting lineup (15 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -171,9 +188,10 @@
     "7547"
    ],
    "values": {
-    "points": 247.5
+    "points": 247.5,
+    "starts": 15
    },
-   "text": "Amon-Ra St. Brown was Gurret's 2023 MVP, worth 247.5 points in the starting lineup."
+   "text": "Amon-Ra St. Brown was Gurret's 2023 MVP: 247.5 points in his starting lineup (15 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -186,9 +204,10 @@
     "7543"
    ],
    "values": {
-    "points": 242.2
+    "points": 212.8,
+    "starts": 14
    },
-   "text": "Travis Etienne was TnT44's 2023 MVP, worth 242.2 points in the starting lineup."
+   "text": "Travis Etienne was TnT44's 2023 MVP: 212.8 points in his starting lineup (14 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -201,9 +220,10 @@
     "4034"
    ],
    "values": {
-    "points": 356.8
+    "points": 356.8,
+    "starts": 16
    },
-   "text": "Christian McCaffrey was mikestreinz's 2023 MVP, worth 356.8 points in the starting lineup."
+   "text": "Christian McCaffrey was mikestreinz's 2023 MVP: 356.8 points in his starting lineup (16 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -216,9 +236,10 @@
     "4984"
    ],
    "values": {
-    "points": 379.9
+    "points": 379.9,
+    "starts": 14
    },
-   "text": "Josh Allen was tuckersdumbteam's 2023 MVP, worth 379.9 points in the starting lineup."
+   "text": "Josh Allen was tuckersdumbteam's 2023 MVP: 379.9 points in his starting lineup (14 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -231,9 +252,10 @@
     "3321"
    ],
    "values": {
-    "points": 299.2
+    "points": 299.2,
+    "starts": 16
    },
-   "text": "Tyreek Hill was paulslaats's 2023 MVP, worth 299.2 points in the starting lineup."
+   "text": "Tyreek Hill was paulslaats's 2023 MVP: 299.2 points in his starting lineup (16 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -243,12 +265,13 @@
     "612407006212468736"
    ],
    "players": [
-    "3163"
+    "1479"
    ],
    "values": {
-    "points": 243.9
+    "points": 225.9,
+    "starts": 13
    },
-   "text": "Jared Goff was jonahcartwright's 2023 MVP, worth 243.9 points in the starting lineup."
+   "text": "Keenan Allen was jonahcartwright's 2023 MVP: 225.9 points in his starting lineup (13 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -261,9 +284,10 @@
     "6904"
    ],
    "values": {
-    "points": 376.3
+    "points": 376.3,
+    "starts": 15
    },
-   "text": "Jalen Hurts was kshoyer's 2023 MVP, worth 376.3 points in the starting lineup."
+   "text": "Jalen Hurts was kshoyer's 2023 MVP: 376.3 points in his starting lineup (15 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -276,9 +300,10 @@
     "6797"
    ],
    "values": {
-    "points": 270.7
+    "points": 270.7,
+    "starts": 13
    },
-   "text": "Justin Herbert was BBrown16's 2023 MVP, worth 270.7 points in the starting lineup."
+   "text": "Justin Herbert was BBrown16's 2023 MVP: 270.7 points in his starting lineup (13 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -291,9 +316,10 @@
     "9221"
    ],
    "values": {
-    "points": 183.0
+    "points": 183.0,
+    "starts": 13
    },
-   "text": "Jahmyr Gibbs was Kabroa's 2023 MVP, worth 183.0 points in the starting lineup."
+   "text": "Jahmyr Gibbs was Kabroa's 2023 MVP: 183.0 points in his starting lineup (13 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -306,9 +332,10 @@
     "4881"
    ],
    "values": {
-    "points": 336.6
+    "points": 336.6,
+    "starts": 15
    },
-   "text": "Lamar Jackson was malstol's 2023 MVP, worth 336.6 points in the starting lineup."
+   "text": "Lamar Jackson was malstol's 2023 MVP: 336.6 points in his starting lineup (15 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -321,9 +348,10 @@
     "11566"
    ],
    "values": {
-    "points": 325.9
+    "points": 325.9,
+    "starts": 13
    },
-   "text": "Jayden Daniels was Gurret's 2024 MVP, worth 325.9 points in the starting lineup."
+   "text": "Jayden Daniels was Gurret's 2024 MVP: 325.9 points in his starting lineup (13 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -336,9 +364,10 @@
     "6770"
    ],
    "values": {
-    "points": 313.8
+    "points": 313.8,
+    "starts": 11
    },
-   "text": "Joe Burrow was TnT44's 2024 MVP, worth 313.8 points in the starting lineup."
+   "text": "Joe Burrow was TnT44's 2024 MVP: 313.8 points in his starting lineup (11 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -351,9 +380,10 @@
     "7564"
    ],
    "values": {
-    "points": 309.7
+    "points": 309.7,
+    "starts": 15
    },
-   "text": "Ja'Marr Chase was mikestreinz's 2024 MVP, worth 309.7 points in the starting lineup."
+   "text": "Ja'Marr Chase was mikestreinz's 2024 MVP: 309.7 points in his starting lineup (15 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -366,9 +396,10 @@
     "4984"
    ],
    "values": {
-    "points": 432.0
+    "points": 432.0,
+    "starts": 16
    },
-   "text": "Josh Allen was tuckersdumbteam's 2024 MVP, worth 432.0 points in the starting lineup."
+   "text": "Josh Allen was tuckersdumbteam's 2024 MVP: 432.0 points in his starting lineup (16 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -381,9 +412,10 @@
     "3198"
    ],
    "values": {
-    "points": 295.8
+    "points": 295.8,
+    "starts": 16
    },
-   "text": "Derrick Henry was paulslaats's 2024 MVP, worth 295.8 points in the starting lineup."
+   "text": "Derrick Henry was paulslaats's 2024 MVP: 295.8 points in his starting lineup (16 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -396,9 +428,10 @@
     "3163"
    ],
    "values": {
-    "points": 266.6
+    "points": 203.5,
+    "starts": 8
    },
-   "text": "Jared Goff was jonahcartwright's 2024 MVP, worth 266.6 points in the starting lineup."
+   "text": "Jared Goff was jonahcartwright's 2024 MVP: 203.5 points in his starting lineup (8 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -411,9 +444,10 @@
     "4881"
    ],
    "values": {
-    "points": 480.4
+    "points": 480.4,
+    "starts": 16
    },
-   "text": "Lamar Jackson was kshoyer's 2024 MVP, worth 480.4 points in the starting lineup."
+   "text": "Lamar Jackson was kshoyer's 2024 MVP: 480.4 points in his starting lineup (16 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -426,9 +460,10 @@
     "9509"
    ],
    "values": {
-    "points": 279.9
+    "points": 279.9,
+    "starts": 16
    },
-   "text": "Bijan Robinson was BBrown16's 2024 MVP, worth 279.9 points in the starting lineup."
+   "text": "Bijan Robinson was BBrown16's 2024 MVP: 279.9 points in his starting lineup (16 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -441,9 +476,10 @@
     "6904"
    ],
    "values": {
-    "points": 347.1
+    "points": 347.1,
+    "starts": 15
    },
-   "text": "Jalen Hurts was Kabroa's 2024 MVP, worth 347.1 points in the starting lineup."
+   "text": "Jalen Hurts was Kabroa's 2024 MVP: 347.1 points in his starting lineup (15 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -456,9 +492,10 @@
     "8155"
    ],
    "values": {
-    "points": 191.7
+    "points": 174.4,
+    "starts": 14
    },
-   "text": "Breece Hall was malstol's 2024 MVP, worth 191.7 points in the starting lineup."
+   "text": "Breece Hall was malstol's 2024 MVP: 174.4 points in his starting lineup (14 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -471,9 +508,10 @@
     "4034"
    ],
    "values": {
-    "points": 354.9
+    "points": 354.9,
+    "starts": 16
    },
-   "text": "Christian McCaffrey was Gurret's 2025 MVP, worth 354.9 points in the starting lineup."
+   "text": "Christian McCaffrey was Gurret's 2025 MVP: 354.9 points in his starting lineup (16 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -486,9 +524,10 @@
     "5850"
    ],
    "values": {
-    "points": 218.1
+    "points": 213.5,
+    "starts": 13
    },
-   "text": "Josh Jacobs was TnT44's 2025 MVP, worth 218.1 points in the starting lineup."
+   "text": "Josh Jacobs was TnT44's 2025 MVP: 213.5 points in his starting lineup (13 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -501,9 +540,10 @@
     "7547"
    ],
    "values": {
-    "points": 245.1
+    "points": 245.1,
+    "starts": 16
    },
-   "text": "Amon-Ra St. Brown was mikestreinz's 2025 MVP, worth 245.1 points in the starting lineup."
+   "text": "Amon-Ra St. Brown was mikestreinz's 2025 MVP: 245.1 points in his starting lineup (16 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -516,9 +556,10 @@
     "9221"
    ],
    "values": {
-    "points": 308.6
+    "points": 308.6,
+    "starts": 16
    },
-   "text": "Jahmyr Gibbs was tuckersdumbteam's 2025 MVP, worth 308.6 points in the starting lineup."
+   "text": "Jahmyr Gibbs was tuckersdumbteam's 2025 MVP: 308.6 points in his starting lineup (16 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -531,9 +572,10 @@
     "4984"
    ],
    "values": {
-    "points": 410.6
+    "points": 410.6,
+    "starts": 16
    },
-   "text": "Josh Allen was paulslaats's 2025 MVP, worth 410.6 points in the starting lineup."
+   "text": "Josh Allen was paulslaats's 2025 MVP: 410.6 points in his starting lineup (16 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -546,9 +588,10 @@
     "8150"
    ],
    "values": {
-    "points": 235.7
+    "points": 235.7,
+    "starts": 16
    },
-   "text": "Kyren Williams was jonahcartwright's 2025 MVP, worth 235.7 points in the starting lineup."
+   "text": "Kyren Williams was jonahcartwright's 2025 MVP: 235.7 points in his starting lineup (16 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -561,9 +604,10 @@
     "6813"
    ],
    "values": {
-    "points": 333.4
+    "points": 333.4,
+    "starts": 16
    },
-   "text": "Jonathan Taylor was kshoyer's 2025 MVP, worth 333.4 points in the starting lineup."
+   "text": "Jonathan Taylor was kshoyer's 2025 MVP: 333.4 points in his starting lineup (16 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -576,9 +620,10 @@
     "9226"
    ],
    "values": {
-    "points": 288.3
+    "points": 288.3,
+    "starts": 16
    },
-   "text": "De'Von Achane was BBrown16's 2025 MVP, worth 288.3 points in the starting lineup."
+   "text": "De'Von Achane was BBrown16's 2025 MVP: 288.3 points in his starting lineup (16 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -588,12 +633,13 @@
     "611649934390870016"
    ],
    "players": [
-    "9509"
+    "6904"
    ],
    "values": {
-    "points": 324.5
+    "points": 284.2,
+    "starts": 12
    },
-   "text": "Bijan Robinson was Kabroa's 2025 MVP, worth 324.5 points in the starting lineup."
+   "text": "Jalen Hurts was Kabroa's 2025 MVP: 284.2 points in his starting lineup (12 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -606,9 +652,10 @@
     "4046"
    ],
    "values": {
-    "points": 326.2
+    "points": 326.2,
+    "starts": 14
    },
-   "text": "Patrick Mahomes was malstol's 2025 MVP, worth 326.2 points in the starting lineup."
+   "text": "Patrick Mahomes was malstol's 2025 MVP: 326.2 points in his starting lineup (14 starts; playoff and consolation games included)."
   },
   {
    "category": "season_mvp",
@@ -621,9 +668,10 @@
     "8151"
    ],
    "values": {
-    "points": 73.7
+    "points": 73.7,
+    "starts": 3
    },
-   "text": "Kenneth Walker was Gurret's 2026 MVP, worth 73.7 points in the starting lineup."
+   "text": "Kenneth Walker was Gurret's 2026 MVP: 73.7 points in his starting lineup (3 starts; 2026 so far, through week 3)."
   },
   {
    "category": "season_mvp",
@@ -636,9 +684,10 @@
     "4984"
    ],
    "values": {
-    "points": 101.4
+    "points": 101.4,
+    "starts": 3
    },
-   "text": "Josh Allen was TnT44's 2026 MVP, worth 101.4 points in the starting lineup."
+   "text": "Josh Allen was TnT44's 2026 MVP: 101.4 points in his starting lineup (3 starts; 2026 so far, through week 3)."
   },
   {
    "category": "season_mvp",
@@ -651,9 +700,10 @@
     "7547"
    ],
    "values": {
-    "points": 64.3
+    "points": 64.3,
+    "starts": 3
    },
-   "text": "Amon-Ra St. Brown was mikestreinz's 2026 MVP, worth 64.3 points in the starting lineup."
+   "text": "Amon-Ra St. Brown was mikestreinz's 2026 MVP: 64.3 points in his starting lineup (3 starts; 2026 so far, through week 3)."
   },
   {
    "category": "season_mvp",
@@ -666,9 +716,10 @@
     "9221"
    ],
    "values": {
-    "points": 89.3
+    "points": 89.3,
+    "starts": 3
    },
-   "text": "Jahmyr Gibbs was tuckersdumbteam's 2026 MVP, worth 89.3 points in the starting lineup."
+   "text": "Jahmyr Gibbs was tuckersdumbteam's 2026 MVP: 89.3 points in his starting lineup (3 starts; 2026 so far, through week 3)."
   },
   {
    "category": "season_mvp",
@@ -681,9 +732,10 @@
     "8183"
    ],
    "values": {
-    "points": 71.8
+    "points": 71.8,
+    "starts": 2
    },
-   "text": "Brock Purdy was paulslaats's 2026 MVP, worth 71.8 points in the starting lineup."
+   "text": "Brock Purdy was paulslaats's 2026 MVP: 71.8 points in his starting lineup (2 starts; 2026 so far, through week 3)."
   },
   {
    "category": "season_mvp",
@@ -696,9 +748,10 @@
     "3294"
    ],
    "values": {
-    "points": 77.1
+    "points": 77.1,
+    "starts": 3
    },
-   "text": "Dak Prescott was jonahcartwright's 2026 MVP, worth 77.1 points in the starting lineup."
+   "text": "Dak Prescott was jonahcartwright's 2026 MVP: 77.1 points in his starting lineup (3 starts; 2026 so far, through week 3)."
   },
   {
    "category": "season_mvp",
@@ -711,9 +764,10 @@
     "8138"
    ],
    "values": {
-    "points": 47.2
+    "points": 47.2,
+    "starts": 3
    },
-   "text": "James Cook was kshoyer's 2026 MVP, worth 47.2 points in the starting lineup."
+   "text": "James Cook was kshoyer's 2026 MVP: 47.2 points in his starting lineup (3 starts; 2026 so far, through week 3)."
   },
   {
    "category": "season_mvp",
@@ -726,9 +780,10 @@
     "6794"
    ],
    "values": {
-    "points": 38.4
+    "points": 38.4,
+    "starts": 3
    },
-   "text": "Justin Jefferson was BBrown16's 2026 MVP, worth 38.4 points in the starting lineup."
+   "text": "Justin Jefferson was BBrown16's 2026 MVP: 38.4 points in his starting lineup (3 starts; 2026 so far, through week 3)."
   },
   {
    "category": "season_mvp",
@@ -741,9 +796,10 @@
     "9509"
    ],
    "values": {
-    "points": 69.2
+    "points": 69.2,
+    "starts": 3
    },
-   "text": "Bijan Robinson was Kabroa's 2026 MVP, worth 69.2 points in the starting lineup."
+   "text": "Bijan Robinson was Kabroa's 2026 MVP: 69.2 points in his starting lineup (3 starts; 2026 so far, through week 3)."
   },
   {
    "category": "season_mvp",
@@ -756,9 +812,10 @@
     "9488"
    ],
    "values": {
-    "points": 90.6
+    "points": 90.6,
+    "starts": 3
    },
-   "text": "Jaxon Smith-Njigba was malstol's 2026 MVP, worth 90.6 points in the starting lineup."
+   "text": "Jaxon Smith-Njigba was malstol's 2026 MVP: 90.6 points in his starting lineup (3 starts; 2026 so far, through week 3)."
   },
   {
    "category": "career_mvp",
@@ -771,9 +828,10 @@
     "7547"
    ],
    "values": {
-    "points": 700.4
+    "points": 700.4,
+    "starts": 45
    },
-   "text": "Across every season, no player has scored more for Gurret than Amon-Ra St. Brown: 700.4 points."
+   "text": "No player has scored more in Gurret's starting lineup than Amon-Ra St. Brown: 700.4 points in 45 starts (2022-2026, 2026 through week 3, postseason included)."
   },
   {
    "category": "career_mvp",
@@ -783,12 +841,13 @@
     "611697269254791168"
    ],
    "players": [
-    "8183"
+    "5850"
    ],
    "values": {
-    "points": 493.3
+    "points": 476.5,
+    "starts": 29
    },
-   "text": "Across every season, no player has scored more for TnT44 than Brock Purdy: 493.3 points."
+   "text": "No player has scored more in TnT44's starting lineup than Josh Jacobs: 476.5 points in 29 starts (2022-2026, 2026 through week 3, postseason included)."
   },
   {
    "category": "career_mvp",
@@ -801,9 +860,10 @@
     "7564"
    ],
    "values": {
-    "points": 969.2
+    "points": 969.2,
+    "starts": 59
    },
-   "text": "Across every season, no player has scored more for mikestreinz than Ja'Marr Chase: 969.2 points."
+   "text": "No player has scored more in mikestreinz's starting lineup than Ja'Marr Chase: 969.2 points in 59 starts (2022-2026, 2026 through week 3, postseason included)."
   },
   {
    "category": "career_mvp",
@@ -816,9 +876,10 @@
     "4984"
    ],
    "values": {
-    "points": 1244.4
+    "points": 1244.4,
+    "starts": 47
    },
-   "text": "Across every season, no player has scored more for tuckersdumbteam than Josh Allen: 1244.4 points."
+   "text": "No player has scored more in tuckersdumbteam's starting lineup than Josh Allen: 1244.4 points in 47 starts (2022-2026, 2026 through week 3, postseason included)."
   },
   {
    "category": "career_mvp",
@@ -831,9 +892,10 @@
     "6786"
    ],
    "values": {
-    "points": 457.8
+    "points": 457.8,
+    "starts": 32
    },
-   "text": "Across every season, no player has scored more for paulslaats than CeeDee Lamb: 457.8 points."
+   "text": "No player has scored more in paulslaats's starting lineup than CeeDee Lamb: 457.8 points in 32 starts (2022-2026, 2026 through week 3, postseason included)."
   },
   {
    "category": "career_mvp",
@@ -846,9 +908,10 @@
     "3163"
    ],
    "values": {
-    "points": 526.4
+    "points": 434.1,
+    "starts": 19
    },
-   "text": "Across every season, no player has scored more for jonahcartwright than Jared Goff: 526.4 points."
+   "text": "No player has scored more in jonahcartwright's starting lineup than Jared Goff: 434.1 points in 19 starts (2022-2026, 2026 through week 3, postseason included)."
   },
   {
    "category": "career_mvp",
@@ -861,9 +924,10 @@
     "6904"
    ],
    "values": {
-    "points": 815.7
+    "points": 815.7,
+    "starts": 33
    },
-   "text": "Across every season, no player has scored more for kshoyer than Jalen Hurts: 815.7 points."
+   "text": "No player has scored more in kshoyer's starting lineup than Jalen Hurts: 815.7 points in 33 starts (2022-2026, 2026 through week 3, postseason included)."
   },
   {
    "category": "career_mvp",
@@ -876,9 +940,10 @@
     "4046"
    ],
    "values": {
-    "points": 476.9
+    "points": 418.1,
+    "starts": 15
    },
-   "text": "Across every season, no player has scored more for JJJet than Patrick Mahomes: 476.9 points."
+   "text": "No player has scored more in JJJet's starting lineup than Patrick Mahomes: 418.1 points in 15 starts (2022-2026, 2026 through week 3, postseason included)."
   },
   {
    "category": "career_mvp",
@@ -891,9 +956,10 @@
     "6904"
    ],
    "values": {
-    "points": 664.7
+    "points": 631.4,
+    "starts": 27
    },
-   "text": "Across every season, no player has scored more for Kabroa than Jalen Hurts: 664.7 points."
+   "text": "No player has scored more in Kabroa's starting lineup than Jalen Hurts: 631.4 points in 27 starts (2022-2026, 2026 through week 3, postseason included)."
   },
   {
    "category": "career_mvp",
@@ -906,9 +972,10 @@
     "8155"
    ],
    "values": {
-    "points": 605.9
+    "points": 588.6,
+    "starts": 46
    },
-   "text": "Across every season, no player has scored more for malstol than Breece Hall: 605.9 points."
+   "text": "No player has scored more in malstol's starting lineup than Breece Hall: 588.6 points in 46 starts (2022-2026, 2026 through week 3, postseason included)."
   },
   {
    "category": "career_mvp",
@@ -921,23 +988,10 @@
     "9226"
    ],
    "values": {
-    "points": 551.2
+    "points": 551.2,
+    "starts": 35
    },
-   "text": "Across every season, no player has scored more for BBrown16 than De'Von Achane: 551.2 points."
-  },
-  {
-   "category": "league_season_leader",
-   "season": "2022",
-   "week": null,
-   "managers": [],
-   "players": [
-    "4046"
-   ],
-   "values": {
-    "points": 476.9,
-    "rank": 1
-   },
-   "text": "Patrick Mahomes was the 1st highest-scoring started player in the league in 2022, with 476.9."
+   "text": "No player has scored more in BBrown16's starting lineup than De'Von Achane: 551.2 points in 35 starts (2022-2026, 2026 through week 3, postseason included)."
   },
   {
    "category": "league_season_leader",
@@ -949,9 +1003,23 @@
    ],
    "values": {
     "points": 432.5,
+    "rank": 1
+   },
+   "text": "Josh Allen was the 1st highest-scoring player in the league's starting lineups in 2022, with 432.5 (playoff and consolation games included)."
+  },
+  {
+   "category": "league_season_leader",
+   "season": "2022",
+   "week": null,
+   "managers": [],
+   "players": [
+    "4046"
+   ],
+   "values": {
+    "points": 418.1,
     "rank": 2
    },
-   "text": "Josh Allen was the 2nd highest-scoring started player in the league in 2022, with 432.5."
+   "text": "Patrick Mahomes was the 2nd highest-scoring player in the league's starting lineups in 2022, with 418.1 (playoff and consolation games included)."
   },
   {
    "category": "league_season_leader",
@@ -965,7 +1033,7 @@
     "points": 412.4,
     "rank": 3
    },
-   "text": "Joe Burrow was the 3rd highest-scoring started player in the league in 2022, with 412.4."
+   "text": "Joe Burrow was the 3rd highest-scoring player in the league's starting lineups in 2022, with 412.4 (playoff and consolation games included)."
   },
   {
    "category": "league_season_leader",
@@ -979,7 +1047,7 @@
     "points": 379.9,
     "rank": 1
    },
-   "text": "Josh Allen was the 1st highest-scoring started player in the league in 2023, with 379.9."
+   "text": "Josh Allen was the 1st highest-scoring player in the league's starting lineups in 2023, with 379.9 (playoff and consolation games included)."
   },
   {
    "category": "league_season_leader",
@@ -993,7 +1061,7 @@
     "points": 376.3,
     "rank": 2
    },
-   "text": "Jalen Hurts was the 2nd highest-scoring started player in the league in 2023, with 376.3."
+   "text": "Jalen Hurts was the 2nd highest-scoring player in the league's starting lineups in 2023, with 376.3 (playoff and consolation games included)."
   },
   {
    "category": "league_season_leader",
@@ -1007,7 +1075,7 @@
     "points": 356.8,
     "rank": 3
    },
-   "text": "Christian McCaffrey was the 3rd highest-scoring started player in the league in 2023, with 356.8."
+   "text": "Christian McCaffrey was the 3rd highest-scoring player in the league's starting lineups in 2023, with 356.8 (playoff and consolation games included)."
   },
   {
    "category": "league_season_leader",
@@ -1021,7 +1089,7 @@
     "points": 480.4,
     "rank": 1
    },
-   "text": "Lamar Jackson was the 1st highest-scoring started player in the league in 2024, with 480.4."
+   "text": "Lamar Jackson was the 1st highest-scoring player in the league's starting lineups in 2024, with 480.4 (playoff and consolation games included)."
   },
   {
    "category": "league_season_leader",
@@ -1035,7 +1103,7 @@
     "points": 432.0,
     "rank": 2
    },
-   "text": "Josh Allen was the 2nd highest-scoring started player in the league in 2024, with 432.0."
+   "text": "Josh Allen was the 2nd highest-scoring player in the league's starting lineups in 2024, with 432.0 (playoff and consolation games included)."
   },
   {
    "category": "league_season_leader",
@@ -1049,7 +1117,7 @@
     "points": 347.1,
     "rank": 3
    },
-   "text": "Jalen Hurts was the 3rd highest-scoring started player in the league in 2024, with 347.1."
+   "text": "Jalen Hurts was the 3rd highest-scoring player in the league's starting lineups in 2024, with 347.1 (playoff and consolation games included)."
   },
   {
    "category": "league_season_leader",
@@ -1063,7 +1131,7 @@
     "points": 410.6,
     "rank": 1
    },
-   "text": "Josh Allen was the 1st highest-scoring started player in the league in 2025, with 410.6."
+   "text": "Josh Allen was the 1st highest-scoring player in the league's starting lineups in 2025, with 410.6 (playoff and consolation games included)."
   },
   {
    "category": "league_season_leader",
@@ -1077,7 +1145,7 @@
     "points": 354.9,
     "rank": 2
    },
-   "text": "Christian McCaffrey was the 2nd highest-scoring started player in the league in 2025, with 354.9."
+   "text": "Christian McCaffrey was the 2nd highest-scoring player in the league's starting lineups in 2025, with 354.9 (playoff and consolation games included)."
   },
   {
    "category": "league_season_leader",
@@ -1091,7 +1159,7 @@
     "points": 333.4,
     "rank": 3
    },
-   "text": "Jonathan Taylor was the 3rd highest-scoring started player in the league in 2025, with 333.4."
+   "text": "Jonathan Taylor was the 3rd highest-scoring player in the league's starting lineups in 2025, with 333.4 (playoff and consolation games included)."
   },
   {
    "category": "league_season_leader",
@@ -1105,7 +1173,7 @@
     "points": 101.4,
     "rank": 1
    },
-   "text": "Josh Allen was the 1st highest-scoring started player in the league in 2026, with 101.4."
+   "text": "Josh Allen was the 1st highest-scoring player in the league's starting lineups in 2026, with 101.4 (2026 so far, through week 3)."
   },
   {
    "category": "league_season_leader",
@@ -1119,7 +1187,7 @@
     "points": 90.6,
     "rank": 2
    },
-   "text": "Jaxon Smith-Njigba was the 2nd highest-scoring started player in the league in 2026, with 90.6."
+   "text": "Jaxon Smith-Njigba was the 2nd highest-scoring player in the league's starting lineups in 2026, with 90.6 (2026 so far, through week 3)."
   },
   {
    "category": "league_season_leader",
@@ -1133,7 +1201,7 @@
     "points": 89.3,
     "rank": 3
    },
-   "text": "Jahmyr Gibbs was the 3rd highest-scoring started player in the league in 2026, with 89.3."
+   "text": "Jahmyr Gibbs was the 3rd highest-scoring player in the league's starting lineups in 2026, with 89.3 (2026 so far, through week 3)."
   },
   {
    "category": "top_week_performance",
@@ -1313,7 +1381,7 @@
    "values": {
     "points": 46.3
    },
-   "text": "Lamar Jackson put up 46.3 for malstol in week 17 of 2023 -- one of the biggest single weeks anyone has started."
+   "text": "Lamar Jackson put up 46.3 for malstol in week 17 of 2023 (a consolation game) -- one of the biggest single weeks anyone has started."
   },
   {
    "category": "top_week_performance",
@@ -1343,7 +1411,7 @@
    "values": {
     "points": 46.0
    },
-   "text": "Amari Cooper put up 46.0 for malstol in week 16 of 2023 -- one of the biggest single weeks anyone has started."
+   "text": "Amari Cooper put up 46.0 for malstol in week 16 of 2023 (a consolation game) -- one of the biggest single weeks anyone has started."
   },
   {
    "category": "top_week_performance",
@@ -1437,21 +1505,6 @@
   },
   {
    "category": "worst_benching",
-   "season": "2022",
-   "week": 17,
-   "managers": [
-    "860365948673204224"
-   ],
-   "players": [
-    "167"
-   ],
-   "values": {
-    "points": 43.7
-   },
-   "text": "JJJet left Tom Brady on the bench in week 17 of 2022. He scored 43.7."
-  },
-  {
-   "category": "worst_benching",
    "season": "2024",
    "week": 2,
    "managers": [
@@ -1478,7 +1531,7 @@
    "values": {
     "points": 42.4
    },
-   "text": "paulslaats left Drake Maye on the bench in week 17 of 2025. He scored 42.4."
+   "text": "paulslaats left Drake Maye on the bench in week 17 of 2025 (a consolation game). He scored 42.4."
   },
   {
    "category": "worst_benching",
@@ -1508,7 +1561,7 @@
    "values": {
     "points": 40.2
    },
-   "text": "Kabroa left Daniel Jones on the bench in week 17 of 2022. He scored 40.2."
+   "text": "Kabroa left Daniel Jones on the bench in week 17 of 2022 (a consolation game). He scored 40.2."
   },
   {
    "category": "worst_benching",
@@ -1557,21 +1610,6 @@
   },
   {
    "category": "worst_benching",
-   "season": "2025",
-   "week": 16,
-   "managers": [
-    "611649934390870016"
-   ],
-   "players": [
-    "421"
-   ],
-   "values": {
-    "points": 36.9
-   },
-   "text": "Kabroa left Matthew Stafford on the bench in week 16 of 2025. He scored 36.9."
-  },
-  {
-   "category": "worst_benching",
    "season": "2023",
    "week": 2,
    "managers": [
@@ -1586,19 +1624,34 @@
    "text": "BBrown16 left Kirk Cousins on the bench in week 2 of 2023. He scored 36.6."
   },
   {
-   "category": "biggest_whatif",
-   "season": "2025",
-   "week": 15,
+   "category": "worst_benching",
+   "season": "2023",
+   "week": 3,
    "managers": [
-    "611649934390870016"
+    "611697269254791168"
    ],
-   "players": [],
+   "players": [
+    "6768"
+   ],
    "values": {
-    "actual": 95.8,
-    "optimal": 167.9,
-    "gap": 72.1
+    "points": 36.4
    },
-   "text": "In week 15 of 2025, Kabroa scored 95.8 with a lineup that could have scored 167.9 -- 72.1 points left in the bench."
+   "text": "TnT44 left Tua Tagovailoa on the bench in week 3 of 2023. He scored 36.4."
+  },
+  {
+   "category": "worst_benching",
+   "season": "2024",
+   "week": 17,
+   "managers": [
+    "611697269254791168"
+   ],
+   "players": [
+    "8183"
+   ],
+   "values": {
+    "points": 36.3
+   },
+   "text": "TnT44 left Brock Purdy on the bench in week 17 of 2024 (a consolation game). He scored 36.3."
   },
   {
    "category": "biggest_whatif",
@@ -1613,37 +1666,7 @@
     "optimal": 139.4,
     "gap": 69.8
    },
-   "text": "In week 17 of 2022, Kabroa scored 69.6 with a lineup that could have scored 139.4 -- 69.8 points left in the bench."
-  },
-  {
-   "category": "biggest_whatif",
-   "season": "2022",
-   "week": 17,
-   "managers": [
-    "860365948673204224"
-   ],
-   "players": [],
-   "values": {
-    "actual": 52.8,
-    "optimal": 121.9,
-    "gap": 69.1
-   },
-   "text": "In week 17 of 2022, JJJet scored 52.8 with a lineup that could have scored 121.9 -- 69.1 points left in the bench."
-  },
-  {
-   "category": "biggest_whatif",
-   "season": "2025",
-   "week": 2,
-   "managers": [
-    "850475150817234944"
-   ],
-   "players": [],
-   "values": {
-    "actual": 76.8,
-    "optimal": 141.8,
-    "gap": 65.1
-   },
-   "text": "In week 2 of 2025, malstol scored 76.8 with a lineup that could have scored 141.8 -- 65.1 points left in the bench."
+   "text": "In week 17 of 2022 (a consolation game), Kabroa scored 69.60 from a roster whose best lineup would have scored 139.38 -- 69.78 points left on the bench."
   },
   {
    "category": "biggest_whatif",
@@ -1655,55 +1678,10 @@
    "players": [],
    "values": {
     "actual": 94.5,
-    "optimal": 157.7,
-    "gap": 63.2
-   },
-   "text": "In week 9 of 2024, jonahcartwright scored 94.5 with a lineup that could have scored 157.7 -- 63.2 points left in the bench."
-  },
-  {
-   "category": "biggest_whatif",
-   "season": "2025",
-   "week": 1,
-   "managers": [
-    "999190763323944960"
-   ],
-   "players": [],
-   "values": {
-    "actual": 69.8,
-    "optimal": 131.6,
+    "optimal": 156.3,
     "gap": 61.8
    },
-   "text": "In week 1 of 2025, BBrown16 scored 69.8 with a lineup that could have scored 131.6 -- 61.8 points left in the bench."
-  },
-  {
-   "category": "biggest_whatif",
-   "season": "2022",
-   "week": 2,
-   "managers": [
-    "611664340277383168"
-   ],
-   "players": [],
-   "values": {
-    "actual": 72.8,
-    "optimal": 133.4,
-    "gap": 60.7
-   },
-   "text": "In week 2 of 2022, tuckersdumbteam scored 72.8 with a lineup that could have scored 133.4 -- 60.7 points left in the bench."
-  },
-  {
-   "category": "biggest_whatif",
-   "season": "2023",
-   "week": 8,
-   "managers": [
-    "611630747161358336"
-   ],
-   "players": [],
-   "values": {
-    "actual": 116.5,
-    "optimal": 176.3,
-    "gap": 59.9
-   },
-   "text": "In week 8 of 2023, kshoyer scored 116.5 with a lineup that could have scored 176.3 -- 59.9 points left in the bench."
+   "text": "In week 9 of 2024, jonahcartwright scored 94.52 from a roster whose best lineup would have scored 156.32 -- 61.80 points left on the bench."
   },
   {
    "category": "biggest_whatif",
@@ -1718,7 +1696,7 @@
     "optimal": 144.3,
     "gap": 58.5
    },
-   "text": "In week 2 of 2025, tuckersdumbteam scored 85.8 with a lineup that could have scored 144.3 -- 58.5 points left in the bench."
+   "text": "In week 2 of 2025, tuckersdumbteam scored 85.84 from a roster whose best lineup would have scored 144.34 -- 58.50 points left on the bench."
   },
   {
    "category": "biggest_whatif",
@@ -1733,22 +1711,7 @@
     "optimal": 144.8,
     "gap": 57.6
    },
-   "text": "In week 17 of 2023, malstol scored 87.2 with a lineup that could have scored 144.8 -- 57.6 points left in the bench."
-  },
-  {
-   "category": "biggest_whatif",
-   "season": "2023",
-   "week": 15,
-   "managers": [
-    "611697269254791168"
-   ],
-   "players": [],
-   "values": {
-    "actual": 81.2,
-    "optimal": 138.4,
-    "gap": 57.2
-   },
-   "text": "In week 15 of 2023, TnT44 scored 81.2 with a lineup that could have scored 138.4 -- 57.2 points left in the bench."
+   "text": "In week 17 of 2023 (a consolation game), malstol scored 87.24 from a roster whose best lineup would have scored 144.84 -- 57.60 points left on the bench."
   },
   {
    "category": "biggest_whatif",
@@ -1763,72 +1726,112 @@
     "optimal": 147.5,
     "gap": 56.6
    },
-   "text": "In week 7 of 2025, TnT44 scored 90.9 with a lineup that could have scored 147.5 -- 56.6 points left in the bench."
+   "text": "In week 7 of 2025, TnT44 scored 90.88 from a roster whose best lineup would have scored 147.52 -- 56.64 points left on the bench."
   },
   {
-   "category": "perfect_lineups",
-   "season": null,
-   "week": null,
-   "managers": [
-    "605683461667229696"
-   ],
-   "players": [],
-   "values": {
-    "count": 4
-   },
-   "text": "mikestreinz has started the optimal lineup 4 times."
-  },
-  {
-   "category": "perfect_lineups",
-   "season": null,
-   "week": null,
-   "managers": [
-    "870570674836656128"
-   ],
-   "players": [],
-   "values": {
-    "count": 2
-   },
-   "text": "paulslaats has started the optimal lineup 2 times."
-  },
-  {
-   "category": "perfect_lineups",
-   "season": null,
-   "week": null,
-   "managers": [
-    "850475150817234944"
-   ],
-   "players": [],
-   "values": {
-    "count": 2
-   },
-   "text": "malstol has started the optimal lineup 2 times."
-  },
-  {
-   "category": "perfect_lineups",
-   "season": null,
-   "week": null,
-   "managers": [
-    "612407006212468736"
-   ],
-   "players": [],
-   "values": {
-    "count": 2
-   },
-   "text": "jonahcartwright has started the optimal lineup 2 times."
-  },
-  {
-   "category": "perfect_lineups",
-   "season": null,
-   "week": null,
+   "category": "biggest_whatif",
+   "season": "2025",
+   "week": 15,
    "managers": [
     "611649934390870016"
    ],
    "players": [],
    "values": {
-    "count": 2
+    "actual": 95.8,
+    "optimal": 149.8,
+    "gap": 54.0
    },
-   "text": "Kabroa has started the optimal lineup 2 times."
+   "text": "In week 15 of 2025, Kabroa scored 95.80 from a roster whose best lineup would have scored 149.80 -- 54.00 points left on the bench."
+  },
+  {
+   "category": "biggest_whatif",
+   "season": "2025",
+   "week": 11,
+   "managers": [
+    "605683461667229696"
+   ],
+   "players": [],
+   "values": {
+    "actual": 44.5,
+    "optimal": 98.1,
+    "gap": 53.6
+   },
+   "text": "In week 11 of 2025, mikestreinz scored 44.52 from a roster whose best lineup would have scored 98.12 -- 53.60 points left on the bench."
+  },
+  {
+   "category": "biggest_whatif",
+   "season": "2022",
+   "week": 15,
+   "managers": [
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "actual": 48.9,
+    "optimal": 101.9,
+    "gap": 53.0
+   },
+   "text": "In week 15 of 2022, malstol scored 48.92 from a roster whose best lineup would have scored 101.92 -- 53.00 points left on the bench."
+  },
+  {
+   "category": "biggest_whatif",
+   "season": "2023",
+   "week": 2,
+   "managers": [
+    "605683461667229696"
+   ],
+   "players": [],
+   "values": {
+    "actual": 93.3,
+    "optimal": 146.0,
+    "gap": 52.7
+   },
+   "text": "In week 2 of 2023, mikestreinz scored 93.30 from a roster whose best lineup would have scored 146.00 -- 52.70 points left on the bench."
+  },
+  {
+   "category": "biggest_whatif",
+   "season": "2025",
+   "week": 14,
+   "managers": [
+    "611649934390870016"
+   ],
+   "players": [],
+   "values": {
+    "actual": 80.5,
+    "optimal": 131.8,
+    "gap": 51.3
+   },
+   "text": "In week 14 of 2025, Kabroa scored 80.50 from a roster whose best lineup would have scored 131.84 -- 51.34 points left on the bench."
+  },
+  {
+   "category": "biggest_whatif",
+   "season": "2024",
+   "week": 13,
+   "managers": [
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "actual": 77.9,
+    "optimal": 128.9,
+    "gap": 51.0
+   },
+   "text": "In week 13 of 2024, malstol scored 77.94 from a roster whose best lineup would have scored 128.94 -- 51.00 points left on the bench."
+  },
+  {
+   "category": "biggest_whatif",
+   "season": "2023",
+   "week": 15,
+   "managers": [
+    "611697269254791168"
+   ],
+   "players": [],
+   "values": {
+    "actual": 81.2,
+    "optimal": 131.3,
+    "gap": 50.2
+   },
+   "text": "In week 15 of 2023, TnT44 scored 81.18 from a roster whose best lineup would have scored 131.34 -- 50.16 points left on the bench."
   },
   {
    "category": "perfect_lineups",
@@ -1839,35 +1842,10 @@
    ],
    "players": [],
    "values": {
-    "count": 2
+    "count": 5,
+    "games": 54
    },
-   "text": "BBrown16 has started the optimal lineup 2 times."
-  },
-  {
-   "category": "perfect_lineups",
-   "season": null,
-   "week": null,
-   "managers": [
-    "611697269254791168"
-   ],
-   "players": [],
-   "values": {
-    "count": 1
-   },
-   "text": "TnT44 has started the optimal lineup 1 time."
-  },
-  {
-   "category": "perfect_lineups",
-   "season": null,
-   "week": null,
-   "managers": [
-    "611630747161358336"
-   ],
-   "players": [],
-   "values": {
-    "count": 1
-   },
-   "text": "kshoyer has started the optimal lineup 1 time."
+   "text": "BBrown16 has started the optimal lineup 5 times in 54 games (postseason included)."
   },
   {
    "category": "perfect_lineups",
@@ -1878,24 +1856,108 @@
    ],
    "players": [],
    "values": {
-    "count": 1
+    "count": 5,
+    "games": 71
    },
-   "text": "tuckersdumbteam has started the optimal lineup 1 time."
+   "text": "tuckersdumbteam has started the optimal lineup 5 times in 71 games (postseason included)."
   },
   {
-   "category": "bench_outscored_starters",
-   "season": "2022",
-   "week": 17,
+   "category": "perfect_lineups",
+   "season": null,
+   "week": null,
    "managers": [
-    "860365948673204224"
+    "611649934390870016"
    ],
    "players": [],
    "values": {
-    "bench": 82.7,
-    "starters": 52.8,
-    "margin": 29.9
+    "count": 4,
+    "games": 69
    },
-   "text": "JJJet's bench outscored his starters in week 17 of 2022, 82.7 to 52.8."
+   "text": "Kabroa has started the optimal lineup 4 times in 69 games (postseason included)."
+  },
+  {
+   "category": "perfect_lineups",
+   "season": null,
+   "week": null,
+   "managers": [
+    "605683461667229696"
+   ],
+   "players": [],
+   "values": {
+    "count": 4,
+    "games": 71
+   },
+   "text": "mikestreinz has started the optimal lineup 4 times in 71 games (postseason included)."
+  },
+  {
+   "category": "perfect_lineups",
+   "season": null,
+   "week": null,
+   "managers": [
+    "850475150817234944"
+   ],
+   "players": [],
+   "values": {
+    "count": 3,
+    "games": 69
+   },
+   "text": "malstol has started the optimal lineup 3 times in 69 games (postseason included)."
+  },
+  {
+   "category": "perfect_lineups",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611697269254791168"
+   ],
+   "players": [],
+   "values": {
+    "count": 2,
+    "games": 65
+   },
+   "text": "TnT44 has started the optimal lineup 2 times in 65 games (postseason included)."
+  },
+  {
+   "category": "perfect_lineups",
+   "season": null,
+   "week": null,
+   "managers": [
+    "612407006212468736"
+   ],
+   "players": [],
+   "values": {
+    "count": 2,
+    "games": 67
+   },
+   "text": "jonahcartwright has started the optimal lineup 2 times in 67 games (postseason included)."
+  },
+  {
+   "category": "perfect_lineups",
+   "season": null,
+   "week": null,
+   "managers": [
+    "870570674836656128"
+   ],
+   "players": [],
+   "values": {
+    "count": 2,
+    "games": 71
+   },
+   "text": "paulslaats has started the optimal lineup 2 times in 71 games (postseason included)."
+  },
+  {
+   "category": "perfect_lineups",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [],
+   "values": {
+    "count": 1,
+    "games": 71
+   },
+   "text": "kshoyer has started the optimal lineup 1 time in 71 games (postseason included)."
   },
   {
    "category": "bench_outscored_starters",
@@ -1940,7 +2002,7 @@
     "starters": 44.9,
     "margin": 15.0
    },
-   "text": "jonahcartwright's bench outscored his starters in week 17 of 2022, 59.9 to 44.9."
+   "text": "jonahcartwright's bench outscored his starters in week 17 of 2022 (a playoff game), 59.9 to 44.9."
   },
   {
    "category": "bench_outscored_starters",
@@ -1955,7 +2017,7 @@
     "starters": 69.6,
     "margin": 11.9
    },
-   "text": "Kabroa's bench outscored his starters in week 17 of 2022, 81.5 to 69.6."
+   "text": "Kabroa's bench outscored his starters in week 17 of 2022 (a consolation game), 81.5 to 69.6."
   },
   {
    "category": "bench_outscored_starters",
@@ -2003,6 +2065,21 @@
    "text": "tuckersdumbteam's bench outscored his starters in week 2 of 2025, 94.6 to 85.8."
   },
   {
+   "category": "bench_outscored_starters",
+   "season": "2025",
+   "week": 6,
+   "managers": [
+    "611664340277383168"
+   ],
+   "players": [],
+   "values": {
+    "bench": 60.5,
+    "starters": 51.9,
+    "margin": 8.6
+   },
+   "text": "tuckersdumbteam's bench outscored his starters in week 6 of 2025, 60.5 to 51.9."
+  },
+  {
    "category": "zero_starts",
    "season": null,
    "week": null,
@@ -2024,22 +2101,9 @@
    ],
    "players": [],
    "values": {
-    "count": 20
+    "count": 19
    },
-   "text": "malstol has started a player who scored exactly nothing 20 times."
-  },
-  {
-   "category": "zero_starts",
-   "season": null,
-   "week": null,
-   "managers": [
-    "611649934390870016"
-   ],
-   "players": [],
-   "values": {
-    "count": 16
-   },
-   "text": "Kabroa has started a player who scored exactly nothing 16 times."
+   "text": "malstol has started a player who scored exactly nothing 19 times."
   },
   {
    "category": "zero_starts",
@@ -2053,6 +2117,19 @@
     "count": 15
    },
    "text": "mikestreinz has started a player who scored exactly nothing 15 times."
+  },
+  {
+   "category": "zero_starts",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611649934390870016"
+   ],
+   "players": [],
+   "values": {
+    "count": 15
+   },
+   "text": "Kabroa has started a player who scored exactly nothing 15 times."
   },
   {
    "category": "zero_starts",
@@ -2129,7 +2206,7 @@
     "winner_points": 111.3,
     "loser_points": 110.6
    },
-   "text": "Gurret beat tuckersdumbteam by 0.68 in week 17 of 2022, 111.30 to 110.62."
+   "text": "Gurret beat tuckersdumbteam by 0.68 in week 17 of 2022 (the third-place game), 111.30 to 110.62."
   },
   {
    "category": "closest_game",
@@ -2241,7 +2318,7 @@
     "winner_points": 181.3,
     "loser_points": 106.9
    },
-   "text": "malstol buried Kabroa by 74.3 in week 16 of 2023, 181.3 to 106.9."
+   "text": "malstol buried Kabroa by 74.3 in week 16 of 2023 (a consolation game), 181.3 to 106.9."
   },
   {
    "category": "biggest_blowout",
@@ -2325,21 +2402,6 @@
   },
   {
    "category": "unluckiest_loss",
-   "season": "2024",
-   "week": 8,
-   "managers": [
-    "999190763323944960",
-    "611664340277383168"
-   ],
-   "players": [],
-   "values": {
-    "points": 148.7,
-    "opponent_points": 150.3
-   },
-   "text": "BBrown16 scored 148.7 in week 8 of 2024 and still lost, because tuckersdumbteam went for 150.3."
-  },
-  {
-   "category": "unluckiest_loss",
    "season": "2026",
    "week": 3,
    "managers": [
@@ -2381,7 +2443,7 @@
     "points": 138.6,
     "opponent_points": 153.9
    },
-   "text": "Kabroa scored 138.6 in week 17 of 2024 and still lost, because BBrown16 went for 153.9."
+   "text": "Kabroa scored 138.6 in week 17 of 2024 (a playoff game) and still lost, because BBrown16 went for 153.9."
   },
   {
    "category": "unluckiest_loss",
@@ -2396,7 +2458,7 @@
     "points": 137.9,
     "opponent_points": 142.8
    },
-   "text": "kshoyer scored 137.9 in week 16 of 2025 and still lost, because tuckersdumbteam went for 142.8."
+   "text": "kshoyer scored 137.9 in week 16 of 2025 (a playoff game) and still lost, because tuckersdumbteam went for 142.8."
   },
   {
    "category": "unluckiest_loss",
@@ -2412,6 +2474,21 @@
     "opponent_points": 153.4
    },
    "text": "jonahcartwright scored 130.8 in week 15 of 2023 and still lost, because mikestreinz went for 153.4."
+  },
+  {
+   "category": "unluckiest_loss",
+   "season": "2024",
+   "week": 14,
+   "managers": [
+    "605683461667229696",
+    "611697269254791168"
+   ],
+   "players": [],
+   "values": {
+    "points": 129.2,
+    "opponent_points": 131.0
+   },
+   "text": "mikestreinz scored 129.2 in week 14 of 2024 and still lost, because TnT44 went for 131.0."
   },
   {
    "category": "luckiest_win",
@@ -2471,7 +2548,7 @@
     "points": 70.7,
     "opponent_points": 60.8
    },
-   "text": "jonahcartwright won week 17 of 2025 with just 70.7 -- paulslaats managed only 60.8."
+   "text": "jonahcartwright won week 17 of 2025 (a consolation game) with just 70.7 -- paulslaats managed only 60.8."
   },
   {
    "category": "luckiest_win",
@@ -2515,7 +2592,7 @@
    "values": {
     "total": 315.6
    },
-   "text": "TnT44 and mikestreinz combined for 315.6 in week 5 of 2023 (122.5 to 193.0)."
+   "text": "TnT44 and mikestreinz combined for 315.6 in week 5 of 2023, 122.5 to 193.0."
   },
   {
    "category": "highest_scoring_matchup",
@@ -2529,7 +2606,7 @@
    "values": {
     "total": 303.7
    },
-   "text": "tuckersdumbteam and paulslaats combined for 303.7 in week 3 of 2026 (155.3 to 148.4)."
+   "text": "tuckersdumbteam and paulslaats combined for 303.7 in week 3 of 2026, 155.3 to 148.4."
   },
   {
    "category": "highest_scoring_matchup",
@@ -2543,21 +2620,7 @@
    "values": {
     "total": 300.5
    },
-   "text": "Gurret and kshoyer combined for 300.5 in week 4 of 2023 (140.0 to 160.5)."
-  },
-  {
-   "category": "highest_scoring_matchup",
-   "season": "2024",
-   "week": 8,
-   "managers": [
-    "611664340277383168",
-    "999190763323944960"
-   ],
-   "players": [],
-   "values": {
-    "total": 299.1
-   },
-   "text": "tuckersdumbteam and BBrown16 combined for 299.1 in week 8 of 2024 (150.3 to 148.7)."
+   "text": "Gurret and kshoyer combined for 300.5 in week 4 of 2023, 140.0 to 160.5."
   },
   {
    "category": "highest_scoring_matchup",
@@ -2571,7 +2634,21 @@
    "values": {
     "total": 292.4
    },
-   "text": "BBrown16 and Kabroa combined for 292.4 in week 17 of 2024 (153.9 to 138.6)."
+   "text": "BBrown16 and Kabroa combined for 292.4 in week 17 of 2024, 153.9 to 138.6 (a playoff game)."
+  },
+  {
+   "category": "highest_scoring_matchup",
+   "season": "2024",
+   "week": 15,
+   "managers": [
+    "612407006212468736",
+    "999190763323944960"
+   ],
+   "players": [],
+   "values": {
+    "total": 288.2
+   },
+   "text": "jonahcartwright and BBrown16 combined for 288.2 in week 15 of 2024, 169.1 to 119.2."
   },
   {
    "category": "championship_run",
@@ -2983,6 +3060,7 @@
    "values": {
     "wins_first": 4,
     "wins_second": 7,
+    "ties": 0,
     "points_first": 1139.4,
     "points_second": 1192.0
    },
@@ -3000,6 +3078,7 @@
    "values": {
     "wins_first": 5,
     "wins_second": 5,
+    "ties": 0,
     "points_first": 1080.8,
     "points_second": 1138.9
    },
@@ -3017,6 +3096,7 @@
    "values": {
     "wins_first": 7,
     "wins_second": 2,
+    "ties": 0,
     "points_first": 1093.6,
     "points_second": 871.5
    },
@@ -3034,6 +3114,7 @@
    "values": {
     "wins_first": 5,
     "wins_second": 4,
+    "ties": 0,
     "points_first": 963.1,
     "points_second": 962.0
    },
@@ -3051,6 +3132,7 @@
    "values": {
     "wins_first": 7,
     "wins_second": 2,
+    "ties": 0,
     "points_first": 936.7,
     "points_second": 886.8
    },
@@ -3068,6 +3150,7 @@
    "values": {
     "wins_first": 5,
     "wins_second": 4,
+    "ties": 0,
     "points_first": 1026.9,
     "points_second": 1011.5
    },
@@ -3085,6 +3168,7 @@
    "values": {
     "wins_first": 5,
     "wins_second": 4,
+    "ties": 0,
     "points_first": 1035.2,
     "points_second": 948.4
    },
@@ -3102,6 +3186,7 @@
    "values": {
     "wins_first": 3,
     "wins_second": 6,
+    "ties": 0,
     "points_first": 820.9,
     "points_second": 934.7
    },
@@ -3119,6 +3204,7 @@
    "values": {
     "wins_first": 4,
     "wins_second": 5,
+    "ties": 0,
     "points_first": 825.8,
     "points_second": 881.7
    },
@@ -3136,6 +3222,7 @@
    "values": {
     "wins_first": 6,
     "wins_second": 3,
+    "ties": 0,
     "points_first": 950.0,
     "points_second": 788.9
    },
@@ -3153,6 +3240,7 @@
    "values": {
     "wins_first": 4,
     "wins_second": 4,
+    "ties": 0,
     "points_first": 766.0,
     "points_second": 718.3
    },
@@ -3170,6 +3258,7 @@
    "values": {
     "wins_first": 6,
     "wins_second": 2,
+    "ties": 0,
     "points_first": 886.4,
     "points_second": 840.1
    },
@@ -3187,6 +3276,7 @@
    "values": {
     "wins_first": 3,
     "wins_second": 5,
+    "ties": 0,
     "points_first": 826.5,
     "points_second": 835.5
    },
@@ -3204,6 +3294,7 @@
    "values": {
     "wins_first": 4,
     "wins_second": 4,
+    "ties": 0,
     "points_first": 732.5,
     "points_second": 784.0
    },
@@ -3221,6 +3312,7 @@
    "values": {
     "wins_first": 2,
     "wins_second": 6,
+    "ties": 0,
     "points_first": 790.7,
     "points_second": 856.7
    },
@@ -3238,6 +3330,7 @@
    "values": {
     "wins_first": 2,
     "wins_second": 6,
+    "ties": 0,
     "points_first": 703.7,
     "points_second": 784.1
    },
@@ -3255,6 +3348,7 @@
    "values": {
     "wins_first": 3,
     "wins_second": 5,
+    "ties": 0,
     "points_first": 953.9,
     "points_second": 958.8
    },
@@ -3272,6 +3366,7 @@
    "values": {
     "wins_first": 4,
     "wins_second": 4,
+    "ties": 0,
     "points_first": 788.7,
     "points_second": 810.0
    },
@@ -3289,6 +3384,7 @@
    "values": {
     "wins_first": 6,
     "wins_second": 2,
+    "ties": 0,
     "points_first": 948.9,
     "points_second": 860.5
    },
@@ -3306,6 +3402,7 @@
    "values": {
     "wins_first": 3,
     "wins_second": 5,
+    "ties": 0,
     "points_first": 841.5,
     "points_second": 884.3
    },
@@ -3323,6 +3420,7 @@
    "values": {
     "wins_first": 2,
     "wins_second": 6,
+    "ties": 0,
     "points_first": 807.4,
     "points_second": 802.9
    },
@@ -3340,6 +3438,7 @@
    "values": {
     "wins_first": 2,
     "wins_second": 5,
+    "ties": 0,
     "points_first": 742.8,
     "points_second": 841.5
    },
@@ -3357,6 +3456,7 @@
    "values": {
     "wins_first": 3,
     "wins_second": 4,
+    "ties": 0,
     "points_first": 644.4,
     "points_second": 651.8
    },
@@ -3374,6 +3474,7 @@
    "values": {
     "wins_first": 4,
     "wins_second": 3,
+    "ties": 0,
     "points_first": 752.2,
     "points_second": 751.5
    },
@@ -3391,6 +3492,7 @@
    "values": {
     "wins_first": 6,
     "wins_second": 1,
+    "ties": 0,
     "points_first": 753.3,
     "points_second": 587.3
    },
@@ -3408,6 +3510,7 @@
    "values": {
     "wins_first": 4,
     "wins_second": 3,
+    "ties": 0,
     "points_first": 670.7,
     "points_second": 682.0
    },
@@ -3425,6 +3528,7 @@
    "values": {
     "wins_first": 4,
     "wins_second": 3,
+    "ties": 0,
     "points_first": 735.0,
     "points_second": 700.0
    },
@@ -3442,6 +3546,7 @@
    "values": {
     "wins_first": 4,
     "wins_second": 3,
+    "ties": 0,
     "points_first": 694.6,
     "points_second": 702.1
    },
@@ -3459,6 +3564,7 @@
    "values": {
     "wins_first": 4,
     "wins_second": 3,
+    "ties": 0,
     "points_first": 689.9,
     "points_second": 678.3
    },
@@ -3476,6 +3582,7 @@
    "values": {
     "wins_first": 4,
     "wins_second": 3,
+    "ties": 0,
     "points_first": 775.5,
     "points_second": 692.9
    },
@@ -3493,6 +3600,7 @@
    "values": {
     "wins_first": 3,
     "wins_second": 4,
+    "ties": 0,
     "points_first": 697.9,
     "points_second": 708.5
    },
@@ -3510,6 +3618,7 @@
    "values": {
     "wins_first": 4,
     "wins_second": 3,
+    "ties": 0,
     "points_first": 817.0,
     "points_second": 746.6
    },
@@ -3527,6 +3636,7 @@
    "values": {
     "wins_first": 6,
     "wins_second": 0,
+    "ties": 0,
     "points_first": 643.8,
     "points_second": 533.8
    },
@@ -3544,6 +3654,7 @@
    "values": {
     "wins_first": 5,
     "wins_second": 1,
+    "ties": 0,
     "points_first": 749.8,
     "points_second": 587.5
    },
@@ -3561,6 +3672,7 @@
    "values": {
     "wins_first": 2,
     "wins_second": 4,
+    "ties": 0,
     "points_first": 676.7,
     "points_second": 730.0
    },
@@ -3578,6 +3690,7 @@
    "values": {
     "wins_first": 3,
     "wins_second": 3,
+    "ties": 0,
     "points_first": 559.2,
     "points_second": 569.7
    },
@@ -3595,6 +3708,7 @@
    "values": {
     "wins_first": 3,
     "wins_second": 3,
+    "ties": 0,
     "points_first": 573.5,
     "points_second": 624.8
    },
@@ -3612,10 +3726,11 @@
    "values": {
     "wins_first": 2,
     "wins_second": 4,
-    "points_first": 597.7,
-    "points_second": 653.4
+    "ties": 0,
+    "points_first": 585.1,
+    "points_second": 627.2
    },
-   "text": "tuckersdumbteam and BBrown16 have met 6 times: 2-4 to BBrown16, 597.7 against 653.4 all told."
+   "text": "tuckersdumbteam and BBrown16 have met 6 times: 2-4 to BBrown16, 585.1 against 627.2 all told (2024 week 8 counted at the commissioner's override score)."
   },
   {
    "category": "head_to_head",
@@ -3629,6 +3744,7 @@
    "values": {
     "wins_first": 4,
     "wins_second": 2,
+    "ties": 0,
     "points_first": 653.6,
     "points_second": 606.9
    },
@@ -3646,6 +3762,7 @@
    "values": {
     "wins_first": 4,
     "wins_second": 2,
+    "ties": 0,
     "points_first": 641.3,
     "points_second": 586.9
    },
@@ -3663,6 +3780,7 @@
    "values": {
     "wins_first": 2,
     "wins_second": 4,
+    "ties": 0,
     "points_first": 603.0,
     "points_second": 628.1
    },
@@ -3680,6 +3798,7 @@
    "values": {
     "wins_first": 3,
     "wins_second": 2,
+    "ties": 0,
     "points_first": 544.8,
     "points_second": 542.8
    },
@@ -3697,6 +3816,7 @@
    "values": {
     "wins_first": 2,
     "wins_second": 3,
+    "ties": 0,
     "points_first": 490.5,
     "points_second": 512.8
    },
@@ -3714,6 +3834,7 @@
    "values": {
     "wins_first": 4,
     "wins_second": 1,
+    "ties": 0,
     "points_first": 540.7,
     "points_second": 430.8
    },
@@ -3731,6 +3852,7 @@
    "values": {
     "wins_first": 2,
     "wins_second": 3,
+    "ties": 0,
     "points_first": 485.5,
     "points_second": 527.6
    },
@@ -3748,6 +3870,7 @@
    "values": {
     "wins_first": 2,
     "wins_second": 0,
+    "ties": 0,
     "points_first": 287.0,
     "points_second": 229.9
    },
@@ -3765,6 +3888,7 @@
    "values": {
     "wins_first": 1,
     "wins_second": 1,
+    "ties": 0,
     "points_first": 229.7,
     "points_second": 203.2
    },
@@ -3782,6 +3906,7 @@
    "values": {
     "wins_first": 2,
     "wins_second": 0,
+    "ties": 0,
     "points_first": 210.6,
     "points_second": 155.0
    },
@@ -3799,6 +3924,7 @@
    "values": {
     "wins_first": 2,
     "wins_second": 0,
+    "ties": 0,
     "points_first": 240.2,
     "points_second": 150.7
    },
@@ -3816,6 +3942,7 @@
    "values": {
     "wins_first": 2,
     "wins_second": 0,
+    "ties": 0,
     "points_first": 192.2,
     "points_second": 142.3
    },
@@ -3833,6 +3960,7 @@
    "values": {
     "wins_first": 0,
     "wins_second": 2,
+    "ties": 0,
     "points_first": 136.0,
     "points_second": 243.3
    },
@@ -3850,10 +3978,11 @@
    "values": {
     "wins_first": 1,
     "wins_second": 0,
+    "ties": 0,
     "points_first": 108.1,
     "points_second": 65.7
    },
-   "text": "JJJet and paulslaats have met 1 times: 1-0 to JJJet, 108.1 against 65.7 all told."
+   "text": "JJJet and paulslaats have met 1 time: 1-0 to JJJet, 108.1 against 65.7 all told."
   },
   {
    "category": "head_to_head",
@@ -3867,10 +3996,11 @@
    "values": {
     "wins_first": 1,
     "wins_second": 0,
+    "ties": 0,
     "points_first": 121.5,
     "points_second": 102.4
    },
-   "text": "tuckersdumbteam and JJJet have met 1 times: 1-0 to tuckersdumbteam, 121.5 against 102.4 all told."
+   "text": "tuckersdumbteam and JJJet have met 1 time: 1-0 to tuckersdumbteam, 121.5 against 102.4 all told."
   },
   {
    "category": "head_to_head",
@@ -3884,10 +4014,11 @@
    "values": {
     "wins_first": 0,
     "wins_second": 1,
+    "ties": 0,
     "points_first": 67.4,
     "points_second": 98.7
    },
-   "text": "mikestreinz and JJJet have met 1 times: 0-1 to JJJet, 67.4 against 98.7 all told."
+   "text": "mikestreinz and JJJet have met 1 time: 0-1 to JJJet, 67.4 against 98.7 all told."
   },
   {
    "category": "season_swing",
@@ -3901,19 +4032,6 @@
     "swing": -6
    },
    "text": "Gurret fell from 11 wins in 2022 to 5 in 2023."
-  },
-  {
-   "category": "season_swing",
-   "season": "2026",
-   "week": null,
-   "managers": [
-    "76909640692416512"
-   ],
-   "players": [],
-   "values": {
-    "swing": -10
-   },
-   "text": "Gurret fell from 12 wins in 2025 to 2 in 2026."
   },
   {
    "category": "season_swing",
@@ -3943,19 +4061,6 @@
   },
   {
    "category": "season_swing",
-   "season": "2026",
-   "week": null,
-   "managers": [
-    "605683461667229696"
-   ],
-   "players": [],
-   "values": {
-    "swing": -5
-   },
-   "text": "mikestreinz fell from 8 wins in 2025 to 3 in 2026."
-  },
-  {
-   "category": "season_swing",
    "season": "2023",
    "week": null,
    "managers": [
@@ -3966,32 +4071,6 @@
     "swing": 6
    },
    "text": "kshoyer climbed from 6 wins in 2022 to 12 in 2023."
-  },
-  {
-   "category": "season_swing",
-   "season": "2026",
-   "week": null,
-   "managers": [
-    "611630747161358336"
-   ],
-   "players": [],
-   "values": {
-    "swing": -10
-   },
-   "text": "kshoyer fell from 10 wins in 2025 to 0 in 2026."
-  },
-  {
-   "category": "season_swing",
-   "season": "2026",
-   "week": null,
-   "managers": [
-    "611664340277383168"
-   ],
-   "players": [],
-   "values": {
-    "swing": -7
-   },
-   "text": "tuckersdumbteam fell from 10 wins in 2025 to 3 in 2026."
   },
   {
    "category": "season_swing",
@@ -4033,91 +4112,55 @@
    "text": "malstol climbed from 3 wins in 2024 to 9 in 2025."
   },
   {
-   "category": "season_swing",
-   "season": "2026",
-   "week": null,
-   "managers": [
-    "850475150817234944"
-   ],
-   "players": [],
-   "values": {
-    "swing": -8
-   },
-   "text": "malstol fell from 9 wins in 2025 to 1 in 2026."
-  },
-  {
-   "category": "season_swing",
-   "season": "2026",
-   "week": null,
-   "managers": [
-    "870570674836656128"
-   ],
-   "players": [],
-   "values": {
-    "swing": -5
-   },
-   "text": "paulslaats fell from 7 wins in 2025 to 2 in 2026."
-  },
-  {
-   "category": "season_swing",
-   "season": "2026",
-   "week": null,
-   "managers": [
-    "999190763323944960"
-   ],
-   "players": [],
-   "values": {
-    "swing": -5
-   },
-   "text": "BBrown16 fell from 6 wins in 2025 to 1 in 2026."
-  },
-  {
    "category": "draft_steal",
    "season": "2022",
    "week": null,
    "managers": [
-    "860365948673204224"
+    "611697269254791168"
    ],
    "players": [
-    "167"
+    "6151"
    ],
    "values": {
     "round": 8,
-    "points": 311.3
+    "points": 191.7,
+    "starts": 14
    },
-   "text": "Tom Brady went in round 8 of the 2022 draft to JJJet and scored 311.3 that season."
+   "text": "Miles Sanders went in round 8 of the 2022 draft to TnT44 and scored 191.7 in his starting lineup that season (14 starts; playoff and consolation games included)."
   },
   {
    "category": "draft_bust",
    "season": "2022",
    "week": null,
    "managers": [
-    "860365948673204224"
+    "611697269254791168"
    ],
    "players": [
-    "7588"
+    "3969"
    ],
    "values": {
     "round": 2,
-    "points": 34.0
+    "points": 32.6,
+    "starts": 3
    },
-   "text": "JJJet spent a round 2 pick on Javonte Williams in 2022 and got 34.0 points."
+   "text": "TnT44 spent a round 2 pick on Leonard Fournette in 2022 and got 32.6 points from him in the starting lineup (3 starts; playoff and consolation games included)."
   },
   {
    "category": "draft_steal",
    "season": "2023",
    "week": null,
    "managers": [
-    "611697269254791168"
+    "611649934390870016"
    ],
    "players": [
-    "6768"
+    "6819"
    ],
    "values": {
-    "round": 8,
-    "points": 310.7
+    "round": 9,
+    "points": 182.7,
+    "starts": 14
    },
-   "text": "Tua Tagovailoa went in round 8 of the 2023 draft to TnT44 and scored 310.7 that season."
+   "text": "Michael Pittman went in round 9 of the 2023 draft to Kabroa and scored 182.7 in his starting lineup that season (14 starts; playoff and consolation games included)."
   },
   {
    "category": "draft_bust",
@@ -4131,9 +4174,10 @@
    ],
    "values": {
     "round": 1,
-    "points": 21.1
+    "points": 21.1,
+    "starts": 2
    },
-   "text": "jonahcartwright spent a round 1 pick on Nick Chubb in 2023 and got 21.1 points."
+   "text": "jonahcartwright spent a round 1 pick on Nick Chubb in 2023 and got 21.1 points from him in the starting lineup (2 starts; playoff and consolation games included)."
   },
   {
    "category": "draft_steal",
@@ -4147,9 +4191,10 @@
    ],
    "values": {
     "round": 10,
-    "points": 396.6
+    "points": 325.9,
+    "starts": 13
    },
-   "text": "Jayden Daniels went in round 10 of the 2024 draft to Gurret and scored 396.6 that season."
+   "text": "Jayden Daniels went in round 10 of the 2024 draft to Gurret and scored 325.9 in his starting lineup that season (13 starts; playoff and consolation games included)."
   },
   {
    "category": "draft_bust",
@@ -4163,57 +4208,61 @@
    ],
    "values": {
     "round": 3,
-    "points": 49.9
+    "points": 17.4,
+    "starts": 3
    },
-   "text": "jonahcartwright spent a round 3 pick on Brandon Aiyuk in 2024 and got 49.9 points."
+   "text": "jonahcartwright spent a round 3 pick on Brandon Aiyuk in 2024 and got 17.4 points from him in the starting lineup (3 starts; playoff and consolation games included)."
   },
   {
    "category": "draft_steal",
    "season": "2025",
    "week": null,
    "managers": [
-    "611664340277383168"
+    "999190763323944960"
    ],
    "players": [
-    "11564"
+    "7543"
    ],
    "values": {
-    "round": 12,
-    "points": 360.4
+    "round": 8,
+    "points": 213.5,
+    "starts": 15
    },
-   "text": "Drake Maye went in round 12 of the 2025 draft to tuckersdumbteam and scored 360.4 that season."
+   "text": "Travis Etienne went in round 8 of the 2025 draft to BBrown16 and scored 213.5 in his starting lineup that season (15 starts; playoff and consolation games included)."
   },
   {
    "category": "draft_bust",
    "season": "2025",
    "week": null,
    "managers": [
-    "612407006212468736"
+    "76909640692416512"
    ],
    "players": [
-    "4137"
+    "12529"
    ],
    "values": {
-    "round": 3,
-    "points": 28.3
+    "round": 2,
+    "points": 24.7,
+    "starts": 3
    },
-   "text": "jonahcartwright spent a round 3 pick on James Conner in 2025 and got 28.3 points."
+   "text": "Gurret spent a round 2 pick on TreVeyon Henderson in 2025 and got 24.7 points from him in the starting lineup (3 starts; playoff and consolation games included)."
   },
   {
    "category": "draft_steal",
    "season": "2026",
    "week": null,
    "managers": [
-    "999190763323944960"
+    "612407006212468736"
    ],
    "players": [
-    "4046"
+    "3294"
    ],
    "values": {
-    "round": 9,
-    "points": 80.6
+    "round": 8,
+    "points": 77.1,
+    "starts": 3
    },
-   "text": "Patrick Mahomes went in round 9 of the 2026 draft to BBrown16 and scored 80.6 that season."
+   "text": "Dak Prescott went in round 8 of the 2026 draft to jonahcartwright and scored 77.1 in his starting lineup that season (3 starts; 2026 so far, through week 3)."
   },
   {
    "category": "draft_bust",
@@ -4227,9 +4276,10 @@
    ],
    "values": {
     "round": 2,
-    "points": 0.0
+    "points": 0,
+    "starts": 0
    },
-   "text": "kshoyer spent a round 2 pick on Josh Jacobs in 2026 and got 0.0 points."
+   "text": "kshoyer spent a round 2 pick on Josh Jacobs in 2026 and got 0.0 points from him in the starting lineup (0 starts; 2026 so far, through week 3)."
   },
   {
    "category": "best_keeper",
@@ -4243,9 +4293,10 @@
    ],
    "values": {
     "cost_round": 3,
-    "points": 476.9
+    "points": 418.1,
+    "starts": 15
    },
-   "text": "JJJet kept Patrick Mahomes at a round 3 cost in 2022; he returned 476.9 points."
+   "text": "JJJet kept Patrick Mahomes at a round 3 cost in 2022; he scored 418.1 in JJJet's starting lineup that season (15 starts, postseason included)."
   },
   {
    "category": "best_keeper",
@@ -4259,9 +4310,10 @@
    ],
    "values": {
     "cost_round": 12,
-    "points": 406.6
+    "points": 406.6,
+    "starts": 16
    },
-   "text": "kshoyer kept Jalen Hurts at a round 12 cost in 2022; he returned 406.6 points."
+   "text": "kshoyer kept Jalen Hurts at a round 12 cost in 2022; he scored 406.6 in kshoyer's starting lineup that season (16 starts, postseason included)."
   },
   {
    "category": "best_keeper",
@@ -4275,9 +4327,10 @@
    ],
    "values": {
     "cost_round": 11,
-    "points": 398.2
+    "points": 376.3,
+    "starts": 15
    },
-   "text": "kshoyer kept Jalen Hurts at a round 11 cost in 2023; he returned 398.2 points."
+   "text": "kshoyer kept Jalen Hurts at a round 11 cost in 2023; he scored 376.3 in kshoyer's starting lineup that season (15 starts, postseason included)."
   },
   {
    "category": "best_keeper",
@@ -4291,25 +4344,10 @@
    ],
    "values": {
     "cost_round": 1,
-    "points": 356.8
+    "points": 356.8,
+    "starts": 16
    },
-   "text": "mikestreinz kept Christian McCaffrey at a round 1 cost in 2023; he returned 356.8 points."
-  },
-  {
-   "category": "best_keeper",
-   "season": "2023",
-   "week": null,
-   "managers": [
-    "611697269254791168"
-   ],
-   "players": [
-    "8183"
-   ],
-   "values": {
-    "cost_round": 14,
-    "points": 353.6
-   },
-   "text": "TnT44 kept Brock Purdy at a round 14 cost in 2023; he returned 353.6 points."
+   "text": "mikestreinz kept Christian McCaffrey at a round 1 cost in 2023; he scored 356.8 in mikestreinz's starting lineup that season (16 starts, postseason included)."
   },
   {
    "category": "best_keeper",
@@ -4323,89 +4361,112 @@
    ],
    "values": {
     "cost_round": 11,
-    "points": 347.1
+    "points": 347.1,
+    "starts": 15
    },
-   "text": "Kabroa kept Jalen Hurts at a round 11 cost in 2024; he returned 347.1 points."
+   "text": "Kabroa kept Jalen Hurts at a round 11 cost in 2024; he scored 347.1 in Kabroa's starting lineup that season (15 starts, postseason included)."
   },
   {
-   "category": "worst_keeper",
-   "season": "2026",
+   "category": "best_keeper",
+   "season": "2024",
    "week": null,
    "managers": [
-    "611630747161358336"
+    "605683461667229696"
    ],
    "players": [
-    "9493"
+    "7564"
    ],
    "values": {
-    "cost_round": 12,
-    "points": 9.9
+    "cost_round": 7,
+    "points": 309.7,
+    "starts": 15
    },
-   "text": "kshoyer kept Puka Nacua at a round 12 cost in 2026 and got 9.9 points out of him."
+   "text": "mikestreinz kept Ja'Marr Chase at a round 7 cost in 2024; he scored 309.7 in mikestreinz's starting lineup that season (15 starts, postseason included)."
   },
   {
    "category": "worst_keeper",
-   "season": "2026",
+   "season": "2024",
    "week": null,
    "managers": [
-    "999190763323944960"
+    "612407006212468736"
    ],
    "players": [
-    "7569"
+    "9508"
    ],
    "values": {
-    "cost_round": 12,
-    "points": 17.7
+    "cost_round": 13,
+    "points": 0,
+    "starts": 0
    },
-   "text": "BBrown16 kept Nico Collins at a round 12 cost in 2026 and got 17.7 points out of him."
+   "text": "jonahcartwright kept Tyjae Spears at a round 13 cost in 2024 and got 0.0 points out of him in the starting lineup (0 starts, postseason included)."
   },
   {
    "category": "worst_keeper",
-   "season": "2026",
+   "season": "2024",
    "week": null,
    "managers": [
-    "999190763323944960"
+    "611697269254791168"
    ],
    "players": [
-    "9226"
+    "10236"
    ],
    "values": {
-    "cost_round": 11,
-    "points": 21.1
+    "cost_round": 9,
+    "points": 38.2,
+    "starts": 6
    },
-   "text": "BBrown16 kept De'Von Achane at a round 11 cost in 2026 and got 21.1 points out of him."
+   "text": "TnT44 kept Dalton Kincaid at a round 9 cost in 2024 and got 38.2 points out of him in the starting lineup (6 starts, postseason included)."
   },
   {
    "category": "worst_keeper",
-   "season": "2026",
+   "season": "2024",
+   "week": null,
+   "managers": [
+    "605683461667229696"
+   ],
+   "players": [
+    "4034"
+   ],
+   "values": {
+    "cost_round": 1,
+    "points": 40.3,
+    "starts": 5
+   },
+   "text": "mikestreinz kept Christian McCaffrey at a round 1 cost in 2024 and got 40.3 points out of him in the starting lineup (5 starts, postseason included)."
+  },
+  {
+   "category": "worst_keeper",
+   "season": "2023",
    "week": null,
    "managers": [
     "611649934390870016"
    ],
    "players": [
-    "11604"
+    "2374"
    ],
    "values": {
-    "cost_round": 8,
-    "points": 22.6
+    "cost_round": 11,
+    "points": 42.1,
+    "starts": 6
    },
-   "text": "Kabroa kept Brock Bowers at a round 8 cost in 2026 and got 22.6 points out of him."
+   "text": "Kabroa kept Tyler Lockett at a round 11 cost in 2023 and got 42.1 points out of him in the starting lineup (6 starts, postseason included)."
   },
   {
    "category": "worst_keeper",
-   "season": "2026",
+   "season": "2025",
    "week": null,
    "managers": [
-    "870570674836656128"
+    "850475150817234944"
    ],
    "players": [
-    "11564"
+    "7594"
    ],
    "values": {
-    "cost_round": 12,
-    "points": 22.6
+    "cost_round": 11,
+    "points": 51.3,
+    "starts": 6
    },
-   "text": "paulslaats kept Drake Maye at a round 12 cost in 2026 and got 22.6 points out of him."
+   "text": "malstol kept Chuba Hubbard at a round 11 cost in 2025 and got 51.3 points out of him in the starting lineup (6 starts, postseason included)."
   },
   {
    "category": "faab_splurge",
@@ -4419,9 +4480,10 @@
    ],
    "values": {
     "faab": 75,
-    "points": 3.5
+    "points": 3.5,
+    "starts": 1
    },
-   "text": "paulslaats spent $75 of FAAB on Trevor Lawrence in week 16 of 2022. He scored 3.5 for him after that."
+   "text": "paulslaats spent $75 of FAAB on Trevor Lawrence in week 16 of 2022. He scored 3.5 in his starting lineup from then on (1 start; postseason included)."
   },
   {
    "category": "faab_splurge",
@@ -4435,9 +4497,10 @@
    ],
    "values": {
     "faab": 60,
-    "points": 85.2
+    "points": 5.2,
+    "starts": 1
    },
-   "text": "jonahcartwright spent $60 of FAAB on Tyrone Tracy in week 8 of 2025. He scored 85.2 for him after that."
+   "text": "jonahcartwright spent $60 of FAAB on Tyrone Tracy in week 8 of 2025. He scored 5.2 in his starting lineup from then on (1 start; postseason included)."
   },
   {
    "category": "faab_splurge",
@@ -4451,9 +4514,10 @@
    ],
    "values": {
     "faab": 52,
-    "points": 25.1
+    "points": 25.1,
+    "starts": 3
    },
-   "text": "kshoyer spent $52 of FAAB on Zack Moss in week 12 of 2023. He scored 25.1 for him after that."
+   "text": "kshoyer spent $52 of FAAB on Zack Moss in week 12 of 2023. He scored 25.1 in his starting lineup from then on (3 starts; postseason included)."
   },
   {
    "category": "faab_splurge",
@@ -4467,9 +4531,10 @@
    ],
    "values": {
     "faab": 50,
-    "points": 160.8
+    "points": 129.1,
+    "starts": 11
    },
-   "text": "Kabroa spent $50 of FAAB on Jerome Ford in week 2 of 2023. He scored 160.8 for him after that."
+   "text": "Kabroa spent $50 of FAAB on Jerome Ford in week 2 of 2023. He scored 129.1 in his starting lineup from then on (11 starts; postseason included)."
   },
   {
    "category": "faab_splurge",
@@ -4483,9 +4548,10 @@
    ],
    "values": {
     "faab": 50,
-    "points": 61.5
+    "points": 20.5,
+    "starts": 1
    },
-   "text": "TnT44 spent $50 of FAAB on Brock Purdy in week 14 of 2022. He scored 61.5 for him after that."
+   "text": "TnT44 spent $50 of FAAB on Brock Purdy in week 14 of 2022. He scored 20.5 in his starting lineup from then on (1 start; postseason included)."
   },
   {
    "category": "faab_splurge",
@@ -4499,9 +4565,10 @@
    ],
    "values": {
     "faab": 44,
-    "points": 3.0
+    "points": 0,
+    "starts": 0
    },
-   "text": "TnT44 spent $44 of FAAB on Patrick Taylor in week 14 of 2024. He scored 3.0 for him after that."
+   "text": "TnT44 spent $44 of FAAB on Patrick Taylor in week 14 of 2024. He scored 0.0 in his starting lineup from then on (0 starts; postseason included)."
   },
   {
    "category": "faab_splurge",
@@ -4515,9 +4582,10 @@
    ],
    "values": {
     "faab": 41,
-    "points": 68.5
+    "points": 44.0,
+    "starts": 4
    },
-   "text": "kshoyer spent $41 of FAAB on George Pickens in week 7 of 2024. He scored 68.5 for him after that."
+   "text": "kshoyer spent $41 of FAAB on George Pickens in week 7 of 2024. He scored 44.0 in his starting lineup from then on (4 starts; postseason included)."
   },
   {
    "category": "faab_splurge",
@@ -4531,9 +4599,10 @@
    ],
    "values": {
     "faab": 40,
-    "points": 47.2
+    "points": 35.3,
+    "starts": 2
    },
-   "text": "kshoyer spent $40 of FAAB on Isaac Guerendo in week 13 of 2024. He scored 47.2 for him after that."
+   "text": "kshoyer spent $40 of FAAB on Isaac Guerendo in week 13 of 2024. He scored 35.3 in his starting lineup from then on (2 starts; postseason included)."
   },
   {
    "category": "trade_activity",
