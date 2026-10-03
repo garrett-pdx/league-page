@@ -403,7 +403,7 @@ every file below, keep our side**, then re-apply any genuine upstream fix to it 
 - **Shell and nav.** `Nav/index.svelte` (tab title through `pageTitle.js`, sticky phone bar),
   `NavLarge` and `NavSmall` (groups, a highlight that follows the page, the inert closed
   dropdown, a real hamburger button, 44px items), `Footer.svelte` (external links by
-  destination, 44px links), `tabs.js`, `app.html` (one light stylesheet), and
+  destination, 44px links, every off-site link in a new tab), `tabs.js`, `app.html` (one light stylesheet), and
   `_smui-theme.scss` (its one `@use 'tokens';` line).
 - **Matchups.** `Matchup.svelte`, `MatchupsAndBrackets`, `MatchupWeeks`, `Brackets`,
   `BracketsColumn`: no text shrunk below 12px, stacked scores on phones, a real
@@ -435,7 +435,8 @@ every file below, keep our side**, then re-apply any genuine upstream fix to it 
   band, This week line, career-finish chips), `ManagerAwards`, `ManagerFantasyInfo` (Rival and
   Head-to-head links), `ManagerRow` (the `bar()` fix above, the card layout).
 - **Rosters.** `Roster`, `RosterRow` (12px text, an anchor per team for the jump chips).
-- **News and Resources.** `News/index`, `SingleNews` (44px links), `Resources.svelte` (heading
+- **News and Resources.** `News/index`, `SingleNews` (44px links; links inside
+  an article body open in a new tab), `Resources.svelte` (heading
   moved to the route), `news.js` (the dead Reddit feed degrades; see
   `src/lib/utils/CLAUDE.md`).
 - **`Bar.svelte`** (the name is a real link) and **`universalFunctions.js`** (the guard above).
