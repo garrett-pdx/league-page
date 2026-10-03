@@ -18,9 +18,9 @@ The plans being carried out:
 | 4 | **B1–B3 + schedule luck.** `PageHeader` on every page, text fixes, the page jumping as it loads, then the all-play table on Standings | Both edit the Standings route; History pages reuse `PageHeader` | done |
 | 5 | **D.** Links between pages, plus **History step 2**, the head-to-head grid | Both work on Rivalry and manager links | done; lore-script fix done (merged) |
 | 6 | **C4–C5 + B4–B5.** Drafts, remaining small text and tap targets, blog typography, desktop layouts | Polish on less-used pages | done |
-| 7 | **E. Content:** bio typos and league lines (7a, running in parallel in a worktree, Opus); home page copy, Resources, countdown (7b) | Writing, once the page frames are settled | 7a done (merged); 7b running (Opus) |
+| 7 | **E. Content:** bio typos and league lines (7a, running in parallel in a worktree, Opus); home page copy, Resources, countdown (7b) | Writing, once the page frames are settled | done (home copy awaiting Garrett's review) |
 | 8 | **History step 3.** Seasons archive | Biggest new page | running in parallel with 7b (Opus, worktree, dev server on port 5174) |
-| 9 | **History step 4.** Stat Lab, first release | Built on everything above | pending |
+| 9 | **History step 4.** Stat Lab, first release | Built on everything above | running in parallel with 8 (Opus, main checkout) |
 | 10 | **F wrap-up.** `CLAUDE.md` corrections, end-of-season checklist, `mudd-preview` post type, full-site audit | Docs describe the finished state | pending |
 
 ## Decisions already made (2026-10-02)
@@ -249,3 +249,30 @@ Commits `d9becd2`..`f0cb4f3`.
   second "2022 Draft".
 - **Step 10:** `Drafts/index` was rewritten (about 60 lines), and many more upstream files now
   differ. See step 6's file list.
+
+### Step 7b: home page, Resources, season milestone (done, Opus)
+
+Commits `3270061`..`442c350`.
+
+- **Home page:**
+  - shorter `homepageText` with a "Find your way" row;
+  - the rules are now one line linking to the constitution (every removed rule was confirmed
+    to be in the constitution);
+  - the hard-coded champion paragraph is gone;
+  - phones get a new order: intro, week banner, milestone, power rankings, champion, blog,
+    transactions;
+  - at 375px, power rankings moved from y≈1810 to 929, and the champion from 2461 to 1492.
+- **Resources:**
+  - a new `LeagueLinks` component goes first;
+  - a "Useful elsewhere" group: FantasyPros half-PPR weekly and rest-of-season rankings, the
+    NFL injury report, and 4for4's 2026 waiver/FAAB guide. All return 200.
+- **Season milestone:** no ticking countdown. Sleeper closes trades when week 12's last game
+  ends, with no published time (Sleeper help article cited in a comment). So it shows a plain
+  line: "Trade deadline · N weeks away", then "Playoffs · N weeks away".
+
+**Changes to the remaining plan:**
+- **Step 10:**
+  - the 4for4 guide URL is for 2026; add swapping it to the preseason checklist;
+  - `src/routes/CLAUDE.md`'s description of the home page is wrong on phones now;
+  - list `src/lib/Home/` and `src/lib/Resources/`.
+- **Optional for the Seasons pages:** the removed 2025 title write-up exists nowhere else now.
