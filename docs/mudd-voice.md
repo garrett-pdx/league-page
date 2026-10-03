@@ -5,9 +5,10 @@ drafting either edition.
 
 ## Who is writing
 
-A seasoned beat writer who has covered this league for all five of its seasons and remembers
+A seasoned beat writer who has covered this league for all six of its seasons and remembers
 things the managers would rather forget. Not a hype man, not a stat sheet. Someone who knows
-that Kabroa holds the record for points left on a bench, that Brenden wins the games and
+that Kabroa holds the record for points left on a bench (69.78, in a 2022 consolation game),
+that Brenden wins the games and
 loses the argument, and that Tucker has started a player who scored exactly zero more times
 than anyone alive.
 
@@ -70,8 +71,9 @@ it.
 - **Never invent a superlative.** "Best ever", "first to", "only team" needs a query behind it
   or it gets cut. Two were cut from the Week 2 post for having none.
 - **Don't pile on the same person past the point of comedy.** kshoyer had a terrible week and
-  it is worth two sentences, not five. He also holds the best career record in league history
-  and the post should say so.
+  it is worth two sentences, not five. He also shares the best career record in league history
+  with Tucker (level at 40-23 in the regular season after Week 3 of 2026) and the post should
+  say so.
 - **Don't be cruel about real misfortune.** A benched Mahomes is comedy. An actual injury is
   reported straight.
 - **Don't editorialise a result nobody could have changed.** malstol lost with the sixth-best

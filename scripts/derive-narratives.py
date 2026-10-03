@@ -19,12 +19,44 @@ of composing from data. Structure alone is what we already had and could not rea
 
 Run:  python3 scripts/derive-narratives.py
 Reads only committed files. No network, no Sleeper calls.
+
+DEFINITIONS. Every number in the output means exactly one of these:
+
+  - Fixture: a row with a real matchup_id in a COMPLETED week (week_complete() in
+    derive-site-data.py). That excludes the fictional week 18 (matchup_id 0), the teams outside
+    both brackets in weeks 16-17 (matchup_id null), and any week still in progress.
+  - Game score: the OFFICIAL score -- a commissioner's custom_points beats the computed points
+    (official_points() in derive-site-data.py). Results, margins, highs and lows, streaks,
+    head-to-head and the records check all use it. One override exists: 2024 week 8,
+    tuckersdumbteam 137.74 v BBrown16 122.54 (computed 150.34 / 148.74); any fact quoting that
+    game says so.
+  - Player value for a manager (MVPs, keepers, draft steals and busts, FAAB "after that"): points
+    the player scored IN THAT MANAGER'S STARTING LINEUP, in fixtures only, playoff and
+    consolation games included. Bench points, and points scored for anybody else, never count.
+    The site's season-notes top scorers use the same rule, and the self-check enforces it.
+  - Optimal lineup / points left on the bench: the best legal lineup from everyone in
+    players_points, against the COMPUTED score (player-level scoring stays as recorded). Same
+    greedy as derive-site-data.py, plus the two position-eligibility cases Sleeper itself used
+    (ELIGIBILITY below). A manager-season's bench facts are only emitted if Sleeper's own
+    potential_points is reproduced to the cent; otherwise they are suppressed, never guessed.
+  - The season in progress is labelled "so far, through week N" wherever a season total is
+    quoted, and is left out of rankings that compare whole seasons (keepers, year-on-year swings).
+
+Self-checks run before anything is written, and the script exits non-zero if one fails:
+  1. Per-manager regular-season W/L/T, points for and points against, from THIS script's own
+     pairing of fixtures, match league-history.json records (STAT_CORRECTIONS pinned exactly as
+     in derive-site-data.py).
+  2. The optimal-lineup function agrees with derive-site-data's optimal_points() on every
+     fixture row that has no eligibility override.
+  3. Every season MVP equals derive-site-data's top scorer for that manager-season.
 """
 
+import importlib.util
 import json
 import os
+import sys
 from collections import defaultdict
-from itertools import combinations
+from itertools import product
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "static", "data")
@@ -36,19 +68,73 @@ def load(name):
         return json.load(f)
 
 
-WEEKS = load("weeks.json")["weeks"]
-PLAYERS = load("players.json")
-HISTORY = load("league-history.json")
-TRANSACTIONS = load("transactions.json")["transactions"]
+def _load_site_data():
+    """
+    derive-site-data.py, imported as a module so the two scripts share one definition of a
+    completed week, an official score, an optimal lineup and the pinned stat corrections. Its
+    module level only loads the committed JSON; main() is guarded and never runs from here.
+    """
+    path = os.path.join(ROOT, "scripts", "derive-site-data.py")
+    spec = importlib.util.spec_from_file_location("derive_site_data", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+SITE = _load_site_data()
+
+WEEKS = SITE.WEEKS
+PLAYERS = SITE.PLAYERS
+HISTORY = SITE.HISTORY
+TRANSACTIONS = SITE.TRANSACTIONS
 KEEPERS = load("keepers.json")["keepers"]
 
 MANAGERS = HISTORY["managers"]
 SEASONS = HISTORY["seasons"]
 STANDINGS = HISTORY["final_standings"]
 
-# FLEX takes RB/WR/TE. One fullback exists in the player set; treat him as a running back.
-FLEX_POSITIONS = {"RB", "WR", "TE", "FB"}
-POS_ALIAS = {"FB": "RB"}
+# Positions come from SITE.position(): FLEX takes RB/WR/TE, and the one fullback in the player
+# set is treated as a running back.
+
+# Positions Sleeper actually allowed, where players.json (today's primary position only) is
+# wrong. Each entry was fitted to Sleeper's own season potential_points and reproduces it to the
+# cent; check_optimal() re-proves that on every run.
+#
+#   Taysom Hill (4381): TE in 2022 (TE alone is exact; QB/TE is 0.96 over). QB/TE from 2023.
+#       Sleeper's potential_points fills slots in order, QB first, so in a week Hill outscored
+#       TnT44's quarterback it put Hill at QB and benched the quarterback -- 2023 week 9 and
+#       2024 week 11. That is Sleeper's figure, not the best lineup: in 2024 week 11 TnT44
+#       actually started Hill at TE (37.52) and his QB, and scored 140.88, above Sleeper's
+#       125.82 "potential". optimal_points() takes the best of every eligible assignment.
+#   Travis Hunter (12530): WR in 2025. players.json says DB, which has no slot; paulslaats
+#       started him three times.
+ELIGIBILITY = {
+    ("2022", "4381"): {"TE"},
+    ("2023", "4381"): {"QB", "TE"},
+    ("2024", "4381"): {"QB", "TE"},
+    ("2025", "4381"): {"QB", "TE"},
+    ("2025", "12530"): {"WR"},
+}
+
+FAILURES = []
+
+# Printed at the top of docs/league-lore.md and stored in narratives.json, so a writer reading
+# a fact knows what its number counts.
+DEFINITIONS = [
+    "Game scores are official: a commissioner override (custom_points) beats the computed score. "
+    "The one so far is 2024 week 8, tuckersdumbteam 137.74 v BBrown16 122.54 (computed 150.34 to "
+    "148.74); facts quoting it say so.",
+    "A player's points for a manager (MVPs, keepers, draft steals and busts, FAAB) are points "
+    "scored in that manager's starting lineup, in real fixtures, playoff and consolation games "
+    "included. Bench points and points scored for anyone else never count.",
+    "Week 18 and the weeks-16-17 byes of teams outside both brackets are not fixtures and count "
+    "for nothing. Weekly facts from weeks 16-17 name the kind of game.",
+    "Points left on the bench = the best legal lineup from the whole roster minus the computed "
+    "score. Every manager-season is checked against Sleeper's potential_points before its bench "
+    "facts are stated.",
+    "A season in progress is labelled \"so far\" and kept out of whole-season comparisons "
+    "(keepers, year-on-year swings).",
+]
 
 
 def handle(user_id):
@@ -57,11 +143,6 @@ def handle(user_id):
 
 def pname(pid):
     return PLAYERS.get(str(pid), {}).get("n", f"player {pid}")
-
-
-def ppos(pid):
-    raw = PLAYERS.get(str(pid), {}).get("p", "?")
-    return POS_ALIAS.get(raw, raw)
 
 
 def r1(x):
@@ -83,17 +164,22 @@ def season_played(season):
     and took the whole script down.
 
     Same family as the week-18 trap in has_matchup(): the shape is real, the content is not.
-    Require a point to have been scored somewhere.
+    A season counts once it has a completed fixture week, which requires a point scored.
     """
-    return any(
-        (row.get("points") or 0) > 0
-        for rows in WEEKS.get(season, {}).values()
-        for row in rows.values()
-    )
+    return season in WEEKS and bool(league_weeks(season))
 
 
 def played_seasons():
-    return sorted(s for s in WEEKS if season_played(s))
+    return sorted((s for s in WEEKS if season_played(s)), key=int)
+
+
+def season_complete(season):
+    return SEASONS.get(season, {}).get("status") == "complete"
+
+
+def last_week(season):
+    weeks = league_weeks(season)
+    return int(weeks[-1]) if weeks else None
 
 
 def has_matchup(row):
@@ -104,22 +190,27 @@ def has_matchup(row):
     sets a lineup -- median score around 55 against roughly 100 in a played week. Testing
     `matchup_id is not None` lets that week through, which is how an earlier run of this script
     invented a third playoff round and paired the champion against an arbitrary opponent.
-    Treat falsy as "no fixture" everywhere.
+    Treat falsy as "no fixture" everywhere -- per ROW, not per week: in weeks 16-17 the two
+    teams outside both brackets sit at null while everyone else plays, and their starters
+    once padded MVP totals (Josh Jacobs' 2025 for TnT44 read 218.1, of which 4.6 came from a
+    week TnT44 had no game).
     """
-    return bool(row.get("matchup_id"))
+    return SITE.has_matchup(row)
+
+
+_LEAGUE_WEEKS = {}
 
 
 def league_weeks(season):
     """
-    Weeks that actually happened: at least one real fixture.
+    Completed weeks with at least one real fixture, as strings, ascending.
 
-    Reads WEEKS directly and must keep doing so -- week_rows() is built on top of this, so
-    routing it through week_rows() makes the two mutually recursive.
+    Delegates to derive-site-data, which also refuses a week the NFL calendar has not moved
+    past -- the committed weeks.json should never hold one, but an old file did.
     """
-    return sorted(
-        (w for w, rows in WEEKS[season].items() if any(has_matchup(r) for r in rows.values())),
-        key=int,
-    )
+    if season not in _LEAGUE_WEEKS:
+        _LEAGUE_WEEKS[season] = [str(w) for w in SITE.league_weeks(season)] if season in WEEKS else []
+    return _LEAGUE_WEEKS[season]
 
 
 def playoff_rounds(season):
@@ -128,9 +219,64 @@ def playoff_rounds(season):
 
 
 def week_rows(season):
-    """(week, rows) for real fixture weeks only. Use this rather than iterating WEEKS directly."""
+    """
+    (week, {user: row}) for completed fixture weeks, FIXTURE ROWS ONLY. Use this rather than
+    iterating WEEKS directly.
+    """
     for week in league_weeks(season):
-        yield week, WEEKS[season][week]
+        yield week, {u: r for u, r in WEEKS[season][week].items() if has_matchup(r)}
+
+
+def official(row):
+    """The score that counted: custom_points when a commissioner set it, else points."""
+    return SITE.official_points(row)
+
+
+def computed(row):
+    """The score Sleeper computed from the starters -- what bench and optimal maths compare to."""
+    return row.get("points") or 0.0
+
+
+def overridden(*rows):
+    return any(r.get("custom_points") is not None for r in rows)
+
+
+def override_note(first, second):
+    """Clause for a fact quoting an overridden game, scores in the same order as the fact's."""
+    if not overridden(first, second):
+        return ""
+    return (f" (a commissioner override; Sleeper computed {computed(first):.2f} to "
+            f"{computed(second):.2f})")
+
+
+_KINDS = {}
+
+
+def game_kind(season, week, user):
+    """regular / playoff / placement / consolation for this user's fixture, from the brackets."""
+    if int(week) < SEASONS[season]["playoff_week_start"]:
+        return "regular"
+    if season not in _KINDS:
+        _KINDS[season] = SITE.bracket_kinds(season)
+    row = WEEKS[season][str(week)][user]
+    opp = next(u for u, r in WEEKS[season][str(week)].items()
+               if u != user and has_matchup(r) and r["matchup_id"] == row["matchup_id"])
+    return _KINDS[season].get((int(week), frozenset((user, opp))), "postseason")
+
+
+KIND_NOTE = {"regular": "", "playoff": " (a playoff game)", "placement": " (the third-place game)",
+             "consolation": " (a consolation game)", "postseason": " (a postseason game)"}
+
+
+def kind_note(season, week, user):
+    return KIND_NOTE[game_kind(season, week, user)]
+
+
+def season_scope(season):
+    """How a season total is qualified in text."""
+    if season_complete(season):
+        return "playoff and consolation games included"
+    return f"{season} so far, through week {last_week(season)}"
 
 
 def started(row):
@@ -152,40 +298,197 @@ def benched(row):
     ]
 
 
-def optimal_points(row):
+def eligible(season, pid):
+    """The slots-relevant positions a player could fill that season."""
+    pid = str(pid)
+    if (season, pid) in ELIGIBILITY:
+        return ELIGIBILITY[(season, pid)]
+    pos = SITE.position(pid)
+    return {pos} if pos else set()
+
+
+def _greedy(row, slots, elig):
     """
-    Best score available from the players on the roster that week, under
-    QB / RB / RB / WR / WR / TE / FLEX / FLEX.
-
-    Greedy is exact here because the flex pool is the leftovers of the three flex-eligible
-    positions: fill each fixed slot with its own best, then take the two highest remaining
-    flex-eligible players. No fixed slot competes with another for the same player.
+    derive-site-data's optimal_points(), generalised to a SET of positions per player: sort
+    the roster by points and fill the slots in roster order, each with the best unused player
+    who can play it. With one position per player this is exact (every FLEX-eligible position
+    also has its own slot) and identical to derive-site-data -- check_optimal() proves it on
+    every row. With a multi-position player it is what Sleeper computes, not the optimum.
     """
-    pool = defaultdict(list)
-    for pid, pts in row.get("players_points", {}).items():
-        pool[ppos(pid)].append(pts)
-    for pos in pool:
-        pool[pos].sort(reverse=True)
-
-    total = 0.0
-    leftovers = []
-    for pos, count in (("QB", 1), ("RB", 2), ("WR", 2), ("TE", 1)):
-        taken = pool.get(pos, [])[:count]
-        total += sum(taken)
-        leftovers += pool.get(pos, [])[count:]
-
-    leftovers.sort(reverse=True)
-    total += sum(leftovers[:2])
+    pool = sorted(
+        ((pts, str(pid), elig(pid)) for pid, pts in (row.get("players_points") or {}).items()),
+        key=lambda x: (-x[0], x[1]),
+    )
+    used, total = set(), 0.0
+    for slot in slots:
+        for pts, pid, e in pool:
+            if pid in used or not e:
+                continue
+            if (e & SITE.FLEX_OK) if slot == "FLEX" else (slot in e):
+                used.add(pid)
+                total += pts
+                break
     return total
 
 
+def sleeper_potential(season, row):
+    """Sleeper's own per-week potential points, as reproduced by check_optimal()."""
+    return _greedy(row, SITE.starter_slots(season), lambda p: eligible(season, p))
+
+
+def optimal_points(season, row):
+    """
+    Best score available from the players on the roster that week: the greedy, run once per
+    single-position assignment of any multi-position player, keeping the best. Exact.
+    """
+    slots = SITE.starter_slots(season)
+    multi = [str(p) for p in (row.get("players_points") or {}) if len(eligible(season, p)) > 1]
+    if not multi:
+        return sleeper_potential(season, row)
+    best = 0.0
+    for choice in product(*(sorted(eligible(season, p)) for p in multi)):
+        fixed = dict(zip(multi, choice))
+        best = max(best, _greedy(row, slots,
+                                 lambda p: {fixed[str(p)]} if str(p) in fixed else eligible(season, p)))
+    return best
+
+
 def matchups(season, week):
-    """[(user_a, row_a, user_b, row_b)] for the given week."""
+    """[(user_a, row_a, user_b, row_b)] for the given completed week, fixtures only."""
     by_id = defaultdict(list)
     for user, row in WEEKS[season][week].items():
         if has_matchup(row):
             by_id[row["matchup_id"]].append((user, row))
+    for mid, pair in by_id.items():
+        if len(pair) != 2:
+            FAILURES.append(f"{season} wk{week} matchup {mid}: {len(pair)} teams, expected 2")
     return [(a[0], a[1], b[0], b[1]) for pair in by_id.values() if len(pair) == 2 for a, b in [pair]]
+
+
+# --------------------------------------------------------------------------------------
+# Starting-lineup points, the one measure of a player's value to a manager
+# --------------------------------------------------------------------------------------
+
+_STARTS = None
+
+
+def starts_index():
+    """(season, user, player_id) -> [(week, points)] for every start in a fixture."""
+    global _STARTS
+    if _STARTS is None:
+        _STARTS = defaultdict(list)
+        for season in played_seasons():
+            for week, rows in week_rows(season):
+                for user, row in rows.items():
+                    for pid, pts in started(row):
+                        _STARTS[(season, user, pid)].append((int(week), pts))
+    return _STARTS
+
+
+def starter_points(season, user, pid, from_week=None):
+    """
+    (points, starts): what `pid` scored in `user`'s starting lineup that season, in fixtures,
+    playoff and consolation games included; from `from_week` onward if given.
+    """
+    rows = starts_index().get((season, user, str(pid)), [])
+    picked = [pts for w, pts in rows if from_week is None or w >= int(from_week)]
+    return sum(picked), len(picked)
+
+
+def starts_text(n):
+    return f"{n} start{'s' if n != 1 else ''}"
+
+
+# --------------------------------------------------------------------------------------
+# Self-checks
+# --------------------------------------------------------------------------------------
+
+VERIFIED_OPTIMAL = set()     # (season, user) whose bench and optimal facts may be stated
+
+
+def check_records():
+    """
+    Regular-season W/L/T, PF and PA from this script's own fixtures and official scores,
+    against league-history.json records, with derive-site-data's pinned stat corrections.
+    """
+    tally = defaultdict(lambda: [0, 0, 0, 0.0, 0.0])
+    for season in played_seasons():
+        start = SEASONS[season]["playoff_week_start"]
+        for week in league_weeks(season):
+            if int(week) >= start:
+                continue
+            for ua, ra, ub, rb in matchups(season, week):
+                for u, mine, theirs in ((ua, official(ra), official(rb)), (ub, official(rb), official(ra))):
+                    t = tally[(season, u)]
+                    t[0 if mine > theirs else 1 if mine < theirs else 2] += 1
+                    t[3] += mine
+                    t[4] += theirs
+    checked = 0
+    for uid, m in MANAGERS.items():
+        for season, rec in m.get("records", {}).items():
+            if not season_played(season):
+                continue
+            w, l, t, pf, pa = tally.get((season, uid), [0, 0, 0, 0.0, 0.0])
+            theirs = (rec["wins"] or 0, rec["losses"] or 0, rec["ties"] or 0)
+            pin = SITE.STAT_CORRECTIONS.get((season, uid), {})
+            pf_gap = SITE.r2(pf) - SITE.r2(rec["points_for"]) - pin.get("pf", 0.0)
+            pa_gap = SITE.r2(pa) - SITE.r2(rec["points_against"]) - pin.get("pa", 0.0)
+            checked += 1
+            if (w, l, t) != theirs or abs(pf_gap) > SITE.CENT or abs(pa_gap) > SITE.CENT:
+                FAILURES.append(
+                    f"records {season} {handle(uid)}: narratives give {w}-{l}-{t}, PF {pf:.2f}, "
+                    f"PA {pa:.2f}; league-history.json says {theirs[0]}-{theirs[1]}-{theirs[2]}, "
+                    f"PF {rec['points_for']}, PA {rec['points_against']}")
+    for (season, uid) in tally:
+        if season not in MANAGERS.get(uid, {}).get("records", {}):
+            FAILURES.append(f"records {season} {handle(uid)}: has fixtures but no Sleeper record")
+    return checked
+
+
+def check_optimal():
+    """
+    1. On every fixture row with no ELIGIBILITY entry, optimal_points() must equal
+       derive-site-data's optimal_points() -- one definition, not two. A mismatch fails.
+    2. Per manager-season, the regular-season sum of sleeper_potential() must reproduce
+       Sleeper's potential_points to the cent (after pinned stat corrections). Those that do
+       go in VERIFIED_OPTIMAL; those that don't have their bench facts suppressed, loudly.
+    Returns the list of unverified (season, user, ours, sleeper).
+    """
+    totals = defaultdict(float)
+    for season in played_seasons():
+        slots = SITE.starter_slots(season)
+        start = SEASONS[season]["playoff_week_start"]
+        for week, rows in week_rows(season):
+            for user, row in rows.items():
+                if not any((season, str(p)) in ELIGIBILITY for p in row.get("players_points") or {}):
+                    ours, theirs = optimal_points(season, row), SITE.optimal_points(row, slots)
+                    if abs(ours - theirs) > 1e-6:
+                        FAILURES.append(f"optimal {season} wk{week} {handle(user)}: {ours:.2f} here, "
+                                        f"{theirs:.2f} in derive-site-data")
+                if int(week) < start:
+                    totals[(season, user)] += sleeper_potential(season, row)
+    unverified = []
+    for (season, user), ours in sorted(totals.items()):
+        sleeper = MANAGERS[user]["records"][season].get("potential_points")
+        pin = SITE.STAT_CORRECTIONS.get((season, user), {}).get("pf", 0.0)
+        if sleeper is not None and abs(SITE.r2(ours) - sleeper - pin) <= SITE.CENT:
+            VERIFIED_OPTIMAL.add((season, user))
+        else:
+            unverified.append((season, user, SITE.r2(ours), sleeper))
+    return unverified
+
+
+def check_mvps_match_site():
+    """Each manager-season's top starter here must be the site's top scorer, to the cent."""
+    for season in played_seasons():
+        site = SITE.season_top_scorers(season)
+        for user, best in site.items():
+            tally = {pid: starter_points(season, user, pid)[0]
+                     for (s, u, pid) in starts_index() if s == season and u == user}
+            mine = max(tally.values(), default=0.0)
+            if abs(SITE.r2(mine) - best[0]["points"]) > 0.005:
+                FAILURES.append(f"mvp {season} {handle(user)}: {mine:.2f} here, "
+                                f"{best[0]['points']} on the site")
 
 
 FACTS = []
@@ -210,42 +513,54 @@ def fact(category, text, season=None, week=None, managers=None, players=None, **
 # --------------------------------------------------------------------------------------
 
 def derive_mvps():
-    """Points a player scored WHILE STARTED. Bench points never won anybody a game."""
-    per_season = defaultdict(lambda: defaultdict(float))
-    career = defaultdict(lambda: defaultdict(float))
+    """
+    Points a player scored IN THIS MANAGER'S STARTING LINEUP, fixtures only, playoffs and
+    consolation included. Bench points never won anybody a game. Ties go to the player id, so
+    the output is deterministic.
+    """
+    per_season = defaultdict(lambda: defaultdict(lambda: [0.0, 0]))
+    career = defaultdict(lambda: defaultdict(lambda: [0.0, 0]))
     league_season = defaultdict(lambda: defaultdict(float))
 
-    for season in played_seasons():
-        for week, rows in week_rows(season):
-            for user, row in rows.items():
-                for pid, pts in started(row):
-                    per_season[(season, user)][pid] += pts
-                    career[user][pid] += pts
-                    league_season[season][pid] += pts
+    for (season, user, pid), rows in starts_index().items():
+        pts, n = sum(p for _, p in rows), len(rows)
+        for cell in (per_season[(season, user)][pid], career[user][pid]):
+            cell[0] += pts
+            cell[1] += n
+        league_season[season][pid] += pts
+
+    def top(tally):
+        return min(tally.items(), key=lambda kv: (-kv[1][0], kv[0]))
 
     for (season, user), tally in per_season.items():
-        pid = max(tally, key=tally.get)
+        pid, (pts, n) = top(tally)
         fact(
             "season_mvp",
-            f"{pname(pid)} was {handle(user)}'s {season} MVP, worth {r1(tally[pid])} points in the starting lineup.",
-            season=season, managers=[user], players=[pid], points=tally[pid],
+            f"{pname(pid)} was {handle(user)}'s {season} MVP: {r1(pts)} points in his starting "
+            f"lineup ({starts_text(n)}; {season_scope(season)}).",
+            season=season, managers=[user], players=[pid], points=pts, starts=n,
         )
 
+    seasons = played_seasons()
+    span = f"{seasons[0]}-{seasons[-1]}, {seasons[-1]} through week {last_week(seasons[-1])}" \
+        if not season_complete(seasons[-1]) else f"{seasons[0]}-{seasons[-1]}"
     for user, tally in career.items():
-        pid = max(tally, key=tally.get)
+        pid, (pts, n) = top(tally)
         fact(
             "career_mvp",
-            f"Across every season, no player has scored more for {handle(user)} than {pname(pid)}: {r1(tally[pid])} points.",
-            managers=[user], players=[pid], points=tally[pid],
+            f"No player has scored more in {handle(user)}'s starting lineup than {pname(pid)}: "
+            f"{r1(pts)} points in {starts_text(n)} ({span}, postseason included).",
+            managers=[user], players=[pid], points=pts, starts=n,
         )
 
     for season, tally in league_season.items():
-        ranked = sorted(tally.items(), key=lambda kv: -kv[1])[:3]
+        ranked = sorted(tally.items(), key=lambda kv: (-kv[1], kv[0]))[:3]
         for rank, (pid, pts) in enumerate(ranked, 1):
             fact(
                 "league_season_leader",
                 f"{pname(pid)} was the {rank}{'st' if rank == 1 else 'nd' if rank == 2 else 'rd'} "
-                f"highest-scoring started player in the league in {season}, with {r1(pts)}.",
+                f"highest-scoring player in the league's starting lineups in {season}, with "
+                f"{r1(pts)} ({season_scope(season)}).",
                 season=season, players=[pid], points=pts, rank=rank,
             )
 
@@ -260,8 +575,8 @@ def derive_big_weeks():
     for pts, season, week, user, pid in sorted(rows, reverse=True)[:15]:
         fact(
             "top_week_performance",
-            f"{pname(pid)} put up {r1(pts)} for {handle(user)} in week {week} of {season} "
-            f"-- one of the biggest single weeks anyone has started.",
+            f"{pname(pid)} put up {r1(pts)} for {handle(user)} in week {week} of {season}"
+            f"{kind_note(season, week, user)} -- one of the biggest single weeks anyone has started.",
             season=season, week=week, managers=[user], players=[pid], points=pts,
         )
 
@@ -280,53 +595,71 @@ def derive_benchings():
     for pts, season, week, user, pid in sorted(rows, reverse=True)[:15]:
         fact(
             "worst_benching",
-            f"{handle(user)} left {pname(pid)} on the bench in week {week} of {season}. He scored {r1(pts)}.",
+            f"{handle(user)} left {pname(pid)} on the bench in week {week} of {season}"
+            f"{kind_note(season, week, user)}. He scored {r1(pts)}.",
             season=season, week=week, managers=[user], players=[pid], points=pts,
         )
 
 
 def derive_whatifs():
-    gaps, perfect = [], defaultdict(int)
+    """
+    Points left on the bench = optimal_points() minus the COMPUTED score, fixtures only, and
+    only for manager-seasons in VERIFIED_OPTIMAL. Two decimals: a perfect lineup is a gap
+    below a cent.
+    """
+    gaps, perfect, weeks = [], defaultdict(int), defaultdict(int)
     for season in played_seasons():
         for week, wk in week_rows(season):
             for user, row in wk.items():
-                best = optimal_points(row)
-                gap = best - row["points"]
-                if gap <= 0.01:
+                if (season, user) not in VERIFIED_OPTIMAL:
+                    continue
+                best = optimal_points(season, row)
+                gap = best - computed(row)
+                weeks[user] += 1
+                if gap < -0.005:
+                    FAILURES.append(f"optimal {season} wk{week} {handle(user)}: {best:.2f} is below "
+                                    f"the {computed(row):.2f} actually scored")
+                if gap <= 0.005:
                     perfect[user] += 1
                 else:
-                    gaps.append((gap, season, week, user, row["points"], best))
+                    gaps.append((round(gap, 2), season, week, user, computed(row), best))
 
-    for gap, season, week, user, actual, best in sorted(gaps, reverse=True)[:12]:
+    for gap, season, week, user, actual, best in sorted(gaps, key=lambda g: (-g[0], g[1], int(g[2])))[:12]:
+        opp_row = next(r for u, r in WEEKS[season][week].items()
+                       if u != user and r.get("matchup_id") == WEEKS[season][week][user]["matchup_id"])
+        note = override_note(WEEKS[season][week][user], opp_row)
         fact(
             "biggest_whatif",
-            f"In week {week} of {season}, {handle(user)} scored {r1(actual)} with a lineup that "
-            f"could have scored {r1(best)} -- {r1(gap)} points left in the bench.",
-            season=season, week=week, managers=[user], actual=actual, optimal=best, gap=gap,
+            f"In week {week} of {season}{kind_note(season, week, user)}, {handle(user)} scored "
+            f"{actual:.2f}{note} from a roster whose best lineup would have scored {best:.2f} -- "
+            f"{gap:.2f} points left on the bench.",
+            season=season, week=week, managers=[user], actual=round(actual, 2),
+            optimal=round(best, 2), gap=gap,
         )
 
-    for user, count in sorted(perfect.items(), key=lambda kv: -kv[1]):
-        if count:
-            fact(
-                "perfect_lineups",
-                f"{handle(user)} has started the optimal lineup {count} time{'s' if count != 1 else ''}.",
-                managers=[user], count=count,
-            )
+    for user, count in sorted(perfect.items(), key=lambda kv: (-kv[1], handle(kv[0]))):
+        fact(
+            "perfect_lineups",
+            f"{handle(user)} has started the optimal lineup {count} time{'s' if count != 1 else ''} "
+            f"in {weeks[user]} games (postseason included).",
+            managers=[user], count=count, games=weeks[user],
+        )
 
 
 def derive_bench_beats_starters():
+    """Whole bench against the starters' COMPUTED score -- a roster fact, not an eligibility one."""
     rows = []
     for season in played_seasons():
         for week, wk in week_rows(season):
             for user, row in wk.items():
                 bench_total = sum(p for _, p in benched(row))
-                if bench_total > row["points"]:
-                    rows.append((bench_total - row["points"], season, week, user, row["points"], bench_total))
+                if bench_total > computed(row):
+                    rows.append((bench_total - computed(row), season, week, user, computed(row), bench_total))
     for margin, season, week, user, starters_pts, bench_pts in sorted(rows, reverse=True)[:8]:
         fact(
             "bench_outscored_starters",
-            f"{handle(user)}'s bench outscored his starters in week {week} of {season}, "
-            f"{r1(bench_pts)} to {r1(starters_pts)}.",
+            f"{handle(user)}'s bench outscored his starters in week {week} of {season}"
+            f"{kind_note(season, week, user)}, {r1(bench_pts)} to {r1(starters_pts)}.",
             season=season, week=week, managers=[user], bench=bench_pts, starters=starters_pts, margin=margin,
         )
 
@@ -352,57 +685,63 @@ def derive_zeroes():
 # --------------------------------------------------------------------------------------
 
 def derive_matchup_drama():
+    """Official scores throughout, so a commissioner override decides the game as it did."""
     close, blowout, unlucky, lucky, shootout = [], [], [], [], []
     for season in played_seasons():
         for week in league_weeks(season):
             for ua, ra, ub, rb in matchups(season, week):
-                margin = abs(ra["points"] - rb["points"])
-                win, lose = (ua, ub) if ra["points"] > rb["points"] else (ub, ua)
-                wp = max(ra["points"], rb["points"])
-                lp = min(ra["points"], rb["points"])
+                pa_, pb_ = official(ra), official(rb)
+                margin = round(abs(pa_ - pb_), 2)
+                (win, wrow), (lose, lrow) = ((ua, ra), (ub, rb)) if pa_ > pb_ else ((ub, rb), (ua, ra))
+                wp, lp = max(pa_, pb_), min(pa_, pb_)
+                note = override_note(wrow, lrow)
+                kind = kind_note(season, week, ua)
                 if margin > 0:
-                    close.append((margin, season, week, win, lose, wp, lp))
-                    blowout.append((margin, season, week, win, lose, wp, lp))
-                unlucky.append((lp, season, week, lose, win, lp, wp))
-                lucky.append((-wp, season, week, win, lose, wp, lp))
-                shootout.append((ra["points"] + rb["points"], season, week, ua, ub, ra["points"], rb["points"]))
+                    close.append((margin, season, week, win, lose, wp, lp, note, kind))
+                    blowout.append((margin, season, week, win, lose, wp, lp, note, kind))
+                    unlucky.append((lp, season, week, lose, win, lp, wp, override_note(lrow, wrow), kind))
+                    lucky.append((-wp, season, week, win, lose, wp, lp, note, kind))
+                shootout.append((round(pa_ + pb_, 2), season, week, ua, ub, pa_, pb_, override_note(ra, rb), kind))
 
-    for margin, season, week, win, lose, wp, lp in sorted(close)[:8]:
+    for margin, season, week, win, lose, wp, lp, note, kind in sorted(close, key=lambda r: r[:3])[:8]:
         # Two decimals here specifically: the tightest games are decided by hundredths, and
         # rounding to one made a genuine 0.04 point win read as "by 0.0", i.e. as a tie.
         fact(
             "closest_game",
-            f"{handle(win)} beat {handle(lose)} by {margin:.2f} in week {week} of {season}, {wp:.2f} to {lp:.2f}.",
+            f"{handle(win)} beat {handle(lose)} by {margin:.2f} in week {week} of {season}{kind}, "
+            f"{wp:.2f} to {lp:.2f}{note}.",
             season=season, week=week, managers=[win, lose], margin=margin, winner_points=wp, loser_points=lp,
         )
 
-    for margin, season, week, win, lose, wp, lp in sorted(blowout, reverse=True)[:8]:
+    for margin, season, week, win, lose, wp, lp, note, kind in sorted(blowout, key=lambda r: (-r[0],) + r[1:3])[:8]:
         fact(
             "biggest_blowout",
-            f"{handle(win)} buried {handle(lose)} by {r1(margin)} in week {week} of {season}, {r1(wp)} to {r1(lp)}.",
+            f"{handle(win)} buried {handle(lose)} by {r1(margin)} in week {week} of {season}{kind}, "
+            f"{r1(wp)} to {r1(lp)}{note}.",
             season=season, week=week, managers=[win, lose], margin=margin, winner_points=wp, loser_points=lp,
         )
 
-    for lp, season, week, lose, win, _, wp in sorted(unlucky, reverse=True)[:6]:
+    for lp, season, week, lose, win, _, wp, note, kind in sorted(unlucky, key=lambda r: (-r[0],) + r[1:3])[:6]:
         fact(
             "unluckiest_loss",
-            f"{handle(lose)} scored {r1(lp)} in week {week} of {season} and still lost, because "
-            f"{handle(win)} went for {r1(wp)}.",
+            f"{handle(lose)} scored {r1(lp)} in week {week} of {season}{kind} and still lost, because "
+            f"{handle(win)} went for {r1(wp)}{note}.",
             season=season, week=week, managers=[lose, win], points=lp, opponent_points=wp,
         )
 
-    for negwp, season, week, win, lose, wp, lp in sorted(lucky, reverse=True)[:6]:
+    for negwp, season, week, win, lose, wp, lp, note, kind in sorted(lucky, key=lambda r: (-r[0],) + r[1:3])[:6]:
         fact(
             "luckiest_win",
-            f"{handle(win)} won week {week} of {season} with just {r1(wp)} -- {handle(lose)} managed only {r1(lp)}.",
+            f"{handle(win)} won week {week} of {season}{kind} with just {r1(wp)} -- {handle(lose)} "
+            f"managed only {r1(lp)}{note}.",
             season=season, week=week, managers=[win, lose], points=wp, opponent_points=lp,
         )
 
-    for total, season, week, ua, ub, pa, pb in sorted(shootout, reverse=True)[:5]:
+    for total, season, week, ua, ub, pa, pb, note, kind in sorted(shootout, key=lambda r: (-r[0],) + r[1:3])[:5]:
         fact(
             "highest_scoring_matchup",
-            f"{handle(ua)} and {handle(ub)} combined for {r1(total)} in week {week} of {season} "
-            f"({r1(pa)} to {r1(pb)}).",
+            f"{handle(ua)} and {handle(ub)} combined for {r1(total)} in week {week} of {season}, "
+            f"{r1(pa)} to {r1(pb)}{kind}{note}.",
             season=season, week=week, managers=[ua, ub], total=total,
         )
 
@@ -434,7 +773,7 @@ def derive_titles():
                         if has_matchup(r) and r["matchup_id"] == row["matchup_id"] and u != champ), None)
             if opp is None:
                 continue
-            legs.append((week, row["points"], handle(opp), WEEKS[season][week][opp]["points"]))
+            legs.append((week, official(row), handle(opp), official(WEEKS[season][week][opp])))
             for pid, pts in started(row):
                 carried[pid] += pts
 
@@ -458,10 +797,10 @@ def derive_streaks():
             for week in league_weeks(season):
                 for ua, ra, ub, rb in matchups(season, week):
                     if user in (ua, ub):
-                        mine = ra if ua == user else rb
-                        theirs = rb if ua == user else ra
-                        if mine["points"] != theirs["points"]:
-                            seq.append((season, week, mine["points"] > theirs["points"]))
+                        mine = official(ra if ua == user else rb)
+                        theirs = official(rb if ua == user else ra)
+                        if mine != theirs:
+                            seq.append((season, week, mine > theirs))
         if not seq:
             continue
         best_w = best_l = cur = 0
@@ -494,35 +833,46 @@ def derive_streaks():
 
 
 def derive_head_to_head():
-    tally = defaultdict(lambda: [0, 0, 0.0, 0.0])
+    """Every fixture between the pair, playoffs and consolation included, official scores."""
+    tally = defaultdict(lambda: [0, 0, 0.0, 0.0, 0, []])
     for season in played_seasons():
         for week in league_weeks(season):
             for ua, ra, ub, rb in matchups(season, week):
                 key = tuple(sorted((ua, ub)))
                 first = key[0]
                 a, b = (ra, rb) if ua == first else (rb, ra)
+                pa_, pb_ = official(a), official(b)
                 rec = tally[key]
-                rec[2] += a["points"]
-                rec[3] += b["points"]
-                if a["points"] > b["points"]:
+                rec[2] += pa_
+                rec[3] += pb_
+                if pa_ > pb_:
                     rec[0] += 1
-                elif b["points"] > a["points"]:
+                elif pb_ > pa_:
                     rec[1] += 1
-    for (ua, ub), (wa, wb, pa, pb) in sorted(tally.items(), key=lambda kv: -(kv[1][0] + kv[1][1])):
-        if wa + wb == 0:
+                else:
+                    rec[4] += 1
+                if overridden(a, b):
+                    rec[5].append(f"{season} week {week}")
+    for (ua, ub), (wa, wb, pa, pb, ties, over) in sorted(tally.items(), key=lambda kv: -(kv[1][0] + kv[1][1] + kv[1][4])):
+        met = wa + wb + ties
+        if met == 0:
             continue
         lead = handle(ua) if wa >= wb else handle(ub)
+        record = f"{wa}-{wb}" + (f"-{ties}" if ties else "")
+        note = (f" ({', '.join(over)} counted at the commissioner's override score)" if over else "")
         fact(
             "head_to_head",
-            f"{handle(ua)} and {handle(ub)} have met {wa + wb} times: {wa}-{wb} to {lead}, "
-            f"{r1(pa)} against {r1(pb)} all told.",
-            managers=[ua, ub], wins_first=wa, wins_second=wb, points_first=pa, points_second=pb,
+            f"{handle(ua)} and {handle(ub)} have met {met} time{'s' if met != 1 else ''}: {record} to "
+            f"{lead}, {r1(pa)} against {r1(pb)} all told{note}.",
+            managers=[ua, ub], wins_first=wa, wins_second=wb, ties=ties, points_first=pa, points_second=pb,
         )
 
 
 def derive_season_swings():
+    """Completed seasons only: a season in progress is not a win total."""
     for user, m in MANAGERS.items():
-        recs = {s: r for s, r in m.get("records", {}).items() if r["wins"] + r["losses"] + r["ties"] > 0}
+        recs = {s: r for s, r in m.get("records", {}).items()
+                if r["wins"] + r["losses"] + r["ties"] > 0 and season_complete(s)}
         years = sorted(recs, key=int)
         for prev, cur in zip(years, years[1:]):
             swing = recs[cur]["wins"] - recs[prev]["wins"]
@@ -540,16 +890,12 @@ def derive_season_swings():
 # Draft, keepers, money
 # --------------------------------------------------------------------------------------
 
-def season_points_by_player(season):
-    tally = defaultdict(float)
-    for week, wk in week_rows(season):
-        for user, row in wk.items():
-            for pid, pts in row.get("players_points", {}).items():
-                tally[str(pid)] += pts
-    return tally
-
-
 def derive_draft_value():
+    """
+    A pick's value is what he scored in the DRAFTER's starting lineup that season. A steal
+    traded away in October is worth what it was worth to the man who drafted him, and a bust's
+    points for his next team never consoled anyone.
+    """
     for season in played_seasons():
         drafts = [d for d in HISTORY["drafts"].get(season, []) if d.get("primary")]
         if not drafts:
@@ -559,79 +905,85 @@ def derive_draft_value():
         # story. Without this filter mikestreinz's 2024 "round 1 pick" on Christian McCaffrey
         # appeared as a draft bust and again, correctly, as a failed keeper.
         picks = [p for p in drafts[0]["picks"] if not p.get("is_keeper")]
-        pts = season_points_by_player(season)
-        scored = [(pts.get(str(p["player_id"]), 0.0), p) for p in picks if p.get("player_id")]
+        scored = [(starter_points(season, p.get("picked_by"), p["player_id"]), p)
+                  for p in picks if p.get("player_id")]
+        scope = season_scope(season)
 
         late = [(v, p) for v, p in scored if p["round"] >= 8]
         if late:
-            v, p = max(late, key=lambda x: x[0])
+            (v, n), p = min(late, key=lambda x: (-x[0][0], x[1].get("pick_no") or 0))
             fact(
                 "draft_steal",
                 f"{pname(p['player_id'])} went in round {p['round']} of the {season} draft to "
-                f"{handle(p.get('picked_by'))} and scored {r1(v)} that season.",
+                f"{handle(p.get('picked_by'))} and scored {r1(v)} in his starting lineup that "
+                f"season ({starts_text(n)}; {scope}).",
                 season=season, managers=[p.get("picked_by")], players=[p["player_id"]],
-                round=p["round"], points=v,
+                round=p["round"], points=v, starts=n,
             )
 
         early = [(v, p) for v, p in scored if p["round"] <= 3]
         if early:
-            v, p = min(early, key=lambda x: x[0])
+            (v, n), p = min(early, key=lambda x: (x[0][0], x[1].get("pick_no") or 0))
             fact(
                 "draft_bust",
                 f"{handle(p.get('picked_by'))} spent a round {p['round']} pick on "
-                f"{pname(p['player_id'])} in {season} and got {r1(v)} points.",
+                f"{pname(p['player_id'])} in {season} and got {r1(v)} points from him in the "
+                f"starting lineup ({starts_text(n)}; {scope}).",
                 season=season, managers=[p.get("picked_by")], players=[p["player_id"]],
-                round=p["round"], points=v,
+                round=p["round"], points=v, starts=n,
             )
 
 
 def derive_keeper_value():
+    """
+    A keeper's value is what he scored in the KEEPER's starting lineup that season. Completed
+    seasons only: three weeks of 2026 ranked against full seasons filled every "worst keeper"
+    slot with this year's keepers.
+    """
     rows = []
     for season, entries in KEEPERS.items():
-        if not season_played(season):
+        if not season_played(season) or not season_complete(season):
             continue
-        pts = season_points_by_player(season)
         for k in entries:
-            rows.append((pts.get(str(k["player_id"]), 0.0), season, k))
-    # Sort on the scalars only. A bare sorted() compares the third element when points and
-    # season both tie, and that element is a dict -- unorderable, and a crash rather than a
-    # wrong answer. Ties are normal here (any two keepers who scored the same).
-    for v, season, k in sorted(rows, key=lambda r: (-r[0], r[1]))[:6]:
+            pts, n = starter_points(season, k["user_id"], k["player_id"])
+            rows.append((pts, season, n, k))
+    # Sort on the scalars only. A bare sorted() compares the last element when everything else
+    # ties, and that element is a dict -- unorderable, and a crash rather than a wrong answer.
+    # Ties are normal here (any two keepers who scored the same).
+    tiebreak = lambda r: (r[1], r[3].get("pick_no") or 0)
+    for v, season, n, k in sorted(rows, key=lambda r: (-r[0],) + tiebreak(r))[:6]:
         fact(
             "best_keeper",
             f"{handle(k['user_id'])} kept {pname(k['player_id'])} at a round {k['cost_round']} cost "
-            f"in {season}; he returned {r1(v)} points.",
+            f"in {season}; he scored {r1(v)} in {handle(k['user_id'])}'s starting lineup that "
+            f"season ({starts_text(n)}, postseason included).",
             season=season, managers=[k["user_id"]], players=[k["player_id"]],
-            cost_round=k["cost_round"], points=v,
+            cost_round=k["cost_round"], points=v, starts=n,
         )
-    for v, season, k in sorted(rows, key=lambda r: (r[0], r[1]))[:5]:
+    for v, season, n, k in sorted(rows, key=lambda r: (r[0],) + tiebreak(r))[:5]:
         fact(
             "worst_keeper",
             f"{handle(k['user_id'])} kept {pname(k['player_id'])} at a round {k['cost_round']} cost "
-            f"in {season} and got {r1(v)} points out of him.",
+            f"in {season} and got {r1(v)} points out of him in the starting lineup "
+            f"({starts_text(n)}, postseason included).",
             season=season, managers=[k["user_id"]], players=[k["player_id"]],
-            cost_round=k["cost_round"], points=v,
+            cost_round=k["cost_round"], points=v, starts=n,
         )
 
 
 def points_after(season, week, user, pid):
     """
-    What a player scored FOR THIS MANAGER from the pickup onward.
+    (points, starts): what a player scored IN THIS MANAGER'S STARTING LINEUP from the pickup
+    week onward, fixtures only.
 
     Season totals are the wrong measure of a waiver bid: paulslaats paid $75 for Trevor
     Lawrence in week 16 of 2022, and quoting the full-season figure credits him with points
-    scored for somebody else in weeks 1 to 15.
+    scored for somebody else in weeks 1 to 15. Rostered points are wrong too: a backup who
+    never starts has won nobody anything.
     """
     if not season_played(season) or week is None:
-        return 0.0
-    total = 0.0
-    for w, rows in week_rows(season):
-        if int(w) < int(week):
-            continue
-        row = rows.get(user)
-        if row:
-            total += row.get("players_points", {}).get(str(pid), 0.0)
-    return total
+        return 0.0, 0
+    return starter_points(season, user, pid, from_week=week)
 
 
 def derive_money():
@@ -643,12 +995,13 @@ def derive_money():
         for pid, user in adds.items():
             spends.append((t["faab"], t["season"], t.get("week"), user, pid))
     for amount, season, week, user, pid in sorted(spends, reverse=True)[:8]:
-        pts = points_after(season, week, user, pid)
+        pts, n = points_after(season, week, user, pid)
+        scope = "postseason included" if season_complete(season) else season_scope(season)
         fact(
             "faab_splurge",
             f"{handle(user)} spent ${amount} of FAAB on {pname(pid)} in week {week} of {season}. "
-            f"He scored {r1(pts)} for him after that.",
-            season=season, week=week, managers=[user], players=[pid], faab=amount, points=pts,
+            f"He scored {r1(pts)} in his starting lineup from then on ({starts_text(n)}; {scope}).",
+            season=season, week=week, managers=[user], players=[pid], faab=amount, points=pts, starts=n,
         )
 
     trades = defaultdict(int)
@@ -708,6 +1061,7 @@ def write_outputs():
             "Derived from weeks.json by scripts/derive-narratives.py. Authoring aid, not fetched "
             "at runtime. Regenerate after a season with: python3 scripts/derive-narratives.py"
         ),
+        "definitions": DEFINITIONS,
         "seasons": played_seasons(),
         "count": len(FACTS),
         "facts": FACTS,
@@ -724,9 +1078,13 @@ def write_outputs():
         "**Do not hand-edit** -- rerun the script instead. Nothing in `src/` reads this;",
         "it exists so writing a recap or a bio starts from facts rather than a fresh query.",
         "",
-        f"{len(FACTS)} facts across seasons {', '.join(played_seasons())}.",
+        f"{len(FACTS)} facts across seasons {', '.join(played_seasons())}"
+        + (f" ({played_seasons()[-1]} through week {last_week(played_seasons()[-1])})."
+           if not season_complete(played_seasons()[-1]) else "."),
         "",
-    ]
+        "**What the numbers mean.**",
+        "",
+    ] + [f"- {d}" for d in DEFINITIONS] + [""]
     for cat, title in CATEGORY_TITLES:
         items = by_cat.get(cat)
         if not items:
@@ -744,6 +1102,23 @@ def write_outputs():
 
 
 def main():
+    n_records = check_records()
+    unverified = check_optimal()
+    check_mvps_match_site()
+    if FAILURES:
+        print(f"{len(FAILURES)} self-check failure(s); nothing written:", file=sys.stderr)
+        for f in FAILURES[:40]:
+            print(f"  {f}", file=sys.stderr)
+        return 1
+    print(f"check: records   {n_records} manager-seasons match league-history.json")
+    print(f"check: optimal   {len(VERIFIED_OPTIMAL)} manager-seasons reproduce Sleeper's "
+          f"potential_points to the cent; one definition with derive-site-data")
+    for season, user, ours, sleeper in unverified:
+        print(f"  WARNING: {season} {handle(user)} does not ({ours} v Sleeper {sleeper}); "
+              f"its bench and optimal-lineup facts are suppressed")
+    print("check: mvps      every season MVP matches the site's top scorer")
+    print()
+
     derive_mvps()
     derive_big_weeks()
     derive_benchings()
@@ -769,7 +1144,15 @@ def main():
             print(f"  {by_cat[cat]:>4}  {title}")
     print(f"\nwrote {os.path.relpath(js, ROOT)}")
     print(f"wrote {os.path.relpath(md, ROOT)}  ({os.path.getsize(md) // 1024} KB)")
+    if FAILURES:
+        # Raised while deriving (an optimal lineup below the actual score). The files are
+        # already written, so fail the run loudly rather than let them be committed quietly.
+        print(f"\n{len(FAILURES)} failure(s) while deriving:", file=sys.stderr)
+        for f in FAILURES[:40]:
+            print(f"  {f}", file=sys.stderr)
+        return 1
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
