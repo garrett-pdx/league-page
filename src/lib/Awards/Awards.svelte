@@ -1,10 +1,15 @@
 <script>
     import { gotoManager } from '$lib/utils/helper';
+    import { managerHref } from '$lib/utils/managerLink';
     import { SectionHeading } from '$lib/Design';
 	import { getAvatarFromTeamManagers, getNestedTeamNamesFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
 	export let podium, leagueTeamManagers;
 
 	const { year, champion, second, third, divisions, toilet } = podium;
+
+	// The names under the podium on a phone, in place of the labels that sit over it on a wide
+	// screen. Both are rendered; CSS shows one.
+	const places = [['1st', champion], ['2nd', second], ['3rd', third]];
 </script>
 
 <style>
@@ -23,7 +28,7 @@
 		width: 600px;
 		height: 500px;
 		position: relative;
-		margin: 10px auto 30px;
+		margin: 0 auto 16px;
 	}
 
 	.podiumImage {
@@ -188,7 +193,7 @@
 		flex-direction: column;
 		justify-content: center;
 		text-align: center;
-		margin: 15px auto 20px;
+		margin: 8px auto 12px;
 		padding: 6px 30px;
 		background-color: var(--fff);
 		border: 1px solid var(--bbb);
@@ -202,8 +207,8 @@
 	.toiletParent {
 		width: 100%;
 		text-align: center;
-		padding: 25px 0 40px;
-		margin-top: 30px;
+		padding: 12px 0 24px;
+		margin-top: 16px;
 		box-shadow: 0 12px 9px -12px rgba(0,0,0,0.4);
 	}
 
@@ -212,7 +217,7 @@
 		display: block;
 		width: 65%;
 		max-width: 450px;
-		margin: 20px auto 0;
+		margin: 8px auto 0;
 	}
 
 	.banner {
@@ -244,7 +249,7 @@
 		display: block;
 		width: 50%;
 		max-width: 350px;
-		margin: 20px auto 0;
+		margin: 12px auto 0;
 	}
 
 	.clickable {
@@ -252,9 +257,54 @@
 	}
 
 	:global(.curOwner) {
-		font-size: 0.75em;
-		color: var(--bbb);
+		font-size: 12px;
+		color: var(--g555);
 		font-style: italic;
+	}
+
+	/*
+	The three place labels sit over the podium picture. Below 650px the picture is 500px and then
+	300px wide, and a team name does not fit over an avatar a fifth of that wide: the labels
+	covered the avatars. The type used to shrink to 0.5em to try to fit. Instead the labels are
+	hidden there and the same names are listed under the podium as ordinary rows.
+	*/
+	.podiumNames {
+		display: none;
+		list-style: none;
+		margin: 0 auto 8px;
+		padding: 0;
+		width: 92%;
+		max-width: 420px;
+	}
+
+	.podiumNames a {
+		display: flex;
+		align-items: center;
+		gap: 0.8em;
+		min-height: 44px;
+		padding: 4px 12px;
+		box-sizing: border-box;
+		text-decoration: none;
+		color: var(--navy700);
+		line-height: 1.15;
+		border-bottom: 1px solid var(--accentBorder);
+	}
+
+	.podiumNames .teamName {
+		color: var(--navy700);
+	}
+
+	.podiumNames li:last-child a {
+		border-bottom: none;
+	}
+
+	.podiumNames .place {
+		flex: 0 0 2.4em;
+		font-family: var(--fontDisplay);
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: var(--accentInk);
 	}
 
 	@media (max-width: 680px) {
@@ -266,12 +316,19 @@
 		}
 	}
 
-	@media (max-width: 630px) {
+	@media (max-width: 650px) {
 		.label {
-			font-size: 0.9em;
+			display: none;
 		}
+
+		.podiumNames {
+			display: block;
+		}
+
+		/* A division or toilet bowl label may be a long name plus the current one beneath it. */
 		.genLabel {
-			font-size: 0.9em;
+			white-space: normal;
+			max-width: 90%;
 		}
 	}
 
@@ -296,39 +353,10 @@
 		}
 	}
 
-	@media (max-width: 535px) {
-		.label {
-			font-size: 0.8em;
-		}
-		.genLabel {
-			font-size: 0.8em;
-		}
-	}
-
-	@media (max-width: 520px) {
-		.label {
-			font-size: 0.7em;
-			padding: 2px 4px;
-		}
-		.genLabel {
-			font-size: 0.7em;
-			padding: 2px 4px;
-		}
-	}
-
 	@media (max-width: 510px) {
 		#podium {
 			width: 400px;
 			height: 333px;
-		}
-	}
-
-	@media (max-width: 425px) {
-		.label {
-			font-size: 0.6em;
-		}
-		.genLabel {
-			font-size: 0.6em;
 		}
 	}
 
@@ -351,14 +379,6 @@
 		}
 	}
 
-	@media (max-width: 329px) {
-		.label {
-			font-size: 0.5em;
-		}
-		.genLabel {
-			font-size: 0.5em;
-		}
-	}
 </style>
 
 <div class="awards">
@@ -386,15 +406,20 @@
 		<img src="{getAvatarFromTeamManagers(leagueTeamManagers, third, year)}" class="third champ clickable" onclick={() => gotoManager({year, leagueTeamManagers, rosterID: third})} alt="3rd" />
 		<span class="label thirdLabel clickable" onclick={() => gotoManager({year, leagueTeamManagers, rosterID: third})}>{@html getNestedTeamNamesFromTeamManagers(leagueTeamManagers, year, third)}</span>
 	</div>
+	<ul class="podiumNames">
+		{#each places as [place, rosterID]}
+			<li><a href="{managerHref({year, leagueTeamManagers, rosterID})}"><span class="place">{place}</span><span class="teamName">{@html getNestedTeamNamesFromTeamManagers(leagueTeamManagers, year, rosterID)}</span></a></li>
+		{/each}
+	</ul>
 	<div class="divisions">
 		{#each divisions as division}
 			{#if division.rosterID}
 				<div class="division">
 					{#if division.name}
-						<h6>{division.name} Division</h6>
+						<SectionHeading level={4} rule={false}>{division.name} Division</SectionHeading>
 					{:else}
 						<!-- A record earns a seed, not a trophy -- see ManagerAwards.svelte. -->
-						<h6>No. 1 Seed</h6>
+						<SectionHeading level={4} rule={false}>No. 1 Seed</SectionHeading>
 					{/if}
 					<div class="leaderBlock">
 						<img src="{getAvatarFromTeamManagers(leagueTeamManagers, division.rosterID, year)}" class="divisionLeader clickable" onclick={() => gotoManager({year, leagueTeamManagers, rosterID: division.rosterID})} alt="{division.name} champion" />
