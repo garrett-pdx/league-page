@@ -16,8 +16,8 @@ The plans being carried out:
 | 2 | **C1–C3.** Records, Matchups, Standings readable on phones; creates `src/theme/_site.scss` | The worst phone problems, on the most-used pages | done |
 | 3 | **History step 0 + 1.** The game table, then schedule luck on Standings | Foundation for four pages; most useful mid-season | step 0 done (merged); step 1 merged into step 4 |
 | 4 | **B1–B3 + schedule luck.** `PageHeader` on every page, text fixes, the page jumping as it loads, then the all-play table on Standings | Both edit the Standings route; History pages reuse `PageHeader` | done |
-| 5 | **D.** Links between pages, plus **History step 2**, the head-to-head grid | Both work on Rivalry and manager links | running (Sonnet); lore-script fix running in parallel (Opus, worktree) |
-| 6 | **C4–C5 + B4–B5.** Drafts, remaining small text and tap targets, blog typography, desktop layouts | Polish on less-used pages | pending |
+| 5 | **D.** Links between pages, plus **History step 2**, the head-to-head grid | Both work on Rivalry and manager links | done; lore-script fix running in parallel (Opus, worktree) |
+| 6 | **C4–C5 + B4–B5.** Drafts, remaining small text and tap targets, blog typography, desktop layouts | Polish on less-used pages | running (Sonnet) |
 | 7 | **E. Content:** bio typos and league lines (7a, running in parallel in a worktree, Opus); home page copy, Resources, countdown (7b) | Writing, once the page frames are settled | 7a done (merged); 7b pending |
 | 8 | **History step 3.** Seasons archive | Biggest new page | pending |
 | 9 | **History step 4.** Stat Lab, first release | Built on everything above | pending |
@@ -160,3 +160,32 @@ A lore-script fix now runs in parallel with step 5.
 - **Step 10:** list the newly diverged upstream files in `CLAUDE.md`: `News/index`,
   `Rivalry/ManagerSelectors`, `Drafts/Draft`, and the route files for rosters, rivalry, drafts,
   transactions, resources and records.
+
+### Step 5: head-to-head grid and links between pages (done, Sonnet; interrupted by the usage limit and resumed)
+
+Commits `8b2e678`..`0c6b971`.
+
+- **Head-to-head grid** on Rivalry: a full grid above 960px, a picker and opponent list below.
+  - Regular-season totals equal every manager's career W-L.
+  - Four pairings match the Rivalry page.
+  - Worst cell contrast is 7.5:1.
+- **Manager pages:** the Rival tile links to the rival, with a separate Head-to-head link under
+  it, and a "This week: vs …" line.
+- **Matchup cards and brackets:** team names link to manager pages.
+- **Real links** for the home NFL banner, the champion panel, Standings team names, Bar names
+  and "view more".
+- **New helper:** `$lib/utils/managerLink` (`managerHref`).
+
+**Changes to the remaining plan:**
+- **Step 6's small-text list grows:**
+  - roster chips at 8.64px on /manager;
+  - the "th" ordinal suffixes at 7.68px on /;
+  - the nav group captions at 11.52px;
+  - the Rivalry dropdowns at 30px tall;
+  - footer links at 37px;
+  - the #FREEJT row at 43px.
+- **Step 6's two-column manager page:** keep `ManagerThisWeek` in the left column.
+- **Step 7b:** the champion block is now one `<a class="champLink">`; keep that if the home
+  layout changes.
+- **Step 10:** add `Standing.svelte`, `Bar.svelte` and `Transactions.svelte` to the
+  diverged-files list.
