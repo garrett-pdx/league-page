@@ -84,6 +84,14 @@
         margin: 40px auto 80px;
     }
 
+    /* Below 1200px this sits under the standings table, which is still loading too. A second
+       spinner there was on screen, and got thrown down the page when the table landed (layout
+       shift 0.57 at 375px). The table's own spinner says the page is working; this one waits
+       for the side-by-side layout, where nothing sits above it. */
+    @media (max-width: 1199px) {
+        .loading { display: none; }
+    }
+
     .errorMessage {
         text-align: center;
         color: var(--g555);

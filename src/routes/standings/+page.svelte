@@ -14,6 +14,13 @@
 		text-align: center;
 	}
 
+	/* The standings spinner carries an 80px top margin. Without a block formatting context per
+	   column it collapsed out through .pair and .holder and pushed the whole block 55px down,
+	   which jumped back up when the table landed. */
+	.pair > div {
+		display: flow-root;
+	}
+
 	/* Below 1200px the two tables stack, as they always have. Above it they sit side by side:
 	   the standings are 550px wide and the schedule luck table 760px, and stacked on a 1440px
 	   screen they were two different-width strips down the middle. */
