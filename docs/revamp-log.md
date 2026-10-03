@@ -17,9 +17,9 @@ The plans being carried out:
 | 3 | **History step 0 + 1.** The game table, then schedule luck on Standings | Foundation for four pages; most useful mid-season | step 0 done (merged); step 1 merged into step 4 |
 | 4 | **B1–B3 + schedule luck.** `PageHeader` on every page, text fixes, the page jumping as it loads, then the all-play table on Standings | Both edit the Standings route; History pages reuse `PageHeader` | done |
 | 5 | **D.** Links between pages, plus **History step 2**, the head-to-head grid | Both work on Rivalry and manager links | done; lore-script fix done (merged) |
-| 6 | **C4–C5 + B4–B5.** Drafts, remaining small text and tap targets, blog typography, desktop layouts | Polish on less-used pages | running (Sonnet) |
-| 7 | **E. Content:** bio typos and league lines (7a, running in parallel in a worktree, Opus); home page copy, Resources, countdown (7b) | Writing, once the page frames are settled | 7a done (merged); 7b pending |
-| 8 | **History step 3.** Seasons archive | Biggest new page | pending |
+| 6 | **C4–C5 + B4–B5.** Drafts, remaining small text and tap targets, blog typography, desktop layouts | Polish on less-used pages | done |
+| 7 | **E. Content:** bio typos and league lines (7a, running in parallel in a worktree, Opus); home page copy, Resources, countdown (7b) | Writing, once the page frames are settled | 7a done (merged); 7b running (Opus) |
+| 8 | **History step 3.** Seasons archive | Biggest new page | running in parallel with 7b (Opus, worktree, dev server on port 5174) |
 | 9 | **History step 4.** Stat Lab, first release | Built on everything above | pending |
 | 10 | **F wrap-up.** `CLAUDE.md` corrections, end-of-season checklist, `mudd-preview` post type, full-site audit | Docs describe the finished state | pending |
 
@@ -215,3 +215,37 @@ Commits `8b2e678`..`0c6b971`.
   to step 9 as optional.
 - **For blog writers:** bench facts can't tell IR players apart, so check before mocking
   anyone.
+
+### Step 6: Drafts, small text, blog, desktop layouts (done, Sonnet, about 30 minutes)
+
+Commits `d9becd2`..`f0cb4f3`.
+
+- **All 15 pages at 375px:** smallest font at least 12px, no sideways scrolling, interactive
+  targets at least 44px. The one exception is the Free Agents checkbox; its label is 44px.
+- **Drafts:** the completed draft leads, and the projected order sits behind a new
+  `Disclosure` primitive.
+- **Manager page:** two columns above 1100px.
+- **Matchups:** two columns above 1200px.
+- **Standings:** the table and schedule luck sit side by side above 1200px.
+- **Rosters:** team jump chips.
+- **Trophy Room:** earlier seasons are folded away (6,688px → 3,160px).
+- **Blog typography,** checked against a temporary mock.
+- **New `--stickyBar` token** (61px below 951px) for scroll targets.
+
+### max_pf (done, Sonnet, in parallel; merged)
+
+- **`games.json`** gains `max_pf`, the true best legal lineup. The script reproduces Sleeper's
+  `potential_points` **to the cent for all 50 manager-seasons**, a check that now fails the
+  script on any miss.
+- **The override game** has null `max_pf` on both rows.
+- **New `leagueGames.js` helpers:** `benchPoints`, `lineupEfficiency`, `lineupTotals`.
+- **The eligibility table** now lives in `derive-site-data.py`, and `derive-narratives.py` uses
+  it from there.
+
+**Changes to the remaining plan:**
+- **Stat Lab** gets max points, bench points and lineup efficiency (decision 3 is settled: the
+  check holds).
+- **Step 8** also relabels the carried-over 2021 draft on /drafts, which today shows as a
+  second "2022 Draft".
+- **Step 10:** `Drafts/index` was rewritten (about 60 lines), and many more upstream files now
+  differ. See step 6's file list.
