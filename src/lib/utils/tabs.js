@@ -83,6 +83,12 @@ export const tabs = [
             },
             { group: 'History' },
             {
+                // /seasons/<year> lights this entry through findTab's first-segment fallback
+                icon: 'calendar_month',
+                label: 'Seasons',
+                dest: '/seasons',
+            },
+            {
                 icon: 'emoji_events',
                 label: 'Trophy Room',
                 dest: '/awards',
