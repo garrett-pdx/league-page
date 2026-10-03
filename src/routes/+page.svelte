@@ -136,6 +136,9 @@
     /* champ styling */
     #currentChamp {
         padding: 25px 0;
+        /* The loaded panel's content height (heading, 150px wreath, team name). Reserved while
+           the awards load, so the transactions under it don't jump 170px when it fills in. */
+        min-height: 256px;
 		background-color: var(--f3f3f3);
         box-shadow: 5px 0 8px var(--champShadow);
         border-left: 1px solid var(--ddd);
