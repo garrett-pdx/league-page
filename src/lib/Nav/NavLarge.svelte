@@ -59,6 +59,13 @@
 	$effect(measure);
 
 	let innerWidth = $state();
+	let innerHeight = $state();
+
+	// The History group alone is six entries, and the whole list (~650px) runs past the bottom
+	// of a 1024x768 screen. Cap the open menu at the space left below the tab and let it scroll
+	// inside itself; `menuScrolls` switches overflow on only when the cap bites.
+	const MENU_MARGIN = 16;
+	let menuScrolls = $state(false);
 
 	const open = () => {
 		display = !display;
@@ -66,7 +73,11 @@
 			measure();
 			// Group captions make the old `49 * children` estimate wrong, so use the list's
 			// real height.
-			menuHeight = listEl?.scrollHeight ?? 0;
+			const full = listEl?.scrollHeight ?? 0;
+			const below = innerHeight - (el?.getBoundingClientRect().bottom ?? 0) - MENU_MARGIN;
+			const room = Math.max(below, 240);
+			menuScrolls = full > room;
+			menuHeight = Math.min(full, room);
 		} else {
 			// Clicking League lights League. Closing the menu without going anywhere -- click
 			// away, click League again, or pick an off-site link -- must hand the highlight
@@ -114,7 +125,7 @@
 
 </script>
 
-<svelte:window bind:innerWidth={innerWidth} />
+<svelte:window bind:innerWidth={innerWidth} bind:innerHeight={innerHeight} />
 
 <style>
     :global(.navBar) {
@@ -250,7 +261,10 @@
 			{/if}
 		{/snippet}
 	</TabBar>
-	<div class="subMenu" style="max-height: {display ? menuHeight + 1 : 0}px; width: {width}px; top: {height}px; left: {left}px; box-shadow: 0 0 {display ? "3px" : "0"} 0 var(--blueOne); border: {display ? "1px" : "0"} solid var(--blueOne); border-top: none;">
+	<!-- Closed, the menu is only squashed to max-height 0, so its items stay in the DOM: `inert`
+	     and visibility keep them out of the tab order and the accessibility tree until it opens.
+	     visibility transitions discretely, so the closing animation still shows. -->
+	<div class="subMenu" inert={!display} style="visibility: {display ? 'visible' : 'hidden'}; overflow-y: {display && menuScrolls ? 'auto' : 'hidden'}; max-height: {display ? menuHeight + 1 : 0}px; width: {width}px; top: {height}px; left: {left}px; box-shadow: 0 0 {display ? "3px" : "0"} 0 var(--blueOne); border: {display ? "1px" : "0"} solid var(--blueOne); border-top: none;">
 		<div bind:this={listEl}>
 		<List>
 			{#each tabChildren as subTab, ix}
