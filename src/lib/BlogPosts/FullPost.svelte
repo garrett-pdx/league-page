@@ -61,6 +61,10 @@
 
 <style>
     .post {
+        /* The one horizontal inset for everything inside the card -- title, text, lists, images
+           and tables -- so that they all start on the same line. rem, not em, so a table in a
+           smaller font still lines up with the paragraphs. */
+        --postGutter: 2rem;
         background-color: var(--fff);
         border: 1px solid var(--bbb);
         border-radius: 1.5em;
@@ -71,72 +75,86 @@
 
     h3 {
         font-size: 2em;
+        line-height: 1.15;
         text-align: center;
         margin: 0;
+        padding: 0 var(--postGutter);
+    }
+
+    /* Prose is capped at a readable measure; the card itself can be wider than that. */
+    .body {
+        max-width: var(--pageMaxText);
+        margin: 0 auto;
     }
 
     :global(.body blockquote) {
         margin: 0.1em 0;
         border-left: 3px solid rgb(231, 235, 238);
-        margin: 1em 2em;
+        margin: 1em var(--postGutter);
         padding-left: 0.875em;
     }
 
     :global(.body .heading-1) {
         margin: 0.4em 0;
-        padding: 0 2em;
+        padding: 0 var(--postGutter);
+        line-height: 1.15;
         font-size: 1.9em;
         text-align: center;
     }
 
     :global(.body .heading-2) {
         margin: 0.4em 0;
-        padding: 0 2em;
+        padding: 0 var(--postGutter);
+        line-height: 1.15;
         font-size: 1.8em;
         text-align: center;
     }
 
     :global(.body .heading-3) {
         margin: 0.4em 0;
-        padding: 0 2em;
+        padding: 0 var(--postGutter);
+        line-height: 1.15;
         font-size: 1.7em;
         text-align: center;
     }
 
     :global(.body .heading-4) {
         margin: 0.4em 0;
-        padding: 0 2em;
+        padding: 0 var(--postGutter);
+        line-height: 1.15;
         font-size: 1.6em;
         text-align: center;
     }
 
     :global(.body .heading-5) {
         margin: 0.4em 0;
-        padding: 0 2em;
+        padding: 0 var(--postGutter);
+        line-height: 1.15;
         font-size: 1.5em;
         text-align: center;
     }
 
     :global(.body .heading-6) {
         margin: 0.4em 0;
-        padding: 0 2em;
+        padding: 0 var(--postGutter);
+        line-height: 1.15;
         font-size: 1.4em;
         text-align: center;
     }
 
     :global(.body .bodyParagraph) {
         margin: 1em 0;
-        padding: 0 2em;
+        padding: 0 var(--postGutter);
     }
 
     :global(.body ul) {
         margin: 1em 0;
-        padding: 0 2em 0 4em;
+        padding: 0 var(--postGutter) 0 calc(var(--postGutter) + 2rem);
     }
 
     :global(.body ol) {
         margin: 1em 0;
-        padding: 0 2em 0 4em;
+        padding: 0 var(--postGutter) 0 calc(var(--postGutter) + 2rem);
     }
 
     :global(.body .bodyParagraph a) {
@@ -145,7 +163,7 @@
 
     :global(.body .blogImg) {
         margin: 1em 0;
-        padding: 0 2em;
+        padding: 0 var(--postGutter);
         display: flex;
         justify-content: center;
     }
@@ -160,10 +178,12 @@
         */
         display: block;
         width: fit-content;
-        max-width: 100%;
+        /* Indented to the text's own gutter on both sides, so a table's left edge lines up with
+           the paragraphs above and below it instead of floating centred. */
+        max-width: calc(100% - 2 * var(--postGutter));
         overflow-x: auto;
-        margin: 1em auto;
-        min-width: min(80%, 100%);
+        margin: 1em var(--postGutter);
+        min-width: min(80%, calc(100% - 2 * var(--postGutter)));
 	    border: 1px solid var(--ddd);
         border-collapse: collapse;
         font-variant-numeric: tabular-nums;
@@ -205,10 +225,14 @@
         white-space: nowrap;
     }
 
+    /* A phone card is ~340px wide, so a 2rem gutter on each side leaves 280px of text. */
     @media (max-width: 600px) {
+        .post {
+            --postGutter: 1.25rem;
+        }
+
         :global(.body table) {
             font-size: 0.85em;
-            margin: 1em 0;
         }
 
         :global(.body td) {

@@ -100,6 +100,9 @@
     }
 
     .noUnderline {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
         margin: 0.5em;
         text-decoration: none;
     }

@@ -27,7 +27,9 @@
 
     const changePage = (dest) => {
         if(scroll) {
-            window.scrollTo({left: 0, top: target, behavior: 'smooth'});
+            // below 951px a 61px bar is stuck to the top; land under it, not behind it
+            const bar = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--stickyBar')) || 0;
+            window.scrollTo({left: 0, top: target - bar, behavior: 'smooth'});
         }
         page = dest;
     }
@@ -43,7 +45,11 @@
         color: #aaa;
         cursor: pointer;
         vertical-align: sub;
-        /* the arrows are the only way to turn the page: 44px, not the icon's 24px */
+    }
+
+    /* The arrows are the only way to turn the page: 44px, not the icon's 24px. Scoped to the bar
+       because `.button` above is global and Posts uses the same class name for a link. */
+    .paginationBar :global(.button) {
         display: inline-flex;
         align-items: center;
         justify-content: center;

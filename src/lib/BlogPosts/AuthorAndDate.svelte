@@ -16,10 +16,14 @@
 
     .authorAndDate {
         color: var(--g999);
-        padding: 0 2em;
+        padding: 0 var(--postGutter, 2rem);
     }
 
     .authorAndDate a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        box-sizing: border-box;
         background-color: var(--blueOne);
         color: #fff;
         border-radius: 1em;
