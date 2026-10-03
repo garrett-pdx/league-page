@@ -18,13 +18,14 @@
     import { SegmentedControl } from '$lib/Design';
     import {
         DATASETS, GAME_TYPES, MEASURES, DEFAULT_MEASURE,
-        measuresFor, chartsFor, annotateGames, buildRows, sortRows,
+        measuresFor, chartsFor, annotateGames, buildRows, sortRows, distOk, applyMin, defaultMin,
         parseState, serializeState, presets as makePresets, defaultDir,
     } from './statLab.js';
     import MultiChips from './MultiChips.svelte';
     import BarChart from './BarChart.svelte';
     import LineChart from './LineChart.svelte';
     import ScatterChart from './ScatterChart.svelte';
+    import DistChart from './DistChart.svelte';
     import DataTable from './DataTable.svelte';
 
     let { games, history } = $props();
@@ -81,7 +82,17 @@
     /* ---- the view ------------------------------------------------------------------------- */
 
     const view = $derived(parseState(page.url.searchParams, ctx));
-    const rows = $derived(buildRows(annotated, history, view));
+    // Before the minimum: what the filters select. `minDefault` is worked out from it, so the
+    // default tracks the view (a playoff run or a single season in progress has no minimum).
+    const allRows = $derived(buildRows(annotated, history, view));
+    const minDefault = $derived(
+        defaultMin(view.ds, view.opp.length > 0, allRows.reduce((n, r) => Math.max(n, r.games ?? 0), 0))
+    );
+    // view.min is null until someone sets it, and then stays: a deliberate 8 is still 8 on
+    // another dataset, while "no choice" follows the default for wherever you are.
+    const minNow = $derived(view.ds === 'games' ? 0 : view.min ?? minDefault);
+    const rows = $derived(applyMin(allRows, view.ds, minNow));
+    const hidden = $derived(allRows.length - rows.length);
     const sorted = $derived(sortRows(rows, view.sort, view.dir, nameOf));
     const measureList = $derived(measuresFor(view.ds));
 
@@ -92,6 +103,8 @@
     });
 
     const commit = (next, push = false) => {
+        // a distribution only suits some datasets and measures; the others fall back to bars
+        if(next.chart === 'dist' && !distOk(next.ds, next.m)) next = { ...next, chart: 'bar' };
         const qs = serializeState(next);
         goto(qs ? `?${qs}` : page.url.pathname, { replaceState: !push, keepFocus: true, noScroll: true });
     };
@@ -109,6 +122,9 @@
     };
     const setMeasure = (m) => update({ m, x: view.x === m ? otherThan(m) : view.x, sort: m, dir: defaultDir(m) });
     const setX = (x) => update({ x, m: view.m === x ? otherThan(x) : view.m });
+
+    // the default is never written to the address; null is how the view says "default"
+    const setMin = (n) => update({ min: n === minDefault ? null : n });
 
     const setWeek = (end, value) => {
         const wk = [...view.wk];
@@ -131,6 +147,8 @@
     };
     const narrowLabel = (row) =>
         view.ds === 'games' ? `Show ${row.season} week ${row.week}` : `Show only ${nameOf(row.user_id)}`;
+    const narrowManager = (uid) => update({ mgr: [people[uid].handle] }, true);
+    const narrowManagerLabel = (uid) => `Show only ${nameOf(uid)}`;
 
     /** How a row is named on a chart: "Michael · 2023 W5", "Michael · 2023", "Michael". */
     const labelOf = (row) => {
@@ -158,6 +176,7 @@
         const [a, b] = view.wk;
         if(a !== null || b !== null) out.push(a === b ? `Week ${a}` : `Weeks ${a ?? 1}–${b ?? 17}`);
         if(view.oppIds.length) out.push(`vs ${listOf(view.oppIds.map(nameOf), '', 'opponents')}`);
+        if(minNow) out.push(`${minNow}+ games`);
         return out;
     });
 
@@ -176,6 +195,15 @@
     const weeks = Array.from({ length: 17 }, (_, i) => i + 1);
     const seasonOptions = seasons.map((s) => ({ value: String(s), label: String(s) }));
     const managerOptions = uids.map((uid) => ({ value: people[uid].handle, label: people[uid].short }));
+
+    // choices for the minimum: round numbers up to the most games any row has, plus whatever is
+    // set now (a hand-edited link may carry a number that is not on the list)
+    const MIN_STEPS = [0, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 30, 40, 50, 60];
+    const maxGames = $derived(allRows.reduce((n, r) => Math.max(n, r.games ?? 0), 0));
+    const minOptions = $derived(
+        [...new Set([...MIN_STEPS.filter((n) => n <= Math.max(maxGames, 2)), minNow, minDefault])].sort((a, b) => a - b)
+    );
+    const rowNoun = $derived(view.ds === 'managers' ? 'careers' : 'seasons');
 
     const topN = $derived(view.top === 'all' ? Infinity : Number(view.top));
     // The bars always rank the chart's measure. When the table is sorted by that measure they
@@ -205,6 +233,10 @@
         --vizS4: #eda100;
         --vizNeg: #e34948;          /* the diverging pair's warm pole, for negative values */
         --vizDim: #c3c2b7;          /* de-emphasised series */
+        --vizDot: #8a897f;          /* the distribution chart's neutral dots: 3.4:1 on white */
+        --vizBand: rgba(70, 70, 50, 0.08);      /* middle-half band, neutral */
+        --vizBandOn: rgba(42, 120, 214, 0.18);  /* ... and in the accent for the highlighted strip */
+        --vizGridSoft: #efeee9;
         --vizGrid: #e1e0d9;
         --vizAxis: #c3c2b7;
         --vizInk: var(--g333);
@@ -258,7 +290,7 @@
         .chip:hover:not([aria-pressed='true']) { background: var(--navy050); }
     }
 
-    .chip:focus-visible, .sheetToggle:focus-visible, select:focus-visible, .reset:focus-visible {
+    .chip:focus-visible, .sheetToggle:focus-visible, select:focus-visible, .reset:focus-visible, .linkBtn:focus-visible {
         outline: 2px solid var(--blueOne);
         outline-offset: 2px;
     }
@@ -356,6 +388,22 @@
         color: var(--g555);
     }
 
+    .hiddenNote {
+        margin: 0.6em 0 0;
+        font-size: 0.875rem;
+        color: var(--g555);
+    }
+
+    .linkBtn {
+        appearance: none;
+        background: none;
+        border: none;
+        padding: 0 0.4em;
+        font: inherit;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
     .stamp {
         margin: 0.8em 0 0;
         font-size: 0.8rem;
@@ -448,7 +496,7 @@
 
         <div class="field">
             <span class="label">Chart</span>
-            <SegmentedControl options={chartsFor(view.ds)} value={view.chart} onchange={(chart) => update({ chart })} ariaLabel="Chart type" fullWidth />
+            <SegmentedControl options={chartsFor(view.ds, view.m)} value={view.chart} onchange={(chart) => update({ chart })} ariaLabel="Chart type" fullWidth />
         </div>
 
         <div class="field">
@@ -463,6 +511,17 @@
                 <label class="label" for="sl-x">Measure (across)</label>
                 <select id="sl-x" value={view.x} onchange={(e) => setX(e.currentTarget.value)}>
                     {#each measureList as m}<option value={m.key}>{m.label}</option>{/each}
+                </select>
+            </div>
+        {/if}
+
+        {#if view.ds !== 'games'}
+            <div class="field">
+                <label class="label" for="sl-min">Minimum games</label>
+                <select id="sl-min" value={minNow} onchange={(e) => setMin(Number(e.currentTarget.value))}>
+                    {#each minOptions as n}
+                        <option value={n}>{n === 0 ? 'No minimum' : `${n} games`}{n === minDefault && n !== 0 ? ' (default)' : ''}</option>
+                    {/each}
                 </select>
             </div>
         {/if}
@@ -539,13 +598,30 @@
         </div>
 
         {#if !sorted.length}
-            <p class="empty">No games match these filters. <a class="reset" href="/stat-lab">Reset everything</a></p>
+            <p class="empty">
+                {#if hidden}
+                    All {hidden} {rowNoun} have fewer than {minNow} games.
+                    <button type="button" class="reset linkBtn" onclick={() => setMin(0)}>Show them</button>
+                {:else}
+                    No games match these filters. <a class="reset" href="/stat-lab">Reset everything</a>
+                {/if}
+            </p>
         {:else if view.chart === 'bar'}
             <BarChart rows={barRows} measure={view.m} {labelOf} {narrow} {narrowLabel} total={sorted.length} />
         {:else if view.chart === 'line'}
             <LineChart rows={sorted} ds={view.ds} measure={view.m} {people} {nameOf} {narrow} {narrowLabel} {narrowScreen} />
+        {:else if view.chart === 'dist'}
+            <DistChart rows={sorted} measure={view.m} ds={view.ds} {labelOf} {nameOf} {narrow} {narrowLabel}
+                {narrowManager} {narrowManagerLabel} {narrowScreen} />
         {:else}
             <ScatterChart rows={sorted} x={view.x} y={view.m} {labelOf} {narrow} {narrowLabel} {narrowScreen} />
+        {/if}
+
+        {#if hidden && sorted.length}
+            <p class="hiddenNote" role="status">
+                {hidden} {hidden === 1 ? rowNoun.slice(0, -1) : rowNoun} hidden with fewer than {minNow} games.
+                <button type="button" class="reset linkBtn" onclick={() => setMin(0)}>Show {hidden === 1 ? 'it' : 'them'}</button>
+            </p>
         {/if}
 
         <p class="stamp">{stamp}. {sorted.length} {sorted.length === 1 ? 'row' : 'rows'}; every one is in the table below.</p>

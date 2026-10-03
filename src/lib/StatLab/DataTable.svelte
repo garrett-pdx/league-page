@@ -47,6 +47,7 @@
         if(ds === 'seasons') return [
             name,
             { key: 'season', label: 'Season', short: 'Season', cell: (r) => String(r.season) },
+            { key: 'games', label: 'Games', short: 'G', num: true, cell: (r) => String(r.games) },
             ...common, m('finish'),
         ];
         return [

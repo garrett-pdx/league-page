@@ -21,7 +21,7 @@ URL SCHEME (every control; defaults are left out, so a bare /stat-lab is the def
     ds      games | seasons | managers                     dataset          (seasons)
     m       measure key, see MEASURES                       the measure      (per dataset)
     x       measure key                                     scatter x axis   (pf, or pa when m=pf)
-    chart   bar | line | scatter                            chart            (bar)
+    chart   bar | line | scatter | dist                    chart            (bar)
     type    regular | playoffs | all                        game type        (regular)
     season  2024,2025                                       seasons          (all)
     mgr     gurret,kabroa  -- Sleeper handles, lowercased   managers         (all)
@@ -30,6 +30,10 @@ URL SCHEME (every control; defaults are left out, so a bare /stat-lab is the def
     sort    a column key                                    table sort       (the measure)
     dir     asc | desc                                      sort direction   (the measure's own)
     top     10 | 25 | all                                   bars shown       (10)
+    min     a game count, 0 = show everything               minimum games    (derived: defaultMin())
+            Seasons and Careers only. Absent means "the default for this view", which is worked out
+            from the data (see defaultMin), so it is never written down; any other value, including
+            0, is written.
 */
 import { filterGames, allPlay } from '../utils/helperFunctions/leagueGames.js';
 
@@ -43,6 +47,7 @@ export const CHARTS = [
     { value: 'bar', label: 'Bar' },
     { value: 'line', label: 'Line' },
     { value: 'scatter', label: 'Scatter' },
+    { value: 'dist', label: 'Distribution' },
 ];
 
 export const GAME_TYPES = [
@@ -93,8 +98,19 @@ export const DEFAULT_MEASURE = { games: 'pf', seasons: 'winPct', managers: 'winP
 export const measuresFor = (ds) =>
     Object.entries(MEASURES).filter(([, m]) => m.ds.includes(ds)).map(([key, m]) => ({ key, ...m }));
 
-export const chartsFor = (ds) =>
-    CHARTS.map((c) => ({ ...c, disabled: c.value === 'line' && ds === 'managers' }));
+/**
+ * A distribution needs several values per manager: games (one dot a week) or seasons (one dot a
+ * season). A career is one value per manager, so there is nothing to spread; and a final place
+ * or a title count is a handful of integers stacked on each other, which says nothing a bar
+ * doesn't.
+ */
+export const distOk = (ds, m) => ds !== 'managers' && !['finish', 'titles'].includes(m);
+
+export const chartsFor = (ds, m) =>
+    CHARTS.map((c) => ({
+        ...c,
+        disabled: (c.value === 'line' && ds === 'managers') || (c.value === 'dist' && !distOk(ds, m)),
+    }));
 
 /* ---- formatting -------------------------------------------------------------------------- */
 
@@ -275,6 +291,78 @@ export const buildRows = (games, history, state) => {
     return out;
 };
 
+/* ---- minimum games ----------------------------------------------------------------------- */
+
+/*
+Why a minimum: a rate over three games is noise that looks like signal. The three-week 2026
+seasons beat every full season on win %, and Jordan Leonard's 2-0 against malstol topped "who
+owns whom". Seasons and careers below the threshold are hidden (and counted, so the page can say
+so); Games has no minimum, a game is a game.
+
+The default is worked out from the data in view rather than fixed per dataset, because "enough
+games" depends on what is being looked at: a regular season is 15 games but a playoff run is
+2 and a single week is 1, so a flat "5" would hide every playoff season and every filtered view.
+So: a fraction of the most games any row in view has, capped.
+
+    Seasons                 a third, up to 5     15-game regular seasons -> 5, so 3-game 2026 drops out
+    Careers                 a third, up to 10    63-game careers -> 10; only a one-season career is near it
+    opponent-filtered       2/5, up to 4         a pair meets ~9 times; Jordan's 2 games drop out
+
+A result of 1 or less is 0 (nothing hidden): playoffs, one season in progress, a single week.
+`maxGames` is the largest `games` among the rows before any minimum is applied.
+*/
+const MIN_PROFILE = {
+    seasons: { frac: 1 / 3, cap: 5 },
+    managers: { frac: 1 / 3, cap: 10 },
+    versus: { frac: 0.4, cap: 4 },
+};
+
+export const defaultMin = (ds, hasOpponent, maxGames) => {
+    if(ds === 'games') return 0;
+    const { frac, cap } = hasOpponent ? MIN_PROFILE.versus : MIN_PROFILE[ds];
+    // the small epsilon keeps 15 * (1/3) from rounding up to 6 on floating-point noise
+    const n = Math.min(cap, Math.ceil(maxGames * frac - 1e-9));
+    return n <= 1 ? 0 : n;
+};
+
+/** Seasons and careers with fewer than `min` games are dropped; games rows are never filtered. */
+export const applyMin = (rows, ds, min) => (ds === 'games' || !min ? rows : rows.filter((r) => r.games >= min));
+
+/* ---- distribution ------------------------------------------------------------------------ */
+
+/** Linear-interpolated quantile of an ascending array (Excel's QUARTILE.INC, numpy's default). */
+export const quantile = (sorted, p) => {
+    if(!sorted.length) return null;
+    const h = (sorted.length - 1) * p;
+    const lo = Math.floor(h);
+    const hi = Math.ceil(h);
+    return sorted[lo] + (sorted[hi] - sorted[lo]) * (h - lo);
+};
+
+/**
+ * One group per manager: every row's value of `key`, with the median and quartiles, sorted by
+ * median (highest first; ties by name via `nameOf` when given). Rows with no value are left out.
+ */
+export const distribution = (rows, key, nameOf = (u) => u) => {
+    const by = new Map();
+    for(const r of rows) {
+        const v = r[key];
+        if(v === null || v === undefined || Number.isNaN(v)) continue;
+        if(!by.has(r.user_id)) by.set(r.user_id, []);
+        by.get(r.user_id).push(r);
+    }
+    const groups = [];
+    for(const [uid, rs] of by) {
+        const vals = rs.map((r) => r[key]).sort((a, b) => a - b);
+        groups.push({
+            uid, rows: rs, n: vals.length,
+            median: quantile(vals, 0.5), q1: quantile(vals, 0.25), q3: quantile(vals, 0.75),
+            lo: vals[0], hi: vals[vals.length - 1],
+        });
+    }
+    return groups.sort((a, b) => b.median - a.median || String(nameOf(a.uid)).localeCompare(String(nameOf(b.uid))));
+};
+
 /* ---- sorting ----------------------------------------------------------------------------- */
 
 /** Columns other than measures that the table can sort by. */
@@ -336,6 +424,7 @@ export const parseState = (params, ctx) => {
 
     let chart = CHARTS.some((c) => c.value === get('chart')) ? get('chart') : 'bar';
     if(chart === 'line' && ds === 'managers') chart = 'bar';
+    if(chart === 'dist' && !distOk(ds, m)) chart = 'bar';
 
     const type = GAME_TYPES.some((t) => t.value === get('type')) ? get('type') : 'regular';
 
@@ -359,8 +448,12 @@ export const parseState = (params, ctx) => {
 
     const top = ['10', '25', 'all'].includes(get('top')) ? get('top') : '10';
 
+    // null means "the default for this view"; 1 is the same as 0 (every row has a game)
+    const minRaw = get('min');
+    const min = minRaw !== null && /^\d{1,3}$/.test(minRaw) ? (Number(minRaw) <= 1 ? 0 : Number(minRaw)) : null;
+
     return {
-        ds, m, x, chart, type, season, mgr, opp, wk, sort, dir, top,
+        ds, m, x, chart, type, season, mgr, opp, wk, sort, dir, top, min,
         mgrIds: mgr.map((h) => ctx.handles[h]),
         oppIds: opp.map((h) => ctx.handles[h]),
     };
@@ -381,6 +474,7 @@ export const serializeState = (s) => {
     if(s.sort && s.sort !== s.m) p.set('sort', s.sort);
     if(s.sort && s.dir !== defaultDir(s.sort)) p.set('dir', s.dir);
     if(s.chart === 'bar' && s.top !== '10') p.set('top', s.top);
+    if(s.ds !== 'games' && s.min !== null && s.min !== undefined) p.set('min', String(s.min));
     return p.toString();
 };
 
@@ -396,8 +490,9 @@ export const presets = ({ currentSeason, finished = [], champion }) => [
     { id: 'luck', label: 'Luckiest seasons', query: 'm=luck' },
     { id: 'weeks', label: 'Biggest weeks ever', query: 'ds=games&type=all' },
     { id: 'pfpa', label: `Points for vs. against, ${currentSeason}`, query: `m=pa&chart=scatter&season=${currentSeason}` },
-    // finished seasons only: a three-week season's spread is noise, and it swamps the extremes
-    { id: 'boom', label: 'Boom or bust', query: `m=sd&chart=scatter&x=ppg${finished.length ? `&season=${finished.join(',')}` : ''}` },
+    // every weekly score, one strip per manager: spread is the width of the strip. Games, so the
+    // 2026 weeks count as the games they are; no minimum applies and none is needed.
+    { id: 'boom', label: 'Boom or bust', query: 'ds=games&chart=dist' },
     { id: 'bench', label: 'Who left the most on the bench', query: 'm=bench' },
     ...(champion ? [{ id: 'owns', label: 'Who owns whom', query: `ds=managers&type=all&opp=${champion}` }] : []),
 ];
