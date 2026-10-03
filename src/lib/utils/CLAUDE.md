@@ -53,9 +53,13 @@ because they're rendered unguarded:
 - `rival` — `ManagerFantasyInfo.svelte` reads `rival.link`, `rival.image` and `rival.name`
   unguarded (search `infoRival`), so omitting it **throws on the manager detail page**.
   `link` is an index into the `managers` array — it shifts if you reorder entries — and
-  `null` links back to the all-managers page.
+  `null` links back to the all-managers page. The tile is a real link to the rival's page,
+  with a Head-to-head link under it to `/rivalry?player_one=<managerID>&player_two=<managerID>`
+  (the rivalry page takes Sleeper user_ids, not indexes). All ten active managers have a real
+  rival; how they were paired is in the comment above `managers`.
 
-Every other field is properly `{#if}`-guarded and safe to omit.
+Every other field is properly `{#if}`-guarded and safe to omit: an unset optional field is
+simply not shown (there is no "?" placeholder).
 
 `managerID` must be a user Sleeper knows about somewhere in the league history —
 `ManagerRow.svelte` does an unguarded `leagueTeamManagers.users[manager.managerID]` lookup
@@ -64,18 +68,19 @@ Leonard is), but an invented ID cannot.
 
 ## There is no keeper league type
 
-`dynasty` is a two-state, **purely cosmetic** flag. It is read in exactly three places,
-none of which touch draft or roster mechanics:
+`dynasty` is a two-state, **purely cosmetic** flag. It is read in exactly two places, neither
+of which touches draft or roster mechanics:
 
 - `src/lib/Resources.svelte` — filters the resource links (`dynastyOnly` / `redraftOnly`).
-- `src/lib/Managers/ManagerRow.svelte` — shows the "Rebuild" mode badge only when true.
 - `helperFunctions/news.js` + `routes/api/fetch_serverside_news` — picks which RSS feeds
   to pull.
 
-The string "keeper" appears **nowhere** in `src/` outside these CLAUDE files. There is no
-keeper cost, no keeper count, no inflation, and no third league type. `false` here means
-"not dynasty" and is the right setting, but it buys nothing keeper-specific — it just
-swaps dynasty content for redraft content.
+(Upstream's `ManagerRow` also showed a "Rebuild" badge when it was true; our rewritten card
+doesn't read it.) There is no keeper cost engine, no keeper count, no inflation, and no third
+league type. `false` here means "not dynasty" and is the right setting, but it buys nothing
+keeper-specific — it just swaps dynasty content for redraft content. Every keeper feature on
+the site is ours and read-only: the draft badge below, and the Seasons pages' keeper list,
+which reads the pulled `keepers.json` (cost and rule check computed offline by the pull).
 
 **Sleeper does supply the data; the template ignores it.** `/draft/{id}/picks` returns
 `is_keeper` (`true` or `null`) on every pick, and because a keeper consumes the pick slot
@@ -131,7 +136,8 @@ its export here too rather than letting callers deep-import.
 
 One file per domain concept (`leagueRosters`, `leagueMatchups`, `leagueRecords`,
 `leagueTransactions`, `leagueAwards`, `leagueDrafts`, `leagueStandings`, `leagueBrackets`,
-`rivalryMatchups`, `nflState`, `players`, `news`). `universalFunctions.js` holds the
+`rivalryMatchups`, `nflState`, `players`, `news`), plus three of ours that read committed
+files from `static/data/` instead of Sleeper (see "Static-data readers" below). `universalFunctions.js` holds the
 shared formatting/lookup utilities (`getTeamFromTeamManagers`, `gotoManager`, `cleanName`,
 `round`, `getAvatar`, …).
 
@@ -152,13 +158,50 @@ from the UI. A page navigation must not re-hit Sleeper for data already loaded.
 **2. Walk the league history by `previous_league_id`.** Anything "all-time" (records,
 awards, team/manager mapping) loops from `leagueID` backwards until the ID is falsy or
 `0`, building a `[year][roster_id]` map — see `leagueTeamManagers.js`, the pattern the
-others follow. For this league that's five seasons, 2022–2026. Roster IDs are only
+others follow. For this league that's five Sleeper seasons, 2022–2026 (2021 was on ESPN). Roster IDs are only
 meaningful *within* a season, which is why the map is keyed by year first; never assume a
 roster ID identifies the same manager across seasons.
 
 **3. Fan out with `waitForAll`, don't await in sequence.** `waitForAll` is just
 `Promise.all` with a nicer name. Sleeper calls are independent and slow; issuing them
 serially is the main way this site gets sluggish.
+
+## Static-data readers (ours)
+
+Three helpers fetch our own committed files rather than Sleeper. They follow a different cache
+pattern from the Sleeper loaders: a module-level promise per file, **never memoizing a
+rejection**, and they take SvelteKit's `fetch` (`getLeagueGames(fetch)`) so a `load()` can call
+them during SSR. No stores, no `localStorage`.
+
+- **`leagueHistory.js`** → `league-history.json`: `getLeagueHistory`, `getManagerCareer`, and
+  the full 1–10 finishes Sleeper can't give.
+- **`leagueGames.js`** → `games.json`: `getLeagueGames` decodes the columnar file into one row
+  per team per game, and the pure functions every history page computes with — `filterGames`,
+  `allPlay`, `headToHead`, `standingsFrom`, `liveSeasonGames` (the same row shape built from live
+  Sleeper matchups, so Standings' luck never lags), `benchPoints`, `lineupEfficiency`,
+  `lineupTotals`. Rows are keyed on `user_id`. The override game's `max_pf` is null; skip
+  nulls rather than treating them as zero.
+- **`seasonNotes.js`** → `season-notes.json`, `keepers.json`, `players.json`, for the Seasons
+  archive only.
+
+The sizes and the rule against fetching anything bigger are in the root `CLAUDE.md`.
+
+## Small utils of ours
+
+- **`tabs.js`** also exports `findTab`, `currentDest` and `tabAliases`, the one lookup behind
+  the nav highlight and the tab title.
+- **`pageTitle.js`** — `pageTitle(page)`: an error page is "Not found", then a `title` from
+  `load()`, then the nav label, then upstream's capitalised path. `titleFromSlug` for blog posts.
+- **`managerLink.js`** — `managerHref` / `managerIndex`: a real `/manager?manager=N` address
+  for a team, following `gotoManager()` step for step. Use it wherever upstream used a click
+  handler on a div; a link opens in a new tab and is reachable by keyboard.
+
+## Transactions degrade, they don't throw
+
+`getLeagueTransactions` used to destructure the result of a `.catch(console.error)` and threw
+"Cannot destructure 'transactionsData'" whenever a Sleeper fetch failed, which crashed /manager.
+It now returns no transactions (and doesn't cache them) when the comb fails, and tolerates a
+failed `getNflState`. Keep that guard through an upstream merge.
 
 ## The Reddit half of the news feed is permanently dead (handled)
 

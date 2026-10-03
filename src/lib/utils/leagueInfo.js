@@ -62,8 +62,10 @@ Jordan Leonard, who played 2022 only. AllManagers splits departed managers into 
 Moratorium automatically -- see the note above his entry at the bottom.
 
 Names and bios are real. Still unset on every entry: the optional `favoriteTeam`,
-`preferredContact`, `fantasyStart`, `philosophy` and `tradingScale` fields, each of which
-renders as a muted "?" on the managers page.
+`preferredContact`, `fantasyStart`, `philosophy`, `tradingScale`, `favoritePlayer` and
+`valuePosition` fields. Each is {#if}-guarded in Manager.svelte / ManagerFantasyInfo.svelte, so
+an unset field is simply not shown; add one here and it appears. (`mode` and `rookieOrVets` are
+dynasty-league fields; leave them out.)
 
 `rival` links each of the 10 active managers to one other, chosen by analyzing real
 head-to-head data: regular-season matchups from static/data/weeks.json (weeks 1-15 of

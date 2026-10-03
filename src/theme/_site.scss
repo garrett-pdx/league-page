@@ -13,7 +13,7 @@
 //   * Anything that can live in a league-owned component (src/lib/Design/*). Put it there.
 //
 // HOW IT IS LOADED
-//   _tokens.scss -> `@use 'site';` at the bottom -> _smui-theme.scss's one `@use 'tokens';` line,
+//   _tokens.scss -> `@use 'site';` at the top -> _smui-theme.scss's one `@use 'tokens';` line,
 //   so no upstream file gained a line for this. Like the tokens, it only reaches the LIGHT build
 //   (src/theme/_smui-theme.scss), never src/theme/dark, whose include path cannot resolve it.
 //   `npm run dev` does not recompile Sass: run `npm run smui-theme-light` after every edit.

@@ -31,21 +31,47 @@ Still outstanding, in rough priority order:
   recap) and `mudd-preview` (the midweek preview), both built on `mudd-data`
   (`scripts/week-facts.py`), with the house style in `docs/mudd-voice.md` and publishing via
   `scripts/publish-article.mjs`. Titles end in `RECAP` / `PREVIEW` because the publisher
-  matches on title.
-- **`static/data/` is read in exactly two places.** `helperFunctions/leagueHistory.js` fetches
-  `league-history.json` (memoized, SSR-safe) for the manager career band and the Hall of Fame.
-  It is the only source for a full 1–10 finish — Sleeper exposes podium and toilet bowl only —
-  and it keys on `user_id`, which sidesteps roster IDs moving between seasons.
-  `helperFunctions/leagueGames.js` fetches `games.json` (same pattern) for the history pages,
-  and holds the pure `filterGames` / `allPlay` / `headToHead` / `standingsFrom` /
-  `liveSeasonGames` they compute with. `games.json` and `season-notes.json` are built by
-  `npm run derive-site-data` and are size-budgeted for the browser (~4 KB gzipped each).
-  **No other file in `static/data/` is fetched at runtime**, `weeks.json` included.
+  matches on title. `--type` becomes the post's category on /blog (the filter is built from
+  the posts' own `type` values, and Contentful's field has no allowed-values list): Monday
+  posts are `Recap`, previews `Preview`. The week 2–4 previews went out as `Recap` and still
+  need retagging in Contentful.
+- **The home page copy is waiting on Garrett.** `homepageText` was rewritten in the 2026-10
+  revamp (shorter intro, a "Find your way" row, the rules reduced to one line pointing at the
+  constitution, no hand-kept champion paragraph). It must be approved before `site-revamp`
+  is pushed — every push to `master` deploys.
+- **`static/data/` is fetched at runtime by three helpers, and only for five files.** All three
+  memoize per session, take SvelteKit's `fetch` so they work during SSR, and never cache a
+  failed fetch. Sizes are raw / gzipped:
+  - `helperFunctions/leagueHistory.js` → `league-history.json` (131 KB / 11 KB), for the
+    manager career band, the Hall of Fame, Standings, Stat Lab and Seasons. It is the only
+    source for a full 1–10 finish — Sleeper exposes podium and toilet bowl only — and it keys
+    on `user_id`, which sidesteps roster IDs moving between seasons.
+  - `helperFunctions/leagueGames.js` → `games.json` (26 KB / 6 KB), for schedule luck on
+    Standings, the head-to-head grid on Rivalry, Seasons and Stat Lab. It also holds the pure
+    `filterGames` / `allPlay` / `headToHead` / `standingsFrom` / `liveSeasonGames` /
+    `benchPoints` / `lineupEfficiency` / `lineupTotals` those pages compute with.
+  - `helperFunctions/seasonNotes.js` → `season-notes.json` (24 KB / 4 KB) for `/seasons` and
+    each year page, plus `keepers.json` (32 KB / 2 KB) and `players.json` (20 KB / 6 KB) for
+    the year pages only.
+
+  `games.json` and `season-notes.json` are built by `npm run derive-site-data`; the other three
+  come straight from the pull. **Nothing else in `static/data/` is fetched at runtime** — not
+  `weeks.json` (372 KB), `transactions.json` (322 KB) or `narratives.json` (102 KB). Anything new
+  that wants one of those needs a derived, size-budgeted file instead, as `games.json` is for
+  `weeks.json`.
 - **`weeks.json` is mined offline instead.** `npm run derive-narratives` reads it (plus the draft,
   keeper and transaction files) and writes `static/data/narratives.json` and `docs/league-lore.md`
-  — 278 facts across 25 categories, each with structured fields *and* a plain-English `text`.
+  — 294 facts across 25 categories, each with structured fields *and* a plain-English `text`.
   It is an authoring aid for recaps, bios and homepage copy; nothing in `src/` fetches it and
-  nothing should without a size budget. Three traps it encodes, all of which produced wrong facts
+  nothing should without a size budget. **Three definitions changed in the 2026-10 lore fix**,
+  and any figure quoted from before it may be wrong: a player's value to a manager (MVPs,
+  keepers, draft steals, FAAB) counts **starter points only**, never bench points; points left
+  on the bench are the best legal lineup minus the score, **reproducing Sleeper's
+  `potential_points` to the cent** for all 50 manager-seasons; and game scores are
+  **official**, so the commissioner override beats the computed score. The file carries its
+  own `definitions` array; `static/data/README.md` has the override, `STAT_CORRECTIONS` and
+  eligibility details. Bench facts still can't tell an IR stash from a benching, so check
+  before a post mocks anyone for one. Three traps it encodes, all of which produced wrong facts
   first time round: **every season carries a week 18 with `matchup_id: 0`** and no lineups set
   (median score ~55 against ~100), which must be excluded or it invents a playoff round;
   **keepers occupy draft slots**, so draft "steals" and "busts" have to filter `is_keeper` or
@@ -57,15 +83,25 @@ Still outstanding, in rough priority order:
   twenty keepers tied at `(0.0, "2026")` and the sort fell through to comparing dicts.
   `season_played()` now requires a point to have been scored somewhere. Note the puller is
   already correct here — `final_standings` holds completed seasons only, which is why the live
-  site never saw a phantom 2026 table.
+  site never saw a phantom 2026 table. The pull itself now goes further and writes completed
+  weeks only (see "The data pipeline").
 - **Sortable record tables were considered and rejected for the six *record* tables.** Each is
   a top-N list defined by its own metric, and the rank column is positional (`{ix + 1}`), so
   re-sorting renumbers rank into nonsense. The four *ranking* tables (Win %, Points, Lineup IQ,
-  Transactions) would genuinely benefit and remain unbuilt.
+  Transactions) are sortable by column (`sortRanking` in `RecordsAndRankings.svelte`). For
+  anything more, **Stat Lab (`/stat-lab`) is the sortable view**: games, seasons and careers,
+  13 measures, every column sortable, rank recomputed after each sort, and the whole view held
+  in the address so it can be linked.
 - **Optional manager fields are unset** — `favoriteTeam`, `preferredContact`,
-  `fantasyStart`, `philosophy`, `tradingScale`. Each renders as a muted "?" placeholder.
-  `rival` is "The Field" for everyone; real rivalries need `rival.link` set to another
-  manager's *index* in the array.
+  `fantasyStart`, `philosophy`, `tradingScale`, `favoritePlayer`, `valuePosition`. Each is
+  `{#if}`-guarded and simply **hidden** when unset, so for now a manager page's fantasy-info row
+  holds only the Rival tile. The managers have been asked for them (`docs/site-todo.md`).
+- **Rivals are real pairings.** Each of the ten active managers has one rival and none is
+  shared: five pairs, a maximum-weight matching over head-to-head history (frequency,
+  closeness, stakes). The method is in the comment above `managers` in `leagueInfo.js`.
+  `rival.link` is an *index* into the array, so don't reorder it. Jordan Leonard's rival is
+  "The Field" (`link: null`, which goes to the directory). The Rival tile links to the rival's
+  page, with a separate Head-to-head link under it.
 
 **The league is displayed as "The Mudd League."** Sleeper names it "Mudd Keeper League";
 `leagueName` deliberately differs from the Sleeper-side name. Don't "correct" it to match
@@ -80,7 +116,8 @@ draft board). It has its own detailed `CLAUDE.md` — read that one, not this on
 keeper-cost rules, ADP/value pipelines, or the shared-keeper Gist.
 
 The two projects **share a league, not a codebase**. Don't copy code between them; don't
-try to unify them. This site links to the board from `tabs.js`, under League Info.
+try to unify them. This site links to the board from `tabs.js` (League → Rules & Tools), from
+`homepageText`, and from `src/lib/Resources/LeagueLinks.svelte`.
 
 On keeper rules the two now disagree in one place, deliberately. **The constitution is the
 source of truth for what the league does**; the board's `CLAUDE.md` remains the reference
@@ -145,17 +182,20 @@ for how the board computes things. See the collision note below before "fixing" 
   roster IDs:
   | Roster | Handle | user_id | Team name |
   | --- | --- | --- | --- |
-  | 1 | Gurret (Garrett — repo owner / commissioner contact) | `76909640692416512` | Slim Pickens |
+  | 1 | Gurret (Garrett — repo owner / commissioner contact) | `76909640692416512` | Slim Pickens 👱‍♀️💋🎀✨ |
   | 2 | TnT44 | `611697269254791168` | — |
   | 3 | mikestreinz | `605683461667229696` | Tupac on da bench |
   | 4 | tuckersdumbteam | `611664340277383168` | — |
   | 5 | paulslaats | `870570674836656128` | Street Clothes |
   | 6 | jonahcartwright | `612407006212468736` | StepBurrow I'm Stuck |
   | 7 | kshoyer | `611630747161358336` | — |
-  | 8 | BBrown16 | `999190763323944960` | JustHereSoIWon'tGetFined |
+  | 8 | BBrown16 | `999190763323944960` | Straight Miss Pissles |
   | 9 | Kabroa | `611649934390870016` | #FREEJT |
   | 10 | malstol | `850475150817234944` | Ben's Beautiful Johnsons |
 
+  Team names were re-checked against Sleeper on 2026-10-03. They are a snapshot: managers
+  rename freely, and the site reads them live, so nothing in the repo needs changing when they
+  do. kshoyer, tuckersdumbteam and TnT44 have none, so the site shows their handles.
   Roster IDs are listed for orientation only — **use `managerID`**. Roster IDs can shift
   between seasons, which is why the template deprecated the `roster` field.
 - **One former manager.** `JJJet` (`860365948673204224`) is **Jordan Leonard**; he played
@@ -172,13 +212,15 @@ for how the board computes things. See the collision note below before "fixing" 
 ## The history dataset (`static/data/`)
 
 `scripts/pull-league-history.py` pulls every season out of Sleeper into six JSON files —
-1,155 transactions, weekly roster snapshots for all 72 played weeks, player ownership
-timelines, and keeper chains. See `static/data/README.md` for the shapes. Re-run it after a
-season and commit the diff. Nothing there is hand-edited.
+1,233 transactions, weekly roster snapshots for every completed week (75 as of 2026 week 3),
+player ownership timelines, and keeper chains. `derive-site-data` adds two more for the site.
+See `static/data/README.md` for the shapes, and "The data pipeline" below for how they are
+built. Nothing there is hand-edited.
 
-`weeks.json` is the useful one: it snapshots every roster, starter and per-player score for
-every week, so you can reconstruct the league at any point ("week 5 of 2024") rather than
-replaying transactions. Nothing in the site reads these files yet.
+`weeks.json` is the useful one for authoring: it snapshots every roster, starter and
+per-player score for every week, so you can reconstruct the league at any point ("week 5 of
+2024") rather than replaying transactions. The site never fetches it; `games.json` is its
+browser-sized distillation.
 
 Two facts the dataset settled, both of which contradicted earlier assumptions:
 
@@ -196,6 +238,69 @@ Two facts the dataset settled, both of which contradicted earlier assumptions:
   R4 — inflated despite a change of manager, which rule 4.3 says shouldn't happen), and
   Brian Thomas 2025 (jonahcartwright, R7 rather than R9). Probably commissioner
   adjustments; worth asking before treating them as precedent.
+
+## The data pipeline
+
+Three offline scripts, run in this order, each writing committed files:
+
+```
+python3 scripts/pull-league-history.py   # Sleeper -> league-history, weeks, transactions,
+                                         #   ownership, keepers, players (static/data/)
+npm run derive-site-data                 # -> games.json, season-notes.json (what pages fetch)
+npm run derive-narratives                # -> narratives.json, docs/league-lore.md
+```
+
+The `mudd-data` skill runs all three in its refresh step, twice a week in season, so
+`games.json` is at most a few days behind; pages built on it show a "through week N" stamp.
+Standings' schedule luck instead builds the current season from live Sleeper matchups
+(`liveSeasonGames`), so it can never lag the live table beside it.
+
+- **The pull writes completed weeks only.** Sleeper serves every scheduled week of a season in
+  progress — future weeks with every score `0.0`, and the current week partly scored, which
+  passes any "was a point scored?" test. A current-season week counts only once the NFL week
+  has moved past it (`completed_weeks()`), and the pull aborts rather than guess if
+  `/state/nfl` comes back empty. That state is saved as `nfl_state` in
+  `league-history.json`, so everything downstream is reproducible from the committed files.
+- **The commissioner override is kept.** One game so far: 2024 week 8, tuckersdumbteam
+  137.74 v BBrown16 122.54 (computed 150.34 to 148.74). The pull stores Sleeper's
+  `custom_points` on the week snapshot, and every script scores games with
+  `official_points()`: the override wins. That game's `max_pf` is null on both rows.
+- **`STAT_CORRECTIONS`** in `derive-site-data.py` pins two small stat corrections made after
+  settlement (2023 jonahcartwright v Gurret, 2024 Kabroa v tuckersdumbteam), so weekly sums
+  match Sleeper's season records exactly.
+- **`ELIGIBILITY`** in `derive-site-data.py` records the positions Sleeper actually allowed
+  where `players.json` (today's position only) is wrong: Taysom Hill at TE/QB, Travis Hunter
+  at WR in 2025. With it, the best legal lineup reproduces Sleeper's `potential_points` to the
+  cent for all 50 manager-seasons; that is `max_pf` in `games.json`.
+- **Self-checks fail the run before anything is written:** records and points against
+  `league-history.json`, five games per regular-season week each seen from both sides, and
+  `max_pf` against Sleeper to the cent.
+- **One definition of everything.** `derive-narratives.py` imports `derive-site-data.py` as a
+  module, and `scripts/week-facts.py` (the blog's fact block) imports `derive-narratives.py`,
+  so all three share completed weeks, official scores, the optimal lineup,
+  `STAT_CORRECTIONS` and `ELIGIBILITY`. Change those in `derive-site-data.py` only.
+
+### End-of-season checklist
+
+1. After the title game is final, re-run `python3 scripts/pull-league-history.py`, then
+   `npm run derive-site-data`, then `npm run derive-narratives`. Every self-check must pass.
+2. Commit the `static/data/` and `docs/league-lore.md` diffs together.
+3. Check the new season's page at `/seasons/<year>` (final table, bracket, champion) and the
+   Trophy Room.
+4. Update the hand-written lines: Malcolm's bio in `leagueInfo.js` says "Reigning champion."
+   (true only until the next title game), and each active bio's "Mudd League:" line is
+   scoped to "2022 to 2025" and can be extended. Re-derive every figure; don't edit from
+   memory. Also update `docs/mudd-voice.md`'s career figures and the Champions line in this
+   file. The home page's champion panel updates itself.
+
+### Preseason checklist
+
+1. Swap the 4for4 FAAB guide in `src/lib/Resources/LeagueLinks.svelte`: its URL is the
+   season's own article (`.../2026-...`), so it goes stale every year.
+2. Check every external link still answers: `LeagueLinks.svelte`, the Keeper Draft Board in
+   `tabs.js` and `homepageText`, and the FantasyPros and injury-report links.
+3. Once the draft is done, re-run the pipeline so the new season's draft and keepers reach
+   `league-history.json` and `keepers.json`.
 
 ## Commands
 
@@ -259,11 +364,11 @@ made so that `git merge upstream/master` stays boring:
   it's the signal telling you when to pull upstream in.
 - The `upstream` remote is configured (`https://github.com/nmelhado/league-page.git`).
   `git fetch upstream && git log --oneline HEAD..upstream/master` shows what's new. As of
-  2026-08-10 we are level with it: our fork point `c25f29f` is upstream's tip.
+  2026-10-03 (re-fetched) we are still level with it: our fork point `c25f29f` is upstream's tip.
 
 ### Inherited bugs fixed locally — keep these through a merge
 
-Three upstream bugs are fixed in this fork. **Do not send them upstream: contributing back
+Four upstream bugs are fixed in this fork. **Do not send them upstream: contributing back
 was considered and declined.** They are documented because they explain why these files
 diverge from `upstream/master`, and because a careless `git merge upstream/master` could
 quietly reintroduce any of them — when resolving conflicts in these files, keep our side.
@@ -281,6 +386,70 @@ quietly reintroduce any of them — when resolving conflicts in these files, kee
 - **`getTeamNameFromTeamManagers` was unguarded**, while its neighbour
   `getAvatarFromTeamManagers` guards the same lookup. Throws for a manager with no roster
   in the resolved season, which is exactly what a departed manager is.
+- **`getLeagueTransactions` crashed on a failed Sleeper fetch.** `combThroughTransactions`'
+  `.catch(console.error)` leaves its result undefined and the next line destructured it:
+  "Cannot destructure 'transactionsData'", which took /manager down (and the nflState fetch
+  beside it threw the same way on `season_type`). `leagueTransactions.js` now degrades to no
+  transactions, uncached, so the page renders without them.
+
+### Upstream files that now differ (the 2026-10 revamp)
+
+Beyond the bugs above, the revamp edited many upstream files on purpose. Each was the smallest
+edit that made the page readable on a phone, linked it to the rest of the site, or gave it a
+real heading; nothing was reformatted. **Policy for the next `git merge upstream/master`: in
+every file below, keep our side**, then re-apply any genuine upstream fix to it by hand. Run
+`git diff upstream/master --stat` for the authoritative list; this is the map of why.
+
+- **Shell and nav.** `Nav/index.svelte` (tab title through `pageTitle.js`, sticky phone bar),
+  `NavLarge` and `NavSmall` (groups, a highlight that follows the page, the inert closed
+  dropdown, a real hamburger button, 44px items), `Footer.svelte` (external links by
+  destination, 44px links), `tabs.js`, `app.html` (one light stylesheet), and
+  `_smui-theme.scss` (its one `@use 'tokens';` line).
+- **Matchups.** `Matchup.svelte`, `MatchupsAndBrackets`, `MatchupWeeks`, `Brackets`,
+  `BracketsColumn`: no text shrunk below 12px, stacked scores on phones, a real
+  regular/playoffs toggle, team names linking to manager pages, two columns above 1200px.
+- **Records.** `RecordsAndRankings`, `Records/index`, `PerSeasonRecords`, `RecordTeam`,
+  `BarChart.svelte`: the `:global` shrink rules deleted, `SegmentedControl` pickers instead of
+  SMUI button groups, sortable ranking tables, each record's year linking to its season.
+- **Standings.** `Standings/index` (division and tie columns dropped, Team column pinned on
+  phones, side by side with schedule luck above 1200px) and `Standing.svelte` (the row's team
+  is a real link).
+- **Drafts.** `Drafts/index.svelte` was **rewritten** (about 60 lines): the completed draft
+  leads in season, the projected board sits behind a `Disclosure`, and the carried-over 2021
+  draft is labelled as such. `Draft.svelte` (no inner 70vh scroll on phones), `DraftRow.svelte`
+  (the keeper badge), and `leagueDrafts.js` (`keeper` on each cell, and `draftID` for the
+  2021 label).
+- **Rivalry.** `Rivalry/index` ("Comparison", heading moved to the route) and
+  `ManagerSelectors` (real names, unique ids, 44px selects, `Football_Team` filtered out).
+- **Trades & Waivers.** `TransactionsPage`, `Transactions` (a real "view more" link),
+  `TradeTransaction`, `WaiverTransaction`, `TransactionMove` (12px position labels),
+  `Pagination.svelte` (44px arrows, scroll target below the sticky bar), and
+  `leagueTransactions.js` (the crash guard above).
+- **Blog.** `Posts`, `Post`, `FullPost`, `HomePost`, `AuthorAndDate` ("The Mudd Report",
+  heading line-height, an 800px measure, comments gated on `enableComments`), and the three
+  blog API routes (content type IDs from `contentfulTypes`).
+- **Trophy Room.** `Awards.svelte` (one name, podium names below the avatars on phones,
+  earlier seasons folded away, year headings linking to `/seasons/<year>`) and
+  `leagueAwards.js`.
+- **Managers.** `AllManagers` (the Moratorium), `Manager` (two columns above 1100px, career
+  band, This week line, career-finish chips), `ManagerAwards`, `ManagerFantasyInfo` (Rival and
+  Head-to-head links), `ManagerRow` (the `bar()` fix above, the card layout).
+- **Rosters.** `Roster`, `RosterRow` (12px text, an anchor per team for the jump chips).
+- **News and Resources.** `News/index`, `SingleNews` (44px links), `Resources.svelte` (heading
+  moved to the route), `news.js` (the dead Reddit feed degrades; see
+  `src/lib/utils/CLAUDE.md`).
+- **`Bar.svelte`** (the name is a real link) and **`universalFunctions.js`** (the guard above).
+- **The data layer barrel.** `helper.js` re-exports `leagueGames.js` and `seasonNotes.js`.
+- **Route files.** `+page.svelte` (the home page; see below), and the route files for awards,
+  blog, blog/[slug], constitution, drafts, free-agents, manager, managers, records, resources,
+  rivalry, rosters, standings and transactions. Most only mount `PageHeader`; `manager` and
+  `blog/[slug]` also return a `title` from `load()`, and `standings` and `rivalry` load
+  `games.json` for schedule luck and the head-to-head grid.
+
+Ours outright, so they cannot conflict: `FreeAgents/`, `Design/`, `History/`, `Seasons/`,
+`StatLab/`, `Home/`, `Resources/`, `Awards/HallOfFame.svelte`, `Standings/LastSeason.svelte`,
+`Managers/ManagerThisWeek.svelte`, `Rosters/TeamChips.svelte`, the new helpers and utils, `src/theme/_site.scss`, and everything
+under `src/routes/seasons` and `src/routes/stat-lab`.
 
 ## Architecture
 
@@ -292,6 +461,9 @@ in. Match the file you're editing; don't migrate components to runes wholesale).
 src/
   routes/           # SvelteKit file-based routes; each page dir is +page.js + +page.svelte
     +page.svelte    #   the HOME PAGE (league text, power rankings, champ, transactions)
+    +error.svelte   #   404 page; its tab title is "Not found" (pageTitle.js)
+    seasons/        #   ours: /seasons index and /seasons/[year], 2021 (ESPN) to the current year
+    stat-lab/       #   ours: /stat-lab, filter / sort / chart over games.json
     +layout.svelte  #   Nav + <slot/> + Footer, plus Vercel analytics
     api/            #   server endpoints (blog comments, players, news, version check)
     constitution/   #   hand-written league rules — pure content, edit freely
@@ -301,11 +473,21 @@ src/
     utils/
       leagueInfo.js #   ** the config file — league ID, name, homepage text, managers **
       helper.js     #   barrel re-exporting everything from helperFunctions/ + leagueInfo
-      helperFunctions/  # the Sleeper API data layer (see src/lib/utils/CLAUDE.md)
-      tabs.js       #   nav structure
+      helperFunctions/  # the Sleeper API data layer (see src/lib/utils/CLAUDE.md), plus our
+                    #   static-data readers leagueHistory.js, leagueGames.js, seasonNotes.js
+      tabs.js       #   nav structure, plus findTab / currentDest / tabAliases
+      pageTitle.js  #   ours: the browser tab title (error page, load() title, nav label)
+      managerLink.js #  ours: managerHref() -- a real /manager?manager=N href for a team
+    Design/         # ours: primitives with their own barrel (see "The design system")
+    History/        # ours: AllPlayTable, ScheduleLuck (Standings), HeadToHeadGrid (Rivalry)
+    Seasons/        # ours: the Seasons archive -- SeasonPage, SeasonsIndex, seasonData.js, ...
+    StatLab/        # ours: Stat Lab -- Lab, statLab.js, hand-written SVG charts, DataTable
+    Home/           # ours: SeasonMilestone (trade deadline, then playoffs, on the home rail)
+    Resources/      # ours: LeagueLinks, mounted above upstream's Resources.svelte
     <Feature>/      # one directory per feature (Standings, Records, Matchups, …)
   theme/            # SMUI (Material) SCSS theme
     _tokens.scss    #   OUR design tokens, @use'd by _smui-theme.scss in one line
+    _site.scss      #   OUR global rules, @use'd by _tokens.scss
     dark/           #   still compiled by `npm run prepare`, no longer served
 static/             # images, PWA manifest, favicons, static/managers/ for bios
 ```
@@ -317,9 +499,18 @@ resolves them with `{#await}` blocks so the shell renders immediately. Keep that
 
 ## The home page specifically
 
-`src/routes/+page.svelte` is a two-column layout: league name + `homepageText` +
-`<PowerRankings />` on the left, and a right rail with the NFL-state banner, the reigning
-champion (from `getAwards()`), and recent `<Transactions />`.
+`src/routes/+page.svelte` is a two-column layout above 950px: league name + `homepageText` +
+the featured blog post + `<PowerRankings />` on the left, and a right rail with the NFL-state
+banner (a link to /matchups), the draft countdown or, once the draft is done,
+`SeasonMilestone` ("Trade deadline · N weeks away", then the playoffs), the reigning champion
+(from `getAwards()`, one `<a class="champLink">`), and recent `<Transactions />`.
+
+**On phones it is one column in reading order, not two stacked boxes.** Every block is a flex
+item of `#home`, and CSS `order` interleaves the columns: intro, week banner, milestone, power
+rankings, champion, blog post, transactions. That brought power rankings from y≈1810 to ≈930
+at 375px. A new home block needs an `order` too, or it falls to the end on phones.
+`SeasonMilestone` has no ticking clock on purpose: Sleeper closes trades when week 12's last
+game ends and publishes no time for it.
 
 The template's intent is that you customize it **through `homepageText`** (an HTML string
 in `leagueInfo.js`, injected with `{@html}`) rather than by rewriting the component. Do
@@ -328,7 +519,9 @@ two-column shape — and see "Working in a fork" before you do.
 
 Because `homepageText` is `{@html}`-injected, it is raw HTML: it can carry links (e.g. to
 the keeper draft board) and markup, and it must be hand-written trusted content. Never
-wire user input into it.
+wire user input into it. Svelte's scoper never sees `{@html}` content, so its classes
+(`homeLede`, `homeLinks`, `homeRules`) are styled from `src/theme/_site.scss`. There is no
+hand-written champion paragraph any more; don't add one back, the right rail already says it.
 
 ## The design system
 
@@ -364,11 +557,63 @@ Added in the redesign; everything below is ours, not upstream's.
   mark. It insets the two android-chrome icons to 72% because `manifest.json` declares them
   `maskable`, and Android crops those to a circle keeping only the central 80% — full-bleed would
   shave the gold ring off. `sharp` is a devDependency and Vercel never runs it.
+- **The 12px / 44px floor is a standing rule.** Nothing renders below 12px, table data at
+  least 14px, and every interactive target is at least 44px tall on phones and touch screens
+  (inline links in prose and third-party news content excepted). When something doesn't fit,
+  change the layout (stack it, or scroll it inside its own container with a sticky first
+  column), never the type size. Every page met it at 375px after the 2026-10 revamp; check new
+  work with the snippet at the end of `docs/plan-site-todo.md`.
+- **League-owned global rules live in `src/theme/_site.scss`**: layout fixes and overrides of
+  upstream `:global(...)` rules, so the upstream component can stay as it is. `_tokens.scss`
+  `@use`s it at the top (Sass requires `@use` before any rule), so it reaches the build with no
+  line added to an upstream file; like the tokens it reaches the light build only. It **cannot**
+  override a scoped rule (the hash class wins), so for those edit the component and keep the
+  diff small. It also holds the footer fix that stopped pages jumping as they load (`<main>` is
+  a screen tall and the footer hangs below it), the 44px `.mdc-button` rule for touch, and the
+  `homepageText` styles. **`--stickyBar`** (61px below 951px, 0 above) is the height of the
+  sticky phone nav: anything that scrolls to an in-page target uses
+  `scroll-margin-top: var(--stickyBar)` or reads it for `window.scrollTo`, or lands under the bar.
 - **Primitives in `src/lib/Design/`** (`Card`, `StatTile`, `SectionHeading`,
-  `SegmentedControl`, `Countdown`) with **their own barrel** — deliberately not
-  `$lib/components`, which is byte-identical to upstream and gains entries most releases.
-  `SectionHeading` styles a *class*, never a tag selector: it renders through
+  `SegmentedControl`, `Countdown`, `PageHeader`, `Disclosure`) with **their own barrel** —
+  deliberately not `$lib/components`, which is byte-identical to upstream and gains entries
+  most releases. `SectionHeading` styles a *class*, never a tag selector: it renders through
   `<svelte:element>`, where Svelte's scoper silently strips tag rules it cannot see.
+  - **`PageHeader`** is the title block on every page (eyebrow, title, one-line intro). Mount it
+    in the **route file**, so it paints before the data and upstream components only ever lose
+    their old heading.
+  - **`Disclosure`** is a real `<button aria-expanded>` that mounts its content only when
+    opened (the projected draft board, the Trophy Room's earlier seasons). Not `<details>`,
+    because hidden-but-mounted heavy components still cost layout and images.
+  - **`SegmentedControl`** now takes 2–7 options and **wraps** instead of overflowing (seven
+    labels don't fit a 375px row, and a sideways-scrolling group hides its own options), with a
+    fixed 28px radius so a two-row group doesn't grow half-circle ends. Segments are 44px tall
+    on phones and touch screens and keep the compact size for a mouse. Its API is unchanged.
+
+## The nav
+
+`src/lib/utils/tabs.js` is the whole structure; read its header comment before editing.
+
+- **Top bar:** Managers, Matchups, Standings, Free Agents, Trades & Waivers, Blog, League ▾.
+  There is **no Home tab** (the seal links home; dropping it is what let Free Agents be
+  promoted and all seven fit above 950px, with 12px tab padding up to 1100px).
+- **League ▾** holds three groups, written as `{ group: 'History' }` entries: **This Season**
+  (Rosters), **History** (Seasons, Trophy Room, Records, Rivalry, Drafts, Stat Lab) and
+  **Rules & Tools** (Constitution, Keeper Draft Board, Resources, Go to Sleeper). NavLarge shows
+  a group as a caption, NavSmall as a Subheader, the footer drops it. Off-site entries are
+  detected by URL, open in a new tab and carry an ↗ icon.
+- **The desktop dropdown** is measured on every open, capped to the room below the tab (it
+  scrolls inside itself on a 1024×768 screen), and `inert` and `visibility: hidden` while
+  closed, because closing only squashes it to `max-height: 0`.
+- **The highlight follows the page**, via `findTab` / `currentDest`: a path matches a tab or
+  one of its children, `tabAliases` maps `/manager` to Managers, and a nested path with no tab
+  of its own falls back to its first segment (`/seasons/2024` lights Seasons,
+  `/blog/<slug>` lights Blog). The same lookup gives the tab title (`pageTitle.js`), so a
+  label is also a page title.
+- **Phones:** a sticky 61px bar (seal plus a real 44px menu button); the menu's items are 44px
+  and pass contrast.
+- **Label constraints still apply:** exactly one `nest: true` tab; the Blog tab must stay
+  top-level and keep the label `Blog` (it is hidden by that label while `enableBlog` is false);
+  Managers is hidden by its label when `managers` is empty.
 
 ## Conventions
 
@@ -384,7 +629,9 @@ Added in the redesign; everything below is ours, not upstream's.
   Most are `.webp`; `gurret` is `.jpg`. Sleeper's `Content-Type` is unreliable (it returned
   `image/png` for JPEG bytes), so sniff magic bytes rather than trusting the header.
 - Secrets (`VITE_CONTENTFUL_*`) live in a gitignored `.env` locally and in Vercel's
-  environment variables in production. The blog is **off** (`enableBlog = false`) and
-  needs Contentful before it can be turned on.
+  environment variables in production. The blog is **on** (`enableBlog = true`), reading
+  Contentful with the read-only delivery token; comments are off (see the status list).
+  `CONTENTFUL_MANAGEMENT_TOKEN`, used only by `scripts/publish-article.mjs`, is deliberately
+  not `VITE_`-prefixed and lives only in the local `.env`, never in Vercel.
 - Sleeper's API is public, read-only, and unauthenticated. There is no write path to
   Sleeper from this site, and there shouldn't be one.

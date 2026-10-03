@@ -31,21 +31,62 @@ Pages are thin: they render a feature component out of `$lib/components` (`<Stan
 `<Records />`, `<MatchupsAndBrackets />`, …). Logic belongs in the component or the helper,
 not in the route file.
 
+**Every page's heading is a `PageHeader` (`$lib/Design`) mounted here, in the route file**,
+above the `{#await}`: it paints before the data, and the upstream component underneath only
+lost its old heading. That is why most upstream route files differ from upstream by a few
+lines. Three routes also return a `title` from `load()` for the browser tab: `manager` (the
+manager's name, a synchronous array lookup), `seasons/[year]` ("2024 Season") and
+`blog/[slug]` (words from the slug, because the real title is an async Contentful call). See `src/lib/utils/pageTitle.js`.
+
 ## `+layout.svelte`
 
 `<Nav />`, `<slot />`, `<Footer />`, plus `injectAnalytics` from `@vercel/analytics`. The
 nav's structure comes from `src/lib/utils/tabs.js`, not from this file — add or reorder
 nav entries there. `tabs.js` already links out to Sleeper using `leagueID`; a link to the
-keeper draft board belongs in the same place (or under `/resources`).
+keeper draft board belongs in the same place (or under `/resources`). Both now exist: the
+board is under League → Rules & Tools, and `/resources` leads with `LeagueLinks`.
+
+## `+error.svelte`
+
+Upstream's "Hut, Hut, Blue 404!" page, unchanged. Its tab title is "Not found" (or "Error"
+for anything but a 404) from `pageTitle.js`; before that it borrowed the first path segment, so
+`/seasons/1999` was titled "Seasons".
 
 ## `+page.svelte` at the root — the home page
 
-The league home page. Left column: league name, `homepageText`, `<PowerRankings />`.
-Right rail: NFL season/week banner, the reigning champion from `getAwards()` (click-through
-to the manager page when `managers` is populated), and recent `<Transactions />`.
+The league home page. Left column: league name, `homepageText`, the featured blog post,
+`<PowerRankings />`. Right rail: the NFL season/week banner (a link to /matchups), the draft
+countdown or, once the draft is done, `SeasonMilestone` from `$lib/Home` (trade deadline, then
+playoffs, as "N weeks away" with no ticking clock), the reigning champion from `getAwards()`
+(one `<a class="champLink">` to the manager page when `managers` is populated), and recent
+`<Transactions />`.
+
+**Below 950px the two columns become one, in reading order:** every block is a flex item of
+`#home` with a CSS `order` — intro, week banner, milestone, power rankings, champion, blog
+post, transactions. The blog post is its own `.text` block for exactly this reason. A new
+block needs its own `order` or it lands at the end on phones.
 
 Customize it through `homepageText` in `src/lib/utils/leagueInfo.js` before reaching for
-the component itself.
+the component itself. The hand-written champion paragraph that used to sit in `homepageText`
+is gone on purpose: the right-rail panel updates itself, and the paragraph went stale every
+season. The current copy is awaiting Garrett's approval.
+
+## `seasons/` (ours)
+
+`/seasons` is a card per season; `/seasons/[year]` is one page per year, 2021 to the current
+season, rendered by `$lib/Seasons/SeasonPage`. `[year]/+page.js` is the one load in the app
+that **awaits** something: it awaits `league-history.json` (memoized, small) only to decide
+whether the year exists, and throws SvelteKit's `error(404)` for one that doesn't, so a bad
+year is a real 404 rather than an empty page. Everything else it returns unawaited, as usual.
+2021 is the ESPN season: a short page with the carried-over draft and no standings, because
+none exist. The season in progress is labelled as such and has no final table.
+
+## `stat-lab/` (ours)
+
+Filter, sort and chart over `games.json` and `league-history.json` (`$lib/StatLab`). The
+whole view lives in the query string, so a chart can be linked from a post; Back undoes a
+preset or a narrowing. First release: Games, Seasons and Careers datasets, 13 measures, bar /
+line / scatter charts with a sortable table under each, six presets, no chart library.
 
 ## `constitution/`
 
@@ -111,8 +152,9 @@ Server-side endpoints, running on Vercel functions:
   - Projections are joined client-side from `fetch_players_info`, whose `round()` returns a
     **string** — `parseFloat` it before doing arithmetic.
 - `fetch_serverside_news` — RSS/news aggregation (`fast-xml-parser`).
-- `getBlogPosts` / `getBlogComments` / `addBlogComments/[id]` — Contentful. Inert while
-  `enableBlog` is `false`.
+- `getBlogPosts` / `getBlogComments` / `addBlogComments/[id]` — Contentful. `getBlogPosts`
+  is live (`enableBlog` is `true`); the two comment routes are inert because
+  `enableComments` is `false` and no management token is deployed.
 - `checkVersion` / `checkGlobalVersion` — upstream's fork-update check; it compares
   `src/lib/version.js` against `league-page.nmelhado.com`. Leave both alone. `checkVersion`
   reporting an update is the cue to merge upstream, not a bug.
