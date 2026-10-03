@@ -258,8 +258,8 @@
     }
 
     .awardHeader {
-        height: 2.4em;
-        font-size: 0.85em;
+        height: 2.5em;
+        font-size: 12px;
         width: 110px;
         margin-bottom: 0.5em;
     }
@@ -272,7 +272,7 @@
     }
 
     .subText {
-        font-size: 0.8em;
+        font-size: 12px;
         width: 130px;
         color: var(--g555);
         margin-top: 0.3em;
@@ -306,19 +306,19 @@
         line-height: 1em;
     }
 
+    /*
+    These columns used to narrow to 90px and then 65px while their text shrank to 0.58em, which is
+    where the 8px captions came from. The text stays at 12px or more and the cells stay at 100px;
+    three still fit a 375px phone on a row.
+    */
     @media (max-width: 730px) {
-        .awardHeader {
-            height: 3.6em;
-            font-size: 0.8em;
-            width: 90px;
+        .award {
+            margin-left: 0.2em;
+            margin-right: 0.2em;
         }
 
-        .awardLabel {
-            width: 90px;
-        }
-
-        .subText {
-            width: 90px;
+        .awardHeader, .awardLabel, .subText {
+            width: 100px;
         }
     }
 
@@ -326,22 +326,6 @@
         .awardIcon {
             height: 60px;
             width: 60px;
-        }
-
-        .awardHeader {
-            height: 3.6em;
-            font-size: 0.58em;
-            width: 65px;
-        }
-
-        .awardLabel {
-            font-size: 0.7em;
-            width: 65px;
-        }
-
-        .subText {
-            font-size: 0.6em;
-            width: 65px;
         }
     }
 

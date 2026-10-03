@@ -152,12 +152,14 @@
         display: flex;
         justify-content: space-evenly;
         align-items: center;
-        height: 24px;
+        flex-wrap: wrap;
+        gap: 0.4em 0.8em;
+        min-height: 24px;
         margin: 2em 0;
     }
 
     .basicInfo span {
-        color: #888;
+        color: var(--g555);
         font-size: 0.9em;
     }
 
@@ -245,46 +247,50 @@
         color: #fff;
     }
 
-    /* media queries */
-
-    @media (max-width: 505px) {
-        :global(.selectionButtons span) {
-            font-size: 0.8em;
-        }
+    /*
+    The prev / all / next buttons used to shrink their labels to 0.8em, then 0.64em, to fit a
+    phone on one row. That was the 8.64px text. They keep their size now; _site.scss makes every
+    MDC button 44px tall on a phone.
+    */
+    .managerNav :global(.smui-button__group) {
+        max-width: 100%;
     }
 
-    @media (max-width: 435px) {
-        :global(.selectionButtons span) {
-            line-height: 1.2em;
-            font-size: 0.8em;
+    /*
+    Two columns on a wide screen: the person (photo, bio, stats, fantasy info, awards) on the
+    left, the team (roster and transactions) on the right. Below 1100px these wrappers are plain
+    blocks, so the page is exactly the single column it always was; the DOM order is that
+    single-column order.
+    */
+    @media (min-width: 1101px) {
+        .managerColumns {
+            display: grid;
+            grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+            gap: 0 2.5em;
+            align-items: start;
+            width: 96%;
+            max-width: var(--pageMaxWide);
+            margin: 0 auto;
+        }
+
+        .managerColumns .managerConstrained {
+            width: 100%;
+            max-width: none;
+        }
+
+        /* The right column starts at the top; so should the left. */
+        .managerColumns .managerPhoto {
+            margin-top: 1.5em;
         }
     }
 
 	@media (max-width: 450px) {
-
-        .basicInfo {
-            height: 20px;
-        }
-
-        .basicInfo span {
-            font-size: 0.75em;
-        }
-
         .infoTeam {
             height: 30px;
         }
 	}
 
     @media (max-width: 370px) {
-
-        .basicInfo {
-            height: 18px;
-        }
-
-        .basicInfo span {
-            font-size: 0.6em;
-        }
-
         .infoTeam {
             height: 24px;
         }
@@ -292,6 +298,8 @@
 </style>
 
 <div class="managerContainer">
+    <div class="managerColumns">
+    <div class="colMain">
     <div class="managerConstrained">
         <img class="managerPhoto" src="{viewManager.photo}" alt="{viewManager.name}"/>
         <h2>
@@ -408,7 +416,9 @@
     {/if}
 
     <ManagerAwards {leagueTeamManagers} tookOver={viewManager.tookOver} {awards} {records} {rosterID} managerID={viewManager.managerID} />
+    </div>
 
+    <div class="colSide">
     {#if loading}
         <!-- promise is pending -->
         <div class="loading">
@@ -433,6 +443,8 @@
         {/if}
     </div>
     {/if}
+    </div>
+    </div>
 
     <div class="managerNav">
         <Group variant="outlined">

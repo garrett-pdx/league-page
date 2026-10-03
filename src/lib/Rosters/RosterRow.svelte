@@ -113,13 +113,13 @@
 	span.nickname {
 		color: #888;
 		font-style: italic;
-		font-size: 0.8em;
+		font-size: 12px;
 	}
 
 	:global(.injury) {
 		font-style: italic;
 		font-weight: 700;
-		font-size: 0.7em;
+		font-size: 12px;
 		margin-left: 0.5em;
 		vertical-align:super;
 	}
@@ -142,7 +142,7 @@
 
     .additionalInfo {
         display: inline-block;
-        font-size: 0.7em;
+        font-size: 12px;
     }
 
     /* position text colors */

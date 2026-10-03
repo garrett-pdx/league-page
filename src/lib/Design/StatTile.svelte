@@ -59,7 +59,7 @@
     .value.display { font-family: var(--fontDisplay); }
 
     .sub {
-        font-size: 0.72em;
+        font-size: max(12px, 0.72em);
         color: var(--g555);
         line-height: 1.2;
     }
@@ -71,7 +71,7 @@
     }
 
     /* sizes */
-    .sm .label { font-size: 0.66em; }
+    .sm .label { font-size: max(12px, 0.66em); }
     .sm .value { font-size: 1.35em; }
     .md .label { font-size: 0.75em; }
     .md .value { font-size: 2em; }

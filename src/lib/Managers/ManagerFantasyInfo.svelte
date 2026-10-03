@@ -53,18 +53,18 @@
     }
 
     .infoLabel {
-        font-size: 0.7em;
-        color: var(--blueOne);
+        font-size: 12px;
+        color: var(--accentInk);
         font-weight: 700;
         margin-bottom: 1em;
-        height: 30px;
-        width: 90px;
+        height: 3.6em;
+        width: 100px;
         text-align: center;
         line-height: 1.2em;
     }
 
     .infoAnswer {
-        font-size: 0.8em;
+        font-size: 12px;
         color: var(--g555);
         margin-top: 1em;
         width: 90px;
