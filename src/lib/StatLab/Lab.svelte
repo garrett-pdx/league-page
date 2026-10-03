@@ -206,6 +206,10 @@
         --vizInk2: var(--g555);     /* 7.4:1 on white: safe for 12px tick labels */
     }
 
+    /* SegmentedControl keeps a compact 34px for a mouse on desktop; every Stat Lab control is 44px
+       at every width, so the segments are raised here rather than in the shared primitive. */
+    .lab :global(.segmented .segment) { min-height: 44px; }
+
     /* presets */
     .presets {
         display: flex;
@@ -333,7 +337,7 @@
         margin-bottom: 0.8em;
     }
 
-    figcaption h3 {
+    .caption h3 {
         margin: 0;
         font-size: 1.3rem;
         color: var(--navy700);
@@ -341,7 +345,7 @@
         letter-spacing: 0.03em;
     }
 
-    figcaption p {
+    .caption p {
         margin: 0.2em 0 0;
         font-size: 0.9rem;
         color: var(--g555);
@@ -508,12 +512,12 @@
         </div>
     </section>
 
-    <figure class="chartCard">
+    <section class="chartCard" aria-labelledby="sl-chart-title">
         <div class="chartHead">
-            <figcaption>
-                <h3>{view.chart === 'scatter' ? `${MEASURES[view.x].label} vs. ${MEASURES[view.m].label}` : MEASURES[view.m].label}</h3>
+            <div class="caption">
+                <h3 id="sl-chart-title">{view.chart === 'scatter' ? `${MEASURES[view.x].label} vs. ${MEASURES[view.m].label}` : MEASURES[view.m].label}</h3>
                 <p>{summary.filter((_, i) => i !== 1).join(' · ')}</p>
-            </figcaption>
+            </div>
             {#if view.chart === 'bar' && sorted.length > 10}
                 <SegmentedControl
                     size="sm"
@@ -540,7 +544,7 @@
         {/if}
 
         <p class="stamp">{stamp}. {sorted.length} {sorted.length === 1 ? 'row' : 'rows'}; every one is in the table below.</p>
-    </figure>
+    </section>
 
     {#if sorted.length}
         <DataTable rows={sorted} ds={view.ds} measure={view.m} xMeasure={view.chart === 'scatter' ? view.x : null}

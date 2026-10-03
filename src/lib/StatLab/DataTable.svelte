@@ -117,6 +117,7 @@
         align-items: flex-end;
         gap: 3px;
         width: 100%;
+        min-width: 48px;
         min-height: 44px;
         padding: 6px 8px;
         border: none;
@@ -166,6 +167,9 @@
 
     .nameBtn {
         appearance: none;
+        display: block;
+        width: 100%;
+        min-width: 48px;
         min-height: 44px;
         padding: 0;
         border: none;
