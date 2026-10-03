@@ -18,7 +18,8 @@ import { getBrackets } from './helperFunctions/leagueBrackets';
 import { getBlogPosts, generateParagraph } from './helperFunctions/getBlogPosts';
 import { getLeagueStandings } from './helperFunctions/leagueStandings';
 import { getLeagueHistory, getManagerCareer, ordinal } from './helperFunctions/leagueHistory';
-import { getLeagueGames, filterGames, allPlay, headToHead, standingsFrom, liveSeasonGames } from './helperFunctions/leagueGames';
+import { getLeagueGames, filterGames, allPlay, headToHead, standingsFrom, liveSeasonGames, lineupTotals, benchPoints, lineupEfficiency } from './helperFunctions/leagueGames';
+import { getSeasonNotes, getKeepers, getDataPlayers } from './helperFunctions/seasonNotes';
 
 export {
     enableBlog,
@@ -66,4 +67,10 @@ export {
     headToHead,
     standingsFrom,
     liveSeasonGames,
+    lineupTotals,
+    benchPoints,
+    lineupEfficiency,
+    getSeasonNotes,
+    getKeepers,
+    getDataPlayers,
 }

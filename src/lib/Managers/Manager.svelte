@@ -9,6 +9,7 @@
     import ManagerFantasyInfo from './ManagerFantasyInfo.svelte';
     import ManagerAwards from './ManagerAwards.svelte';
     import ManagerThisWeek from './ManagerThisWeek.svelte';
+    import CareerFinishes from '$lib/Seasons/CareerFinishes.svelte';
     import { onMount } from 'svelte';
 	import { getDatesActive, getRosterIDFromManagerID, getDistinctTeamName } from '$lib/utils/helperFunctions/universalFunctions';
 
@@ -372,6 +373,7 @@
                         />
                     {/if}
                 </div>
+                <CareerFinishes finishes={career.finishes} />
             </div>
         {/if}
 
