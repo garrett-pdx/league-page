@@ -135,7 +135,7 @@
     th.num .sortBtn { justify-content: flex-end; text-align: right; }
     th[aria-sort='ascending'] .sortBtn, th[aria-sort='descending'] .sortBtn { color: var(--navy700); font-weight: 600; }
     .sortBtn:focus-visible, .nameBtn:focus-visible, .more:focus-visible, .act:focus-visible { outline: 2px solid var(--blueOne); outline-offset: -2px; }
-    .arrow { font-size: 0.65rem; }
+    .arrow { font-size: 0.75rem; }
 
     .plainTh {
         display: block;
@@ -175,6 +175,15 @@
         color: var(--accentInk);
         text-align: left;
         cursor: pointer;
+    }
+
+    .srOnly {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
     }
 
     .foot { display: flex; justify-content: center; padding: 0.6em; }
@@ -232,8 +241,8 @@
     }
 
     .phone td { white-space: normal; padding: 6px 8px; }
-    .phone .who { display: flex; flex-direction: column; }
-    .phone .nameBtn { min-height: 0; padding: 4px 0 0; text-align: left; }
+    .phone td:nth-child(2) { padding: 0 8px; }
+    .phone .who { display: flex; flex-direction: column; justify-content: center; width: 100%; min-height: 52px; padding: 4px 0; }
     .ctx { font-size: 0.8rem; color: var(--g555); }
     .phone td.val { font-weight: 600; text-align: right; white-space: nowrap; }
 
@@ -259,7 +268,7 @@
     {#if !narrowScreen}
         <div class="scroll">
             <table>
-                <caption class="visually-hidden" style="position:absolute;left:-9999px">Stat Lab rows, sorted by {columns.find((c) => c.key === sort)?.label ?? 'rank'}</caption>
+                <caption class="srOnly">Stat Lab rows, sorted by {columns.find((c) => c.key === sort)?.label ?? 'rank'}</caption>
                 <thead>
                     <tr>
                         <th class="num"><span class="plainTh">#</span></th>
@@ -322,11 +331,11 @@
                     <tr class="row" onclick={(e) => rowClick(e, r)}>
                         <td class="rank">{r.rank ?? '–'}</td>
                         <td>
-                            <span class="who">
-                                <button type="button" class="nameBtn" aria-expanded={expanded === r.id}
-                                    onclick={() => (expanded = expanded === r.id ? null : r.id)}>{nameOf(r.user_id)}</button>
+                            <button type="button" class="nameBtn who" aria-expanded={expanded === r.id}
+                                onclick={() => (expanded = expanded === r.id ? null : r.id)}>
+                                <span>{nameOf(r.user_id)}</span>
                                 <span class="ctx">{context(r)}</span>
-                            </span>
+                            </button>
                         </td>
                         <td class="val hot">{third.cell(r)}</td>
                     </tr>

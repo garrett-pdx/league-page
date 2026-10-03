@@ -59,6 +59,42 @@
 
     const active = $derived(pts.find((r) => r.id === activeId) ?? null);
 
+    /*
+    Point labels, placed so they never sit on a quadrant caption or run off the plot: try the
+    right of the dot, then the left, then above, then below; a label with nowhere free is
+    dropped (the table still has it). Text width is estimated at 6.6px a character at 12px,
+    which is generous for Roboto, so the estimate errs towards keeping clear.
+    */
+    const textW = (t) => t.length * 6.6;
+    const overlaps = (a, b) => a.x0 < b.x1 && b.x0 < a.x1 && a.y0 < b.y1 && b.y0 < a.y1;
+    const labels = $derived.by(() => {
+        const taken = [
+            { x0: m.left, x1: m.left + textW(quads[0]) + 8, y0: m.top, y1: m.top + 20 },
+            { x0: m.left + plotW - textW(quads[1]) - 8, x1: m.left + plotW, y0: m.top, y1: m.top + 20 },
+            { x0: m.left, x1: m.left + textW(quads[2]) + 8, y0: m.top + plotH - 22, y1: m.top + plotH },
+            { x0: m.left + plotW - textW(quads[3]) - 8, x1: m.left + plotW, y0: m.top + plotH - 22, y1: m.top + plotH },
+        ];
+        const out = [];
+        for(const r of pts.filter((p) => extremes.has(p.id) || p.id === activeId)) {
+            const cx = X.s(r[x]), cy = Y.s(r[y]), text = labelOf(r), w = textW(text);
+            const tries = [
+                { x: cx + 9, y: cy, anchor: 'start', box: { x0: cx + 9, x1: cx + 9 + w } },
+                { x: cx - 9, y: cy, anchor: 'end', box: { x0: cx - 9 - w, x1: cx - 9 } },
+                { x: cx, y: cy - 14, anchor: 'middle', box: { x0: cx - w / 2, x1: cx + w / 2 } },
+                { x: cx, y: cy + 14, anchor: 'middle', box: { x0: cx - w / 2, x1: cx + w / 2 } },
+            ];
+            for(const t of tries) {
+                const box = { ...t.box, y0: t.y - 8, y1: t.y + 8 };
+                if(box.x0 < m.left - 4 || box.x1 > m.left + plotW + 4) continue;
+                if(taken.some((b) => overlaps(b, box))) continue;
+                taken.push(box);
+                out.push({ id: r.id, text, x: t.x, y: t.y, anchor: t.anchor });
+                break;
+            }
+        }
+        return out;
+    });
+
     const locate = (e) => {
         const rect = e.currentTarget.ownerSVGElement.getBoundingClientRect();
         const px = e.clientX - rect.left;
@@ -172,11 +208,9 @@
                 <circle class="dot on" cx={X.s(active[x])} cy={Y.s(active[y])} r="7" />
             {/if}
 
-            {#each pts.filter((r) => extremes.has(r.id) || r.id === activeId) as r (r.id)}
-                {@const cx = X.s(r[x])}
-                {@const right = cx < m.left + plotW * 0.7}
-                <text class="name" x={cx + (right ? 9 : -9)} y={Y.s(r[y])} dy="0.32em" text-anchor={right ? 'start' : 'end'}
-                    paint-order="stroke" stroke="var(--vizSurface)" stroke-width="4" stroke-linejoin="round">{labelOf(r)}</text>
+            {#each labels as l (l.id)}
+                <text class="name" x={l.x} y={l.y} dy="0.32em" text-anchor={l.anchor}
+                    paint-order="stroke" stroke="var(--vizSurface)" stroke-width="4" stroke-linejoin="round">{l.text}</text>
             {/each}
 
             <rect class="hit" x={m.left - 14} y={m.top - 14} width={plotW + 28} height={plotH + 28}

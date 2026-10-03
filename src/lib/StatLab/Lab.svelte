@@ -73,7 +73,8 @@
 
     const lastFinished = Object.keys(history.final_standings || {}).sort().pop();
     const champUid = history.final_standings?.[lastFinished]?.find((p) => p.place === 1)?.user_id;
-    const presetList = makePresets({ currentSeason, champion: people[champUid]?.handle });
+    const finished = seasons.filter((s) => history.final_standings?.[String(s)]?.length);
+    const presetList = makePresets({ currentSeason, finished, champion: people[champUid]?.handle });
 
     const annotated = annotateGames(games.games);
 
@@ -133,9 +134,11 @@
 
     /** How a row is named on a chart: "Michael · 2023 W5", "Michael · 2023", "Michael". */
     const labelOf = (row) => {
+        // a single selected season is already in the caption, so it isn't repeated on every mark
         const who = nameOf(row.user_id);
-        if(view.ds === 'games') return `${who} · ${row.season} W${row.week}`;
-        if(view.ds === 'seasons') return `${who} · ${row.season}`;
+        const one = view.season.length === 1;
+        if(view.ds === 'games') return `${who} · ${one ? '' : `${row.season} `}W${row.week}`;
+        if(view.ds === 'seasons' && !one) return `${who} · ${row.season}`;
         return who;
     };
 
@@ -508,7 +511,7 @@
     <figure class="chartCard">
         <div class="chartHead">
             <figcaption>
-                <h3>{view.chart === 'scatter' ? `${MEASURES[view.m].label} vs ${MEASURES[view.x].label}` : MEASURES[view.m].label}</h3>
+                <h3>{view.chart === 'scatter' ? `${MEASURES[view.x].label} vs. ${MEASURES[view.m].label}` : MEASURES[view.m].label}</h3>
                 <p>{summary.filter((_, i) => i !== 1).join(' · ')}</p>
             </figcaption>
             {#if view.chart === 'bar' && sorted.length > 10}

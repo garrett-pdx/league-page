@@ -387,15 +387,17 @@ export const serializeState = (s) => {
 /* ---- presets ----------------------------------------------------------------------------- */
 
 /**
- * The starting points shown as chips. `ctx` = {currentSeason, champion} -- the champion is the
- * latest finished season's winner, by handle, so "Who owns whom" never names a stale champ.
+ * The starting points shown as chips. `ctx` = {currentSeason, finished, champion}: `finished`
+ * lists the seasons with final standings; the champion is the latest finished season's winner,
+ * by handle, so "Who owns whom" never names a stale champ.
  * Each preset is a full query string, so it is also exactly the link it produces.
  */
-export const presets = ({ currentSeason, champion }) => [
+export const presets = ({ currentSeason, finished = [], champion }) => [
     { id: 'luck', label: 'Luckiest seasons', query: 'm=luck' },
     { id: 'weeks', label: 'Biggest weeks ever', query: 'ds=games&type=all' },
     { id: 'pfpa', label: `Points for vs. against, ${currentSeason}`, query: `m=pa&chart=scatter&season=${currentSeason}` },
-    { id: 'boom', label: 'Boom or bust', query: 'm=sd&chart=scatter&x=ppg' },
+    // finished seasons only: a three-week season's spread is noise, and it swamps the extremes
+    { id: 'boom', label: 'Boom or bust', query: `m=sd&chart=scatter&x=ppg${finished.length ? `&season=${finished.join(',')}` : ''}` },
     { id: 'bench', label: 'Who left the most on the bench', query: 'm=bench' },
     ...(champion ? [{ id: 'owns', label: 'Who owns whom', query: `ds=managers&type=all&opp=${champion}` }] : []),
 ];
