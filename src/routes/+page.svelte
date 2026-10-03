@@ -3,6 +3,7 @@
 	import { getNflState, leagueName, getAwards, getLeagueTeamManagers, homepageText, managers, gotoManager, enableBlog, waitForAll, getUpcomingDraft } from '$lib/utils/helper';
 	import { Transactions, PowerRankings, HomePost} from '$lib/components';
 	import { Countdown } from '$lib/Design';
+	import SeasonMilestone from '$lib/Home/SeasonMilestone.svelte';
 	import { getAvatarFromTeamManagers, getTeamFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
     import { managerHref } from '$lib/utils/managerLink';
 
@@ -69,15 +70,15 @@
     Phones: one column, in reading order. Stacked as two boxes, the right rail fell below
     everything in the left column, so the champion sat ~2,400px down, under the intro, the
     latest blog post and the power rankings. Dissolving both columns (display: contents) makes
-    every block a flex item of #home, and `order` interleaves them: intro, week banner, draft
-    countdown, power rankings, champion, blog post, transactions. Desktop is untouched.
+    every block a flex item of #home, and `order` interleaves them: intro, week banner, what's
+    next, power rankings, champion, blog post, transactions. Desktop is untouched.
     */
     @media (max-width: 950px) {
         #home { flex-direction: column; }
         #main, .leagueData { display: contents; }
         .text { order: 1; padding-top: 40px; padding-bottom: 20px; }
         .homeBanner { order: 2; }
-        .nextEvent { order: 3; }
+        .nextEvent, .milestoneSlot { order: 3; }
         .rankings { order: 4; padding-bottom: 20px; }
         #currentChamp { order: 5; }
         .text.homePost { order: 6; padding-top: 0; }
@@ -273,6 +274,11 @@
         {:catch}
             <!-- the countdown is decoration; a failed draft fetch should not take the page down -->
         {/await}
+
+        <!-- Once the draft is done: the trade deadline, then the playoffs. Hides itself otherwise. -->
+        <div class="milestoneSlot">
+            <SeasonMilestone {nflState} />
+        </div>
 
         <div id="currentChamp">
             {#await waitForAll(podiumsData, leagueTeamManagersData)}
