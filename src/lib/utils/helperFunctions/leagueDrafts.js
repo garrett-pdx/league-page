@@ -240,6 +240,7 @@ export const getPreviousDrafts = async () => {
 
             const newDraft = {
                 year,
+                draftID, // ours: lets Drafts/index.svelte label the carried-over 2021 draft
                 draft,
                 draftOrder,
                 draftType: officialDraft.type,

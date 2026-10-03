@@ -245,6 +245,19 @@
 		pointer-events: none;
 	}
 
+	/* ours: the year heading links to that season's archive page */
+	.yearLink {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.yearLink:hover, .yearLink:focus-visible {
+		text-decoration: underline;
+	}
+
 	.toilet-banner {
 		display: block;
 		width: 50%;
@@ -382,7 +395,7 @@
 </style>
 
 <div class="awards">
-	<SectionHeading level={3} accent="gold">{year} Awards</SectionHeading>
+	<SectionHeading level={3} accent="gold"><a class="yearLink" href="/seasons/{year}">{year} Awards</a></SectionHeading>
 
 	<!-- The ribbon is now decoration and the words are real markup, so they follow the display
 	     font, can be selected and translated, and reach a screen reader as text rather than as

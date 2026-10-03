@@ -2,7 +2,8 @@
 	import { waitForAll } from '$lib/utils/helper';
     import LinearProgress from '@smui/linear-progress';
     import { SectionHeading, Disclosure } from '$lib/Design';
-    import Draft from './Draft.svelte'; 
+    import Draft from './Draft.svelte';
+    import { CARRIED_OVER_DRAFT_ID, FOUNDING_SEASON } from '$lib/Seasons/seasonData';
 
     export let upcomingDraftData, previousDraftsData, leagueTeamManagersData, playersData;
 
@@ -55,7 +56,8 @@
 	{#if previousDrafts.length}
 		<SectionHeading level={3}>Previous Drafts</SectionHeading>
 		{#each previousDrafts as previousDraft}
-			<SectionHeading level={4} rule={false}>{previousDraft.year} Draft</SectionHeading>
+			<!-- Sleeper files the league's 2021 ESPN draft under 2022; it is not a second 2022 draft. -->
+			<SectionHeading level={4} rule={false}>{previousDraft.draftID == CARRIED_OVER_DRAFT_ID ? `${FOUNDING_SEASON} Draft (ESPN, carried over)` : `${previousDraft.year} Draft`}</SectionHeading>
 			<Draft draftData={previousDraft} previous={true} {leagueTeamManagers} year={previousDraft.year} {players} />
 		{/each}
 	{/if}
