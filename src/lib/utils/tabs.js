@@ -102,6 +102,7 @@ export const tabs = [
                 label: 'Drafts',
                 dest: '/drafts',
             },
+            { label: 'Stat Lab', icon: 'query_stats', dest: '/stat-lab' },
             { group: 'Rules & Tools' },
             {
                 icon: 'history_edu',
