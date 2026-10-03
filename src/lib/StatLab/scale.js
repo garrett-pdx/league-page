@@ -40,3 +40,39 @@ export const tickText = (v, fmt, step) => {
     if(fmt === 'signed' && v > 0) return `+${s}`;
     return s;
 };
+
+/**
+ * A beeswarm: given each dot's x, return each dot's vertical offset so no two dots overlap, as far
+ * as `maxOff` allows. Dots are placed left to right, each at the offset nearest the centre line
+ * (0, +1, -1, +2 ...) that clears every dot already placed. Deterministic, so a chart never
+ * reshuffles on re-render the way random jitter does. If a crowd is deeper than `maxOff` allows,
+ * a dot takes the offset where it overlaps least rather than leaving the row.
+ */
+export const swarm = (xs, r, maxOff) => {
+    const gap = 2 * r + 0.5;
+    const order = xs.map((_, i) => i).sort((a, b) => xs[a] - xs[b] || a - b);
+    const placed = [];
+    const out = new Array(xs.length).fill(0);
+    for(const i of order) {
+        const x = xs[i];
+        let best = 0, bestClear = -1;
+        search:
+        for(let k = 0; k <= maxOff; k++) {
+            for(const y of k === 0 ? [0] : [k, -k]) {
+                let clear = Infinity;
+                // placed[] is in ascending x, so once a neighbour is further left than one gap, all earlier ones are
+                for(let j = placed.length - 1; j >= 0; j--) {
+                    const dx = x - placed[j].x;
+                    if(dx > gap) break;
+                    const d = Math.hypot(dx, y - placed[j].y);
+                    if(d < clear) clear = d;
+                }
+                if(clear >= gap) { best = y; bestClear = Infinity; break search; }
+                if(clear > bestClear) { bestClear = clear; best = y; }
+            }
+        }
+        out[i] = best;
+        placed.push({ x, y: best });
+    }
+    return out;
+};
