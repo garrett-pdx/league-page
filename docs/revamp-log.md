@@ -19,9 +19,9 @@ The plans being carried out:
 | 5 | **D.** Links between pages, plus **History step 2**, the head-to-head grid | Both work on Rivalry and manager links | done; lore-script fix done (merged) |
 | 6 | **C4–C5 + B4–B5.** Drafts, remaining small text and tap targets, blog typography, desktop layouts | Polish on less-used pages | done |
 | 7 | **E. Content:** bio typos and league lines (7a, running in parallel in a worktree, Opus); home page copy, Resources, countdown (7b) | Writing, once the page frames are settled | done (home copy awaiting Garrett's review) |
-| 8 | **History step 3.** Seasons archive | Biggest new page | running in parallel with 7b (Opus, worktree, dev server on port 5174) |
-| 9 | **History step 4.** Stat Lab, first release | Built on everything above | running in parallel with 8 (Opus, main checkout) |
-| 10 | **F wrap-up.** `CLAUDE.md` corrections, end-of-season checklist, `mudd-preview` post type, full-site audit | Docs describe the finished state | pending |
+| 8 | **History step 3.** Seasons archive | Biggest new page | done (merged) |
+| 9 | **History step 4.** Stat Lab, first release | Built on everything above | done |
+| 10 | **F wrap-up.** `CLAUDE.md` corrections, end-of-season checklist, `mudd-preview` post type, full-site audit | Docs describe the finished state | running (Opus) |
 
 ## Decisions already made (2026-10-02)
 
@@ -276,3 +276,38 @@ Commits `3270061`..`442c350`.
   - `src/routes/CLAUDE.md`'s description of the home page is wrong on phones now;
   - list `src/lib/Home/` and `src/lib/Resources/`.
 - **Optional for the Seasons pages:** the removed 2025 title write-up exists nowhere else now.
+
+### Step 8: Seasons archive (done, Opus, in a worktree; merged as `734645d`)
+
+- **Pages:** `/seasons` and `/seasons/[year]`, for 2021 (ESPN, carried-over draft only) through
+  2026 (in progress).
+- **Each year has:** final table, all-play, bracket, rank-by-week chart, draft rounds 1–3,
+  keepers, trades and extremes.
+- **Links in:** Trophy Room year headings, and career-finish chips on manager pages.
+- **/drafts:** the 2021 draft is now labelled correctly.
+- **Checks:**
+  - all champions and finishes match;
+  - all 32 bracket games match `games.json`;
+  - 2022 shows 18 keepers;
+  - all-play totals are 135 per team;
+  - unknown years return a real 404.
+- **Not done:** Records entries linking to their season.
+
+### Step 9: Stat Lab (done, Opus, in parallel with step 8)
+
+Commits `f93e917`..`3b83a00`.
+
+- **Datasets:** Games, Seasons, Careers.
+- **Measures:** 13, including max points, bench points and lineup efficiency.
+- **Charts:** bar, line, scatter, with a sortable table under each.
+- **Shareable views:** the whole state lives in the address; Back undoes presets and narrowing.
+- **Six presets.** No new dependencies.
+- **Checks:**
+  - 2025 W-L matches all ten records;
+  - the biggest week is mikestreinz's 193.04 (2023 week 5);
+  - luck matches Standings.
+- **Bench-total differences** against Sleeper in 6 of 50 seasons are all explained: the override
+  game's null rows, the true best lineup beating Sleeper's own method for TnT44 (2023 and 2024),
+  and the pinned stat corrections.
+- **A second release could add:** a matchups dataset and grid, a distribution chart, a
+  minimum-games control, and keyboard focus for line and scatter points.
