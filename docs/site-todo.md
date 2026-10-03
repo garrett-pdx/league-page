@@ -20,10 +20,8 @@ detail. What is left:
 
 - [x] **[Garrett] Approve the home page copy** (`homepageText` in `leagueInfo.js`). Approved
   2026-10-03.
-- [ ] **[Garrett] Retag the three previews in Contentful** from `Recap` to `Preview`: Week 2
-  (`5XKBEmMeWJrgt0JTjcEA2R`), Week 3 (`6XqfrUTwqZHqXDJpzPF3Xo`) and Week 4
-  (`7pgFzp2SPXlyLa10gexnEJ`). Republishing each with the `mudd-preview` skill's command
-  does the same. Until then the blog's Recap filter mixes them in.
+- [x] **Retag the three previews in Contentful** from `Recap` to `Preview` (Weeks 2, 3, 4).
+  Done 2026-10-03: type changed and republished; the live blog API shows them as Preview.
 - [ ] **[Managers] Profile fields and team names** — see the two items under Content. The
   ask is written out in `plan-site-todo.md` ("Asks for other managers").
 - [ ] **Stat Lab, second release:** a matchups dataset and head-to-head grid, a distribution
