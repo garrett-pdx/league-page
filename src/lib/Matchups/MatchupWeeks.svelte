@@ -85,6 +85,31 @@
         font-size: 2em;
     }
 
+    /* The cards. One column, a little wider than upstream's 600px, up to 1200px; then two, so a
+       desktop page is not a 560px strip down the middle of 1440. A grid rather than CSS columns:
+       an expanding card grows its own row and never pulls its neighbour into another column. */
+    .cards :global(.matchup) {
+        max-width: 680px;
+    }
+
+    @media (min-width: 1200px) {
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            align-items: start;
+            gap: 0 1.5rem;
+            width: 95%;
+            max-width: var(--pageMaxWide);
+            margin: 0 auto;
+        }
+
+        .cards :global(.matchup) {
+            width: 100%;
+            max-width: none;
+            margin: 10px 0;
+        }
+    }
+
     @media (max-width: 800px) {
         .weekText {
             font-size: 1.6em;
@@ -118,7 +143,9 @@
             <span class="spacer" />
         {/if}
     </div>
+    <div class="cards">
     {#each matchupArray as matchup, ix (rand * (ix + 1))}
         <Matchup {ix} {matchup} {players} {displayWeek} bind:active={active} {leagueTeamManagers} />
     {/each}
+    </div>
 </div>
