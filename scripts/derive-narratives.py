@@ -56,7 +56,6 @@ import json
 import os
 import sys
 from collections import defaultdict
-from itertools import product
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "static", "data")
@@ -97,24 +96,11 @@ STANDINGS = HISTORY["final_standings"]
 # set is treated as a running back.
 
 # Positions Sleeper actually allowed, where players.json (today's primary position only) is
-# wrong. Each entry was fitted to Sleeper's own season potential_points and reproduces it to the
-# cent; check_optimal() re-proves that on every run.
-#
-#   Taysom Hill (4381): TE in 2022 (TE alone is exact; QB/TE is 0.96 over). QB/TE from 2023.
-#       Sleeper's potential_points fills slots in order, QB first, so in a week Hill outscored
-#       TnT44's quarterback it put Hill at QB and benched the quarterback -- 2023 week 9 and
-#       2024 week 11. That is Sleeper's figure, not the best lineup: in 2024 week 11 TnT44
-#       actually started Hill at TE (37.52) and his QB, and scored 140.88, above Sleeper's
-#       125.82 "potential". optimal_points() takes the best of every eligible assignment.
-#   Travis Hunter (12530): WR in 2025. players.json says DB, which has no slot; paulslaats
-#       started him three times.
-ELIGIBILITY = {
-    ("2022", "4381"): {"TE"},
-    ("2023", "4381"): {"QB", "TE"},
-    ("2024", "4381"): {"QB", "TE"},
-    ("2025", "4381"): {"QB", "TE"},
-    ("2025", "12530"): {"WR"},
-}
+# wrong: Taysom Hill TE in 2022 and QB/TE from 2023, Travis Hunter WR in 2025. The table, and the
+# reasoning behind each entry, live in derive-site-data.py (the lower layer, which games.json's
+# max_pf is built from); with it all 50 manager-seasons reproduce Sleeper's potential_points to
+# the cent, and check_optimal() re-proves that on every run.
+ELIGIBILITY = SITE.ELIGIBILITY
 
 FAILURES = []
 
@@ -298,59 +284,10 @@ def benched(row):
     ]
 
 
-def eligible(season, pid):
-    """The slots-relevant positions a player could fill that season."""
-    pid = str(pid)
-    if (season, pid) in ELIGIBILITY:
-        return ELIGIBILITY[(season, pid)]
-    pos = SITE.position(pid)
-    return {pos} if pos else set()
-
-
-def _greedy(row, slots, elig):
-    """
-    derive-site-data's optimal_points(), generalised to a SET of positions per player: sort
-    the roster by points and fill the slots in roster order, each with the best unused player
-    who can play it. With one position per player this is exact (every FLEX-eligible position
-    also has its own slot) and identical to derive-site-data -- check_optimal() proves it on
-    every row. With a multi-position player it is what Sleeper computes, not the optimum.
-    """
-    pool = sorted(
-        ((pts, str(pid), elig(pid)) for pid, pts in (row.get("players_points") or {}).items()),
-        key=lambda x: (-x[0], x[1]),
-    )
-    used, total = set(), 0.0
-    for slot in slots:
-        for pts, pid, e in pool:
-            if pid in used or not e:
-                continue
-            if (e & SITE.FLEX_OK) if slot == "FLEX" else (slot in e):
-                used.add(pid)
-                total += pts
-                break
-    return total
-
-
-def sleeper_potential(season, row):
-    """Sleeper's own per-week potential points, as reproduced by check_optimal()."""
-    return _greedy(row, SITE.starter_slots(season), lambda p: eligible(season, p))
-
-
-def optimal_points(season, row):
-    """
-    Best score available from the players on the roster that week: the greedy, run once per
-    single-position assignment of any multi-position player, keeping the best. Exact.
-    """
-    slots = SITE.starter_slots(season)
-    multi = [str(p) for p in (row.get("players_points") or {}) if len(eligible(season, p)) > 1]
-    if not multi:
-        return sleeper_potential(season, row)
-    best = 0.0
-    for choice in product(*(sorted(eligible(season, p)) for p in multi)):
-        fixed = dict(zip(multi, choice))
-        best = max(best, _greedy(row, slots,
-                                 lambda p: {fixed[str(p)]} if str(p) in fixed else eligible(season, p)))
-    return best
+# One definition of each, shared with derive-site-data.py.
+eligible = SITE.eligible                    # (season, pid) -> set of positions
+sleeper_potential = SITE.sleeper_potential  # (season, row): Sleeper's own slot-order greedy
+optimal_points = SITE.best_lineup           # (season, row): the true best legal lineup
 
 
 def matchups(season, week):

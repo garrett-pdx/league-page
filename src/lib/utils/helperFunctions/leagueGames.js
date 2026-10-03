@@ -14,11 +14,16 @@ directly.
 
 A row, as every function here takes and returns it:
 
-    {season, week, user_id, opponent_id, pf, pa, result, kind}
+    {season, week, user_id, opponent_id, pf, pa, result, kind, max_pf}
 
     season       number (2022), unlike league-history.json's string keys
     result       "W" | "L" | "T", from this team's side
     kind         "regular" | "playoff" | "placement" | "consolation"
+    max_pf       the best legal lineup from that team's whole roster that week, or null where
+                 there is no honest figure: the commissioner-override game (pf there is the
+                 official score, max_pf is computed from player points, so the difference
+                 means nothing) and every row liveSeasonGames() builds. Bench points and
+                 lineup efficiency below are null wherever max_pf is.
 
 Each game appears twice, once from each side.
 */
@@ -47,8 +52,8 @@ export const decodeGames = (raw) => {
             result: col.result[i],
             kind: raw.kinds[col.kind[i]],
         };
-        // Only present if the max_pf self-check passed; today it does not, see the README.
-        if(col.max_pf) row.max_pf = col.max_pf[i];
+        // null on the commissioner-override game; absent from a games.json older than the column
+        row.max_pf = col.max_pf ? col.max_pf[i] : null;
         games[i] = row;
     }
 
@@ -249,6 +254,48 @@ export const standingsFrom = (games) => {
 const round2 = (n) => Math.round(n * 100) / 100;
 
 /**
+ * Points left on the bench in one game: the best legal lineup minus what was scored. Always
+ * >= 0. Null where max_pf is (the override game, live rows), never a made-up number.
+ */
+export const benchPoints = (row) =>
+    row.max_pf === null || row.max_pf === undefined ? null : round2(row.max_pf - row.pf);
+
+/**
+ * Lineup efficiency in one game: pf / max_pf, 0 to 1 (1 is a perfect lineup). Null where
+ * max_pf is null, or where nothing was available to score.
+ */
+export const lineupEfficiency = (row) =>
+    row.max_pf === null || row.max_pf === undefined || !row.max_pf ? null : row.pf / row.max_pf;
+
+/**
+ * Lineup totals per manager, sorted by efficiency (best first):
+ *
+ *   [{user_id, games, pf, maxPf, bench, efficiency}]       efficiency = pf / maxPf
+ *
+ * Only rows with a max_pf count -- toward pf as well, so the ratio compares like with like --
+ * which means `games` can be one fewer than a manager's played games (the override game).
+ * Pass whatever rows you like; kinds: ['regular'] matches Sleeper's season Lineup IQ.
+ */
+export const lineupTotals = (games) => {
+    const out = {};
+    for(const g of games) {
+        if(g.max_pf === null || g.max_pf === undefined) continue;
+        const r = out[g.user_id] || (out[g.user_id] = {user_id: g.user_id, games: 0, pf: 0, maxPf: 0, bench: 0, efficiency: null});
+        r.games++;
+        r.pf += g.pf;
+        r.maxPf += g.max_pf;
+    }
+    const rows = Object.values(out);
+    for(const r of rows) {
+        r.pf = round2(r.pf);
+        r.maxPf = round2(r.maxPf);
+        r.bench = round2(r.maxPf - r.pf);
+        r.efficiency = r.maxPf ? r.pf / r.maxPf : null;
+    }
+    return rows.sort((a, b) => (b.efficiency ?? -1) - (a.efficiency ?? -1));
+}
+
+/**
  * The current season's games in the same row shape, from the site's LIVE Sleeper data rather
  * than games.json, so Standings' luck column can never lag the live table beside it.
  *
@@ -333,6 +380,7 @@ export const liveSeasonGames = ({matchupsData, leagueTeamManagers, nflState, thr
                     pa: them.pf,
                     result: me.pf > them.pf ? 'W' : me.pf < them.pf ? 'L' : 'T',
                     kind: 'regular',
+                    max_pf: null,   // no lineup data in the live matchups
                 });
             }
         }

@@ -15,7 +15,7 @@ bundled into the JS. ~950 KB total, so fetch only the file you need.
 | `ownership.json` | 70 KB | player → who rostered them, when |
 | `keepers.json` | 32 KB | keeper chains, cost in rounds, rule check |
 | `players.json` | 20 KB | player_id → name / position / team |
-| `games.json` | 21 KB (4 KB gz) | one row per team per game — **the file pages fetch** |
+| `games.json` | 26 KB (6 KB gz) | one row per team per game — **the file pages fetch** |
 | `season-notes.json` | 24 KB (4 KB gz) | per-season trades, top scorers, high and low weeks |
 
 Manager IDs everywhere are Sleeper `user_id`s, matching `managerID` in
@@ -35,13 +35,13 @@ through      {season, week}  the last completed week -- the "data through week N
 nfl_state    copied from league-history.json, the input that decided "completed"
 managers[]   user_ids; the manager and opponent columns are indexes into this
 kinds[]      ["regular", "playoff", "placement", "consolation"]; kind is an index into it
-columns[]    ["season", "week", "manager", "opponent", "pf", "pa", "result", "kind"]
+columns[]    ["season", "week", "manager", "opponent", "pf", "pa", "result", "kind", "max_pf"]
 data[][]     one array per column, in that order, all the same length
 ```
 
 `season` and `week` are numbers; `pf`/`pa` are the official score to the hundredth (a
 commissioner's `custom_points` wins over `points`); `result` is `"W"`, `"L"` or `"T"`. Rows are
-sorted by season, week, user_id. In the browser, `getLeagueGames()` in
+sorted by season, week, user_id. `max_pf` is described below. In the browser, `getLeagueGames()` in
 `src/lib/utils/helperFunctions/leagueGames.js` decodes it to row objects.
 
 What is in and out:
@@ -62,24 +62,41 @@ The script refuses to write anything (exit 1) unless:
    `managers.*.records` — W/L/T exactly, points to the cent, except four manager-seasons where
    a stat correction after settlement moved the weekly scores by 1–2 points (pinned to the cent
    in `STAT_CORRECTIONS`; no result changes);
-2. every regular-season week has exactly five games and every row has its mirror.
+2. every regular-season week has exactly five games and every row has its mirror;
+3. every manager-season's regular-season lineups, built the way Sleeper builds its own, sum to
+   Sleeper's `potential_points` **to the cent** (same pins), and no row's `max_pf` is below the
+   score the roster actually put up.
 
-**There is no `max_pf` column.** The spec allowed a per-week best-possible lineup if its
-season totals agreed with Sleeper's `potential_points` within 1% for every manager-season. 48
-of 50 do; 2024 TnT44 (+1.65%, Taysom Hill's week-to-week eligibility) and 2025 paulslaats
-(−1.42%, Travis Hunter listed as `DB`) don't, because `players.json` holds only today's primary
-position and `weeks.json` doesn't record IR. The script still computes and reports the check
-on every run, and will emit the column if it ever passes. Records' Lineup IQ keeps using
-Sleeper's own `potential_points`.
+### `max_pf` — the best legal lineup
 
-`derive-narratives` goes one step further for the blog: its `ELIGIBILITY` table gives Taysom
-Hill QB/TE from 2023 (TE in 2022) and Travis Hunter WR in 2025, and with those all 50
-manager-seasons reproduce `potential_points` **to the cent** (2023 TnT44, +0.60% here, is Hill
-too). Sleeper's figure is a slot-order greedy: in a week Hill outscored TnT44's quarterback it
-put him at QB and benched the quarterback, so twice (2023 week 9, 2024 week 11) Sleeper's
-"potential" is below the best legal lineup, and once below what TnT44 actually scored. The
-lore's bench facts use the true best lineup and are only stated for manager-seasons that pass
-that check.
+`max_pf` is the most points the team could have scored that week from everyone on its roster,
+filling the league's starting slots (QB, RB, RB, WR, WR, TE, FLEX, FLEX; FLEX takes RB/WR/TE).
+The bench is `max_pf - pf`, and lineup efficiency is `pf / max_pf`; `leagueGames.js` has
+`benchPoints(row)`, `lineupEfficiency(row)` and `lineupTotals(rows)`.
+
+- **Override games are `null`.** `pf` is the official score and a commissioner's `custom_points`
+  replaces the computed one, but `max_pf` is computed from player points, so on the one
+  override game (2024 week 8, tuckersdumbteam v BBrown16, both rows) `max_pf - pf` would measure
+  the commissioner's ruling rather than the bench. Both rows carry `null`, and so does any
+  row from a source with no lineup data. Anything summing `max_pf` must skip nulls, and skip
+  the same rows' `pf` when it forms a ratio — `lineupTotals()` does.
+- **Positions Sleeper actually allowed.** `players.json` holds only a player's current primary
+  position, which is wrong for two players: Taysom Hill (TE in 2022, QB or TE from 2023) and
+  Travis Hunter (listed `DB`, started at WR in 2025). The `ELIGIBILITY` table in
+  `derive-site-data.py` — shared with `derive-narratives.py`, which imports it — fixes both, and
+  with it all 50 manager-seasons reproduce `potential_points` to the cent. Without it two
+  missed by more than 1% (2024 TnT44 +1.65%, 2025 paulslaats −1.42%), which is why the column
+  used to be left out.
+- **True best lineup, not Sleeper's.** Sleeper's own figure fills slots in order, so in a week
+  Hill outscored TnT44's quarterback it put him at QB and benched the quarterback. That makes
+  its "potential" lower than the true best lineup twice (2023 week 9, by 9.72; 2024 week 11, by
+  29.74 — in that week TnT44 actually scored 140.88 against a Sleeper "potential" of 125.82).
+  `max_pf` tries every eligible assignment, so it is never below what the team scored, and
+  per-manager sums of it exceed Sleeper's season `potential_points` by exactly those amounts
+  for TnT44 in 2023 and 2024 and match it everywhere else (the override game aside).
+- **IR is not modelled.** `weeks.json` does not record who was on injured reserve, so an IR
+  player who scored is in the pool. Sleeper's `potential_points` has the same pool, which is
+  why the check can be exact. Records' Lineup IQ still uses Sleeper's own `potential_points`.
 
 ## `season-notes.json`
 
