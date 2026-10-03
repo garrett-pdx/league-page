@@ -33,11 +33,22 @@ export const getLeagueTransactions = async (preview, refresh = false) => {
 	const nflState = await getNflState().catch((err) => { console.error(err); });
 	
 	let week = 18;
-	if(nflState.season_type == 'regular') {
+	if(nflState?.season_type == 'regular') {
 		week = nflState.week;
 	}
 
-	const {transactionsData, currentSeason} = await combThroughTransactions(week, leagueID).catch((err) => { console.error(err); });
+	// Ours: a failed Sleeper fetch used to leave this undefined and throw "Cannot destructure
+	// 'transactionsData'", taking /manager and every other page that awaits it down with it.
+	// Degrade to no transactions instead, and don't cache the empty result.
+	const combed = await combThroughTransactions(week, leagueID).catch((err) => { console.error(err); });
+	if(!combed) {
+		return {
+			transactions: checkPreview(preview, []),
+			totals: {allTime: {}, seasons: {}},
+			stale: false
+		};
+	}
+	const {transactionsData, currentSeason} = combed;
 
 	const { transactions, totals } = await digestTransactions({transactionsData, currentSeason});
 
