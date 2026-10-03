@@ -153,10 +153,14 @@ that break even when every number is right:
 3. **Publish.**
    ```bash
    node scripts/publish-article.mjs docs/articles/<season>-w<week>-preview.md \
-     --type Recap --author Gurret --featured --dry-run
+     --type Preview --author Gurret --featured --dry-run
    ```
    Check the block counts, then drop `--dry-run`. Republishing any other post: omit
-   `--featured`.
+   `--featured`. `--type` becomes the post's category on /blog: the filter buttons are built
+   from whatever `type` values the posts carry, and the Contentful field is a free-text
+   Symbol with no allowed-values list, so `Preview` needs no code or model change. Previews
+   before week 5 of 2026 went out as `Recap`; republishing one of them with this command
+   retags it.
 4. **Unfeature the previous post** — `HomePost.svelte` shows the first `featured` entry, and
    `getBlogPosts` requests no order.
 5. **Verify live at phone width**: tables render, no literal Markdown, no horizontal scroll.
