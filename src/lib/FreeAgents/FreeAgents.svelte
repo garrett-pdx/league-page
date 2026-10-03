@@ -205,6 +205,8 @@
         display: inline-flex;
         align-items: center;
         gap: 0.5em;
+        min-height: 44px;
+        box-sizing: border-box;
         padding: 0.45em 0.9em;
         border: 1px solid var(--accentBorder);
         border-radius: var(--radiusPill);
@@ -223,8 +225,8 @@
     .toggle input {
         accent-color: var(--accentFill);
         margin: 0;
-        width: 1em;
-        height: 1em;
+        width: 1.3em;
+        height: 1.3em;
         cursor: pointer;
     }
 
@@ -235,6 +237,8 @@
 
     .search {
         font: inherit;
+        min-height: 44px;
+        box-sizing: border-box;
         padding: 0.45em 0.8em;
         border: 1px solid var(--accentBorder);
         border-radius: var(--radiusPill);
@@ -269,6 +273,7 @@
         background: none;
         border: none;
         padding: 0;
+        min-height: 44px;
         cursor: pointer;
         display: inline-flex;
         align-items: center;
@@ -284,7 +289,7 @@
     }
 
     .arrow {
-        font-size: 0.8em;
+        font-size: 12px;
         opacity: 0.45;
     }
 
@@ -423,6 +428,8 @@
         background: var(--fff);
         border: 1px solid var(--accentBorder);
         border-radius: var(--radiusPill);
+        min-height: 44px;
+        box-sizing: border-box;
         padding: 0.25em 0.9em;
         cursor: pointer;
     }

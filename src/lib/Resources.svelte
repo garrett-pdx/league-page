@@ -123,6 +123,7 @@ import { dynasty } from './utils/helper';
     }
 
     a {
+        display: block;
         color: var(--g555);
         font-size: 1.1em;
         text-decoration: none;
@@ -139,7 +140,7 @@ import { dynasty } from './utils/helper';
         <SectionHeading level={3}>Helpful {dynasty ? "Dynasty " : ""}Resources</SectionHeading>
     </div>
 
-    <List class="list" dense>
+    <List class="list">
         {#each resources as resource}
             {#if resource.dynastyOnly && dynasty}
                 <a target="_blank" rel="noopener noreferrer" href="{resource.url}">

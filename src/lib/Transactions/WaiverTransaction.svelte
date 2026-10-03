@@ -96,13 +96,13 @@
     }
 
     .playerName {
-        font-size: 0.8em;
+        font-size: max(12px, 0.8em);
         line-height: 1em;
         text-align: center;
     }
 
     .playerInfo {
-        font-size: 0.6em;
+        font-size: 12px;
         color: var(--g555);
         line-height: 1em;
     }
@@ -137,7 +137,7 @@
     .date {
         color: var(--g999);
         font-style: italic;
-        font-size: 0.7em;
+        font-size: 12px;
         text-align: center;
         margin-top: 0.7em;
     }
@@ -156,7 +156,6 @@
         .nameHolder {
             margin-top: 0.5em;
             padding-left: 0;
-            font-size: 0.9em;
         }
     }
 </style>

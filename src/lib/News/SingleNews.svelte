@@ -20,6 +20,8 @@
         text-decoration: none;
         text-align: center;
         max-height: 96px;
+        padding: 0.7em 0;
+        box-sizing: content-box;
         margin: 0 auto;
         overflow: hidden;
         text-overflow: ellipsis;

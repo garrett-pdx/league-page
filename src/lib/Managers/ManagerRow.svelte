@@ -122,7 +122,7 @@
     .subline {
         display: block;
         margin-top: 0.2em;
-        font-size: 0.74em;
+        font-size: max(12px, 0.74em);
         line-height: 1.2;
         color: rgba(255, 255, 255, 0.88);
         white-space: nowrap;
@@ -142,7 +142,7 @@
 
     .badge {
         font-family: var(--fontDisplay);
-        font-size: 0.62em;
+        font-size: 12px;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.1em;
@@ -169,7 +169,7 @@
 
     @media (max-width: 420px) {
         .headline { font-size: 0.95em; }
-        .subline { font-size: 0.72em; }
+        .subline { font-size: max(12px, 0.72em); }
         .scrim { padding: 2.2em 0.6em 0.65em; }
     }
 </style>

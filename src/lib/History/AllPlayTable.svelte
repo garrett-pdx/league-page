@@ -96,6 +96,8 @@
         align-items: center;
         gap: 0.5rem;
         padding: 0.6rem 0.9rem;
+        min-height: 44px;
+        box-sizing: border-box;
         border-bottom: 1px solid var(--accentBorder);
         color: inherit;
         text-decoration: none;

@@ -135,6 +135,20 @@
         color: var(--blueOne);
     }
 
+    /* On a phone every contents entry is its own tap target, so each gets 44px. Desktop keeps the
+       tight list. */
+    @media (max-width: 700px), (pointer: coarse) {
+        .tocLink {
+            display: flex;
+            align-items: center;
+            min-height: 44px;
+        }
+
+        .allToggle button {
+            min-height: 44px;
+        }
+    }
+
     .tocLink:focus-visible {
         outline: 2px solid var(--blueOne);
         outline-offset: 2px;

@@ -10,7 +10,7 @@
         let tempPageLabels = []
         let before = false;
         let after = false;
-        const limit = iW && iW > 380 ? 3 : 2;
+        const limit = iW && iW > 380 ? 3 : 1;
         for(let i = 0; i < pages; i++) {
             if(i == 0 || (i == (pages - 1) && (!iW || iW > 300)) || ((curPage - limit) < i && i < (curPage +  limit))) {
                 tempPageLabels.push(i + 1);
@@ -43,6 +43,12 @@
         color: #aaa;
         cursor: pointer;
         vertical-align: sub;
+        /* the arrows are the only way to turn the page: 44px, not the icon's 24px */
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
     }
 
     :global(.button:hover) {
@@ -59,13 +65,20 @@
     }
 
     .pg {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        min-width: 44px;
+        min-height: 44px;
         font-size: 1.2em;
-        padding: .4em;
+        padding: 0 .4em;
         color: #aaa;
     }
     
     .spacer {
-        padding: .4em 0;
+        min-width: 0;
+        padding: 0;
         cursor: default;
         user-select: none;
     }
@@ -85,15 +98,15 @@
     }
 
     .placeholder {
-        width: 24px;
+        width: 44px;
     }
 
     .totals {
         font-style: italic;
         cursor: default;
         user-select: none;
-        color: #bbb;
-        font-size: 0.8em;
+        color: var(--g999);
+        font-size: max(12px, 0.8em);
         text-align: center;
     }
 </style>

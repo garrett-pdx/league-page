@@ -187,7 +187,7 @@
 		list-style: none;
 		padding: 10px 16px 4px;
 		font-family: var(--fontDisplay);
-		font-size: 0.72em;
+		font-size: 12px;
 		font-weight: 500;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;

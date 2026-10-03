@@ -99,6 +99,7 @@
   // The sort buttons are the header cells' only tap target.
   .rankingTable .sortBtn {
     min-height: 44px;
+    min-width: 44px;
   }
 }
 
@@ -130,4 +131,15 @@ main > footer[class] {
 
 main > .footerSpacer {
   display: none;
+}
+
+/* ---- Buttons are tap targets ----------------------------------------------------------------
+   MDC draws every .mdc-button 36px tall, and several upstream pages use them as the only control
+   on the screen (the Trades / Waivers / All filter, Expand All Benches, Previous / Next Manager).
+   On a phone, or on any touch screen, they are 44px (WCAG 2.5.5). On a mouse they keep MDC's size,
+   so nothing on desktop moves. */
+@media (max-width: 700px), (pointer: coarse) {
+  .mdc-button {
+    min-height: 44px;
+  }
 }

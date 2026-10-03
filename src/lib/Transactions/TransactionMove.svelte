@@ -103,14 +103,14 @@
         justify-content: center;
         line-height: 1.1em;
         flex-wrap: wrap;
-        font-size: 0.8em;
+        font-size: max(12px, 0.8em);
     }
 
     .pickNameHolder {
         margin: 4px 0 0;
         display: inline-flex;
         flex-direction: column;
-        font-size: 0.8em;
+        font-size: max(12px, 0.8em);
         line-height: 1em;
     }
 
@@ -140,7 +140,7 @@
     }
 
     .playerInfo {
-        font-size: 0.8em;
+        font-size: 12px;
         color: var(--g555);
         padding: 0 1em;
     }
@@ -216,9 +216,9 @@
 
     .numEnd {
         position: absolute;
-        top: -1em;
-        right: -1em;
-        font-size: 0.3em;
+        top: -3px;
+        right: -10px;
+        font-size: 12px;
     }
 
     .direction {
@@ -230,11 +230,6 @@
         color: var(--ccc);
     }
 
-    @media (max-width: 420px) {
-        .nameHolder {
-            font-size: 0.7em;
-        }
-    }
 </style>
 
 <tr>

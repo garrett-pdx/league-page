@@ -37,7 +37,7 @@
     .currentOwner {
         font-style: italic;
         color: var(--aaa);
-        font-size: 0.7em;
+        font-size: 12px;
     }
 
     .clickable {
@@ -47,7 +47,7 @@
     .date {
         color: var(--g999);
         font-style: italic;
-        font-size: 0.7em;
+        font-size: 12px;
         text-align: center;
         padding: 0.7em 0 1em;
         background-color: var(--fff);
@@ -84,11 +84,6 @@
         height: 100%;
     }
 
-    @media (max-width: 420px) {
-        .ownerName {
-            font-size: 0.8em;
-        }
-    }
 </style>
 
 <div class="tradeTransaction">

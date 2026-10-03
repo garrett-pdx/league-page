@@ -57,6 +57,8 @@
         display: inline-flex;
         align-items: center;
         gap: 0.4em;
+        min-height: 44px;
+        box-sizing: border-box;
         padding: 0.45em 0.6em 0.45em 0.9em;
         border: 1px solid var(--accentBorder);
         border-radius: var(--radiusPill);
@@ -77,7 +79,7 @@
     }
 
     .caret {
-        font-size: 0.75em;
+        font-size: 12px;
         transition: transform 0.15s ease;
     }
 
@@ -116,6 +118,7 @@
         background: none;
         border: 1px solid var(--accentBorder);
         border-radius: var(--radiusPill);
+        min-height: 44px;
         padding: 0.25em 0.9em;
         margin-left: 0.4em;
         cursor: pointer;
@@ -169,7 +172,7 @@
     }
 
     .abbr {
-        font-size: 0.68em;
+        font-size: 12px;
         font-weight: 600;
         color: var(--navy700);
     }

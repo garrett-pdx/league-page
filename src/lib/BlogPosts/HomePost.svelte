@@ -60,6 +60,10 @@
     }
 
     .viewAll {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        box-sizing: border-box;
         text-decoration: none;
         background-color: var(--cardinal);
         color: #fff;

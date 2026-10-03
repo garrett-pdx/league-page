@@ -46,6 +46,8 @@
         position: relative;
     }
     .selectInput {
+        min-height: 44px;
+        box-sizing: border-box;
         padding: 0.5em 2em;
         font-size: 1.2em;
         border-radius: 6px;

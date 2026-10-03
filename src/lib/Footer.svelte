@@ -106,8 +106,12 @@
 	}
 
 	.navLink {
-		display: block;
-		padding: 0.5em 0.4em;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 44px;
+		box-sizing: border-box;
+		padding: 0 0.4em;
 		color: var(--navy700);
 		text-decoration: none;
 		font-family: var(--fontDisplay);
