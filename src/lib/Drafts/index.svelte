@@ -1,9 +1,16 @@
 <script>
 	import { waitForAll } from '$lib/utils/helper';
     import LinearProgress from '@smui/linear-progress';
+    import { SectionHeading, Disclosure } from '$lib/Design';
     import Draft from './Draft.svelte'; 
 
     export let upcomingDraftData, previousDraftsData, leagueTeamManagersData, playersData;
+
+    // Sleeper marks a finished draft "complete", and getUpcomingDraft() answers that by PROJECTING
+    // next year's board. That means we are in season: the draft that happened is the content, so
+    // the projection folds away behind a control. Anything else (pre_draft, drafting) is a draft
+    // that is still to come, and it is shown in full. Either way it sits above the previous
+    // drafts -- a collapsed control at the bottom would sit under five boards and never be found.
 </script>
 
 <style>
@@ -13,14 +20,6 @@
 		max-width: 500px;
 		margin: 80px auto;
 	}
-
-    h4 {
-        text-align: center;
-    }
-
-    h6 {
-        text-align: center;
-    }
 </style>
 
 
@@ -31,17 +30,21 @@
 		<LinearProgress indeterminate />
 	</div>
 {:then [upcomingDraft, leagueTeamManagers, {players}] }
-    <h4>Upcoming {upcomingDraft.year} Draft</h4>
-    <Draft draftData={upcomingDraft} {leagueTeamManagers} year={upcomingDraft.year} {players} />
+    {#if upcomingDraft.draftStatus == "complete"}
+        <Disclosure label="Projected {upcomingDraft.year} draft order" openLabel="Hide projected {upcomingDraft.year} draft order">
+            <Draft draftData={upcomingDraft} {leagueTeamManagers} year={upcomingDraft.year} {players} />
+        </Disclosure>
+    {:else}
+        <SectionHeading level={3}>Upcoming {upcomingDraft.year} Draft</SectionHeading>
+        <Draft draftData={upcomingDraft} {leagueTeamManagers} year={upcomingDraft.year} {players} />
+    {/if}
 {:catch error}
 	<!-- promise was rejected -->
 	<p>Something went wrong: {error.message}</p>
 {/await}
 
-
 {#await waitForAll(previousDraftsData, leagueTeamManagersData, playersData) }
-	<hr />
-	<h4>Previous Drafts</h4>
+	<SectionHeading level={3}>Previous Drafts</SectionHeading>
 	<div class="loading">
 		<p>Retrieving previous drafts...</p>
 		<br />
@@ -50,10 +53,9 @@
 {:then [previousDrafts, leagueTeamManagers, {players}] }
 	<!-- Don't display anything unless there are previous drafts -->
 	{#if previousDrafts.length}
-		<hr />
-		<h4>Previous Drafts</h4>
+		<SectionHeading level={3}>Previous Drafts</SectionHeading>
 		{#each previousDrafts as previousDraft}
-			<h6>{previousDraft.year} Draft</h6>
+			<SectionHeading level={4} rule={false}>{previousDraft.year} Draft</SectionHeading>
 			<Draft draftData={previousDraft} previous={true} {leagueTeamManagers} year={previousDraft.year} {players} />
 		{/each}
 	{/if}

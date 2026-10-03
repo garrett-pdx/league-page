@@ -91,7 +91,7 @@
         position: absolute;
         top: 2px;
         right: 2px;
-        font-size: 0.55em;
+        font-size: 12px;
         font-weight: 700;
         letter-spacing: 0.04em;
         line-height: 1;

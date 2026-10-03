@@ -50,7 +50,7 @@
     }
 
     .accuracyText {
-        font-size: 0.8em;
+        font-size: 0.86em;
         color: var(--g555);
     }
 
@@ -113,8 +113,21 @@
         overflow: auto;
     }
 
+    /*
+    On a phone a board that scrolls inside a page that scrolls is a trap: a thumb that lands on the
+    board scrolls the board, and the page will not move until it reaches the end. So below 700px
+    the cap comes off and the page does the vertical scrolling; the board keeps only its sideways
+    scroll. The cost is that the team header no longer sticks, because it can only stick inside a
+    scrollport that is itself scrolling vertically.
+    */
+    @media (max-width: 700px) {
+        :global(.draftBoard .mdc-data-table__table-container) {
+            max-height: none;
+        }
+    }
+
 	:global(.draftTeam) {
-        font-size: 0.8em;
+        font-size: 0.86em;
 		text-align: center;
 		padding: 5px 0;
 		background-color: var(--transactHeader);
@@ -123,7 +136,7 @@
            StepBurrow I'm Stuck -- which break-spaces alone will not wrap, so they clipped. */
         overflow-wrap: anywhere;
         line-height: 1em;
-        height: 5em;
+        height: 6em;
         vertical-align: initial;
         /* Sticky against the board's own scroll box. Needs an opaque background, which the
            --transactHeader fill above provides, and a stacking order above the body cells. */
@@ -147,8 +160,8 @@
 
     :global(.draftBoard td) {
         border-right: 1px solid var(--ddd);
-        height: 7em;
-        font-size: 0.7em;
+        height: 7.5em;
+        font-size: 12px;
     }
 
     :global(.draftBoard td:last-of-type) {
@@ -169,7 +182,7 @@
 	
 	:global(.curDraftName) {
         color: var(--g555);
-        font-size: 0.8em;
+        font-size: 1em;
         font-style: italic;
     }
 </style>
