@@ -8,6 +8,7 @@
     import { goto } from '$app/navigation';
     import ManagerFantasyInfo from './ManagerFantasyInfo.svelte';
     import ManagerAwards from './ManagerAwards.svelte';
+    import ManagerThisWeek from './ManagerThisWeek.svelte';
     import { onMount } from 'svelte';
 	import { getDatesActive, getRosterIDFromManagerID, getDistinctTeamName } from '$lib/utils/helperFunctions/universalFunctions';
 
@@ -333,6 +334,8 @@
             {/if}
         </div>
 
+        <ManagerThisWeek managerID={viewManager.managerID} {leagueTeamManagers} />
+
         {#if career && career.games}
             <div class="careerStats">
                 <h3 class="careerHeading">Career Stats</h3>
@@ -401,7 +404,7 @@
 
     {#if !loading}
         <!-- Favorite player -->
-        <ManagerFantasyInfo {viewManager} {players} {changeManager} />
+        <ManagerFantasyInfo {viewManager} {players} />
     {/if}
 
     <ManagerAwards {leagueTeamManagers} tookOver={viewManager.tookOver} {awards} {records} {rosterID} managerID={viewManager.managerID} />

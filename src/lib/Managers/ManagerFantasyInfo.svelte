@@ -1,5 +1,20 @@
 <script>
-    export let viewManager, players, changeManager;
+    import { managers } from '$lib/utils/leagueInfo';
+
+    export let viewManager, players;
+
+    /*
+    The Rival tile is a real link to the rival's own page, and a second link under it goes to the
+    pair's Head-to-head on /rivalry. `rival.link` is an index into `managers`; null (Jordan Leonard,
+    "The Field") goes to the directory, as the old click handler did. The rivalry page takes
+    Sleeper user_ids, hence managerID rather than the index.
+    */
+    $: rivalLink = viewManager.rival.link;
+    $: rivalManager = rivalLink !== null && rivalLink >= 0 && rivalLink < managers.length ? managers[rivalLink] : null;
+    $: rivalHref = rivalManager ? `/manager?manager=${rivalLink}` : '/managers';
+    $: headToHeadHref = rivalManager && rivalManager.managerID && viewManager.managerID
+        ? `/rivalry?player_one=${viewManager.managerID}&player_two=${rivalManager.managerID}`
+        : null;
 </script>
 
 <style>
@@ -68,8 +83,27 @@
         vertical-align: middle;
     }
 
-    .infoRival {
-        cursor: pointer;
+    .rivalLink {
+        display: block;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .rivalLink:focus-visible, .headToHead:focus-visible {
+        outline: 2px solid var(--blueOne);
+        outline-offset: 2px;
+    }
+
+    .headToHead {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 0 0.6em;
+        margin-top: 0.3em;
+        font-size: 0.875rem;
+        color: var(--accentInk);
+        text-decoration: underline;
     }
 
     .infoRival:hover .infoIcon {
@@ -237,15 +271,20 @@
         </div>
     {/if}
     <!-- Rival -->
-    <div class="infoSlot infoRival" onclick={() => changeManager(viewManager.rival.link)}>
-        <div class="infoLabel">
-            Rival
-        </div>
-        <div class="infoIcon">
-            <img class="rival" src="{viewManager.rival.image}" alt="rival"/>
-        </div>
-        <div class="infoAnswer">
-            {viewManager.rival.name}
-        </div>
+    <div class="infoSlot infoRival">
+        <a class="rivalLink" href={rivalHref}>
+            <div class="infoLabel">
+                Rival
+            </div>
+            <div class="infoIcon">
+                <img class="rival" src="{viewManager.rival.image}" alt="rival"/>
+            </div>
+            <div class="infoAnswer">
+                {viewManager.rival.name}
+            </div>
+        </a>
+        {#if headToHeadHref}
+            <a class="headToHead" href={headToHeadHref}>Head-to-head</a>
+        {/if}
     </div>
 </div>
