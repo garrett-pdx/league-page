@@ -2,6 +2,7 @@
 	import LinearProgress from '@smui/linear-progress';
 	import { News, Resources } from '$lib/components';
 	import { PageHeader } from '$lib/Design';
+	import LeagueLinks from '$lib/Resources/LeagueLinks.svelte';
 
 	export let data;
 	const articlesData = data.articlesData;
@@ -17,7 +18,9 @@
     }
 </style>
 
-<PageHeader title="Resources" intro="Rankings, news and a few podcasts. Outside advice, taken at your own risk." />
+<PageHeader title="Resources" intro="The league's own links first, then rankings, news and a few podcasts. Outside advice, taken at your own risk." />
+
+<LeagueLinks />
 
 <Resources />
 
