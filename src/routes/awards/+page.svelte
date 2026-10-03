@@ -1,6 +1,7 @@
 <script>
 	import { Awards } from '$lib/components'
 	import HallOfFame from '$lib/Awards/HallOfFame.svelte';
+	import ArchiveCard from '$lib/History/ArchiveCard.svelte';
 	import { waitForAll } from '$lib/utils/helper';
 	import LinearProgress from '@smui/linear-progress';
 	import { PageHeader, Disclosure } from '$lib/Design';
@@ -48,6 +49,9 @@
 		<!-- Plaque strip sits ABOVE the illustrated podiums rather than replacing them; the
 		     podium scene is 379 lines of hand-tuned art with ten breakpoints. -->
 		<HallOfFame {leagueHistory} {leagueTeamManagers} />
+
+		<!-- Static, hand-written lore (src/lib/History/archiveFacts.js); nothing to fetch. -->
+		<ArchiveCard {leagueTeamManagers} />
 
 		<!-- The latest season is the page; the other years fold away. Four seasons of podiums were
 		     7,000px of scrolling, and the Hall of Fame above already carries the whole history. -->
