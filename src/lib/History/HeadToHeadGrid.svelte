@@ -36,9 +36,6 @@
     export let gamesData;
     export let leagueTeamManagersData = null;
 
-    // In the 2022 league's user list but never held a roster; games.json already omits it, but
-    // the dropdowns below do not, so keep the one definition of "not a manager" visible.
-    const NEVER_HELD_A_ROSTER = ['612343067143389184'];
 
     const VIEWS = [
         { value: 'regular', label: 'Regular season' },
@@ -73,8 +70,8 @@
             return Object.values(rosters).some((r) => r?.managers?.includes(id));
         };
 
+        // games.json is built from rosters, so it never lists an account that held none.
         return data.managers
-            .filter((id) => !NEVER_HELD_A_ROSTER.includes(id))
             .map((id) => {
                 const configured = managers.find((m) => m.managerID == id);
                 const user = teamManagers?.users?.[id];

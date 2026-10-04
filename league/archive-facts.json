@@ -1,0 +1,212 @@
+[
+  {
+    "label": "Origins",
+    "text": [
+      "The league was founded on ESPN in 2021 and takes its name from Claremont-Mudd-Scripps, where at least some of the managers played college football together. Only the 2021 draft made the move to Sleeper for ",
+      {
+        "season": 2022
+      },
+      ", and it priced that season's 18 keepers."
+    ],
+    "season": [
+      2022
+    ],
+    "managers": [],
+    "source": "league-history.json drafts.2022 (non-primary 15-round draft dated 2022-06-25); keepers.json 2022 (18 rows, baseline \"carried-over prior-season draft\")"
+  },
+  {
+    "label": "Closest finish",
+    "text": [
+      "The two closest games through 2025 both involved ",
+      {
+        "m": "611649934390870016",
+        "label": "Kabroa"
+      },
+      ". He lost to ",
+      {
+        "m": "612407006212468736",
+        "label": "jonahcartwright"
+      },
+      " 111.84 to 111.80 in week 10 of ",
+      {
+        "season": 2022
+      },
+      ", and beat ",
+      {
+        "m": "611697269254791168",
+        "label": "TnT44"
+      },
+      " 95.80 to 95.58 in week 15 of ",
+      {
+        "season": 2025
+      },
+      "."
+    ],
+    "season": [
+      2022,
+      2025
+    ],
+    "managers": [
+      "611649934390870016",
+      "612407006212468736",
+      "611697269254791168"
+    ],
+    "source": "games.json, every game kind, seasons 2022-2025: smallest |pf - pa| (0.04, then 0.22)"
+  },
+  {
+    "label": "Left on the bench",
+    "text": [
+      "In a week 17 consolation game in ",
+      {
+        "season": 2022
+      },
+      ", ",
+      {
+        "m": "611649934390870016",
+        "label": "Kabroa"
+      },
+      " scored 69.60 and left 69.78 on his bench, the most through 2025. His best lineup would have scored 139.38; ",
+      {
+        "m": "605683461667229696",
+        "label": "mikestreinz"
+      },
+      " won with 117.70."
+    ],
+    "season": [
+      2022
+    ],
+    "managers": [
+      "611649934390870016",
+      "605683461667229696"
+    ],
+    "source": "games.json max_pf - pf, nulls skipped, seasons 2022-2025"
+  },
+  {
+    "label": "Title run",
+    "text": [
+      {
+        "m": "850475150817234944",
+        "label": "malstol"
+      },
+      " won the ",
+      {
+        "season": 2025
+      },
+      " title by 3.08 in the semifinal, 129.06 to 125.98 over ",
+      {
+        "m": "76909640692416512",
+        "label": "Gurret"
+      },
+      ", and by 52.78 in the final, 139.28 to 86.50 over ",
+      {
+        "m": "611664340277383168",
+        "label": "tuckersdumbteam"
+      },
+      ", who had arrived on six straight wins."
+    ],
+    "season": [
+      2025
+    ],
+    "managers": [
+      "850475150817234944",
+      "76909640692416512",
+      "611664340277383168"
+    ],
+    "source": "games.json 2025 weeks 16-17 (kind \"playoff\"); tuckersdumbteam 2025 results, W in weeks 11-16"
+  },
+  {
+    "label": "Keeper",
+    "text": [
+      {
+        "m": "611630747161358336",
+        "label": "kshoyer"
+      },
+      " kept Jalen Hurts at a 12th-round cost in ",
+      {
+        "season": 2022
+      },
+      " and an 11th in ",
+      {
+        "season": 2023
+      },
+      ", and got 782.88 points out of him in 31 starts. The second year ended with the title."
+    ],
+    "season": [
+      2022,
+      2023
+    ],
+    "managers": [
+      "611630747161358336"
+    ],
+    "source": "keepers.json cost_round (2022 R12, 2023 R11); weeks.json starter points in fixture weeks, 406.58 (16 starts) + 376.30 (15)"
+  },
+  {
+    "label": "Draft",
+    "text": [
+      {
+        "m": "999190763323944960",
+        "label": "BBrown16"
+      },
+      " took Travis Etienne 74th overall in the ",
+      {
+        "season": 2025
+      },
+      " draft, in round 8, and got 213.50 points from him in 15 starts."
+    ],
+    "season": [
+      2025
+    ],
+    "managers": [
+      "999190763323944960"
+    ],
+    "source": "league-history.json drafts.2025 primary (pick_no 74, round 8, is_keeper false); weeks.json starter points in fixture weeks"
+  },
+  {
+    "label": "Blowout",
+    "text": [
+      {
+        "m": "605683461667229696",
+        "label": "mikestreinz"
+      },
+      " beat ",
+      {
+        "m": "76909640692416512",
+        "label": "Gurret"
+      },
+      " 168.12 to 78.28 in week 12 of ",
+      {
+        "season": 2023
+      },
+      ". The margin, 89.84, is the widest through 2025."
+    ],
+    "season": [
+      2023
+    ],
+    "managers": [
+      "605683461667229696",
+      "76909640692416512"
+    ],
+    "source": "games.json, every game kind, seasons 2022-2025: largest |pf - pa|"
+  },
+  {
+    "label": "Waiver wire",
+    "text": [
+      {
+        "m": "870570674836656128",
+        "label": "paulslaats"
+      },
+      " spent $75 of his $100 FAAB on Trevor Lawrence the week of the ",
+      {
+        "season": 2022
+      },
+      " final, the biggest winning bid through 2025. Lawrence started the final and scored 3.48; paulslaats won the title anyway."
+    ],
+    "season": [
+      2022
+    ],
+    "managers": [
+      "870570674836656128"
+    ],
+    "source": "transactions.json status \"complete\", largest faab (2022-12-28, week 16 leg); weeks.json 2022 week 17 starters; league-history.json seasons.2022.waiver_budget"
+  }
+]

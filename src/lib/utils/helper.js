@@ -1,5 +1,5 @@
 import {getLeagueData} from './helperFunctions/leagueData';
-import {leagueID, leagueName, dynasty, managers, homepageText, enableBlog, enableComments, contentfulTypes} from './leagueInfo';
+import {leagueID, leagueName, dynasty, managers, homepageText, enableBlog, enableComments, contentfulTypes, league, leagueShortName, leagueDescription, siteUrl, founded, blogBackend, blogTitle, blogIntro, leagueLinks, elsewhereLinks, navLinks, preSleeperSeasons, preSleeperSeason, photoUrl, constitution} from './leagueInfo';
 import {getLeagueTransactions} from './helperFunctions/leagueTransactions';
 import {getNflState} from './helperFunctions/nflState';
 import {getLeagueRosters} from './helperFunctions/leagueRosters';
@@ -22,6 +22,21 @@ import { getLeagueGames, filterGames, allPlay, headToHead, standingsFrom, liveSe
 import { getSeasonNotes, getKeepers, getDataPlayers } from './helperFunctions/seasonNotes';
 
 export {
+    league,
+    leagueShortName,
+    leagueDescription,
+    siteUrl,
+    founded,
+    blogBackend,
+    blogTitle,
+    blogIntro,
+    leagueLinks,
+    elsewhereLinks,
+    navLinks,
+    preSleeperSeasons,
+    preSleeperSeason,
+    photoUrl,
+    constitution,
     enableBlog,
     enableComments,
     contentfulTypes,

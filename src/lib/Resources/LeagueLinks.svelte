@@ -1,73 +1,13 @@
 <script>
-    import { leagueID, enableBlog } from '$lib/utils/helper';
+    import { league, leagueLinks, elsewhereLinks } from '$lib/utils/helper';
     import { SectionHeading } from '$lib/Design';
 
     /*
-    The league's own links, mounted first on /resources, above upstream's Resources.svelte
-    (which stays untouched beneath it). League-owned on purpose: upstream's list is a generic
-    set of paid sites and dynasty tools, and editing it would conflict on every release.
-
-    "Useful elsewhere" is a short, hand-picked list for a half-PPR, $100-FAAB keeper league.
-    Every entry was free and resolved when checked (2026-10-03). Two of them age:
-      * the 4for4 waiver guide is the 2026 edition, at a URL with the year in it -- swap it for
-        the new season's guide each preseason, or drop it;
-      * the FantasyPros pages keep their URLs year to year and roll over by themselves.
+    The league's own links, mounted first on /resources, above the generic Resources.svelte.
+    Both lists come from league.json (links.league and links.elsewhere): the league's tools and
+    pages first, then a short, hand-picked list of outside resources suited to its format.
+    Links with a year in the URL go stale; the preseason checklist says to re-check them.
     */
-    const leagueLinks = [
-        {
-            name: 'Keeper Draft Board',
-            note: 'Keeper costs, who everyone is keeping, and the draft room.',
-            url: 'https://garrett-pdx.github.io/keeper-draft-board/',
-            icon: 'grid_view',
-        },
-        {
-            name: 'The league on Sleeper',
-            note: 'Where lineups get set and trades get made.',
-            url: `https://sleeper.app/leagues/${leagueID}`,
-            icon: 'sports_football',
-        },
-        {
-            name: 'Constitution',
-            note: 'The rules, as voted. Seven votes change them.',
-            url: '/constitution',
-            icon: 'gavel',
-        },
-        {
-            name: 'The Mudd Report',
-            note: 'The Monday recap and the midweek preview.',
-            url: '/blog',
-            icon: 'article',
-            blog: true,
-        },
-    ].filter((link) => !link.blog || enableBlog);
-
-    const elsewhere = [
-        {
-            name: 'Half-PPR rankings: this week',
-            note: 'FantasyPros expert consensus for RB, WR and TE.',
-            url: 'https://www.fantasypros.com/nfl/rankings/half-point-ppr-flex.php',
-            icon: 'leaderboard',
-        },
-        {
-            name: 'Half-PPR rankings: rest of season',
-            note: 'FantasyPros. Worth a look before a trade, or a keeper decision.',
-            url: 'https://www.fantasypros.com/nfl/rankings/ros-half-point-ppr-overall.php',
-            icon: 'trending_up',
-        },
-        {
-            name: 'NFL injury report',
-            note: "The league's official practice and game-status reports, from NFL.com.",
-            url: 'https://www.nfl.com/injuries/',
-            icon: 'healing',
-        },
-        {
-            name: 'FAAB and the waiver wire',
-            note: "4for4's 2026 waiver guide, with a section on spending a FAAB budget.",
-            url: 'https://www.4for4.com/2026/preseason/ultimate-guide-winning-waiver-wire-2026',
-            icon: 'payments',
-        },
-    ];
-
     const isExternal = (url) => /^https?:\/\//.test(url);
 </script>
 
@@ -205,7 +145,9 @@
     <SectionHeading level={3}>League links</SectionHeading>
     {@render linkList(leagueLinks, 'League links')}
 
-    <p class="groupCaption">Useful elsewhere</p>
-    {@render linkList(elsewhere, 'Useful elsewhere')}
-    <p class="disclaimer">All four are free to read.</p>
+    {#if elsewhereLinks.length}
+        <p class="groupCaption">Useful elsewhere</p>
+        {@render linkList(elsewhereLinks, 'Useful elsewhere')}
+        {#if league.links?.elsewhereNote}<p class="disclaimer">{league.links.elsewhereNote}</p>{/if}
+    {/if}
 </section>

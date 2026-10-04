@@ -2,6 +2,7 @@
 	import LinearProgress from '@smui/linear-progress';
 	import { Records } from '$lib/components';
 	import { PageHeader } from '$lib/Design';
+	import { pageIntro } from '$lib/utils/leagueInfo';
 
     export let data;
     const recordsInfo = data.recordsInfo;
@@ -20,7 +21,7 @@
     }
 </style>
 
-<PageHeader title="Records & Rankings" intro="Highs, lows and close calls since 2022. The lows are included on purpose." />
+<PageHeader title="Records & Rankings" intro={pageIntro('records')} />
 
 <div id="main">
     {#await recordsInfo}

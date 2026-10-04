@@ -1,20 +1,39 @@
 <script>
     import { Card, SectionHeading } from '$lib/Design';
     import { managerHref } from '$lib/utils/managerLink';
-    import { archiveFacts } from './archiveFacts';
 
     /*
     "From the archives" on the Trophy Room, mounted from routes/awards/+page.svelte between the
-    Hall of Fame and the year-by-year podiums. Ours, not upstream's.
+    Hall of Fame and the year-by-year podiums.
 
-    Static on purpose: the facts are hand-written in archiveFacts.js, with every figure
+    Static on purpose: the facts are hand-written in league/archive-facts.json, with every figure
     re-derived from static/data/ at the time of writing. Nothing is fetched here --
     narratives.json is an authoring aid and too big to ship -- so the card has no loading state
-    and arrives in the same paint as the Hall of Fame above it.
+    and arrives in the same paint as the Hall of Fame above it. A league without the file, or
+    with an empty list, gets no card.
+
+    Each fact is { label, text, season, managers, source }:
+      label     the small kicker above the fact
+      text      an array of segments, rendered in order:
+                  "plain string"
+                  { "m": "<user_id>", "label": "Kabroa" }   -> link to that manager's page
+                  { "season": 2022 }                         -> link to /seasons/2022
+                Segments rather than an HTML string, so nothing here is {@html}-injected.
+      season    the season(s) the fact belongs to
+      managers  user_ids named in it
+      source    where the numbers come from, for whoever re-checks them
+
+    Rules that keep a fact from going stale mid-season: completed seasons only, or a fixed
+    historic event; any "most" or "widest" scoped "through <last completed season>"; and none
+    that repeats a manager bio. Re-check them all at the end of each season.
 
     Links are inline in prose, so the 44px tap-target rule does not apply to them.
     */
     let { leagueTeamManagers } = $props();
+
+    // Optional file: a glob rather than an import, so a league without one still builds.
+    const files = import.meta.glob('/league/archive-facts.json', { eager: true, import: 'default' });
+    const archiveFacts = files['/league/archive-facts.json'] || [];
 
     // The fact's own season decides whose roster a manager link resolves through; managerID
     // matches first, so this only matters for a manager missing from leagueInfo.
@@ -90,6 +109,7 @@
     }
 </style>
 
+{#if archiveFacts.length}
 <SectionHeading level={3} accent="navy">From the archives</SectionHeading>
 
 <div class="archive">
@@ -104,3 +124,4 @@
         </ul>
     </Card>
 </div>
+{/if}

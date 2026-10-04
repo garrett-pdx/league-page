@@ -139,7 +139,7 @@
     }
 </style>
 
-<!-- The page title ("The Mudd Report") is a PageHeader in routes/blog/+page.svelte. This empty
+<!-- The page title (blog.title in league.json) is a PageHeader in routes/blog/+page.svelte. This empty
      element only stays as the scroll target the pagination measures from. -->
 <div bind:this={el}></div>
 

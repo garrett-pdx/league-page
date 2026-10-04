@@ -8,26 +8,24 @@ Three traps this file exists to keep in one place:
   * ROSTER IDS MOVE BETWEEN SEASONS. A bracket row carries roster IDs, which mean something only
     inside their own season; they become user_ids through managers[uid].records[season].roster_id
     for THAT season. rosterUsers() is the only place that join happens.
-  * 2022 HAS TWO DRAFTS AND ONE OF THEM ISN'T A 2022 DRAFT. The `primary` one is the 2022 draft;
-    the other is the league's 2021 (ESPN) draft, re-uploaded into Sleeper and filed under 2022.
-    seasonDraft() takes the primary only; carriedOverDraft() is the 2021 page's draft.
+  * AN IMPORTED DRAFT IS NOT A SLEEPER SEASON'S DRAFT. A league that came to Sleeper from
+    another platform can import its last draft there, and Sleeper files it under the first
+    Sleeper season as a second draft. The `primary` one is that season's own draft;
+    seasonDraft() takes the primary only, and importedDraft() finds the other by the ID that
+    league.json's history.preSleeper names.
   * AN UNPLAYED SEASON LOOKS REAL. final_standings only holds completed seasons, so "is there a
     final table" is the test for "is this season finished" -- never "is there a season entry".
+
+Seasons played before Sleeper (league.json history.preSleeper) are passed in by the caller as
+`preSleeper`, so this file stays free of $lib imports.
 */
-
-// The league was founded on ESPN in 2021 and moved to Sleeper for 2022. Only the draft survived.
-export const FOUNDING_SEASON = 2021;
-
-// The 2021 draft's Sleeper id, for code that sees Sleeper's live draft list rather than the
-// dataset (the /drafts page). The dataset marks the same draft with `primary: false`.
-export const CARRIED_OVER_DRAFT_ID = '819042961097633792';
 
 const round2 = (n) => Math.round(n * 100) / 100;
 
-/** Every year with a page, newest first: the Sleeper seasons plus the ESPN founding season. */
-export const archiveYears = (history) => {
+/** Every year with a page, newest first: the Sleeper seasons plus any played before Sleeper. */
+export const archiveYears = (history, preSleeper = []) => {
     const years = Object.keys(history.seasons || {}).map(Number);
-    years.push(FOUNDING_SEASON);
+    for(const s of preSleeper) years.push(Number(s.season));
     return [...new Set(years)].sort((a, b) => b - a);
 }
 
@@ -222,13 +220,19 @@ export const seasonMvps = (notes, year) => {
     return out;
 }
 
-/** The season's primary draft -- never the carried-over 2021 draft filed under 2022. */
+/** The season's primary draft -- never a draft imported from another platform. */
 export const seasonDraft = (history, year) =>
     (history.drafts?.[String(year)] || []).find((d) => d.primary && d.status === 'complete') || null;
 
-/** The 2021 (ESPN) draft: the non-primary draft Sleeper files under 2022. */
-export const carriedOverDraft = (history) =>
-    (history.drafts?.[String(FOUNDING_SEASON + 1)] || []).find((d) => !d.primary) || null;
+/** A pre-Sleeper season's imported draft, found by league.json's importedDraftId. */
+export const importedDraft = (history, pre) => {
+    if(!pre?.importedDraftId) return null;
+    for(const list of Object.values(history.drafts || {})) {
+        const found = list.find((d) => d.draft_id === pre.importedDraftId);
+        if(found) return found;
+    }
+    return null;
+}
 
 /** Picks of rounds 1..n, grouped by round: [[pick, ...], ...] */
 export const earlyRounds = (draft, n = 3) => {
@@ -257,11 +261,12 @@ export const seasonKeepers = (history, keepersData, year) => {
  * One card per season for /seasons: champion, runner-up, top seed, best single week.
  * In-progress seasons get the current leader and the best week so far instead.
  */
-export const seasonCards = (history, games, notes) => {
+export const seasonCards = (history, games, notes, preSleeper = []) => {
     const cards = [];
-    for(const year of archiveYears(history)) {
-        if(year === FOUNDING_SEASON) {
-            cards.push({year, kind: 'espn'});
+    for(const year of archiveYears(history, preSleeper)) {
+        const pre = preSleeper.find((s) => Number(s.season) === year);
+        if(pre && !history.seasons?.[String(year)]) {
+            cards.push({year, kind: 'pre', platform: pre.platform, text: pre.card || null, hasDraft: Boolean(pre.importedDraftId)});
             continue;
         }
         const complete = isComplete(history, year);

@@ -1,0 +1,246 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "league.schema.json",
+  "title": "League configuration",
+  "description": "Everything the site needs to know about one Sleeper league that Sleeper itself does not say. Lives at league/league.json. Format details (scoring, roster slots, playoff size, keepers) are read from Sleeper and never set here.",
+  "type": "object",
+  "required": ["sleeperLeagueId", "name"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "sleeperLeagueId": {
+      "type": "string",
+      "pattern": "^[0-9]+$",
+      "description": "The CURRENT season's Sleeper league ID (the number in sleeper.com/leagues/<id>). Earlier seasons are found by walking Sleeper's previous_league_id chain, so they are never listed. Update it each year when Sleeper rolls the league over."
+    },
+    "name": {
+      "type": "string",
+      "description": "The league's display name. May differ from the name on Sleeper."
+    },
+    "shortName": {
+      "type": "string",
+      "description": "A short name for tight spaces: the home-screen icon label and the PWA short_name. Defaults to name."
+    },
+    "description": {
+      "type": "string",
+      "description": "One sentence for search results and link previews."
+    },
+    "siteUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "The site's public address, no trailing slash. Used for links in published blog posts."
+    },
+    "dynasty": {
+      "type": "boolean",
+      "default": false,
+      "description": "True for a dynasty league (Sleeper settings.type 2). Switches the Resources page and news feeds to dynasty sources. The setup skill sets it from Sleeper."
+    },
+    "founded": {
+      "type": "integer",
+      "description": "The year the league began. May be earlier than its first Sleeper season; see history.preSleeper."
+    },
+    "blog": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "backend": {
+          "enum": ["markdown", "contentful", "none"],
+          "default": "markdown",
+          "description": "markdown: posts are files in league/posts/ (no account needed). contentful: posts come from a Contentful space (VITE_CONTENTFUL_SPACE and VITE_CONTENTFUL_CLIENT_ACCESS_TOKEN). none: no blog, and the Blog tab is hidden."
+        },
+        "title": {
+          "type": "string",
+          "description": "The blog's name, used as its page title and on the home page. Defaults to \"Blog\"."
+        },
+        "intro": {
+          "type": "string",
+          "description": "One line under the title on /blog."
+        },
+        "comments": {
+          "type": "boolean",
+          "default": false,
+          "description": "Contentful backend only. Comments need a Contentful management token; read the note in src/lib/utils/leagueInfo.js before turning this on."
+        },
+        "contentful": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Contentful content type IDs. Contentful derives an ID from the display name in camelCase, so \"Blog Post\" becomes blogPost.",
+          "properties": {
+            "postType": { "type": "string", "default": "blog_post" },
+            "commentType": { "type": "string", "default": "blog_comment" }
+          }
+        }
+      }
+    },
+    "links": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The league's own links, shown on /resources.",
+      "properties": {
+        "league": {
+          "type": "array",
+          "description": "League links, shown first. A link to an internal page that is turned off (for example /blog with no blog) is dropped.",
+          "items": { "$ref": "#/$defs/link" }
+        },
+        "elsewhere": {
+          "type": "array",
+          "description": "A short, hand-picked list of outside resources suited to this league's format.",
+          "items": { "$ref": "#/$defs/link" }
+        },
+        "elsewhereNote": {
+          "type": "string",
+          "description": "An optional line under the outside resources."
+        }
+      }
+    },
+    "history": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "preSleeper": {
+          "type": "array",
+          "description": "Seasons the league played before it came to Sleeper. Each gets a page in the Seasons archive with whatever survives of it.",
+          "items": { "$ref": "#/$defs/preSleeperSeason" }
+        }
+      }
+    },
+    "overrides": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Corrections the data pipeline needs where Sleeper's own data disagrees with itself. The pipeline's self-checks say when one is needed, and each entry carries a note saying why.",
+      "properties": {
+        "statCorrections": {
+          "type": "array",
+          "description": "A stat correction made after a week settled leaves the weekly scores and Sleeper's season totals a little apart. Each entry pins the exact difference (weekly sum minus season figure) for one manager-season, so the check stays exact.",
+          "items": {
+            "type": "object",
+            "required": ["season", "userId", "note"],
+            "additionalProperties": false,
+            "properties": {
+              "season": { "type": "integer" },
+              "userId": { "type": "string" },
+              "pf": { "type": "number", "description": "Points-for difference." },
+              "pa": { "type": "number", "description": "Points-against difference." },
+              "note": { "type": "string" }
+            }
+          }
+        },
+        "eligibility": {
+          "type": "array",
+          "description": "The positions Sleeper actually allowed a player in one season, where today's player data says otherwise (a TE who also played QB, a two-way player listed at defence).",
+          "items": {
+            "type": "object",
+            "required": ["season", "playerId", "positions", "note"],
+            "additionalProperties": false,
+            "properties": {
+              "season": { "type": "integer" },
+              "playerId": { "type": "string" },
+              "positions": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+              "note": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "pages": {
+      "type": "object",
+      "description": "Per-page settings, keyed by page: managers, standings, free-agents, transactions, rosters, seasons, awards, records, rivalry, drafts, stat-lab, resources. The engine's defaults hold no league-specific facts; override them to give the site the league's voice.",
+      "propertyNames": {
+        "enum": ["managers", "standings", "free-agents", "transactions", "rosters", "seasons", "awards", "records", "rivalry", "drafts", "stat-lab", "resources"]
+      },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "intro": { "type": "string", "description": "The one line under the page's title." }
+        }
+      }
+    },
+    "managers": {
+      "type": "array",
+      "description": "One entry per person who has ever managed a team, active or not. Order is display order on /managers; managers with no team this season are listed separately, automatically.",
+      "items": { "$ref": "#/$defs/manager" }
+    }
+  },
+  "$defs": {
+    "link": {
+      "type": "object",
+      "required": ["name", "url"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "note": { "type": "string", "description": "One line under the name." },
+        "url": {
+          "type": "string",
+          "description": "A full URL, a site path such as /constitution, or {sleeper} for the league's page on Sleeper."
+        },
+        "icon": { "type": "string", "description": "A Material Icons name." },
+        "nav": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Also list this link in the League menu, under Rules & Tools.",
+          "properties": {
+            "label": { "type": "string" },
+            "icon": { "type": "string" }
+          }
+        }
+      }
+    },
+    "preSleeperSeason": {
+      "type": "object",
+      "required": ["season", "platform"],
+      "additionalProperties": false,
+      "properties": {
+        "season": { "type": "integer" },
+        "platform": { "type": "string", "description": "Where it was played, e.g. ESPN or Yahoo." },
+        "importedDraftId": {
+          "type": "string",
+          "description": "If the season's draft was imported into Sleeper, its Sleeper draft ID. Sleeper files an imported draft under the league it was imported into, so it shows up as a second draft in the first Sleeper season."
+        },
+        "intro": { "type": "string", "description": "One line under the season page's title." },
+        "card": { "type": "string", "description": "The sentence on this season's card in the Seasons archive." },
+        "story": { "type": "string", "description": "HTML. What is known about the season." },
+        "draftNote": { "type": "string", "description": "A line under the imported draft's heading." }
+      }
+    },
+    "manager": {
+      "type": "object",
+      "required": ["userId", "name"],
+      "additionalProperties": false,
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The manager's Sleeper user_id (not a roster ID, which can change between seasons). https://api.sleeper.app/v1/league/<id>/users lists them."
+        },
+        "name": { "type": "string" },
+        "location": { "type": "string" },
+        "photo": {
+          "type": "string",
+          "description": "A file name in league/managers/ (square, no larger than 500x500), or a full URL. Avoid Sleeper avatar URLs: they change when the manager changes their avatar."
+        },
+        "bio": { "type": "string", "description": "HTML." },
+        "rival": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Either another manager (userId) or a named non-manager rival with a photo.",
+          "properties": {
+            "userId": { "type": "string" },
+            "name": { "type": "string" },
+            "photo": { "type": "string", "description": "everyone.png and question.jpg are built in." }
+          }
+        },
+        "fantasyStart": { "type": "integer", "description": "The year they started playing fantasy football." },
+        "favoriteTeam": { "type": "string", "description": "NFL team abbreviation, lowercase (nyj, sea, mia)." },
+        "mode": { "enum": ["Win Now", "Dynasty", "Rebuild"], "description": "Dynasty leagues." },
+        "favoritePlayer": { "type": ["string", "integer"], "description": "A Sleeper player ID." },
+        "valuePosition": { "type": "string", "description": "QB, RB, WR, TE, and so on." },
+        "rookieOrVets": { "enum": ["Rookies", "Vets"], "description": "Dynasty leagues." },
+        "philosophy": { "type": "string" },
+        "tradingScale": { "type": "integer", "minimum": 1, "maximum": 10 },
+        "preferredContact": {
+          "enum": ["Text", "WhatsApp", "Sleeper", "Email", "Phone", "Discord", "Carrier Pigeon"]
+        }
+      }
+    }
+  }
+}

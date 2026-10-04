@@ -37,14 +37,12 @@
     const playingNow = new Set(games.games.filter((g) => g.season === currentSeason).map((g) => g.user_id));
 
     // leagueInfo order first (it is the order the Managers page uses), anyone else after.
-    // Football_Team never held a roster and so is never in games.json; the filter is a guard.
+    // games.json is built from rosters, so an account that never held one is never in it.
     const order = (uid) => {
         const i = managers.findIndex((m) => m.managerID == uid);
         return i < 0 ? 999 : i;
     };
-    const uids = games.managers
-        .filter((uid) => history.managers?.[uid]?.handle !== 'Football_Team')
-        .sort((a, b) => order(a) - order(b));
+    const uids = [...games.managers].sort((a, b) => order(a) - order(b));
 
     const people = {};
     for(const uid of uids) {

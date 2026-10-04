@@ -1,20 +1,23 @@
 <script>
     import { PageHeader } from '$lib/Design';
     import SeasonPage from '$lib/Seasons/SeasonPage.svelte';
-    import EspnSeason from '$lib/Seasons/EspnSeason.svelte';
-    import { archiveYears, isComplete, FOUNDING_SEASON } from '$lib/Seasons/seasonData';
+    import PreSleeperSeason from '$lib/Seasons/PreSleeperSeason.svelte';
+    import { archiveYears, isComplete } from '$lib/Seasons/seasonData';
+    import { preSleeperSeasons } from '$lib/utils/leagueInfo';
 
     export let data;
 
     // Reactive, and keyed below: following the previous/next links reuses this component with
     // new data, and every child computes from `year` once, on mount.
     $: ({year, history, gamesData, notesData, keepersData, playersData, leagueTeamManagersData} = data);
-    $: years = archiveYears(history);
+    $: years = archiveYears(history, preSleeperSeasons);
+    // A pre-Sleeper season (league.json history.preSleeper) with no Sleeper season of its own.
+    $: pre = history.seasons?.[String(year)] ? null : preSleeperSeasons.find((s) => s.season === year);
     $: newer = years.find((y, i) => years[i + 1] === year);
     $: older = years[years.indexOf(year) + 1];
 
-    $: intro = year === FOUNDING_SEASON
-        ? 'The founding season, on ESPN. The draft is all that made it to Sleeper.'
+    $: intro = pre
+        ? (pre.intro || `Played on ${pre.platform}, before the league came to Sleeper.`)
         : isComplete(history, year)
             ? 'The table, the bracket, the draft and the trades, as they finished.'
             : 'Still being played. This is the archive copy, through the last completed week.';
@@ -60,8 +63,8 @@
 <PageHeader title="{year} Season" {intro} />
 
 {#key year}
-    {#if year === FOUNDING_SEASON}
-        <EspnSeason {history} {playersData} />
+    {#if pre}
+        <PreSleeperSeason {pre} {history} {playersData} />
     {:else}
         <SeasonPage {year} {history} {gamesData} {notesData} {keepersData} {playersData} {leagueTeamManagersData} />
     {/if}

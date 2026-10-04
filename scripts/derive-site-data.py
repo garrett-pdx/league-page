@@ -44,27 +44,20 @@ DATA = os.path.join(ROOT, "static", "data")
 
 KINDS = ["regular", "playoff", "placement", "consolation"]
 
-# Post-settlement stat corrections, pinned to the cent.
+# Post-settlement stat corrections, pinned to the cent: league.json overrides.statCorrections.
 #
 # Sleeper recomputes a week's matchup scores from current stats every time it is asked, but a
 # roster's season points were settled at the time. When a stat is corrected after a week has
 # settled, the two drift apart, and games.json -- built from the weekly scores -- cannot match
-# league-history.json's season totals. These are the manager-seasons where that happened, each
-# with the exact difference (games.json minus Sleeper's season figure). None changes a result:
-# the closest affected game was won by 10.50.
+# league-history.json's season totals. Each entry pins the exact difference (games.json minus
+# Sleeper's season figure) for one manager-season.
 #
 # Pinned rather than tolerated, so the check stays exact: a NEW discrepancy anywhere still
-# fails, and so does one of these moving by a cent. If a fresh one appears, find the game (a PF
-# gap for one manager and the same PA gap for his opponent), confirm the result is unaffected,
-# and add it here.
-STAT_CORRECTIONS = {
-    # 2023: jonahcartwright v Gurret (weeks 5 and 14) -- jonah's weekly scores sum 2.00 lower
-    ("2023", "612407006212468736"): {"pf": -2.0},
-    ("2023", "76909640692416512"): {"pa": -2.0},
-    # 2024: Kabroa v tuckersdumbteam (weeks 4 and 13) -- Kabroa's sum 1.00 higher
-    ("2024", "611649934390870016"): {"pf": 1.0},
-    ("2024", "611664340277383168"): {"pa": 1.0},
-}
+# fails, and so does a pinned one moving by a cent. If a fresh one appears, find the game (a PF
+# gap for one manager and the same PA gap for their opponent), confirm the result is
+# unaffected, and add both sides to league.json with a note.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from league_config import STAT_CORRECTIONS, ELIGIBILITY  # noqa: E402
 
 # Sleeper stores season points as an integer plus hundredths and rounds each week before
 # summing, so a season total can sit one cent off the sum of its weeks (BBrown16, 2023:
@@ -76,25 +69,12 @@ FLEX_OK = {"RB", "WR", "TE"}
 POS_ALIAS = {"FB": "RB"}
 
 # Positions Sleeper actually allowed, where players.json (today's primary position only) is
-# wrong. Each entry was fitted to Sleeper's own season potential_points and reproduces it to the
-# cent; check_max_pf() re-proves that on every run. Lives here, the lower layer, because
-# derive-narratives.py imports this module and uses the same table.
-#
-#   Taysom Hill (4381): TE in 2022 (TE alone is exact; QB/TE is 0.96 over). QB/TE from 2023.
-#       Sleeper's potential_points fills slots in order, QB first, so in a week Hill outscored
-#       TnT44's quarterback it put Hill at QB and benched the quarterback -- 2023 week 9 and
-#       2024 week 11. That is Sleeper's figure, not the best lineup: in 2024 week 11 TnT44
-#       actually started Hill at TE (37.52) and his QB, and scored 140.88, above Sleeper's
-#       125.82 "potential". best_lineup() takes the best of every eligible assignment.
-#   Travis Hunter (12530): WR in 2025. players.json says DB, which has no slot; paulslaats
-#       started him three times.
-ELIGIBILITY = {
-    ("2022", "4381"): {"TE"},
-    ("2023", "4381"): {"QB", "TE"},
-    ("2024", "4381"): {"QB", "TE"},
-    ("2025", "4381"): {"QB", "TE"},
-    ("2025", "12530"): {"WR"},
-}
+# wrong: league.json overrides.eligibility, imported above. Each entry is fitted to Sleeper's own
+# season potential_points and reproduces it to the cent; check_max_pf() re-proves that on every
+# run, and names the manager-season when it cannot. Typical cases: a TE Sleeper also lists at QB
+# (Sleeper's potential_points fills slots in order, QB first, so it may put him at QB), and a
+# two-way player listed at a defensive position with no slot. best_lineup() takes the best of
+# every eligible assignment, which can sit above Sleeper's slot-order greedy.
 
 
 def load(name):

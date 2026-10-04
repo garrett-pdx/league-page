@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-Pull the full history of the Mudd League out of Sleeper into static/data/.
+Pull the league's full history out of Sleeper into static/data/.
 
     python3 scripts/pull-league-history.py
 
 Walks previous_league_id back from the current season, so it needs no season
-list -- only CURRENT_LEAGUE_ID below. Roughly 300 requests, ~1-2 minutes.
+list -- only the current season's league ID, from league/league.json. Roughly 300 requests, ~1-2 minutes.
 
 Outputs (all documented in static/data/README.md):
     league-history.json   seasons, managers, records, drafts, brackets
@@ -29,7 +29,9 @@ import json, os, sys, time, urllib.request, urllib.error
 from collections import defaultdict
 from datetime import datetime, timezone
 
-CURRENT_LEAGUE_ID = "1312235880743706624"
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from league_config import LEAGUE_ID as CURRENT_LEAGUE_ID  # noqa: E402
+
 BASE = "https://api.sleeper.app/v1"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "static", "data")

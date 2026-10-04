@@ -1,4 +1,4 @@
-import {leagueID} from '$lib/utils/leagueInfo';
+import {leagueID, navLinks, constitution} from '$lib/utils/leagueInfo';
 
 /*
 Nav structure. There is no Home tab: the seal above the nav links home, and dropping the tab is
@@ -110,17 +110,14 @@ export const tabs = [
             },
             { label: 'Stat Lab', icon: 'query_stats', dest: '/stat-lab' },
             { group: 'Rules & Tools' },
-            {
+            // Shown only when the league has a league/constitution.md.
+            ...(constitution ? [{
                 icon: 'history_edu',
                 label: 'Constitution',
                 dest: '/constitution',
-            },
-            {
-                // companion project: separate repo, separate app, same league
-                icon: 'calculate',
-                label: 'Keeper Draft Board',
-                dest: 'https://garrett-pdx.github.io/keeper-draft-board/',
-            },
+            }] : []),
+            // The league's own tools: links in league.json with `nav` set.
+            ...navLinks,
             {
                 icon: 'lightbulb',
                 label: 'Resources',

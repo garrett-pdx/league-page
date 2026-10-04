@@ -2,6 +2,7 @@
 	import LinearProgress from '@smui/linear-progress';
 	import { TransactionsPage } from '$lib/components'
 	import { PageHeader } from '$lib/Design';
+	import { pageIntro } from '$lib/utils/leagueInfo';
     import { waitForAll } from '$lib/utils/helper';
 
     export let data;
@@ -31,7 +32,7 @@
 	}
 </style>
 
-<PageHeader title="Trades & Waivers" intro="Every trade and waiver claim since 2022, newest first. Receipts, for anyone who remembers it differently." />
+<PageHeader title="Trades & Waivers" intro={pageIntro('transactions')} />
 
 <div id="main">
     {#await waitForAll(transactionsData, playersData, leagueTeamManagersData)}

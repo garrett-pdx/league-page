@@ -8,6 +8,7 @@ import {
     getLeagueTeamManagers,
 } from '$lib/utils/helper';
 import { archiveYears } from '$lib/Seasons/seasonData';
+import { preSleeperSeasons } from '$lib/utils/leagueInfo';
 
 /*
 One season's page. The one deliberate exception to "return unawaited promises": the history file
@@ -20,7 +21,7 @@ export async function load({ params, fetch }) {
     if(!/^\d{4}$/.test(params.year)) error(404, 'No such season');
 
     const history = await getLeagueHistory(fetch);
-    if(!archiveYears(history).includes(year)) error(404, `No ${params.year} season on record`);
+    if(!archiveYears(history, preSleeperSeasons).includes(year)) error(404, `No ${params.year} season on record`);
 
     return {
         year,

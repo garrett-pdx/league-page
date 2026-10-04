@@ -47,10 +47,22 @@ export const getLeagueTeamManagers = async () => {
             };
         }
     }
+    /*
+    Sleeper's user list for a season can include an account that never held a roster (a
+    commissioner's second account, someone invited who never joined). They have no history to
+    show, so pages that list "every manager" leave them out with this.
+    */
+    const rostered = new Set();
+    for(const season of Object.values(teamManagersMap)) {
+        for(const entry of Object.values(season)) entry.managers.forEach((m) => rostered.add(m));
+    }
+    const neverRostered = Object.keys(finalUsers).filter((uid) => !rostered.has(uid));
+
     const response = {
         currentSeason,
         teamManagersMap,
         users: finalUsers,
+        neverRostered,
     }
     teamManagersStore.update(() => response);
     return response;

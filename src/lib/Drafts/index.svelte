@@ -3,7 +3,9 @@
     import LinearProgress from '@smui/linear-progress';
     import { SectionHeading, Disclosure } from '$lib/Design';
     import Draft from './Draft.svelte';
-    import { CARRIED_OVER_DRAFT_ID, FOUNDING_SEASON } from '$lib/Seasons/seasonData';
+    import { preSleeperSeasons } from '$lib/utils/leagueInfo';
+    // A draft imported from another platform (league.json history.preSleeper), by Sleeper draft ID.
+    const importedFrom = (draftID) => preSleeperSeasons.find((s) => s.importedDraftId == draftID);
 
     export let upcomingDraftData, previousDraftsData, leagueTeamManagersData, playersData;
 
@@ -56,8 +58,8 @@
 	{#if previousDrafts.length}
 		<SectionHeading level={3}>Previous Drafts</SectionHeading>
 		{#each previousDrafts as previousDraft}
-			<!-- Sleeper files the league's 2021 ESPN draft under 2022; it is not a second 2022 draft. -->
-			<SectionHeading level={4} rule={false}>{previousDraft.draftID == CARRIED_OVER_DRAFT_ID ? `${FOUNDING_SEASON} Draft (ESPN, carried over)` : `${previousDraft.year} Draft`}</SectionHeading>
+			<!-- Sleeper files a draft imported from another platform under the first Sleeper season; it is not a second draft of that season. -->
+			<SectionHeading level={4} rule={false}>{importedFrom(previousDraft.draftID) ? `${importedFrom(previousDraft.draftID).season} Draft (${importedFrom(previousDraft.draftID).platform}, carried over)` : `${previousDraft.year} Draft`}</SectionHeading>
 			<Draft draftData={previousDraft} previous={true} {leagueTeamManagers} year={previousDraft.year} {players} />
 		{/each}
 	{/if}

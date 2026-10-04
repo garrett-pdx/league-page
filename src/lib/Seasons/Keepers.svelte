@@ -3,19 +3,22 @@
     Every keeper in a season with what he cost, from keepers.json. A keeper occupies the draft
     slot he costs, so the round shown IS the cost. The note says where that cost came from:
     the round he went in last season's primary draft, one round dearer when the same manager
-    keeps him again, and the last round when he went undrafted (constitution 4.2-4.4).
+    keeps him again, and the last round when he went undrafted.
 
-    For 2022 "last season" is the carried-over 2021 ESPN draft, which keepers.json marks as the
-    baseline; that is the one place the carried-over draft legitimately prices anything.
+    In the first Sleeper season "last season" can be a draft imported from another platform
+    (league.json history.preSleeper), which keepers.json marks as the baseline; that is the one
+    place an imported draft legitimately prices anything.
     */
     import Person from './Person.svelte';
+    import { preSleeperSeason } from '$lib/utils/leagueInfo';
 
     export let rows = [];
     export let year;
     export let players = {};
     export let people;
 
-    $: prevLabel = rows[0]?.baseline?.startsWith('carried-over') ? `${year - 1} (ESPN)` : `${year - 1}`;
+    $: prevPlatform = rows[0]?.baseline?.startsWith('carried-over') ? preSleeperSeason(year - 1)?.platform : null;
+    $: prevLabel = prevPlatform ? `${year - 1} (${prevPlatform})` : `${year - 1}`;
 
     const note = (r, prev) => {
         const base = r.previous_season_round ? `Round ${r.previous_season_round} in ${prev}` : `Undrafted in ${prev}`;

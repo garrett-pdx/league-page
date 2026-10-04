@@ -208,21 +208,24 @@ function arg(flag, fallback = null) {
 The post's URL slug: /blog/2026-week-4-preview rather than /blog/<Contentful entry id>.
 
 Derived from the file name's season and the title, minus the series prefix: "THE MUDD REPORT —
-WEEK 4 PREVIEW" in 2026-w4-preview.md becomes 2026-week-4-preview. The year is always in it, so
+WEEK 4 PREVIEW" in 2026-w4-preview.md (blog.title is the prefix) becomes 2026-week-4-preview. The year is always in it, so
 next season's Week 4 preview can't collide with this one. --slug overrides the derivation.
 
 A slug is set ONCE. Updates keep whatever slug the entry already has, even if the title changes,
 because a slug is a URL people have shared; deriving it afresh on every publish would break
 every link the first time a post was renamed (two already have been).
 */
-// The site's public address. mudd-league.vercel.app still serves the same site, so links
-// already shared keep working, but new links should use the league's own domain.
-const SITE = "https://muddleague.site";
+// The site's public address and the blog's name (the series prefix a title starts with) come
+// from league/league.json.
+const LEAGUE = JSON.parse(fs.readFileSync(path.join(ROOT, "league", "league.json"), "utf8"));
+const SITE = (LEAGUE.siteUrl || "").replace(/\/$/, "");
+const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const SERIES_PREFIX = new RegExp(`^${escapeRegExp(LEAGUE.blog?.title || "Blog")}\\s*[—–-]\\s*`, "i");
 
 function deriveSlug(file, title) {
   const season = (path.basename(file).match(/^(\d{4})-/) || [])[1];
   let s = title
-    .replace(/^THE MUDD REPORT\s*[—–-]\s*/i, "")
+    .replace(SERIES_PREFIX, "")
     .normalize("NFKD").replace(/[\u0300-\u036f]/g, "")
     .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
   if (season && !s.startsWith(season)) s = `${season}-${s}`;

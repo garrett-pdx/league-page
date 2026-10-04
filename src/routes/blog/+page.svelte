@@ -1,5 +1,6 @@
 <script>
     import { Posts } from "$lib/components";
+    import { blogTitle, blogIntro } from "$lib/utils/helper";
 	import { PageHeader } from '$lib/Design';
 
     export let data;
@@ -18,7 +19,7 @@
     }
 </style>
 
-<PageHeader title="The Mudd Report" intro="The Monday recap and the midweek preview, written by someone who has been paying attention." />
+<PageHeader title={blogTitle} intro={blogIntro} />
 
 <div id="main">
     <Posts {postsData} {queryPage} {filterKey} {leagueTeamManagersData} />

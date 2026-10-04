@@ -1,6 +1,7 @@
 <script>
 	import { Standings } from '$lib/components'
 	import { PageHeader, SectionHeading } from '$lib/Design';
+	import { pageIntro } from '$lib/utils/leagueInfo';
 	import ScheduleLuck from '$lib/History/ScheduleLuck.svelte';
 
 	export let data;
@@ -43,7 +44,7 @@
 	}
 </style>
 
-<PageHeader title="Standings" intro="Wins first, then points scored. The table does not take requests." />
+<PageHeader title="Standings" intro={pageIntro('standings')} />
 
 <div class="holder">
 	<div class="pair">

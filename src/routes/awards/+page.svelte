@@ -5,6 +5,7 @@
 	import { waitForAll } from '$lib/utils/helper';
 	import LinearProgress from '@smui/linear-progress';
 	import { PageHeader, Disclosure } from '$lib/Design';
+	import { pageIntro } from '$lib/utils/leagueInfo';
 
     export let data;
     const {awardsData, teamManagersData, leagueHistoryData} = data;
@@ -37,7 +38,7 @@
 	}
 </style>
 
-<PageHeader title="Trophy Room" intro="Champions, podiums and toilet bowl losers, kept permanently." />
+<PageHeader title="Trophy Room" intro={pageIntro('awards')} />
 
 <div class="awards">
 	{#await waitForAll(awardsData, teamManagersData, leagueHistoryData) }
@@ -50,7 +51,7 @@
 		     podium scene is 379 lines of hand-tuned art with ten breakpoints. -->
 		<HallOfFame {leagueHistory} {leagueTeamManagers} />
 
-		<!-- Static, hand-written lore (src/lib/History/archiveFacts.js); nothing to fetch. -->
+		<!-- Static, hand-written lore (league/archive-facts.json); nothing to fetch. -->
 		<ArchiveCard {leagueTeamManagers} />
 
 		<!-- The latest season is the page; the other years fold away. Four seasons of podiums were

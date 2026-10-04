@@ -1,270 +1,134 @@
-/*   STEP 1   */
-export const leagueID = "1312235880743706624"; // your league ID
-export const leagueName = "The Mudd League"; // your league name (Sleeper calls it "Mudd Keeper League")
-export const dynasty = false; // true for dynasty leagues, false for redraft and keeper
-export const enableBlog = true; // requires VITE_CONTENTFUL_SPACE and VITE_CONTENTFUL_CLIENT_ACCESS_TOKEN
+/*
+The league's configuration, as the rest of the site sees it.
+
+Nothing league-specific is written here. Everything comes from league/ -- league.json (validated
+against schema/league.schema.json), home.md and the photos in league/managers/ -- and this file
+turns it into the exports the components have always imported: leagueID, leagueName, managers,
+homepageText and the blog flags. To change what the site says about a league, edit league/, not
+this file.
+*/
+import config from '$league/league.json';
+import { renderMarkdown, parseConstitution } from './markdown';
+
+// Optional prose files. A glob rather than an import, so a league without one still builds.
+const prose = import.meta.glob(['/league/home.md', '/league/constitution.md'], { eager: true, query: '?raw', import: 'default' });
+
+export const league = config;
+
+export const leagueID = config.sleeperLeagueId;
+export const leagueName = config.name;
+export const leagueShortName = config.shortName || config.name;
+export const leagueDescription = config.description || '';
+export const siteUrl = config.siteUrl || '';
+export const founded = config.founded ?? null;
+export const dynasty = Boolean(config.dynasty);
+
+const blog = config.blog || {};
+export const blogBackend = blog.backend || 'markdown';
+export const enableBlog = blogBackend !== 'none';
+export const blogTitle = blog.title || 'Blog';
+export const blogIntro = blog.intro || '';
 
 /*
-This league does not want comments, so the comment UI is off and no comment is ever written.
-
-That decision is also why VITE_CONTENTFUL_ACCESS_TOKEN is deliberately NOT set. It is a
-Contentful *management* token -- full write access to the space -- and it is the only one of
-the three variables that is genuinely sensitive. Because Vite treats the VITE_ prefix as
-"expose to the browser", shipping a management token under that name is a real risk for no
-benefit when nobody is commenting. Reading posts needs only the read-only delivery token.
-
-Turning comments back on means setting that variable AND moving it off import.meta.env onto
-SvelteKit's $env/static/private in src/routes/api/addBlogComments/[id]/+server.js, so it
-stays server-side. Do not just flip this flag.
+Comments write to Contentful, which takes a *management* token -- full write access to the
+space. Vite exposes anything prefixed VITE_ to the browser, so that token must never be set as
+VITE_CONTENTFUL_ACCESS_TOKEN on a public site. Turning comments on means setting the token AND
+moving it off import.meta.env onto SvelteKit's $env/static/private in
+src/routes/api/addBlogComments/[id]/+server.js, so it stays server-side. Do not just flip
+blog.comments.
 */
-export const enableComments = false;
+export const enableComments = blogBackend === 'contentful' && Boolean(blog.comments);
 
-/*
-Contentful content type IDs.
-
-Upstream hardcodes `blog_post` and `blog_comment` in the three blog API routes, because its
-setup guide tells you to type those IDs in by hand. Contentful does not default to them: it
-derives an ID from the display name in camelCase, so "Blog Post" becomes `blogPost`. This
-space took the defaults, and querying a content type that does not exist returns a 400 from
-Contentful, which the routes turn into "Problem retrieving blog posts" -- a 500 that looks
-like an auth failure and is not one.
-
-Kept here rather than as literals in the routes so the divergence from upstream is stated
-once, in the file forks are supposed to edit. If a future merge reintroduces the hardcoded
-strings, point them back at this.
-*/
+// Contentful derives a content type's ID from its display name ("Blog Post" -> blogPost), so
+// the IDs are configuration, not constants.
 export const contentfulTypes = {
-  post: "blogPost",
-  comment: "blogComment",
+    post: blog.contentful?.postType || 'blog_post',
+    comment: blog.contentful?.commentType || 'blog_comment',
 };
 
-/*   STEP 2   */
-export const homepageText = `
-  <p class="homeLede">Ten teams. Half-PPR. Two keepers each, and a long memory.</p>
-  <p>The Mudd League was founded in 2021 on ESPN and has played on Sleeper since 2022. The name goes back to Claremont-Mudd-Scripps, where some of its managers played college football together. It is a keeper league, not a dynasty league: every fall the whole player pool goes back on the board, except the two players each manager decides are worth the price.</p>
-  <nav class="homeLinks" aria-label="Find your way">
-    <span class="homeLinksLabel">Find your way</span>
-    <ul>
-      <li><a href="/matchups">This week's matchups</a></li>
-      <li><a href="/standings">Standings</a></li>
-      <li><a href="/awards">Trophy Room</a></li>
-      <li><a href="/constitution">Constitution</a></li>
-      <li><a href="/blog">The Mudd Report</a></li>
-    </ul>
-  </nav>
-  <p class="homeRules">The rules are in the <a href="/constitution">constitution</a>. The round math is on the <a href="https://garrett-pdx.github.io/keeper-draft-board/" target="_blank" rel="noopener">Keeper Draft Board</a>.</p>
-`;
-
-/*   STEP 3   */
 /*
-Eleven managers, keyed by their Sleeper managerID (user_id): the ten current ones, then
-Jordan Leonard, who played 2022 only. AllManagers splits departed managers into the
-Moratorium automatically -- see the note above his entry at the bottom.
-
-Names and bios are real. Still unset on every entry: the optional `favoriteTeam`,
-`preferredContact`, `fantasyStart`, `philosophy`, `tradingScale`, `favoritePlayer` and
-`valuePosition` fields. Each is {#if}-guarded in Manager.svelte / ManagerFantasyInfo.svelte, so
-an unset field is simply not shown; add one here and it appears. (`mode` and `rookieOrVets` are
-dynasty-league fields; leave them out.)
-
-`rival` links each of the 10 active managers to one other, chosen by analyzing real
-head-to-head data: regular-season matchups from static/data/weeks.json (weeks 1-15 of
-each season) plus playoff bracket meetings from league-history.json, scored on frequency,
-competitiveness and stakes (a real winners-bracket title game counts far more than a
-losers-bracket placement game -- don't confuse the two, see the root CLAUDE.md brackets
-note). The five pairings are a maximum-weight perfect matching over all 10 managers, not
-just the five highest-scoring pairs independently -- every manager gets exactly one rival
-and none are shared. Jordan Leonard (Moratorium) has no rival.
-
-`photo` points at a LOCAL file in /static/managers/, named after the manager's Sleeper
-handle. These started life as each manager's own Sleeper avatar but are now served by us,
-which is deliberate: the sleepercdn URL embeds a content hash, so hotlinking it broke the
-moment a manager changed their avatar. Files are named by handle, not by display name, so
-renaming a manager doesn't orphan their photo.
-
-Most are .webp (that's what Sleeper serves); gurret is .jpg. Check the actual bytes before
-trusting an extension -- Sleeper's Content-Type header lies, it returned "image/png" for a
-file that was really JPEG. To refresh one, re-download it and keep the extension honest.
-
-Note two upstream traps before you edit these:
-  - `photo` and `rival` are NOT optional despite the docs below saying fields can be
-    nulled. Both are rendered unguarded, and omitting `rival` throws on the manager
-    detail page. Keep a value in each.
-  - `rival.link` is an index into THIS array, so it shifts if you reorder the entries.
-    null links back to the all-managers page.
+The one-line intro under each page's title. These are the league's voice, so league.json can
+replace any of them (pages.<key>.intro); the defaults hold no league-specific facts.
 */
+const DEFAULT_INTROS = {
+    managers: 'Every manager and one group chat. Pick a name for the bio, the roster and the record.',
+    standings: 'Wins first, then points scored. The table does not take requests.',
+    'free-agents': "Every unrostered player, by depth-chart slot. Handcuff hunters: start with the RB2s. Turn on Show rostered to see who's already taken.",
+    transactions: 'Every trade and waiver claim on record, newest first. Receipts, for anyone who remembers it differently.',
+    rosters: 'Every roster, as it stands right now. Scouting is allowed.',
+    seasons: 'Every season on record, one page each. The results are final; the arguments are not.',
+    awards: 'Champions, podiums and toilet bowl losers, kept permanently.',
+    records: 'Highs, lows and close calls from every season on record. The lows are included on purpose.',
+    rivalry: 'Pick any two managers. The history is already in the books.',
+    drafts: 'Every draft on record. None of it can be undone.',
+    'stat-lab': 'Every game on record. Filter it, sort it, chart it, and send the link to the group chat.',
+    resources: "The league's own links first, then rankings, news and a few podcasts. Outside advice, taken at your own risk.",
+};
+export const pageIntro = (key) => config.pages?.[key]?.intro ?? DEFAULT_INTROS[key] ?? null;
 
-export const managers = [
-    {
-      "managerID": "76909640692416512",
-      "name": "Garrett Cheadle",
-      "location": "Portland, OR",
-      "photo": "/managers/gurret.jpg",
-      "bio": "<strong>#24 &middot; RB &middot; 6'0&quot; &middot; 215 lbs &middot; Lincoln HS</strong><br /><em>CMS career: 36 G &middot; 17 GS &middot; 588 car &middot; 2,987 yds &middot; 33 rush TD &middot; 5.1 avg &middot; 26 rec, 228 yds, 1 TD &middot; 204 pts</em><br />Commissioner. Third all-time at Claremont-Mudd-Scripps in both rushing yards and rushing touchdowns. SCIAC Offensive Player of the Year and First-Team All-SCIAC as a junior in 2018, when he carried 245 times for 1,305 yards at 118.6 a game and set the program single-game record with 274 against Whittier. Came back for 763 yards and a career-best 11 touchdowns as a senior despite a midseason injury, adding Second-Team All-SCIAC, the National Football Foundation Hampshire Honors Society and the SCIAC All-Academic Team. Son of Jim and Maria Cheadle.<br /><em>Mudd League: Took Jayden Daniels with the 92nd pick of the 2024 draft, in round 10, and got 325.94 points out of him in thirteen starts as a rookie.</em>",
-      "rival": {
-        name: "Michael Streinz",
-        link: 2,
-        image: "/managers/mikestreinz.webp",
-      },
-    },
-    {
-      "managerID": "611697269254791168",
-      "name": "Tyson-Jay Saena",
-      "location": "Chandler, AZ",
-      "photo": "/managers/tnt44.webp",
-      "bio": "<strong>#44 &middot; DL &middot; 5'11&quot; &middot; 260 lbs &middot; Hamilton HS</strong><br /><em>CMS career: 36 G &middot; 14 GS &middot; 68 tackles &middot; 6 TFL for 17 &middot; 2 sacks for 11 &middot; 2 FR &middot; 1 FF</em><br />Defensive lineman whose CMS career ran from 2016 all the way to 2022, with a two-year absence (Ghana) in the middle that he returned from to play all ten games in 2019. Second-Team All-SCIAC in each of his final two seasons, and as a senior he recorded at least one tackle in every game he played. Opened 2021 with three tackles and a sack against Pomona-Pitzer. Sings and plays the ukulele. Husband of Maddie. Son of Allan and Joyce Saena.<br /><em>Mudd League: Opened 2024 at 2-6 and won his last nine, weeks 9 through 17, which is how a 9-6 team ends up fifth.</em>",
-      "rival": {
-        name: "Malcolm Stolarski",
-        link: 9,
-        image: "/managers/malstol.webp",
-      },
-    },
-    {
-      "managerID": "605683461667229696",
-      "name": "Michael Streinz",
-      "location": "Portland, OR",
-      "photo": "/managers/mikestreinz.webp",
-      "bio": "<strong>#74 &middot; OL &middot; 6'3&quot; &middot; 265 lbs &middot; Wilson HS</strong><br /><em>CMS career: offensive line, so the stat sheet is blank on principle</em><br />Guard, and the league's second Portlander. Started all ten games in 2019 on a line that led the nation in time of possession and averaged 199.7 rushing yards a game &mdash; including back-to-back afternoons of 376 and 393 on the ground against Occidental and Whittier, and 220 yards with 40:44 of possession to take the Sixth Street Trophy off Pomona-Pitzer. Which is another way of saying a good many of Garrett Cheadle's yards came out from behind him. National Football Foundation Hampshire Honors Society, twice SCIAC All-Academic, and a high school valedictorian. Son of Ray and Mary Streinz.<br /><em>Mudd League: Went 13-2 in 2023 with 1,920.46 points, the most wins and the most points of any regular season through 2025, and lost his semifinal to Tucker 100.58 to 87.50.</em>",
-      "rival": {
-        name: "Garrett Cheadle",
-        link: 0,
-        image: "/managers/gurret.jpg",
-      },
-    },
-    {
-      "managerID": "611664340277383168",
-      "name": "Tucker Harris",
-      "location": "Sarasota, FL",
-      "photo": "/managers/tuckersdumbteam.webp",
-      "bio": "<strong>#70 &middot; OL &middot; 6'1&quot; &middot; 235 lbs &middot; Out-of-Door Academy</strong><br />Arrived at Claremont-Mudd-Scripps as a running back (lol) wearing 35, lost his first year to a midseason injury, and came back as an offensive lineman wearing 70 &mdash; His career stat page is gloriously blank. Second-Team All-Conference on the line as a high schooler in Sarasota. He prides himself in his work where he make himself visible to young boys at the Visible Men Academy. Competed in High School Chess Club until, in the state tournament, a bishop was found in his prison wallet. Data science major at Claremont McKenna, reads Orwell, admires Theodore Roosevelt.<br /><em>Mudd League: The only manager to make the playoffs in every season from 2022 to 2025, finishing fourth, second, third and second: four playoff runs, no title.</em>",
-      "rival": {
-        name: "Kevin Shoyer",
-        link: 6,
-        image: "/managers/kshoyer.webp",
-      },
-    },
-    {
-      "managerID": "870570674836656128",
-      "name": "Paul Slaats",
-      "location": "Malvern, PA",
-      "photo": "/managers/paulslaats.webp",
-      "bio": "<strong>#90 &middot; DL &middot; 6'3&quot; &middot; 265 lbs &middot; Great Valley HS</strong><br /><em>CMS career: 34 G &middot; 14 GS &middot; 154 tackles (64 solo) &middot; 22 TFL for 58 &middot; 6.5 sacks for 26 &middot; 1 FF &middot; 1 FR &middot; 1 blocked kick</em><br />Defensive lineman and 2016 team captain. Four years on the line, peaking with 46 tackles and 7.5 tackles for loss as a junior &mdash; the year he took SCIAC Athlete of the Year, Harvey Mudd Athlete of the Year and third-team All-West Region from D3Football.com. First-Team All-SCIAC the season before. Also managed a forced fumble, a fumble recovery and a blocked kick along the way. Son of Paul and Kathryn Slaats.<br /><em>Mudd League: Won the first title of the Sleeper era in 2022 as the third seed, beating Garrett 119.00 to 101.46 in the semifinal and Jonah 76.68 to 44.88 in the final.</em>",
-      "rival": {
-        name: "Jonah Cartwright",
-        link: 5,
-        image: "/managers/jonahcartwright.webp",
-      },
-    },
-    {
-      "managerID": "612407006212468736",
-      "name": "Jonah Cartwright",
-      "location": "Carmichael, CA",
-      "photo": "/managers/jonahcartwright.webp",
-      "bio": "<strong>#26 &middot; RB &middot; 5'9&quot; &middot; 195 lbs &middot; Rio Americano HS</strong><br /><em>CMS career: 23 G &middot; 100 car &middot; 286 yds &middot; 2 TD &mdash; Harvey Mudd running backs rushed for a combined career 3,273 yards and 35 touchdowns</em><br />Running back and National Football Foundation Hampshire Honors Society selection. Waited three seasons for his carries and got them as a senior, going for 190 yards on the year &mdash; including a 27-carry, 101-yard afternoon against Occidental that produced both of his career touchdowns on the same day. Listed his favorite hobby as fantasy football, which by now reads as foreshadowing. Son of Scott and Alice Cartwright.<br /><em>Mudd League: Beat Kabroa 111.84 to 111.80 in week 10 of 2022, a margin of four hundredths of a point.</em>",
-      "rival": {
-        name: "Paul Slaats",
-        link: 4,
-        image: "/managers/paulslaats.webp",
-      },
-    },
-    {
-      "managerID": "611630747161358336",
-      "name": "Kevin Shoyer",
-      "location": "Hingham, MA",
-      "photo": "/managers/kshoyer.webp",
-      "bio": "<strong>#14 &middot; DB &middot; 6'2&quot; &middot; 198 lbs &middot; Hingham HS</strong><br /><em>CMS career: 17 G &middot; 4 GS &middot; 35 tackles (22 solo) &middot; 7 TFL</em><br />Defensive back out of Hingham, Massachusetts. Appeared in all nine games as a freshman and put up 24 tackles, then went back out as a sophomore and piled up seven tackles for loss alongside a SCIAC All-Academic selection. Names his biggest sports moment as a 55-yard touchdown on the last play of a Thanksgiving Day game, which for a defensive back is showing off. Hingham lacrosse legend with 420 career goals, 69 assists, and 666 ground balls. Harvard MBA. Son of Lori and Tim Shoyer.<br /><em>Mudd League: The best regular-season record in the league from 2022 to 2025, 40-20, plus the 2023 title, won by 66.70 points in the semifinal and 49.92 in the final.</em>",
-      "rival": {
-        name: "Tucker Harris",
-        link: 3,
-        image: "/managers/tuckersdumbteam.webp",
-      },
-    },
-    {
-      "managerID": "999190763323944960",
-      "name": "Brenden Brown",
-      "location": "Castro Valley, CA",
-      "photo": "/managers/bbrown16.webp",
-      "bio": "<strong>#16 &middot; QB &middot; 6'4&quot; &middot; 215 lbs &middot; Castro Valley HS</strong><br /><em>CMS career: 17 G &middot; 0 GS &middot; 32/59 (54.2%) &middot; 369 yds &middot; 4 TD &middot; 1 INT &middot; long 30</em><br />Quarterback and 2018 SCIAC All-Academic selection who appeared in 17 games across four years. Came off the bench against Northwestern, he threw two touchdown passes that accounted for every point CMS scored in a 14-3 win. Finished up in the NCAA Tournament against Whitworth. Absolute charmer with the CMS Cheer team. Son of Mary Janatpour and Mark Brown.<br /><em>Mudd League: Joined in 2023 and won the title in his second season, putting up 153.86 against Kabroa in the 2024 final.</em>",
-      "rival": {
-        name: "Kanoa Gilliland",
-        link: 8,
-        image: "/managers/kabroa.webp",
-      },
-    },
-    {
-      "managerID": "611649934390870016",
-      "name": "Kanoa Gilliland",
-      "location": "Kaneohe, HI",
-      "photo": "/managers/kabroa.webp",
-      "bio": "<strong>#90 &middot; DL &middot; 6'0&quot; &middot; 200 lbs &middot; Kamehameha Kapalama</strong><br /><em>CMS career: 11 G &middot; 6 tackles &middot; 1 TFL for 7 &middot; 0.5 sacks &middot; 1 forced fumble</em><br />Aloha. Defensive lineman, and the only manager in the league who had to cross an ocean to get to practice &mdash; Kaneohe, Hawaii by way of Kamehameha Kapalama. Forced a fumble across his eleven games on the line. Names his biggest sports moment as a scoop-and-score. Glue in the locker room. Son of Beau and Judy Gilliland. Aloha.<br /><em>Mudd League: Kept Jalen Hurts at an 11th-round cost in 2024 and got 347.12 points out of him in the starting lineup, the third-most from any starter in the league that season, on the way to the final.</em>",
-      "rival": {
-        name: "Brenden Brown",
-        link: 7,
-        image: "/managers/bbrown16.webp",
-      },
-    },
-    {
-      "managerID": "850475150817234944",
-      "name": "Malcolm Stolarski",
-      "location": "River Forest, IL",
-      "photo": "/managers/malstol.webp",
-      "bio": "<strong>#67 &middot; OL &middot; 5'11&quot; &middot; 260 lbs &middot; Oak Park &amp; River Forest HS</strong><br /><em>CMS career: four years on the line &middot; 1 tackle (2016, and he'd like it noted)</em><br />Reigning champion. Offensive tackle, which means the stat sheet credits him with exactly one tackle in four years and nothing else &mdash; the position's numbers live in everyone else's totals. Started every game as a true freshman on his way to Offensive Newcomer of the Year, started them all again in 2016 and 2017, and took Second-Team All-SCIAC along the way. Played all eleven games at tackle as a senior on a line that blocked for a certain Marvey Mudd running back and finished second in the country in time of possession. Son of Michael Stolarski and Kim Steinke-Stolarski.<br /><em>Mudd League: Went 3-12 and finished last in 2024, then went 9-6 and won the title in 2025.</em>",
-      "rival": {
-        name: "Tyson-Jay Saena",
-        link: 1,
-        image: "/managers/tnt44.webp",
-      },
-    },
-    /*
-    Departed managers go LAST in this array. AllManagers splits them into the
-    Moratorium below the active roster, and it detects them from Sleeper (a
-    manager with no roster in the current season), not from anything set here --
-    so a manager who leaves needs no code change beyond being left in place.
-    Do not reorder the entries above them: rival.link is an index into this array.
-    */
-    {
-      "managerID": "860365948673204224",
-      "name": "Jordan Leonard",
-      "location": "Anaheim, CA",
-      "photo": "/managers/jjjet.jpg",
-      "bio": "<strong>#34 &middot; RB &middot; 5'8&quot; &middot; 180 lbs &middot; Brethren Christian</strong><br /><em>Mudd League: 2022 only &middot; 5-10 &middot; 9th &middot; 1,433.54 PF</em><br />Played the league's first Sleeper season and left after it. Opened with the best keeper pair anyone has ever held &mdash; Tyreek Hill at a first-round cost and Patrick Mahomes at a third &mdash; made five roster moves all year, four of them in week one, and never spent a single dollar of his $100 FAAB. Finished ninth with 269.98 points still sitting on his bench, the second-most in the league that season. Kick returner at Claremont-Mudd-Scripps before that, and a good one: First-Team All-SCIAC as a freshman on 736 return yards, then 351 rushing yards and five touchdowns as a sophomore, before injury cut his senior year to four games. Son of Bryan and Monica Leonard.",
-      "rival": {
-        name: "The Field",
-        link: null,
-        image: "/managers/everyone.png",
-      },
-    },
-  ]
+export const homepageText = renderMarkdown(prose['/league/home.md'] || '');
 
+// The constitution, parsed into numbered sections and rules (null when the league has none).
+export const constitution = prose['/league/constitution.md'] ? parseConstitution(prose['/league/constitution.md']) : null;
 
-  /*   !!  !!  IMPORTANT  !!  !! */
-  /*
-  Below is the most up to-date version of a manager. Please leave this commented out
-  and don't delete it. This will be updated if any fields are added, removed or changed
-  and will allow updates without causing merge conflicts
-  */
+/*
+Links. `{sleeper}` in a URL stands for the league's page on Sleeper. A link to an internal page
+whose feature is off (the blog) is dropped rather than left pointing at nothing.
+*/
+const sleeperUrl = `https://sleeper.app/leagues/${leagueID}`;
+const resolveLink = (link) => ({ ...link, url: link.url.replace('{sleeper}', sleeperUrl) });
+const linkEnabled = (link) => enableBlog || !/^\/blog(\/|$)/.test(link.url);
+export const leagueLinks = (config.links?.league || []).map(resolveLink).filter(linkEnabled);
+export const elsewhereLinks = (config.links?.elsewhere || []).map(resolveLink).filter(linkEnabled);
+export const navLinks = leagueLinks
+    .filter((link) => link.nav)
+    .map((link) => ({ label: link.nav.label || link.name, icon: link.nav.icon || link.icon, dest: link.url }));
 
-    // {
-    //   "roster": 3,  // (DEPRECATED! Don't use this anymore) ID of the roster that the manager manages (look at the order of the power rankings graph)
-    //   "managerID": "12345678",  // the user's manager ID, go to https://api.sleeper.app/v1/league/<your_league_id>/users to find user IDs (you can use older leagueIDs to find user IDs for managers that are no longer in the league)
-    //   "name": "Your Name",
-    //   "tookOver": 2020, // (DEPRECATED! You don't need to use this anymore) (optional) used if a manager took over a team, delete this line or change to null otherwise
-    //   "location": "Brooklyn", // (optional)
-    //   "bio": "Lorem ipsum...",
-    //   "photo": "/managers/name.jpg", // square ratio recommended (no larger than 500x500)
-    //   "fantasyStart": 2014, // (optional) when did the manager start playing fantasy football
-    //   "favoriteTeam": "nyj", // (optional) favorite NFL team, (follows convention: nyj, sea, mia, etc.) MUST BE LOWERCASE
-    //   "mode": "Win Now", // (optional) 'Win Now', 'Dynasty', or 'Rebuild' (anything else and you will need to add a new png to /static/ similar to the 'Rebuild.png' and 'Win Now.png' currently in there)
-    //   "rival": {
-    //     name: "Rival", // Can be anything (usually your rival's name)
-    //     link: 6, // manager array number within this array, or null to link back to all managers page
-    //     image: "/managers/rival.jpg", // either a specific manager photo or '/managers/everyone.png' or '/managers/question.png'
-    //   },
-    //   "favoritePlayer": 1426, // (optional) this corresponds to the Sleeper player ID (https://api.sleeper.app/v1/players/nfl)
-    //   "valuePosition": "WR", // (optional) Favorite position (QB, WR, RB, TE, etc.)
-    //   "rookieOrVets": "Rookies", // (optional) 'Rookies' or 'Vets' (anything else and you will need to add a new png to /static/ similar to the 'Rookies.png' and 'Vets.png' currently in there)
-    //   "philosophy": "Your fantasy team's philosophy", // (optional)
-    //   "tradingScale": 10, // 1 - 10 (optional)
-    //   "preferredContact": "Text",  // (optional) 'Text', 'WhatsApp', 'Sleeper', 'Email', 'Phone', 'Discord', and 'Carrier Pigeon' are currently supplied in the template
-    // },
+// Seasons played before the league came to Sleeper, oldest first.
+export const preSleeperSeasons = [...(config.history?.preSleeper || [])].sort((a, b) => a.season - b.season);
+export const preSleeperSeason = (year) => preSleeperSeasons.find((s) => s.season === Number(year)) || null;
 
+/*
+Photos. A file name resolves to league/managers/<file>, bundled by Vite (so it is fingerprinted
+and cached forever); a full URL is used as is; everyone.png and question.jpg are built-in
+placeholders served from static/managers/.
+*/
+const photoFiles = import.meta.glob('/league/managers/*.{jpg,jpeg,png,webp,gif,avif,svg}', {
+    eager: true,
+    query: '?url',
+    import: 'default',
+});
+const BUILT_IN_PHOTOS = ['everyone.png', 'question.jpg'];
+export const photoUrl = (photo) => {
+    if(!photo) return '/managers/question.jpg';
+    if(/^(https?:)?\/\//.test(photo) || photo.startsWith('/')) return photo;
+    const bundled = photoFiles[`/league/managers/${photo}`];
+    if(bundled) return bundled;
+    if(BUILT_IN_PHOTOS.includes(photo)) return `/managers/${photo}`;
+    console.warn(`league.json: no photo "${photo}" in league/managers/`);
+    return '/managers/question.jpg';
+};
+
+/*
+Managers, in the shape the components were written against: `managerID`, a resolved `photo`,
+and `rival: { name, link, image }`, where `link` is an index into this array (or null for the
+all-managers page). league.json names a rival by userId instead, so reordering managers there
+can never quietly re-pair them; the index is computed here.
+*/
+const entries = config.managers || [];
+const indexOf = Object.fromEntries(entries.map((m, i) => [m.userId, i]));
+
+const rivalOf = (m) => {
+    const r = m.rival;
+    if(r?.userId && indexOf[r.userId] !== undefined) {
+        const other = entries[indexOf[r.userId]];
+        return { name: other.name, link: indexOf[r.userId], image: photoUrl(other.photo) };
+    }
+    if(r?.name) return { name: r.name, link: null, image: photoUrl(r.photo || 'everyone.png') };
+    return { name: 'The Field', link: null, image: photoUrl('everyone.png') };
+};
+
+export const managers = entries.map((m) => {
+    const { userId, photo, rival, ...rest } = m;
+    return { managerID: userId, ...rest, photo: photoUrl(photo), rival: rivalOf(m) };
+});

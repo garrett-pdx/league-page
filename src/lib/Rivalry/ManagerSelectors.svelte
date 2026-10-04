@@ -5,8 +5,9 @@
 
     export let playerOne, playerTwo, leagueTeamManagers;
 
-    // Football_Team is in the 2022 user list but never held a roster, so it has no history to compare.
-    const users = Object.keys(leagueTeamManagers.users).filter(u => u !== '612343067143389184');
+    // An account in a season's user list that never held a roster has no history to compare.
+    const neverRostered = leagueTeamManagers.neverRostered || [];
+    const users = Object.keys(leagueTeamManagers.users).filter(u => !neverRostered.includes(u));
 
     // The configured real name from `managers`, else the Sleeper handle for anyone not listed there.
     const nameOf = (userID) => managers.find(m => m.managerID == userID)?.name

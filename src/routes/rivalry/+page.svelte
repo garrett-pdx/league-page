@@ -2,6 +2,7 @@
 	import LinearProgress from '@smui/linear-progress';
 	import { Rivalry } from '$lib/components'
 	import { PageHeader } from '$lib/Design';
+	import { pageIntro } from '$lib/utils/leagueInfo';
 	import HeadToHeadGrid from '$lib/History/HeadToHeadGrid.svelte';
 	import { waitForAll } from '$lib/utils/helper';
 
@@ -40,7 +41,7 @@
 	}
 </style>
 
-<PageHeader title="Rivalry" intro="Pick any two managers. The history is already in the books." />
+<PageHeader title="Rivalry" intro={pageIntro('rivalry')} />
 
 <div class="holder">
 	<HeadToHeadGrid {gamesData} leagueTeamManagersData={leagueTeamManagerData} />

@@ -32,7 +32,8 @@ from collections import defaultdict
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "static", "data")
-LEAGUE_ID = "1312235880743706624"
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from league_config import LEAGUE_ID  # noqa: E402
 API = "https://api.sleeper.app/v1"
 
 FLEX_OK = {"RB", "WR", "TE"}

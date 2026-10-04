@@ -2,7 +2,7 @@
     import { onMount } from "svelte";
 	import LinearProgress from '@smui/linear-progress';
     import Post from "./Post.svelte";
-    import { getBlogPosts, getLeagueTeamManagers, waitForAll } from "$lib/utils/helper";
+    import { getBlogPosts, getLeagueTeamManagers, waitForAll, blogTitle } from "$lib/utils/helper";
 
     const lang = "en-US";
 
@@ -83,7 +83,7 @@
         <LinearProgress indeterminate />
     </div>
 {:else}
-    <h2>The Mudd Report</h2>
+    <h2>{blogTitle}</h2>
     <Post {leagueTeamManagers} {post} {createdAt} {id} />
     <div class="center">
         <a class="viewAll" href="/blog">View More Blog Posts</a>

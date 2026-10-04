@@ -2,6 +2,7 @@
 	import LinearProgress from '@smui/linear-progress';
 	import { Rosters } from '$lib/components'
 	import { PageHeader } from '$lib/Design';
+	import { pageIntro } from '$lib/utils/leagueInfo';
 	import TeamChips from '$lib/Rosters/TeamChips.svelte';
 
 	export let data;
@@ -21,7 +22,7 @@
 	}
 </style>
 
-<PageHeader title="Rosters" intro="Every roster, as it stands right now. Scouting is allowed." />
+<PageHeader title="Rosters" intro={pageIntro('rosters')} />
 
 <div class="holder">
 	{#await rostersInfo}

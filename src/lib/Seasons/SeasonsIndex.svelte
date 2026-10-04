@@ -7,7 +7,7 @@
     the top seed, season-notes for the best week -- through seasonCards() in seasonData.js.
     */
     import { waitForAll } from '$lib/utils/helper';
-    import { managers } from '$lib/utils/leagueInfo';
+    import { managers, preSleeperSeasons, founded } from '$lib/utils/leagueInfo';
     import Person from './Person.svelte';
     import { seasonCards, peopleLookup } from './seasonData';
 
@@ -150,7 +150,7 @@
         white-space: nowrap;
     }
 
-    .espn {
+    .pre {
         padding: 0.9rem 1.1rem 1.1rem;
         color: var(--g444);
         line-height: 1.45;
@@ -180,21 +180,21 @@
         <p class="loading">Pulling the seasons out of the archive...</p>
     {:then [history, {games}, notes]}
         {@const people = peopleLookup(history, managers)}
-        {#each seasonCards(history, games, notes) as card (card.year)}
+        {#each seasonCards(history, games, notes, preSleeperSeasons) as card (card.year)}
             <a class="card" href="/seasons/{card.year}">
                 <div class="top">
                     <span class="year">{card.year}</span>
                     {#if card.kind === 'progress'}
                         <span class="tag live">In progress{card.throughWeek ? ` · week ${card.throughWeek}` : ''}</span>
-                    {:else if card.kind === 'espn'}
-                        <span class="tag">ESPN · founding season</span>
+                    {:else if card.kind === 'pre'}
+                        <span class="tag">{card.platform}{card.year === founded ? ' · founding season' : ''}</span>
                     {:else}
                         <span class="tag">Final</span>
                     {/if}
                 </div>
 
-                {#if card.kind === 'espn'}
-                    <p class="espn">The league's first season, played on ESPN. Only the draft made the move to Sleeper; no standings or results survive.</p>
+                {#if card.kind === 'pre'}
+                    <p class="pre">{card.text || `Played on ${card.platform}, before the league came to Sleeper.`}</p>
                 {:else}
                     {#if card.champion}
                         <div class="champ">
@@ -222,7 +222,7 @@
                         {/if}
                     </dl>
                 {/if}
-                <span class="more">{card.kind === 'espn' ? 'The 2021 draft' : `The ${card.year} season`} →</span>
+                <span class="more">{card.kind === 'pre' && card.hasDraft ? `The ${card.year} draft` : `The ${card.year} season`} →</span>
             </a>
         {/each}
     {:catch error}
