@@ -60,8 +60,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from league_config import STAT_CORRECTIONS, ELIGIBILITY, STRICT  # noqa: E402
 
 # Sleeper stores season points as an integer plus hundredths and rounds each week before
-# summing, so a season total can sit one cent off the sum of its weeks (BBrown16, 2023:
-# 1453.00 v 1452.99). Anything bigger than a cent is a real discrepancy.
+# summing, so a season total can sit one cent off the sum of its weeks (1453.00 v
+# 1452.99, in one real case). Anything bigger than a cent is a real discrepancy.
 CENT = 0.0101
 
 # What each slot accepts, Sleeper's potential-points greedy and the true best lineup all live
@@ -199,7 +199,7 @@ def league_weeks(season):
 def starter_slots(season):
     """
     The starting lineup for that season, bench excluded. Read per season: rosters change shape
-    between seasons (Mudd went from 14 spots to 13 for 2026), and a hardcoded shape is wrong
+    between seasons (a league can vote a bench spot away), and a hardcoded shape is wrong
     quietly.
     """
     return starters(SEASONS.get(season, {}).get("roster_positions"))
@@ -363,8 +363,7 @@ def median_results(rows):
 def official_points(row):
     """
     The score that counted. A commissioner override (`custom_points`, kept by the pull only
-    where set) beats the computed `points`; Sleeper's records and season totals use it. One
-    case so far: 2024 week 8, tuckersdumbteam v BBrown16.
+    where set) beats the computed `points`; Sleeper's records and season totals use it.
     """
     if row.get("custom_points") is not None:
         return r2(row["custom_points"])
@@ -560,15 +559,15 @@ def check_max_pf(games, detected=()):
        greedy Sleeper runs, with ELIGIBILITY applied -- must equal Sleeper's potential_points to
        the cent (after the pinned stat corrections). All 50 do. History of this check: with
        players.json positions alone, 48 of 50 agreed within 1% and two did not (2025
-       paulslaats -1.42%: Travis Hunter is "DB" there, but Sleeper let him start at WR; 2024
-       TnT44 +1.65%: Taysom Hill's TE/QB eligibility), which is why ELIGIBILITY exists.
+       -1.42%: Travis Hunter is "DB" there, but Sleeper let him start at WR; +1.65%: Taysom
+       Hill's TE/QB eligibility), which is why ELIGIBILITY exists.
     2. Every row that has a max_pf must have max_pf >= the computed score: the lineup actually
        started is one of the lineups considered. Override rows (max_pf null) are skipped.
 
     games.json carries best_lineup() rather than sleeper_potential(). They differ only where
-    Sleeper's greedy sits below the true optimum -- 2023 week 9 and 2024 week 11, both TnT44,
+    Sleeper's greedy sits below the true optimum -- in the real case behind this, two weeks,
     both Taysom Hill outscoring his quarterback -- and there the true figure is the right one:
-    in 2024 week 11 TnT44 scored 140.88 against a Sleeper "potential" of 125.82.
+    one manager scored 140.88 against a Sleeper "potential" of 125.82.
     """
     total = defaultdict(float)
     for g in games:

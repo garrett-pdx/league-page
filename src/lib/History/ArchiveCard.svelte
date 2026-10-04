@@ -16,7 +16,7 @@
       label     the small kicker above the fact
       text      an array of segments, rendered in order:
                   "plain string"
-                  { "m": "<user_id>", "label": "Kabroa" }   -> link to that manager's page
+                  { "m": "<user_id>", "label": "a name" }   -> link to that manager's page
                   { "season": 2022 }                         -> link to /seasons/2022
                 Segments rather than an HTML string, so nothing here is {@html}-injected.
       season    the season(s) the fact belongs to

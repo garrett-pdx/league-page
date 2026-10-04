@@ -2,12 +2,14 @@
 """
 What does a draft repeat from the posts just before it?
 
-  python3 scripts/repeat-check.py docs/articles/2026-w4-preview.md        # vs the previous 2
-  python3 scripts/repeat-check.py docs/articles/2026-w4-preview.md --last 3
+  python3 scripts/repeat-check.py league/drafts/2026-w4-preview.md        # vs the previous 2
+  python3 scripts/repeat-check.py league/drafts/2026-w4-preview.md --last 3
+
+The earlier posts are the other .md files in the draft's own directory.
 
 Two editions a week cover overlapping ground, and a reader who reads both should not be told
 the same thing twice. The Week 4 2026 preview re-ran the Week 3 recap's lead almost verbatim --
-paulslaats's perfect lineup, 148.38, the second-highest losing score, BBrown16's 148.74 --
+a perfect lineup, 148.38, the second-highest losing score, a rival's 148.74 --
 under a new heading.
 
 Compares prose only (tables are reference, and standings repeat by design) and reports:
@@ -19,23 +21,22 @@ Compares prose only (tables are reference, and standings repeat by design) and r
   * every phrase of six or more words the draft shares with an earlier post -- the stock
     lines and devices that make a series read like a template.
 
-Posts are ordered by the "WEEK N RECAP/PREVIEW" in their title: for the same week, the
-preview comes before the recap.
+Posts are ordered by week -- the "WEEK N" in the title, else the "w<N>" in the file name
+(2026-w4-preview.md) -- and within a week the preview comes before the recap.
 """
 import argparse
 import glob
 import os
 import re
 
-ARTICLES = os.path.join(os.path.dirname(__file__), "..", "docs", "articles")
-
-
 def order_key(path):
     title = open(path, encoding="utf-8").readline()
-    m = re.search(r"WEEK (\d+)(?: (RECAP|PREVIEW))?", title)
-    if not m:
-        return (-1, 0)                       # preseason and anything untitled sorts first
-    return (int(m.group(1)), 0 if m.group(2) == "PREVIEW" else 1)
+    name = os.path.basename(path).lower()
+    season = int((re.match(r"(\d{4})-", name) or [0, 0])[1])
+    m = re.search(r"WEEK (\d+)(?: (RECAP|PREVIEW))?", title, re.I)
+    week = int(m.group(1)) if m else int((re.search(r"-w(\d+)", name) or [0, -1])[1])
+    preview = "PREVIEW" in title.upper() or "preview" in name
+    return (season, week, 0 if preview else 1)
 
 
 def prose(path):
@@ -67,7 +68,7 @@ def main():
     a = ap.parse_args()
 
     draft = os.path.abspath(a.draft)
-    others = sorted((p for p in glob.glob(os.path.join(ARTICLES, "*.md"))
+    others = sorted((p for p in glob.glob(os.path.join(os.path.dirname(draft), "*.md"))
                      if os.path.abspath(p) != draft and order_key(p) < order_key(draft)),
                     key=order_key)[-a.last:]
     if not others:

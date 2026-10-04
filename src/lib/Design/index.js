@@ -1,5 +1,5 @@
 /*
-Design primitives for The Mudd League. Import as: import { Card, StatTile } from '$lib/Design';
+Design primitives. Import as: import { Card, StatTile } from '$lib/Design';
 
 Deliberately a SEPARATE barrel from $lib/components. That file is byte-identical to
 nmelhado/league-page and gains entries on most upstream releases, so adding to it would conflict

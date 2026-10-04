@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Reading-time estimate for a Mudd Report article, for the "· N min read" in its dateline.
+Reading-time estimate for a blog post, for the "· N min read" in its dateline.
 
-  python3 scripts/reading-time.py docs/articles/2026-w3-preview.md
+  python3 scripts/reading-time.py league/drafts/2026-w3-preview.md
 
 Counts prose only. The title is dropped (it is its own field on the site) and so is every
 table row: readers scan a standings table rather than read it, so its cells are not reading

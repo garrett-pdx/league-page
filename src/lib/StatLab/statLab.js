@@ -25,7 +25,7 @@ URL SCHEME (every control; defaults are left out, so a bare /stat-lab is the def
     type    regular | playoffs | all                        game type        (regular)
     season  2024,2025                                       seasons          (all)
     mgr     gurret,kabroa  -- Sleeper handles, lowercased   managers         (all)
-    opp     malstol                                         opponents        (any)
+    opp     handle3                                         opponents        (any)
     wk      1-14, 5-, -3                                    week range       (all)
     sort    a column key                                    table sort       (the measure)
     dir     asc | desc                                      sort direction   (the measure's own)
@@ -295,7 +295,7 @@ export const buildRows = (games, history, state) => {
 
 /*
 Why a minimum: a rate over three games is noise that looks like signal. The three-week 2026
-seasons beat every full season on win %, and Jordan Leonard's 2-0 against malstol topped "who
+seasons beat every full season on win %, and a departed manager's 2-0 against one opponent topped "who
 owns whom". Seasons and careers below the threshold are hidden (and counted, so the page can say
 so); Games has no minimum, a game is a game.
 

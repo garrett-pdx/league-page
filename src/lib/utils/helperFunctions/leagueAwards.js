@@ -142,10 +142,10 @@ const buildDivisionsAndManagers = ({previousRosters, leagueMetadata, numDivision
 		happens -- so the award silently went to whichever roster the loop reached first, i.e.
 		the lowest roster ID.
 
-		It changed a real result here. In 2022 Gurret (roster 1, 11-4, 1747.50) and
-		jonahcartwright (roster 6, 11-4, 1762.54) tied on wins. Roster 1 set the baseline, and
+		It changed a real result here. In one league's 2022 season roster 1 (11-4, 1747.50) and
+		roster 6 (11-4, 1762.54) tied on wins. Roster 1 set the baseline, and
 		roster 6 could not displace it because 1762.54 != 1747.50, so the site credited the top
-		seed to Gurret for four years. jonahcartwright outscored him by 15.04 and earned it.
+		seed to roster 1 for four years. Roster 6 outscored it by 15.04 and earned it.
 
 		`>` is also the tiebreak the rest of the project already documents -- record, then
 		points for -- which is how final_standings in static/data/ is derived.

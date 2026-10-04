@@ -28,7 +28,7 @@ DEFINITIONS. Every number in the output means exactly one of these:
   - Game score: the OFFICIAL score -- a commissioner's custom_points beats the computed points
     (official_points() in derive-site-data.py). Results, margins, highs and lows, streaks,
     head-to-head and the records check all use it. One override exists: 2024 week 8,
-    tuckersdumbteam 137.74 v BBrown16 122.54 (computed 150.34 / 148.74); any fact quoting that
+    137.74 v 122.54 (computed 150.34 / 148.74) in the real case; any fact quoting that
     game says so.
   - Player value for a manager (MVPs, keepers, draft steals and busts, FAAB "after that"): points
     the player scored IN THAT MANAGER'S STARTING LINEUP, in fixtures only, playoff and
@@ -196,8 +196,8 @@ def has_matchup(row):
     invented a third playoff round and paired the champion against an arbitrary opponent.
     Treat falsy as "no fixture" everywhere -- per ROW, not per week: in weeks 16-17 the two
     teams outside both brackets sit at null while everyone else plays, and their starters
-    once padded MVP totals (Josh Jacobs' 2025 for TnT44 read 218.1, of which 4.6 came from a
-    week TnT44 had no game).
+    once padded MVP totals (Josh Jacobs' 2025 for one manager read 218.1, of which 4.6 came from a
+    week that manager had no game).
     """
     return SITE.has_matchup(row)
 
@@ -863,7 +863,7 @@ def derive_draft_value():
             continue
         # Keepers occupy a draft slot but were never a draft decision, so they are not steals or
         # busts -- they are keeper decisions, and best_keeper/worst_keeper already tell that
-        # story. Without this filter mikestreinz's 2024 "round 1 pick" on Christian McCaffrey
+        # story. Without this filter one manager's 2024 "round 1 pick" on Christian McCaffrey
         # appeared as a draft bust and again, correctly, as a failed keeper.
         picks = [p for p in drafts[0]["picks"] if not p.get("is_keeper")]
         scored = [(starter_points(season, p.get("picked_by"), p["player_id"]), p)
@@ -937,7 +937,7 @@ def points_after(season, week, user, pid):
     (points, starts): what a player scored IN THIS MANAGER'S STARTING LINEUP from the pickup
     week onward, fixtures only.
 
-    Season totals are the wrong measure of a waiver bid: paulslaats paid $75 for Trevor
+    Season totals are the wrong measure of a waiver bid: a manager paid $75 for Trevor
     Lawrence in week 16 of 2022, and quoting the full-season figure credits him with points
     scored for somebody else in weeks 1 to 15. Rostered points are wrong too: a backup who
     never starts has won nobody anything.

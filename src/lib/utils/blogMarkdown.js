@@ -5,7 +5,7 @@ The markdown blog backend: league/posts/*.md, one file per post, published by co
     title: Week 4 preview
     date: 2026-09-30
     type: Preview
-    author: Gurret
+    author: commish
     featured: true
     ---
     The post, in markdown. Tables, lists, links and raw HTML all work.

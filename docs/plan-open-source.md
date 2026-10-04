@@ -124,9 +124,8 @@ Changes from today's `leagueInfo.js` worth having anyway:
 - [x] Manager photos in `league/managers/` (bundled through `import.meta.glob`), rivals by `userId`.
 - [x] `archiveFacts.js` to `league/archive-facts.json`.
 - [x] Page intros configurable (`pages`).
-- [ ] Before/after check of every page against the snapshots taken at the start of the phase.
-- [ ] Remaining Mudd strings in comments and docs (`leagueAwards.js`, `statLab.js`, theme files,
-      `src/lib/utils/CLAUDE.md`, `src/routes/CLAUDE.md`) are cleaned up in Phase 5.
+- [x] Before/after check of every page against the snapshots taken at the start of the phase.
+- [x] Remaining Mudd strings in code comments and the nested `CLAUDE.md` files (Phase 5).
 
 ### Phase 2: generalize the data pipeline and the pages for any Sleeper league
 
@@ -149,57 +148,61 @@ not understand. That is correct behaviour, and it means today they fail on most 
 | Taxi squad, co-owners, orphaned rosters | ? | ? | |
 | Team count other than 10 | `or 10` default | ? | |
 
-- [ ] One lineup solver, shared by `derive-site-data.py` and `week-facts.py`, that handles every
-      Sleeper slot type, keeps reproducing `potential_points` to the cent, and names the player
-      and week when it cannot (so the fix is an `eligibility` override, not a code change).
-- [ ] Median games: records, all-play, schedule luck and standings.
-- [ ] Divisions and ties back in Standings when the league has them.
-- [ ] Keeper UI (badges, keeper pages, keeper chains) only when the league keeps players.
-- [ ] **Keeper cost rule is Mudd's, hardcoded** in `build_keepers()` (`pull-league-history.py`)
-      and in the notes `Keepers.svelte` writes: cost = last season's round, one round dearer when
-      the same manager keeps again, undrafted costs the last round. Other leagues price keepers
-      differently (a fixed round penalty, auction value, no cost). Make it a `keepers.costRule`
-      in `league.json`, and compute `expected_cost_round` / `matches_rule` only when one is set.
-- [ ] Empty states for a first-season league and a fresh install before the first pull.
-- [ ] Imported drafts detected and offered to the setup skill as `history.preSleeper` candidates.
-- [ ] **Test matrix of real public leagues.** Upstream has ~1,300 forks, each with a league ID in
-      `leagueInfo.js`; pick ones covering every row above and run pull + derive + self-checks on
-      each. Keep their data out of the repo (scratch directory); commit only small synthetic
-      fixtures if a test needs one.
+- [x] One lineup solver (`scripts/lineup.py`), shared by `derive-site-data.py` and
+      `week-facts.py`: every Sleeper slot type, Sleeper's greedy for the potential-points check,
+      an exact assignment for the true optimum. Eligibility from `fantasy_positions` plus what
+      each season's lineups prove.
+- [x] Median games: records, standings, season tables, points per game.
+- [x] Divisions and ties in Standings when the league has them; division-first seeding.
+- [x] Playoffs of any size, two-week rounds, consolation brackets and toilet bowls, byes,
+      exhibition fixtures; final standings and season brackets for all of them.
+- [x] Orphaned rosters (stand-in managers), stat corrections detected by pairing, and
+      disagreements with Sleeper as warnings unless `pipeline.strict`.
+- [x] Keeper-cost rule as config (`keepers.rule`); without one, facts only.
+- [x] Empty states for a first-season league (tested on a real one) and empty derived files when
+      no week is complete.
+- [x] Best ball: Lineup IQ hidden when every lineup is perfect.
+- [x] **Test matrix**: 13 public leagues from upstream's forks covering every format above, plus
+      a first-season league. All run the whole pipeline; 486 of 518 manager-seasons reproduce
+      Sleeper's potential points to the cent. `scripts/try-league.sh` and
+      `npm run dev:league` make any league testable without touching this one.
+- [ ] Free agents covers QB/RB/WR/TE only; kickers, defenses and IDP are not searched yet.
+- [ ] Imported drafts are confirmed with the commissioner by the setup skill rather than
+      detected automatically.
+- [ ] One 16-team, 8-seed league seeds in an order no standard rule reproduces; left approximate.
 
 ### Phase 3: brand generator
 
-- [ ] `league.json` theme (two or three colours) produces the design tokens; contrast checked
-      (body ink AA, never gold-as-ink), with ink shades derived when a colour fails.
-- [ ] Seal and wordmark SVGs generated from name, ring text and founding year; the existing
-      Mudd art becomes the output for Mudd's inputs (or stays as a hand-made override).
-- [ ] `render-icons.js` driven by the generated seal; `manifest.json` generated from config.
+- [x] `npm run brand` (`scripts/brand.mjs`): theme colours to a contrast-checked token file
+      (`src/theme/_league.scss`), brand art from `scripts/brand-templates/` (name, tagline and
+      year sized to fit), icons; `league/brand/` overrides any file. Tokens renamed by role
+      (`--brand*`, `--trophy*`, `--emblem`). Mudd's palette and art reproduce byte for byte.
+- [ ] Per-league brand in `npm run dev:league` previews (today the preview shows the main
+      league's brand).
 
 ### Phase 4: markdown blog
 
-- [ ] `league/posts/*.md` with simple `key: value` frontmatter (title, date, type, author,
-      featured, summary) rendered with `marked`; same `/blog` and `/blog/<slug>` pages.
-- [ ] `blog.backend` switch; Contentful kept behind it.
-- [ ] `publish-article.mjs` writes to `league/posts/` for the markdown backend.
+- [x] `league/posts/*.md` with `key: value` frontmatter, rendered with `marked` in the shape the
+      Contentful backend returns; `blog.backend` switch; `publish-article.mjs` writes markdown
+      posts; the home card hides itself when there are no posts.
 
 ### Phase 5: agent layer
 
-- [ ] Engine `CLAUDE.md` (architecture, conventions, design system, Sleeper data traps: the
-      week 18 phantom, unplayed seasons, keepers in draft slots, roster IDs moving) and
-      `league/NOTES.md` (one league's facts). Today's root `CLAUDE.md` splits between the two.
-- [ ] **`league-setup` skill**: league ID in, then: read Sleeper (format, history, managers,
-      imported drafts), interview the commissioner (name, colours, voice, bios), write
-      `league.json`, run the pipeline, generate the brand, draft a constitution from the Sleeper
-      settings, deploy to Vercel.
-- [ ] Generic `league-data`, `league-recap`, `league-preview` skills (from `mudd-*`), reading
-      `league/voice.md`. Mudd's skills become thin wrappers or are replaced.
-- [ ] `league-season` skill for the end-of-season and preseason checklists.
-- [ ] `derive-narratives` and `league-lore.md` produced for any league.
+- [x] Root `CLAUDE.md` is the engine's guide; the league's facts moved to `league/NOTES.md`;
+      nested `CLAUDE.md` files genericized; `AGENTS.md` points other agents at them.
+- [x] Skills: `league-setup` (league ID to deployed site), `league-data`, `league-recap`,
+      `league-preview`, `league-season`. The `mudd-*` skills are replaced: Mudd's voice and
+      publishing details are in `league/voice.md`, the shared craft in `docs/writing.md`, and
+      post drafts moved to `league/drafts/`.
+- [x] Tools the skills use: `league-summary.py`, `sync-managers.py`, `suggest-rivals.py`,
+      `find-current-league.py`; `projections.py` and `repeat-check.py` made league-neutral.
+- [x] Opt-in `refresh-data` GitHub Action (runs only with the repository variable
+      `REFRESH_DATA` set to true).
 
 ### Phase 6: split and publish
 
-- [ ] Demo league config, README, setup guide, config reference, licence credit, package.json
-      metadata, version checker, CHANGELOG reset.
+- [ ] Demo league config, README, `docs/setup.md` (the skills already point to it), licence
+      credit, package.json metadata, version checker, CHANGELOG reset.
 - [ ] New public repo created from the branch with the demo `league/`; Mudd's `league/` stays here.
 - [ ] Mudd-only material stays in this repo: `docs/articles/`, `mudd-voice.md` (becomes
       `league/voice.md`), the revamp log and plan docs, one-off scripts.
@@ -212,6 +215,7 @@ Sleeper data that moves on its own (scores, transactions, the NFL week).
 
 ## Open questions
 
-- **Project name.** Needed by Phase 6 (package.json, README, repo name, update checker).
+- **Project name.** Needed by Phase 6. Suggested 2026-10-04: Gridiron Almanac (recommended;
+  unused on GitHub and npm), League Almanac, Leaguebook, Trophy Case, Fantasy Almanac.
 - Whether Mudd moves its existing posts from Contentful to markdown (a migration script is
   cheap once Phase 4 lands).

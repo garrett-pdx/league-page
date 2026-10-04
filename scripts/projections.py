@@ -36,9 +36,14 @@ import os
 import sys
 import urllib.request
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from league_config import LEAGUE_ID, DATA_DIR  # noqa: E402
+from lineup import SLOT_ELIGIBLE, NON_STARTING, normalize  # noqa: E402
+
 API = "https://api.sleeper.app/v1"
-LEAGUE_ID = "1312235880743706624"
-SNAP_DIR = os.path.join(os.path.dirname(__file__), "..", "static", "data", "projections")
+SNAP_DIR = os.path.join(DATA_DIR, "projections")
+# Positions the league can start, from its roster slots (set in main(): QB/RB/WR/TE by default,
+# plus K, DEF and IDP positions where the league has those slots).
 POSITIONS = {"QB", "RB", "WR", "TE"}
 
 
@@ -62,6 +67,12 @@ def main():
         sys.exit('usage: python3 scripts/projections.py <week> ["Player Name" ...] [--snapshot]')
     week, names = int(args[0]), args[1:]
     league = get(f"{API}/league/{LEAGUE_ID}")
+    global POSITIONS
+    POSITIONS = set()
+    for slot in league.get("roster_positions") or []:
+        if slot not in NON_STARTING:
+            POSITIONS |= SLOT_ELIGIBLE.get(slot, {slot})
+    POSITIONS = POSITIONS or {"QB", "RB", "WR", "TE"}
     season, settings = league["season"], league["scoring_settings"]
     players = get(f"{API}/players/nfl")
     live = get(f"{API}/projections/nfl/regular/{season}/{week}")
@@ -72,7 +83,7 @@ def main():
         # stays small enough to commit every week.
         keep = {pid: {k: v for k, v in line.items() if k in keys}
                 for pid, line in live.items()
-                if (players.get(pid) or {}).get("position") in POSITIONS
+                if normalize((players.get(pid) or {}).get("position")) in POSITIONS
                 and (players.get(pid) or {}).get("team") and score(line, settings) > 0}
         os.makedirs(SNAP_DIR, exist_ok=True)
         out = snapshot_path(season, week)
@@ -100,7 +111,7 @@ def main():
     by_pos = {}
     for pid, line in proj.items():
         p = players.get(pid) or {}
-        if p.get("team") and p.get("position") in POSITIONS:
+        if p.get("team") and normalize(p.get("position")) in POSITIONS:
             by_pos.setdefault(p["position"], []).append((score(line, settings), pid))
     rank = {}
     for pos, rows in by_pos.items():

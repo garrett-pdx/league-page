@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-The verified fact block for one week of the Mudd League.
+The verified fact block for one week of the league.
 
 Both blog editions -- the Monday in-progress report and the midweek preview -- need the same
 arithmetic: what everyone scored, what they could have scored, what they left on the bench,
 how they'd have done against the whole league, and where that ranks. This computes all of it
 from live Sleeper data so a post never has to trust a number somebody typed by hand.
 
-WHY THIS EXISTS AS A SCRIPT. On 2026-09-16 the Week 2 post called TnT44 the second-highest
+WHY THIS EXISTS AS A SCRIPT. A league's Week 2 post once called a manager the second-highest
 scorer of Week 1. He was third. The figures had been computed correctly -- the week before,
 from the Week 1 post, before Monday Night Football moved them. Ten claims in that post were
 wrong for the same reason. Rankings are the trap: they are right when written and silently
@@ -18,7 +18,7 @@ Usage:
   python3 scripts/week-facts.py 1                  # current season, week 1
   python3 scripts/week-facts.py 1 --json           # machine-readable
   python3 scripts/week-facts.py 1 --fixture DIR    # derive from a saved snapshot, no network
-  python3 scripts/week-facts.py --h2h Gurret Streinz
+  python3 scripts/week-facts.py --h2h <handle A> <handle B>
   python3 scripts/week-facts.py --history          # all-time leaderboards for fact checks
 """
 
@@ -101,7 +101,7 @@ def official_score(row):
     The score that counted. A commissioner override (`custom_points`) beats the computed
     `points`; Sleeper's records use it. Results, ranks, margins and all-play use this; benched
     and efficiency compare the COMPUTED score with the optimal lineup, since both are sums of
-    recorded player points. One override so far: 2024 week 8, tuckersdumbteam v BBrown16.
+    recorded player points. league-history.json's weeks carry the overrides.
     """
     if row.get("custom_points") is not None:
         return row["custom_points"]
@@ -163,7 +163,7 @@ def best_lineup(points_by_player, slots, extra=None, ineligible=(), season=None)
     `ineligible` must contain anyone on IR. They accrue points in `players_points` but cannot
     legally be started, so counting them inflates the optimal lineup and therefore the benched
     total -- which in a post that grades people publicly means accusing someone of leaving
-    points on the bench that they were never allowed to play. BBrown16 had Alec Pierce on IR
+    points on the bench that they were never allowed to play. One manager had Alec Pierce on IR
     scoring 8.10 in Week 1 of 2026; including him overstated his benched points by 1.30 and
     cost him 1.4 points of efficiency.
     """
@@ -223,7 +223,7 @@ def week_facts(season, week, fixture=None):
         # A player who actually started was, by definition, eligible that week -- so he stays
         # in the optimal pool even if he is on IR today. `rosters` is a snapshot of NOW, not a
         # record of who could be started in a past week, and subtracting today's IR list from
-        # a past week drops points that genuinely counted. TnT44 started Jordan Mason for 11.9
+        # a past week drops points that genuinely counted. One manager started Jordan Mason for 11.9
         # in Week 1 of 2026 and has him on IR since; excluding him retroactively produced an
         # optimal lineup BELOW what was actually scored, and a 103.3% efficiency.
         on_ir = reserve_by_roster.get(e["roster_id"], set()) - set(starter_ids)
@@ -248,7 +248,7 @@ def week_facts(season, week, fixture=None):
         # has not kicked off sits on 0.0, and best_lineup happily swaps him for any bench
         # player who has already scored -- charging the manager for a decision the week has
         # not finished making. In Week 2 of 2026 that hit five of ten teams, and all 11.00 of
-        # tuckersdumbteam's "benched" was Xavier Worthy standing in for a receiver who had not
+        # one manager's "benched" was Xavier Worthy standing in for a receiver who had not
         # played yet. Here each pending starter keeps his slot and the rest are optimised over
         # players who have actually played. `starters` is index-aligned with the league's
         # starting slots, so the slot each pending player holds is known exactly rather than
@@ -290,7 +290,7 @@ def week_facts(season, week, fixture=None):
             # Who they ACTUALLY started, which is not the same list as the optimal lineup and
             # must never be confused with it -- writing "X started Y" off the optimal lineup
             # invents a decision nobody made. In Week 1 of 2026 the optimal lineup put Kyle
-            # Pitts in tuckersdumbteam's tight end slot; he actually started Travis Kelce.
+            # Pitts in one manager's tight end slot; he actually started Travis Kelce.
             "started": sorted(
                 ({"player": player_name(p, extra), "points": pp.get(p) or 0.0}
                  for p in starter_ids),
@@ -453,7 +453,7 @@ def head_to_head(a, b):
                 continue
             if not ra.get("matchup_id") or ra.get("matchup_id") != rb.get("matchup_id"):
                 continue
-            # Official scores: 2024 week 8 tuckersdumbteam v BBrown16 was overridden.
+            # Official scores: a commissioner override beats the computed score.
             x, y = L.official(ra), L.official(rb)
             pa += x
             pb += y
@@ -528,8 +528,8 @@ def main():
                   f"{', '.join(g['trailer_yet_to_play'])}")
             if g["leader_still_playing"]:
                 # The printed number is only the floor: whatever the leader's pending players
-                # score raises it. In Week 2 of 2026 malstol "needed 25.37 from Skattebo" while
-                # Kyren Williams was still to play for paulslaats -- the real bar was Skattebo
+                # score raises it. One post had a manager "needing 25.37 from Skattebo" while
+                # Kyren Williams was still to play for his opponent -- the real bar was Skattebo
                 # beating Williams by 25.37.
                 print(f"      ^ and {g['leader']} still has players to come, so that is the "
                       f"floor, not the target")

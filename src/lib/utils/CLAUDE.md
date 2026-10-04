@@ -1,130 +1,59 @@
 # CLAUDE.md — config & data layer
 
-This directory is where the league is *configured* and where every byte of Sleeper data
-enters the app. See the root `CLAUDE.md` for the league's facts (IDs, managers, rules).
+This directory is where the league's configuration enters the app and where every byte of
+Sleeper data does. The league's own facts are in `league/NOTES.md`.
 
-## leagueInfo.js — the config file
+## leagueInfo.js — the config loader
 
-The one file the upstream template exists to have you edit, and the first stop for almost
-any league-customization request:
+Nothing league-specific is written here. It reads `league/league.json` (through the `$league`
+alias, which `LEAGUE_DIR` can repoint to preview another league) and the optional `home.md` and
+`constitution.md`, and exports what the components import:
 
-- `leagueID` — the **current season's** Sleeper league ID only. Everything else walks
-  backwards through `previous_league_id` on its own; do not list old seasons here.
-- `leagueName`.
-- **`dues` is gone.** Upstream exports it here and the constitution page renders the
-  amount and the payout math from it; this league doesn't track dues on the site, so the
-  export, its re-export in `helper.js`, and the constitution's Section 7 were all removed
-  together. If a future upstream merge reintroduces a `dues` import, delete it rather than
-  restoring the constant.
-- `dynasty` — **`false`** for this league. It's a keeper league, and the template defaults
-  to `true`. See "There is no keeper league type" below for what this flag does and,
-  more importantly, what it doesn't.
-- `enableBlog` — **`true`**. Needs `VITE_CONTENTFUL_SPACE` and
-  `VITE_CONTENTFUL_CLIENT_ACCESS_TOKEN` (the read-only *delivery* token), both set in
-  Vercel.
-- `enableComments` — **`false`**, and ours, not upstream's. This league does not want
-  comments, so `FullPost.svelte` skips both the `/api/getBlogComments` fetch and the
-  `<Comments>` render.
-  **This is also a security posture, not just a preference.** The third Contentful
-  variable, `VITE_CONTENTFUL_ACCESS_TOKEN`, is a *management* token with full write access
-  to the space, and it is used only for writing comments. Vite treats the `VITE_` prefix as
-  "expose to the browser", so shipping a management token under that name risks handing
-  write access to anyone who reads the bundle. It is deliberately **not set**. Re-enabling
-  comments means setting it AND moving it off `import.meta.env` onto `$env/static/private`
-  in `src/routes/api/addBlogComments/[id]/+server.js` first.
-- `homepageText` — a raw HTML string, injected into the home page with `{@html}`. This is
-  the intended way to customize the home page's copy. Hand-written trusted content only.
-- `managers` — one object per manager, keyed by **`managerID`** (the Sleeper `user_id`).
-  The commented-out block at the bottom of the file is upstream's canonical, up-to-date
-  manager shape; it is deliberately left commented so upstream can revise it without
-  merge conflicts. **Copy from that block, don't copy from the three older examples
-  above it**, and leave it in place. Ignore the deprecated `roster` and `tookOver` fields.
-  Photos referenced here live in `static/managers/`.
+- `leagueID` (`sleeperLeagueId`, the **current season's** ID; history walks
+  `previous_league_id`), `leagueName`, `leagueShortName`, `leagueDescription`, `siteUrl`,
+  `founded`, `dynasty`, and `league` (the whole config).
+- Blog: `blogBackend` ("markdown" by default, "contentful", "none"), `enableBlog`, `blogTitle`,
+  `blogIntro`, `contentfulTypes`, `enableComments` (Contentful only, and only with a server-side
+  management token; see the comment in the file).
+- `homepageText` (home.md rendered) and `constitution` (constitution.md parsed into numbered
+  sections by `parseConstitution()` in `markdown.js`, or null).
+- `leagueLinks`, `elsewhereLinks`, `navLinks` (links with `nav` set, for the League menu);
+  `{sleeper}` in a URL is the league's Sleeper page, and links to a disabled feature are dropped.
+- `preSleeperSeasons` / `preSleeperSeason(year)`, `pageIntro(key)`, `photoUrl(photo)`.
+- `managers`, **in the shape the components were written against**: `managerID`, a resolved
+  `photo` URL and `rival: { name, link, image }`, where `link` is an index into this array (or
+  null). league.json names a rival by `userId` instead, so reordering managers can never quietly
+  re-pair them; the index is computed here. A rival can also be a named non-manager
+  (`everyone.png` and `question.jpg` are built-in photos).
 
-An empty `managers` array is valid — the manager pages just stay generic, and the home
-page skips the click-through to a manager bio.
+Photos are bundled with `import.meta.glob` from `league/managers/`, so they are fingerprinted.
+Optional files are globs rather than imports, so a league without one still builds.
 
-**Two fields are required despite the docs implying everything optional can be nulled**,
-because they're rendered unguarded:
-
-- `photo` — both `ManagerRow.svelte` (`img.photo`) and `Manager.svelte` (`img.managerPhoto`)
-  bind `src` with no `{#if}`, so a missing photo is a broken image. Every manager here
-  points at a local file in `static/managers/`.
-- `rival` — `ManagerFantasyInfo.svelte` reads `rival.link`, `rival.image` and `rival.name`
-  unguarded (search `infoRival`), so omitting it **throws on the manager detail page**.
-  `link` is an index into the `managers` array — it shifts if you reorder entries — and
-  `null` links back to the all-managers page. The tile is a real link to the rival's page,
-  with a Head-to-head link under it to `/rivalry?player_one=<managerID>&player_two=<managerID>`
-  (the rivalry page takes Sleeper user_ids, not indexes). All ten active managers have a real
-  rival; how they were paired is in the comment above `managers`.
-
-Every other field is properly `{#if}`-guarded and safe to omit: an unset optional field is
-simply not shown (there is no "?" placeholder).
-
-`managerID` must be a user Sleeper knows about somewhere in the league history —
-`ManagerRow.svelte` does an unguarded `leagueTeamManagers.users[manager.managerID]` lookup
-for the commissioner badge. This is why a departed manager can safely be listed (Jordan
-Leonard is), but an invented ID cannot.
+An empty `managers` array is valid (the Managers tab hides); `scripts/sync-managers.py` fills it
+from the dataset. `managerID` must be a user Sleeper knows somewhere in the league's history:
+`ManagerRow.svelte` looks the user up unguarded for the commissioner badge.
 
 ## There is no keeper league type
 
-`dynasty` is a two-state, **purely cosmetic** flag. It is read in exactly two places, neither
+`dynasty` (league.json) is a two-state, **purely cosmetic** flag. It is read in exactly two places, neither
 of which touches draft or roster mechanics:
 
 - `src/lib/Resources.svelte` — filters the resource links (`dynastyOnly` / `redraftOnly`).
 - `helperFunctions/news.js` + `routes/api/fetch_serverside_news` — picks which RSS feeds
   to pull.
 
-(Upstream's `ManagerRow` also showed a "Rebuild" badge when it was true; our rewritten card
-doesn't read it.) There is no keeper cost engine, no keeper count, no inflation, and no third
-league type. `false` here means "not dynasty" and is the right setting, but it buys nothing
-keeper-specific — it just swaps dynasty content for redraft content. Every keeper feature on
-the site is ours and read-only: the draft badge below, and the Seasons pages' keeper list,
-which reads the pulled `keepers.json` (cost and rule check computed offline by the pull).
+There is no keeper league type in the site itself. Every keeper feature is read-only: the draft
+badge below, and the Seasons pages' keeper list, which reads the pulled `keepers.json` (each
+keeper's cost and lineage, and, when league.json has a `keepers.rule`, whether the cost matched
+it — computed offline by the pull).
 
-**Sleeper does supply the data; the template ignores it.** `/draft/{id}/picks` returns
-`is_keeper` (`true` or `null`) on every pick, and because a keeper consumes the pick slot
-it costs, the round of that pick *is* the keeper cost. Verified live on the league's 2025
-draft: 14 rounds, 140 picks, 18 flagged `is_keeper`, spread across all 10 teams — e.g.
-TnT44 kept Josh Jacobs at R2 and Justin Jefferson at R3; Gurret kept Trey McBride at R13.
-
-**We now surface that.** `completedNonAuction` in `helperFunctions/leagueDrafts.js` sets
-`keeper` on the draft cell and `Drafts/DraftRow.svelte` renders a corner badge, so a past
-draft shows which picks were spent on keepers and — because the badge sits in the round it
-cost — what each one cost. 75 badges render across 2022-2025, matching `keepers.json`
-exactly; the page reads live Sleeper while that file was pulled independently, so the two
-agreeing is a genuine cross-check. Pre-draft boards show no badges, which is correct.
-
-Anything richer than "this pick was a keeper" — cost inflation, next-year projections,
-who can keep whom — belongs in the keeper draft board project, not here.
-
-## Manager bios: where the numbers come from
-
-Every manager is a former Claremont-Mudd-Scripps football player, and their bios are built
-from their `cmsathletics.org` roster page. Two things to know before editing one.
-
-**The site contradicts itself.** Each player page has prose bio copy AND structured
-Statistics tables, and they frequently disagree. Malcolm Stolarski's prose says he started
-every game as a true freshman and started all of 2016-17; his Participation table says
-2015: 0 starts, 2016: 2, 2017: 1. Kevin Shoyer's prose claims seven tackles for loss in
-2017; his career table totals 1.
-
-**League policy, set by Garrett: when the two conflict, use whichever sounds better.**
-This is a league page, not a record book. The constraint is that the number must actually
-appear somewhere on the school's own page &mdash; pick between two published figures, never
-invent a third. Both current conflicts are resolved toward the prose.
-
-**Two facts confirmed by Garrett that the source can't back up.** `Kabroa` is Kanoa
-Gilliland &mdash; the handle doesn't contain the name, so this mapping came from Garrett, not
-from the page. And Jonah Cartwright attended **Harvey Mudd**; the CMS site has it wrong, so
-his bio's "fellow Harvey Mudd running back" line is correct as written. Don't rewrite
-either one against the website.
-
-**Scraping these pages needs the browser, not WebFetch.** The Statistics tab
-(`#ui-id-3`) populates client-side, so WebFetch sees "no statistics available" and reports
-the player has none. Use the Browser tools: navigate, click `ui-id-3`, then read the tables
-under the "Career Statistics" heading. The `Historical` tab holds year-by-year
-height/weight and jersey changes. Offensive linemen genuinely have empty career tables.
+**Sleeper supplies the data.** `/draft/{id}/picks` returns `is_keeper` (`true` or `null`) on
+every pick, and because a keeper consumes the pick slot it costs, the round of that pick *is*
+the keeper cost. `completedNonAuction` in `helperFunctions/leagueDrafts.js` sets `keeper` on the
+draft cell and `Drafts/DraftRow.svelte` renders a corner badge, so a past draft shows which picks
+were spent on keepers and what each cost. The page reads live Sleeper while `keepers.json` is
+pulled independently, so the two agreeing is a genuine cross-check. Pre-draft boards show no
+badges, which is correct.
 
 ## helper.js is a barrel, not logic
 
@@ -158,7 +87,7 @@ from the UI. A page navigation must not re-hit Sleeper for data already loaded.
 **2. Walk the league history by `previous_league_id`.** Anything "all-time" (records,
 awards, team/manager mapping) loops from `leagueID` backwards until the ID is falsy or
 `0`, building a `[year][roster_id]` map — see `leagueTeamManagers.js`, the pattern the
-others follow. For this league that's five Sleeper seasons, 2022–2026 (2021 was on ESPN). Roster IDs are only
+others follow. Roster IDs are only
 meaningful *within* a season, which is why the map is keyed by year first; never assume a
 roster ID identifies the same manager across seasons.
 
@@ -179,8 +108,9 @@ them during SSR. No stores, no `localStorage`.
   per team per game, and the pure functions every history page computes with — `filterGames`,
   `allPlay`, `headToHead`, `standingsFrom`, `liveSeasonGames` (the same row shape built from live
   Sleeper matchups, so Standings' luck never lags), `benchPoints`, `lineupEfficiency`,
-  `lineupTotals`. Rows are keyed on `user_id`. The override game's `max_pf` is null; skip
-  nulls rather than treating them as zero.
+  `lineupTotals`. Rows are keyed on `user_id`. An override game's `max_pf` is null; skip
+  nulls rather than treating them as zero. `median` (median-game result) and `leg` (two-week
+  playoff rounds) are null unless the league has them; `standingsFrom` counts median results.
 - **`seasonNotes.js`** → `season-notes.json`, `keepers.json`, `players.json`, for the Seasons
   archive only.
 
@@ -201,7 +131,11 @@ The sizes and the rule against fetching anything bigger are in the root `CLAUDE.
 `getLeagueTransactions` used to destructure the result of a `.catch(console.error)` and threw
 "Cannot destructure 'transactionsData'" whenever a Sleeper fetch failed, which crashed /manager.
 It now returns no transactions (and doesn't cache them) when the comb fails, and tolerates a
-failed `getNflState`. Keep that guard through an upstream merge.
+failed `getNflState`.
+
+`getLeagueTeamManagers` also returns `neverRostered`: accounts in a season's user list that
+never owned or co-owned a roster (a commissioner's second account, an invite never accepted).
+Pages that list every manager leave them out.
 
 ## The Reddit half of the news feed is permanently dead (handled)
 

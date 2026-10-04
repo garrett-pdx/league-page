@@ -360,8 +360,7 @@ def build(raw, players, state):
                 }
                 # A commissioner score override. When set it is the official score -- Sleeper's
                 # records and season points use it -- while `points` stays the computed one.
-                # Only present where set: 2024 week 8, tuckersdumbteam v BBrown16, is the one
-                # case so far. Sleeper returns it as a float32 (137.74000549316406), so round.
+                # Only present on an overridden game. Sleeper returns it as a float32 (137.74000549316406), so round.
                 if m.get("custom_points") is not None:
                     snap[uid]["custom_points"] = round(m["custom_points"], 2)
                 for pid in (m.get("players") or []):

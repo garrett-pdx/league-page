@@ -43,7 +43,8 @@ DOCS = os.path.join(ROOT, "docs")
 BOARD = os.path.expanduser("~/Desktop/ff_keeper/public")
 
 SEASON = "2026"
-LEAGUE_ID = "1312235880743706624"
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from league_config import LEAGUE_ID, CONFIG  # noqa: E402
 FANTASYCALC = "https://api.fantasycalc.com/values/current?isDynasty=false&numQbs=1&numTeams=10&ppr=0.5"
 ROSTERS_URL = f"https://api.sleeper.app/v1/league/{LEAGUE_ID}/rosters"
 
@@ -73,17 +74,9 @@ MANAGERS = HISTORY["managers"]
 
 def real_names():
     """
-    managerID -> real name, read out of leagueInfo.js.
-
-    Parsed rather than hardcoded so a name change in the config cannot silently desync the
-    report. leagueInfo.js is JS, not JSON, so this is a regex over a stable hand-written
-    shape; it is checked below and the script refuses to run on a partial match.
+    managerID -> real name, from league.json's managers.
     """
-    src = open(os.path.join(ROOT, "src", "lib", "utils", "leagueInfo.js")).read()
-    pairs = re.findall(
-        r'"managerID":\s*"(\d+)",\s*\n\s*"name":\s*"([^"]+)"', src
-    )
-    return {mid: name for mid, name in pairs}
+    return {m["userId"]: m["name"] for m in CONFIG.get("managers") or []}
 
 
 NAMES = real_names()
@@ -469,7 +462,7 @@ def main():
         return 1
 
     if len(NAMES) < 10:
-        print(f"only parsed {len(NAMES)} manager names from leagueInfo.js", file=sys.stderr)
+        print(f"only found {len(NAMES)} manager names in league.json", file=sys.stderr)
         return 1
 
     print(f"{len(picks)} picks ({len([p for p in picks if p.get('is_keeper')])} keepers)")

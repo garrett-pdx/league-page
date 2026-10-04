@@ -1,7 +1,7 @@
 # CLAUDE.md — routes
 
-SvelteKit file-based routing. See the root `CLAUDE.md` for the fork constraint that
-governs how freely each of these files can be edited.
+SvelteKit file-based routing. See the root `CLAUDE.md` for the engine/league split: nothing in
+here holds anything about a particular league.
 
 ## Page shape
 
@@ -40,11 +40,11 @@ manager's name, a synchronous array lookup), `seasons/[year]` ("2024 Season") an
 
 ## `+layout.svelte`
 
-`<Nav />`, `<slot />`, `<Footer />`, plus `injectAnalytics` from `@vercel/analytics`. The
-nav's structure comes from `src/lib/utils/tabs.js`, not from this file — add or reorder
-nav entries there. `tabs.js` already links out to Sleeper using `leagueID`; a link to the
-keeper draft board belongs in the same place (or under `/resources`). Both now exist: the
-board is under League → Rules & Tools, and `/resources` leads with `LeagueLinks`.
+`<Nav />`, `<slot />`, `<Footer />`, plus `injectAnalytics` from `@vercel/analytics`, and the
+`<svelte:head>` tags that come from league.json (application name, description, the Safari
+pinned-tab colour). The nav's structure comes from `src/lib/utils/tabs.js`; a league's own tool
+links come from `links` in league.json (`nav` puts one in the League menu), and `/resources`
+leads with them (`LeagueLinks`).
 
 ## `+error.svelte`
 
@@ -66,20 +66,23 @@ playoffs, as "N weeks away" with no ticking clock), the reigning champion from `
 post, transactions. The blog post is its own `.text` block for exactly this reason. A new
 block needs its own `order` or it lands at the end on phones.
 
-Customize it through `homepageText` in `src/lib/utils/leagueInfo.js` before reaching for
-the component itself. The hand-written champion paragraph that used to sit in `homepageText`
-is gone on purpose: the right-rail panel updates itself, and the paragraph went stale every
-season. The current copy is awaiting Garrett's approval.
+Customize it through `league/home.md` before reaching for the component itself. Don't put a
+champion paragraph there: the right-rail panel updates itself, and a hand-written one goes stale
+every season. The blog card shows the featured post, else the newest, and hides itself when the
+blog has no posts (`noPost`).
 
 ## `seasons/` (ours)
 
-`/seasons` is a card per season; `/seasons/[year]` is one page per year, 2021 to the current
-season, rendered by `$lib/Seasons/SeasonPage`. `[year]/+page.js` is the one load in the app
+`/seasons` is a card per season; `/seasons/[year]` is one page per year, from the first season
+on record (pre-Sleeper seasons from `history.preSleeper` included) to the current one, rendered by
+`$lib/Seasons/SeasonPage`. `[year]/+page.js` is the one load in the app
 that **awaits** something: it awaits `league-history.json` (memoized, small) only to decide
 whether the year exists, and throws SvelteKit's `error(404)` for one that doesn't, so a bad
 year is a real 404 rather than an empty page. Everything else it returns unawaited, as usual.
-2021 is the ESPN season: a short page with the carried-over draft and no standings, because
-none exist. The season in progress is labelled as such and has no final table.
+A pre-Sleeper season is a short page (`PreSleeperSeason.svelte`) with the league's story and the
+imported draft, if any, and no standings, because none exist in Sleeper. The season in progress
+is labelled as such and has no final table. Brackets, seeds and the title game come from
+`seasonData.js`, which handles any playoff size, two-week rounds and both losers-bracket kinds.
 
 ## `stat-lab/` (ours)
 
@@ -90,41 +93,22 @@ line / scatter charts with a sortable table under each, six presets, no chart li
 
 ## `constitution/`
 
-This league's actual rules, rewritten from scratch — nine sections covering format,
-rosters, scoring, keepers, the draft, waivers, trades, the postseason and league votes.
-Every mechanical rule was sourced from the live Sleeper config rather than assumed, so
-treat the numbers as load-bearing: no kicker or defense slot, half-PPR, 13-round snake
-(14 through 2025; the five-spot bench and the lost round were voted 7–3 for 2026), $100
-FAAB, week 12 trade deadline, four-team playoff over weeks 16-17.
-
-Pure content, and the one place in `routes/` to edit freely. Three things to preserve:
+Rendered from `league/constitution.md` by `parseConstitution()` (`src/lib/utils/markdown.js`):
+each `##` heading is a numbered section and each `###` a numbered rule, so the table of contents
+and the numbering are built from the document. Without the file, the page and its nav entry
+disappear. Three things to preserve:
 
 - **Each section is a `<details>`, collapsed by default**, with the `<h2>` inside the
-  `<summary>`. `bind:this` for a section points at the `<details>`, not the heading.
-  `goToSection` walks up from its target opening every `<details>` ancestor before it
-  measures — a collapsed section lays out none of its children, so a subsection ref inside
-  one measures at the wrong position. It then waits a frame, because the expanded height
-  is not real until the next one. Sections are left uncontrolled (no `open={...}`) so a
-  reader's own toggling is never fought by a reactive value; **Expand all / Collapse all**
-  set `.open` imperatively. That control is not decoration: find-in-page does not reliably
-  match text inside a closed `<details>`, and this is a document people search for one rule.
-- **The table of contents is manual.** It's a `<nav>` of `<button>`s bound to `goToSection`
-  refs declared at the top of the file. Add or remove a section and you must update both
-  the refs and the nav. It was originally a stack of clickable `<h3>`/`<h4>`s, which made
-  every section title appear twice in the document outline and left the whole TOC
-  unreachable by keyboard — don't regress it back to headings. It is kept alongside the
-  accordion because `<summary>` only indexes the nine sections; the TOC is the only way to
-  jump straight to a numbered subsection.
-- **Body copy uses `var(--g555)`, not a hardcoded grey.** Upstream's `#777` measured
-  ~3.6-4.2:1 against this page's gradient and failed AA in both themes.
-
-Two rules here were decided by the league and are **the source of truth**, overriding the
-keeper draft board where they disagree: same-round keeper collisions are resolved by the
-manager's choice (section 4.5), and draft picks trade one for one (7.3). The board resolves
-collisions by player rank instead; that divergence is accepted — see the root `CLAUDE.md`.
-
-`dues` and its League Finances section were removed deliberately; this league doesn't
-track dues on the site.
+  `<summary>`. `goToSection` walks up from its target opening every `<details>` ancestor before
+  it measures — a collapsed section lays out none of its children — then waits a frame.
+  Sections are left uncontrolled (no `open={...}`) so a reader's own toggling is never fought;
+  **Expand all / Collapse all** set `.open` imperatively. That control is not decoration:
+  find-in-page does not reliably match text inside a closed `<details>`.
+- **The table of contents is a `<nav>` of `<button>`s**, not clickable headings (which put every
+  title in the outline twice and were unreachable by keyboard). It is the only way to jump
+  straight to a numbered rule.
+- **Body copy uses `var(--g555)`**, styled as `:global` inside `.sectionBody` because it arrives
+  through `{@html}`.
 
 ## `api/`
 
@@ -133,8 +117,9 @@ Server-side endpoints, running on Vercel functions:
 - `fetch_players_info` — proxies and post-processes Sleeper's `/players/nfl` (~15MB as of
   2026-10; it was ~5MB when this note was first written) plus weekly projections. This
   exists so browsers don't pull that payload directly; keep it that way.
-- `fetch_free_agents` — ours, backs `/free-agents` (search free agents by depth-chart slot,
-  "every RB2"). Every QB/RB/WR/TE with a depth rank, injury, season snap share and Sleeper
+- `fetch_free_agents` — backs `/free-agents` (search free agents by depth-chart slot,
+  "every RB2"). Every QB/RB/WR/TE with a depth rank (kickers, defenses and IDP are not covered
+  yet), injury, season snap share and Sleeper
   trending adds; rostered players carry `own` (owner user_id → Sleeper handle via `owners`) and
   show only when the page's "Show rostered" toggle is on. Despite the name it is no longer
   free-agents-only. Every outbound request is time-limited (Sleeper 20s, ESPN 8s, the whole ESPN
@@ -152,12 +137,12 @@ Server-side endpoints, running on Vercel functions:
   - Projections are joined client-side from `fetch_players_info`, whose `round()` returns a
     **string** — `parseFloat` it before doing arithmetic.
 - `fetch_serverside_news` — RSS/news aggregation (`fast-xml-parser`).
-- `getBlogPosts` / `getBlogComments` / `addBlogComments/[id]` — Contentful. `getBlogPosts`
-  is live (`enableBlog` is `true`); the two comment routes are inert because
-  `enableComments` is `false` and no management token is deployed.
-- `checkVersion` / `checkGlobalVersion` — upstream's fork-update check; it compares
-  `src/lib/version.js` against `league-page.nmelhado.com`. Leave both alone. `checkVersion`
-  reporting an update is the cue to merge upstream, not a bug.
+- `getBlogPosts` — the markdown backend (`league/posts/*.md`, bundled at build time, parsed by
+  `src/lib/utils/blogMarkdown.js` into the shape Contentful returns) or Contentful, by
+  `blog.backend`. `getBlogComments` / `addBlogComments/[id]` are Contentful-only and inert
+  unless comments are enabled with a server-side management token.
+- `checkVersion` / `checkGlobalVersion` — the update check; it still compares
+  `src/lib/version.js` against upstream's release until it is re-pointed at this project.
 
 Anything needing a secret (Contentful tokens) must stay in `api/` — env vars are read
 server-side there and must never be shipped to the client.
