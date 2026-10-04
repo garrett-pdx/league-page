@@ -8,12 +8,21 @@ league. Stdlib only, and Python 3.7 compatible, like every script here.
 
 Scripts import this by putting their own directory on sys.path, which `python3 scripts/x.py`
 does already.
+
+Three environment variables point a run somewhere else, so the pipeline can be tested against any
+league without touching this one's committed files:
+
+    LEAGUE_CONFIG   path to a league.json            (default: league/league.json)
+    LEAGUE_DATA     directory for the dataset        (default: static/data)
+    LEAGUE_DOCS     directory for generated docs     (default: docs)
 """
 import json
 import os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CONFIG_PATH = os.path.join(ROOT, "league", "league.json")
+CONFIG_PATH = os.environ.get("LEAGUE_CONFIG") or os.path.join(ROOT, "league", "league.json")
+DATA_DIR = os.environ.get("LEAGUE_DATA") or os.path.join(ROOT, "static", "data")
+DOCS_DIR = os.environ.get("LEAGUE_DOCS") or os.path.join(ROOT, "docs")
 
 with open(CONFIG_PATH) as f:
     CONFIG = json.load(f)
@@ -21,6 +30,11 @@ with open(CONFIG_PATH) as f:
 LEAGUE_ID = CONFIG["sleeperLeagueId"]
 LEAGUE_NAME = CONFIG["name"]
 SITE_URL = (CONFIG.get("siteUrl") or "").rstrip("/")
+
+# Strict: every disagreement with Sleeper's own settled figures (a record a game off, a season's
+# potential points a few points out) fails the pipeline instead of being reported as a warning.
+# A league that has pinned every quirk in overrides can afford it; a new one usually cannot.
+STRICT = bool((CONFIG.get("pipeline") or {}).get("strict"))
 
 _overrides = CONFIG.get("overrides") or {}
 

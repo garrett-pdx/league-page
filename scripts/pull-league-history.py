@@ -34,7 +34,8 @@ from league_config import LEAGUE_ID as CURRENT_LEAGUE_ID  # noqa: E402
 
 BASE = "https://api.sleeper.app/v1"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OUT = os.path.join(ROOT, "static", "data")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from league_config import DATA_DIR as OUT  # noqa: E402
 
 
 def get(path, retries=3):
@@ -210,7 +211,13 @@ def resolve_players(raw):
         if not p:
             continue
         name = p.get("full_name") or f"{p.get('first_name','')} {p.get('last_name','')}".strip() or str(pid)
-        slim[str(pid)] = {"n": name, "p": p.get("position"), "t": p.get("team")}
+        entry = {"n": name, "p": p.get("position"), "t": p.get("team")}
+        # Every slot-relevant position Sleeper lists, where it is more than the primary one
+        # (a QB/TE, an RB/WR). The lineup solver reads it; see scripts/lineup.py.
+        fp = [x for x in (p.get("fantasy_positions") or []) if x]
+        if len(fp) > 1 or (fp and fp[0] != p.get("position")):
+            entry["fp"] = fp
+        slim[str(pid)] = entry
     print(f"  resolved {len(slim)}")
     return slim
 
@@ -225,8 +232,17 @@ def build(raw, players, state):
     for season in sorted(raw):
         d = raw[season]
         lg, users = d["league"], {u["user_id"]: u for u in d["users"]}
-        r2u = {r["roster_id"]: r.get("owner_id") for r in d["rosters"]}
-        rostered = {r.get("owner_id") for r in d["rosters"] if r.get("owner_id")}
+        # An orphaned roster (no owner, common in dynasty leagues between managers) still
+        # played its games. It gets a stand-in ID per season, so its opponents' games, records
+        # and brackets stay whole; the stand-in is a manager entry flagged `orphan`.
+        owner_of = lambda r: r.get("owner_id") or f"orphan-{season}-{r['roster_id']}"  # noqa: E731
+        r2u = {r["roster_id"]: owner_of(r) for r in d["rosters"]}
+        rostered = set(r2u.values())
+        for r in d["rosters"]:
+            if not r.get("owner_id"):
+                managers[owner_of(r)] = {"handle": f"Orphaned team {r['roster_id']}", "orphan": True,
+                                         "seasons": [season], "seasons_rostered": [season],
+                                         "team_names": []}
 
         season_meta[season] = {
             "league_id": lg["league_id"], "name": lg["name"], "status": lg["status"],
@@ -236,6 +252,24 @@ def build(raw, players, state):
             "waiver_budget": lg["settings"].get("waiver_budget"),
             "max_keepers": lg["settings"].get("max_keepers"),
             "roster_positions": lg["roster_positions"],
+            # Format switches the derivations need. league_average_match: every regular-season
+            # week also scores a win or loss against the league median, and Sleeper's records
+            # include it. playoff_round_type: 0 one week per round, 1 a two-week final, 2 two
+            # weeks per round. type: 0 redraft, 1 keeper, 2 dynasty.
+            "league_type": lg["settings"].get("type"),
+            "median_game": bool(lg["settings"].get("league_average_match")),
+            "playoff_round_type": lg["settings"].get("playoff_round_type") or 0,
+            # 0: the losers bracket is a toilet bowl (the lower scorer advances; its final
+            # decides last place). 1: a consolation bracket (the winner advances; it decides
+            # the places straight after the playoff teams).
+            "playoff_type": lg["settings"].get("playoff_type") or 0,
+            "best_ball": bool(lg["settings"].get("best_ball")),
+            "divisions": lg["settings"].get("divisions") or 0,
+            "division_names": {str(i): (lg.get("metadata") or {}).get(f"division_{i}")
+                               for i in range(1, (lg["settings"].get("divisions") or 0) + 1)},
+            "start_week": lg["settings"].get("start_week") or 1,
+            "taxi_slots": lg["settings"].get("taxi_slots") or 0,
+            "scoring_settings": lg.get("scoring_settings") or {},
             "users_without_roster": [users[u]["display_name"] for u in users if u not in rostered],
             "weeks_played": sorted(int(w) for w in d["matchups"]),
         }
@@ -252,12 +286,11 @@ def build(raw, players, state):
                 m["team_names"].append(tn)
 
         for r in d["rosters"]:
-            uid = r.get("owner_id")
-            if not uid:
-                continue
+            uid = owner_of(r)
             st = r["settings"]
             records[uid][season] = {
                 "roster_id": r["roster_id"],
+                "division": st.get("division"),
                 "wins": st.get("wins"), "losses": st.get("losses"), "ties": st.get("ties"),
                 "points_for": round(st.get("fpts", 0) + st.get("fpts_decimal", 0) / 100, 2),
                 "points_against": round(st.get("fpts_against", 0) + st.get("fpts_against_decimal", 0) / 100, 2),
@@ -367,7 +400,7 @@ def build(raw, players, state):
             "points_against": round(sum(r["points_against"] for r in rs), 2),
         }
 
-    standings = build_standings(brackets_out, records)
+    standings = build_standings(brackets_out, records, season_meta)
     ownership = build_ownership(owner_at)
     keepers = build_keepers(drafts_out, owner_at, ownership)
 
@@ -385,19 +418,26 @@ def build(raw, players, state):
     }
 
 
-def build_standings(brackets_out, records):
+def build_standings(brackets_out, records, season_meta):
     """
     Final placement per season, derived from the playoff brackets.
 
-    Sleeper marks placement games with `p`: in the winners bracket p=1 is the title
-    game (winner 1st, loser 2nd) and p=3 the third-place game. The losers bracket
-    repeats the pattern for the consolation places, so its p=1 game decides 5th/6th.
-    The two teams in neither bracket finish 9th and 10th -- second to last and last --
-    ordered by regular-season record, then points for. Sleeper never assigns them a
-    placement, so that ordering is ours; it is how the league reckons it.
+    Sleeper marks placement games with `p`. In the winners bracket the game's winner takes
+    place p and its loser p+1: p=1 is the title game, p=3 the third-place game, p=5 fifth
+    place in a league that plays it. The losers bracket depends on its type (playoff_type):
+
+      consolation (1)  the winner advances, so a p game decides places playoff_teams + p and
+                       playoff_teams + p + 1 (with four playoff teams, p=1 is 5th and 6th);
+      toilet bowl (0)  the LOWER scorer advances and is recorded as the winner, so a p game's
+                       winner takes place teams - p + 1 (p=1: last) and its loser the place
+                       above.
+
+    Teams in neither bracket fill the places left over, ordered by regular-season record, then
+    points for. Sleeper never assigns them a placement, so that ordering is ours.
     """
     out = {}
     for season, br in brackets_out.items():
+        meta = season_meta.get(season, {})
         r2u = {}
         for uid, seasons in records.items():
             rec = seasons.get(season)
@@ -410,29 +450,46 @@ def build_standings(brackets_out, records):
                 raise SystemExit(f"{season}: roster_id {rid} maps to two managers "
                                  f"({r2u[rid]} and {uid}) -- cannot resolve standings")
             r2u[rid] = uid
+        teams = len(r2u)
+        playoff_teams = meta.get("playoff_teams") or 0
+        toilet_bowl = (meta.get("playoff_type") or 0) == 0
         place = {}
-        for bracket, base in ((br.get("winners") or [], 1), (br.get("losers") or [], 5)):
-            for g in bracket:
-                p = g.get("p")
-                if p is None or g.get("w") is None:
-                    continue
-                place[base + p - 1] = g["w"]
-                place[base + p] = g.get("l")
+        for g in br.get("winners") or []:
+            p = g.get("p")
+            if p is None or g.get("w") is None:
+                continue
+            place[p] = g["w"]
+            place[p + 1] = g.get("l")
+        for g in br.get("losers") or []:
+            p = g.get("p")
+            if p is None or g.get("w") is None:
+                continue
+            if toilet_bowl:
+                place[teams - p + 1] = g["w"]
+                place[teams - p] = g.get("l")
+            else:
+                place[playoff_teams + p] = g["w"]
+                place[playoff_teams + p + 1] = g.get("l")
         # No completed bracket means the season hasn't been played out. Emit nothing
-        # rather than ranking ten 0-0 teams against each other and inventing a champion.
+        # rather than ranking 0-0 teams against each other and inventing a champion.
         if not place:
             continue
         placed = {r for r in place.values() if r is not None}
+        if len(placed) != len([r for r in place.values() if r is not None]) or \
+                any(not 1 <= pos <= teams for pos in place):
+            raise SystemExit(f"{season}: bracket placements overlap or fall outside 1-{teams} "
+                             f"({sorted(place.items())}) -- check playoff_type")
         rest = [r for r in r2u if r not in placed]
         rest.sort(key=lambda r: (-(records[r2u[r]][season]["wins"] or 0),
                                  -records[r2u[r]][season]["points_for"]))
+        free = [pos for pos in range(1, teams + 1) if place.get(pos) is None]
         rows = []
         for pos in sorted(place):
             if place[pos] is not None:
                 rows.append({"place": pos, "user_id": r2u.get(place[pos]), "source": "bracket"})
-        nxt = (max(place) + 1) if place else 1
-        for i, r in enumerate(rest):
-            rows.append({"place": nxt + i, "user_id": r2u.get(r), "source": "regular season"})
+        for pos, r in zip(free, rest):
+            rows.append({"place": pos, "user_id": r2u.get(r), "source": "regular season"})
+        rows.sort(key=lambda x: x["place"])
         if rows:
             out[season] = rows
     return out

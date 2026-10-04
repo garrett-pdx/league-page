@@ -88,6 +88,9 @@
       }
     ]
   },
+  "pipeline": {
+    "strict": true
+  },
   "overrides": {
     "statCorrections": [
       {

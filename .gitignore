@@ -16,3 +16,4 @@ build
 
 # Python bytecode from ad-hoc imports of scripts/
 __pycache__/
+try-league/

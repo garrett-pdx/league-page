@@ -37,12 +37,12 @@ import os
 import sys
 from collections import defaultdict
 from datetime import datetime, timezone
-from itertools import product
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA = os.path.join(ROOT, "static", "data")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from league_config import DATA_DIR as DATA  # noqa: E402
 
-KINDS = ["regular", "playoff", "placement", "consolation"]
+KINDS = ["regular", "playoff", "placement", "consolation", "exhibition"]
 
 # Post-settlement stat corrections, pinned to the cent: league.json overrides.statCorrections.
 #
@@ -57,16 +57,16 @@ KINDS = ["regular", "playoff", "placement", "consolation"]
 # gap for one manager and the same PA gap for their opponent), confirm the result is
 # unaffected, and add both sides to league.json with a note.
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from league_config import STAT_CORRECTIONS, ELIGIBILITY  # noqa: E402
+from league_config import STAT_CORRECTIONS, ELIGIBILITY, STRICT  # noqa: E402
 
 # Sleeper stores season points as an integer plus hundredths and rounds each week before
 # summing, so a season total can sit one cent off the sum of its weeks (BBrown16, 2023:
 # 1453.00 v 1452.99). Anything bigger than a cent is a real discrepancy.
 CENT = 0.0101
 
-# FLEX takes RB/WR/TE. One fullback exists in the player set; treat him as a running back.
-FLEX_OK = {"RB", "WR", "TE"}
-POS_ALIAS = {"FB": "RB"}
+# What each slot accepts, Sleeper's potential-points greedy and the true best lineup all live
+# in scripts/lineup.py, shared with week-facts.py.
+from lineup import normalize, slot_accepts, starters, sleeper_greedy, best_assignment  # noqa: E402
 
 # Positions Sleeper actually allowed, where players.json (today's primary position only) is
 # wrong: league.json overrides.eligibility, imported above. Each entry is fitted to Sleeper's own
@@ -99,6 +99,19 @@ def fail(msg):
     FAILURES.append(msg)
 
 
+WARNINGS = []
+
+
+def disagree(msg):
+    """
+    A disagreement with Sleeper's own settled figures rather than a fault in the data: Sleeper's
+    records can be a game or a few points from what the weekly scores now say (a stat correction
+    after settlement reordering the median, an orphaned roster's history). A warning, unless the
+    league sets pipeline.strict in league.json.
+    """
+    (FAILURES if STRICT else WARNINGS).append(msg)
+
+
 def handle(user_id):
     return MANAGERS.get(user_id, {}).get("handle", user_id)
 
@@ -113,8 +126,14 @@ def player(pid):
 
 
 def position(pid):
-    raw = PLAYERS.get(str(pid), {}).get("p")
-    return POS_ALIAS.get(raw, raw)
+    return normalize(PLAYERS.get(str(pid), {}).get("p"))
+
+
+def positions(pid):
+    """Every slot-relevant position Sleeper lists for the player (players.json fp, else p)."""
+    p = PLAYERS.get(str(pid), {})
+    listed = p.get("fp") or ([p["p"]] if p.get("p") else [])
+    return {normalize(x) for x in listed}
 
 
 # --------------------------------------------------------------------------------------
@@ -179,76 +198,73 @@ def league_weeks(season):
 
 def starter_slots(season):
     """
-    The starting lineup for that season, bench excluded. Read per season: the roster went from
-    14 spots to 13 between 2025 and 2026, and a hardcoded shape is wrong quietly.
+    The starting lineup for that season, bench excluded. Read per season: rosters change shape
+    between seasons (Mudd went from 14 spots to 13 for 2026), and a hardcoded shape is wrong
+    quietly.
     """
-    slots = SEASONS.get(season, {}).get("roster_positions") or []
-    return [s for s in slots if s not in ("BN", "IR", "TAXI")]
+    return starters(SEASONS.get(season, {}).get("roster_positions"))
+
+
+_OBSERVED = {}
+
+
+def observed(season):
+    """
+    {player_id: positions} learned from the season's own lineups: a player started in a
+    single-position slot (QB, RB, WR, TE, K, DEF, DL, LB, DB) was eligible there that season,
+    whatever players.json -- today's positions -- says now. It catches players who have changed
+    position since (a running back now listed at receiver), which would otherwise make the best
+    lineup illegal by today's rules. Flex starts say nothing about which position, so they are
+    ignored. `starters` is index-aligned with the season's starting slots.
+    """
+    if season not in _OBSERVED:
+        slots = starter_slots(season)
+        seen = defaultdict(set)
+        for rows in WEEKS.get(season, {}).values():
+            for row in rows.values():
+                for slot, pid in zip(slots, row.get("starters") or []):
+                    acc = slot_accepts(slot)
+                    if pid and str(pid) != "0" and len(acc) == 1:
+                        seen[str(pid)] |= acc
+        _OBSERVED[season] = seen
+    return _OBSERVED[season]
 
 
 def eligible(season, pid):
-    """The slot-relevant positions a player could fill that season."""
+    """
+    The slot-relevant positions a player could fill that season: a league.json override when
+    there is one, else his listed positions plus any the season's lineups prove.
+    """
     pid = str(pid)
     if (season, pid) in ELIGIBILITY:
         return ELIGIBILITY[(season, pid)]
-    pos = position(pid)
-    return {pos} if pos else set()
+    return positions(pid) | observed(season).get(pid, set())
 
 
-def greedy(row, slots, elig):
+def optimal_points(row, slots):
+    """Sleeper's greedy on players.json positions alone, with no ELIGIBILITY overrides."""
+    return sleeper_greedy(row.get("players_points"), slots, positions)[0]
+
+
+def sleeper_potential(season, row):
     """
-    Sort the roster by points and fill the slots in roster order (dedicated slots before FLEX),
-    each with the best unused player who can play it; `elig(pid)` gives the SET of positions he
-    may fill. With one position per player this is exact, because every FLEX-eligible position
-    also has its own dedicated slot, so no player can fill a slot that a higher scorer could
-    not (the argument behind best_lineup() in week-facts.py). With a multi-position player it
-    is what Sleeper computes, not the optimum.
+    Sleeper's own per-week potential points, as reproduced by check_max_pf().
 
     weeks.json does not record who was on IR that week, and Sleeper lists IR players in
     `players`, so they are in the pool here although they could not be started. Sleeper's own
     potential_points has the same pool, which is why the check against it can be exact.
     """
-    pool = sorted(
-        ((pts, str(pid), elig(pid)) for pid, pts in (row.get("players_points") or {}).items()),
-        key=lambda x: (-x[0], x[1]),
-    )
-    used, total = set(), 0.0
-    for slot in slots:
-        for pts, pid, e in pool:
-            if pid in used or not e:
-                continue
-            if (e & FLEX_OK) if slot == "FLEX" else (slot in e):
-                used.add(pid)
-                total += pts
-                break
-    return total
-
-
-def optimal_points(row, slots):
-    """Greedy on players.json positions alone, with no ELIGIBILITY overrides."""
-    return greedy(row, slots, lambda pid: {position(pid)} if position(pid) else set())
-
-
-def sleeper_potential(season, row):
-    """Sleeper's own per-week potential points, as reproduced by check_max_pf()."""
-    return greedy(row, starter_slots(season), lambda p: eligible(season, p))
+    return sleeper_greedy(row.get("players_points"), starter_slots(season),
+                          lambda p: eligible(season, p))[0]
 
 
 def best_lineup(season, row):
     """
-    The true best legal lineup: the greedy run once per single-position assignment of any
-    multi-position player (Taysom Hill), keeping the best. Exact, and >= sleeper_potential().
+    The true best legal lineup (an exact assignment, so >= sleeper_potential()). The two differ
+    where overlapping flex slots or a multi-position player defeat Sleeper's slot-order greedy.
     """
-    slots = starter_slots(season)
-    multi = [str(p) for p in (row.get("players_points") or {}) if len(eligible(season, p)) > 1]
-    if not multi:
-        return sleeper_potential(season, row)
-    best = 0.0
-    for choice in product(*(sorted(eligible(season, p)) for p in multi)):
-        fixed = dict(zip(multi, choice))
-        best = max(best, greedy(row, slots,
-                                lambda p: {fixed[str(p)]} if str(p) in fixed else eligible(season, p)))
-    return best
+    return best_assignment(row.get("players_points"), starter_slots(season),
+                           lambda p: eligible(season, p))[0]
 
 
 # --------------------------------------------------------------------------------------
@@ -270,20 +286,40 @@ def roster_map(season):
     return out
 
 
+def round_weeks(season):
+    """
+    {round: [week, ...]} for the season's playoff bracket. Sleeper's playoff_round_type:
+    0 one week per round, 1 one week per round but a two-week final, 2 two weeks per round.
+    The losers bracket runs on the same calendar as the winners bracket.
+    """
+    start = SEASONS[season].get("playoff_week_start")
+    rtype = SEASONS[season].get("playoff_round_type") or 0
+    rounds = max((g.get("r") or 0 for g in BRACKETS.get(season, {}).get("winners") or []), default=0)
+    out, week = {}, start
+    for r in range(1, rounds + 1):
+        n = 2 if rtype == 2 or (rtype == 1 and r == rounds) else 1
+        out[r] = list(range(week, week + n))
+        week += n
+    return out
+
+
 def bracket_kinds(season):
     """
-    {(week, frozenset({user_a, user_b})): kind} for every decided bracket game.
+    {(week, frozenset({user_a, user_b})): (kind, leg)} for every decided bracket game.
 
-    Taken from the brackets, never from the week number. Round r is played in week
-    playoff_week_start + r - 1. Sleeper marks placement games with `p`:
+    Taken from the brackets, never from the week number; round_weeks() says which week(s) each
+    round is played in. Sleeper marks placement games with `p`:
 
       winners bracket, no p (semifinals) or p=1 (the final)   -> "playoff"
-      winners bracket, p=3 (third-place game)                 -> "placement"
-      losers bracket, any game (it decides 5th-8th here)      -> "consolation"
+      winners bracket, p=3, 5, ... (third place and lower)    -> "placement"
+      losers bracket, any game                                -> "consolation"
+
+    `leg` is 1 or 2 for a round played over two weeks, else None. Each leg is its own row in
+    games.json, with that week's scores; the bracket decides the round on the aggregate.
 
     Bracket rows carry roster IDs, mapped through that season's own roster map.
     """
-    start = SEASONS[season].get("playoff_week_start")
+    weeks_of = round_weeks(season)
     r2u = roster_map(season)
     out = {}
     for side in ("winners", "losers"):
@@ -291,7 +327,7 @@ def bracket_kinds(season):
             if g.get("t1") is None or g.get("t2") is None or not g.get("r"):
                 continue
             if side == "winners":
-                kind = "placement" if g.get("p") == 3 else "playoff"
+                kind = "placement" if (g.get("p") or 1) > 1 else "playoff"
             else:
                 kind = "consolation"
             a, b = r2u.get(g["t1"]), r2u.get(g["t2"])
@@ -299,7 +335,28 @@ def bracket_kinds(season):
                 fail(f"{season} {side} bracket game m={g.get('m')}: roster "
                      f"{g['t1']} or {g['t2']} has no manager that season")
                 continue
-            out[(start + g["r"] - 1, frozenset((a, b)))] = kind
+            legs = weeks_of.get(g["r"], [])
+            for i, week in enumerate(legs):
+                out[(week, frozenset((a, b)))] = (kind, i + 1 if len(legs) > 1 else None)
+    return out
+
+
+def median_results(rows):
+    """
+    {user_id: "W" | "L" | "T"} for one week's median game: the top half of the league's scores
+    win, the bottom half lose, and teams level across the halfway line tie. rows: [(uid, pf)].
+    """
+    ranked = sorted(rows, key=lambda x: -x[1])
+    half = len(ranked) // 2
+    if not half:
+        return {}
+    hi, lo = ranked[half - 1][1], ranked[half][1]
+    out = {}
+    for uid, pf in ranked:
+        if hi == lo and pf == hi:
+            out[uid] = "T"
+        else:
+            out[uid] = "W" if pf >= hi and pf > lo else "L"
     return out
 
 
@@ -334,37 +391,54 @@ def build_games():
                          f"{row.get('roster_id')}, records say otherwise")
                 if has_matchup(row):
                     by_id[row["matchup_id"]].append((uid, row))
+            week_rows = []
             for mid, pair in sorted(by_id.items()):
                 if len(pair) != 2:
-                    fail(f"{season} wk{week} matchup {mid}: {len(pair)} teams, expected 2")
+                    # A lone team with a matchup id in a playoff week is a bye; in the regular
+                    # season it is a broken fixture.
+                    if week < start:
+                        fail(f"{season} wk{week} matchup {mid}: {len(pair)} teams, expected 2")
                     continue
+                leg = None
                 if week < start:
                     kind = "regular"
                 else:
                     key = (week, frozenset(u for u, _ in pair))
-                    kind = kinds.get(key)
+                    kind, leg = kinds.get(key, (None, None))
                     if not kind:
-                        fail(f"{season} wk{week}: {handle(pair[0][0])} v {handle(pair[1][0])} is a "
-                             f"playoff-week fixture with no bracket game")
-                        continue
-                    found_bracket.add(key)
+                        # Sleeper can schedule teams outside both brackets against each other in
+                        # playoff weeks. A real result, but it decides nothing.
+                        kind = "exhibition"
+                    else:
+                        found_bracket.add(key)
                 for (uid, row), (opp, orow) in ((pair[0], pair[1]), (pair[1], pair[0])):
                     pf, pa = official_points(row), official_points(orow)
                     # pf is the official score, max_pf is computed from player points: on a
                     # commissioner-override row the two are not comparable, so max_pf is null
                     # there instead of a number that would imply a bench total.
                     overridden = row.get("custom_points") is not None
-                    games.append({
+                    week_rows.append({
                         "season": int(season), "week": week, "user_id": uid, "opponent_id": opp,
                         "pf": pf, "pa": pa,
                         "result": "W" if pf > pa else "L" if pf < pa else "T",
                         "kind": kind,
+                        "leg": leg,
+                        "median": None,
                         "max_pf": None if overridden else r2(best_lineup(season, row)),
                         # Not written to games.json. Kept for the self-checks: Sleeper's figure
                         # for the week, and the computed (pre-override) score.
                         "potential": sleeper_potential(season, row),
                         "computed": r2(row.get("points") or 0),
                     })
+            # The median game: in leagues that play one, every regular-season week also scores
+            # a win or loss against the league's median, and Sleeper's records count it.
+            if SEASONS[season].get("median_game"):
+                regular = [(g["user_id"], g["pf"]) for g in week_rows if g["kind"] == "regular"]
+                for uid, res in median_results(regular).items():
+                    for g in week_rows:
+                        if g["user_id"] == uid and g["kind"] == "regular":
+                            g["median"] = res
+            games.extend(week_rows)
         # The reverse direction: a bracket game in a completed week that never turned up.
         for key in kinds:
             if key[0] in weeks and key not in found_bracket:
@@ -380,18 +454,32 @@ def build_games():
 # --------------------------------------------------------------------------------------
 
 def check_records(games):
-    """Regular-season W/L/T and points, per manager-season, against Sleeper's roster records."""
+    """
+    Regular-season W/L/T and points, per manager-season, against Sleeper's roster records.
+
+    W/L/T must match exactly, median games included. Points may differ by a stat correction
+    made after the week settled (see STAT_CORRECTIONS): a pinned difference must match to the
+    cent, and an unpinned one is accepted, and reported, only when it pairs up -- one manager's
+    PF moved by exactly what an opponent they played that season saw their PA move. Anything
+    left unexplained fails. Returns (manager-seasons checked, detected corrections).
+    """
     tally = defaultdict(lambda: {"wins": 0, "losses": 0, "ties": 0, "pf": 0.0, "pa": 0.0})
+    met = defaultdict(set)
     for g in games:
         if g["kind"] != "regular":
             continue
-        t = tally[(str(g["season"]), g["user_id"])]
-        t[{"W": "wins", "L": "losses", "T": "ties"}[g["result"]]] += 1
+        key = (str(g["season"]), g["user_id"])
+        t = tally[key]
+        for res in (g["result"], g.get("median")):
+            if res:
+                t[{"W": "wins", "L": "losses", "T": "ties"}[res]] += 1
         t["pf"] += g["pf"]
         t["pa"] += g["pa"]
+        met[key].add(g["opponent_id"])
 
     seasons = {str(g["season"]) for g in games}
     checked = 0
+    gaps = defaultdict(dict)  # season -> {(uid, "pf"|"pa"): difference}
     for uid, m in MANAGERS.items():
         for season, rec in m.get("records", {}).items():
             if season not in seasons:
@@ -400,21 +488,43 @@ def check_records(games):
             mine = (t["wins"], t["losses"], t["ties"], r2(t["pf"]), r2(t["pa"]))
             theirs = (rec["wins"] or 0, rec["losses"] or 0, rec["ties"] or 0,
                       r2(rec["points_for"]), r2(rec["points_against"]))
-            pinned = STAT_CORRECTIONS.get((season, uid), {})
-            points_ok = all(
-                abs(mine[i] - theirs[i] - pinned.get(key, 0.0)) <= CENT
-                for i, key in ((3, "pf"), (4, "pa"))
-            )
             checked += 1
-            if mine[:3] != theirs[:3] or not points_ok:
+            if mine[:3] != theirs[:3]:
                 hint = ""
                 if season == (NFL_STATE or {}).get("season"):
                     hint = (" -- the in-progress season; if Sleeper has just finalised a week "
                             "the NFL calendar hasn't rolled past yet, re-pull later")
-                fail(f"records {season} {handle(uid)}: games.json gives "
-                     f"{mine[0]}-{mine[1]}-{mine[2]}, PF {mine[3]}, PA {mine[4]}; Sleeper says "
-                     f"{theirs[0]}-{theirs[1]}-{theirs[2]}, PF {theirs[3]}, PA {theirs[4]}{hint}")
-    return checked
+                disagree(f"records {season} {handle(uid)}: games.json gives "
+                         f"{mine[0]}-{mine[1]}-{mine[2]}; Sleeper says "
+                         f"{theirs[0]}-{theirs[1]}-{theirs[2]}{hint}")
+                continue
+            pinned = STAT_CORRECTIONS.get((season, uid), {})
+            for i, key in ((3, "pf"), (4, "pa")):
+                gap = r2(mine[i] - theirs[i])
+                if key in pinned:
+                    if abs(gap - pinned[key]) > CENT:
+                        fail(f"records {season} {handle(uid)}: {key.upper()} {mine[i]} v Sleeper's "
+                             f"{theirs[i]}, but league.json pins a difference of {pinned[key]}")
+                elif abs(gap) > CENT:
+                    gaps[season][(uid, key)] = gap
+
+    detected = []
+    for season, open_gaps in sorted(gaps.items()):
+        pfs = [(u, d) for (u, k), d in open_gaps.items() if k == "pf"]
+        pas = [(u, d) for (u, k), d in open_gaps.items() if k == "pa"]
+        for uid, d in pfs:
+            match = next(((o, e) for o, e in pas if abs(e - d) <= CENT and o in met[(season, uid)]), None)
+            if match:
+                pas.remove(match)
+                detected.append({"season": int(season), "userId": uid, "pf": d})
+                detected.append({"season": int(season), "userId": match[0], "pa": match[1]})
+            else:
+                disagree(f"records {season} {handle(uid)}: PF differs from Sleeper's by {d:+.2f}, and "
+                         f"no opponent's PA differs by the same amount")
+        for uid, d in pas:
+            disagree(f"records {season} {handle(uid)}: PA differs from Sleeper's by {d:+.2f}, and no "
+                     f"opponent's PF differs by the same amount")
+    return checked, detected
 
 
 def check_pairs(games):
@@ -441,7 +551,7 @@ def check_pairs(games):
     return len(by_week)
 
 
-def check_max_pf(games):
+def check_max_pf(games, detected=()):
     """
     Two checks on the max_pf column. Returns (manager-seasons checked, worst row) for the
     report; failures go to FAILURES.
@@ -474,11 +584,14 @@ def check_max_pf(games):
     for (season, uid), mine in sorted(total.items()):
         theirs = MANAGERS[uid]["records"][season].get("potential_points")
         pin = STAT_CORRECTIONS.get((season, uid), {}).get("pf", 0.0)
+        pin += sum(c.get("pf", 0.0) for c in detected
+                   if str(c["season"]) == season and c["userId"] == uid)
         gap = None if theirs is None else r2(mine) - theirs - pin
         rows.append((abs(gap) if gap is not None else float("inf"), gap, season, uid, r2(mine), theirs))
         if gap is None or abs(gap) > CENT:
-            fail(f"max_pf {season} {handle(uid)}: lineups sum to {r2(mine)}, Sleeper's "
-                 f"potential_points is {theirs}")
+            disagree(f"max_pf {season} {handle(uid)}: Sleeper's greedy sums to {r2(mine)}, its "
+                     f"potential_points is {theirs} -- usually a player whose position has changed "
+                     f"since; overrides.eligibility in league.json pins what Sleeper allowed")
     rows.sort(reverse=True)
     return len(rows), rows[0]
 
@@ -587,6 +700,11 @@ def columnar(games):
     managers = sorted({g["user_id"] for g in games} | {g["opponent_id"] for g in games})
     mi = {u: i for i, u in enumerate(managers)}
     cols = ["season", "week", "manager", "opponent", "pf", "pa", "result", "kind", "max_pf"]
+    # Format-dependent columns, written only when the league has them: the median game's
+    # result, and the leg (1 or 2) of a playoff round played over two weeks.
+    for extra in ("median", "leg"):
+        if any(g.get(extra) for g in games):
+            cols.append(extra)
     data = {c: [] for c in cols}
     for g in games:
         data["season"].append(g["season"])
@@ -598,6 +716,9 @@ def columnar(games):
         data["result"].append(g["result"])
         data["kind"].append(KINDS.index(g["kind"]))
         data["max_pf"].append(g["max_pf"])
+        for extra in ("median", "leg"):
+            if extra in data:
+                data[extra].append(g.get(extra))
     last = games[-1]
     return {
         "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
@@ -625,9 +746,9 @@ def main():
         print("no completed games found", file=sys.stderr)
         return 1
 
-    n_records = check_records(games)
+    n_records, detected = check_records(games)
     n_weeks = check_pairs(games)
-    n_max, worst = check_max_pf(games)
+    n_max, worst = check_max_pf(games, detected)
 
     seasons = sorted({g["season"] for g in games})
     by_kind = defaultdict(int)
@@ -637,11 +758,22 @@ def main():
           f"seasons {seasons[0]}-{seasons[-1]}, through {games[-1]['season']} wk{games[-1]['week']}")
     print("  " + ", ".join(f"{by_kind[k]} {k}" for k in KINDS))
     print(f"check: records    {n_records} manager-seasons against league-history.json")
-    print(f"check: pairs      {n_weeks} weeks, each game mirrored, five per regular week")
+    if detected:
+        print(f"note:  {len(detected) // 2} post-settlement stat correction(s) found and paired up; to "
+              f"pin them exactly, add these to overrides.statCorrections in league.json:")
+        for c in detected:
+            print("         " + json.dumps(dict(c, note="post-settlement stat correction")))
+    print(f"check: pairs      {n_weeks} weeks, each game mirrored, a full slate every regular week")
     n_override = sum(1 for g in games if g["max_pf"] is None)
-    print(f"check: max_pf     {n_max} manager-seasons reproduce Sleeper's potential_points to the "
-          f"cent (worst {worst[1]:+.2f}: {handle(worst[3])} {worst[2]}, ours {worst[4]} v "
-          f"{worst[5]}); {n_override} override rows null")
+    n_off = sum(1 for w in WARNINGS + FAILURES if w.startswith("max_pf ") and "potential_points" in w)
+    print(f"check: max_pf     {n_max - n_off} of {n_max} manager-seasons reproduce Sleeper's "
+          f"potential_points to the cent (worst {worst[1]:+.2f}: {handle(worst[3])} {worst[2]}, "
+          f"ours {worst[4]} v {worst[5]}); {n_override} override rows null")
+    if WARNINGS:
+        print(f"\n{len(WARNINGS)} disagreement(s) with Sleeper's settled figures (warnings; "
+              f"pipeline.strict in league.json makes them failures):")
+        for w in WARNINGS[:40]:
+            print(f"  {w}")
 
     if FAILURES:
         print(f"\n{len(FAILURES)} self-check failure(s); nothing written:", file=sys.stderr)

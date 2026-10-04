@@ -104,6 +104,17 @@
         }
       }
     },
+    "pipeline": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "strict": {
+          "type": "boolean",
+          "default": false,
+          "description": "Fail the data pipeline on any disagreement with Sleeper's own settled figures (a record a game off, a season's potential points a few points out) instead of warning. Turn it on once every quirk is pinned in overrides."
+        }
+      }
+    },
     "overrides": {
       "type": "object",
       "additionalProperties": false,

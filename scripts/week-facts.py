@@ -31,14 +31,13 @@ import urllib.request
 from collections import defaultdict
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA = os.path.join(ROOT, "static", "data")
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from league_config import LEAGUE_ID  # noqa: E402
+from league_config import DATA_DIR as DATA  # noqa: E402
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from league_config import LEAGUE_ID, ELIGIBILITY  # noqa: E402
+# What each slot accepts and the optimal-lineup solver: shared with derive-site-data.py.
+from lineup import normalize, starters, best_assignment  # noqa: E402
 API = "https://api.sleeper.app/v1"
-
-FLEX_OK = {"RB", "WR", "TE"}
-# One fullback exists in the player set; treat him as a running back, as derive-site-data does.
-POS_ALIAS = {"FB": "RB"}
 
 
 def get(url):
@@ -78,10 +77,23 @@ def uid_for(name):
 
 
 def position(pid, extra=None):
+    """The player's primary position, for display."""
     p = PLAYERS.get(str(pid), {}).get("p")
     if not p and extra:
         p = extra.get(str(pid), {}).get("position")
-    return POS_ALIAS.get(p, p) if p else None
+    return normalize(p) if p else None
+
+
+def positions(pid, extra=None, season=None):
+    """Every slot-relevant position he may fill: an override, players.json, then live data."""
+    if season is not None and (str(season), str(pid)) in ELIGIBILITY:
+        return ELIGIBILITY[(str(season), str(pid))]
+    p = PLAYERS.get(str(pid), {})
+    listed = p.get("fp") or ([p["p"]] if p.get("p") else [])
+    if not listed and extra:
+        e = extra.get(str(pid), {})
+        listed = e.get("fantasy_positions") or ([e["position"]] if e.get("position") else [])
+    return {normalize(x) for x in listed if x}
 
 
 def official_score(row):
@@ -131,22 +143,22 @@ def starter_slots(season):
     """
     The league's starting lineup for that season, bench excluded.
 
-    Read per-season rather than hardcoded: the roster shrank from 14 spots to 13 between 2025
-    and 2026, and an optimal-lineup calculation that assumes the wrong shape is wrong quietly.
+    Read per-season rather than hardcoded: rosters change shape between seasons, and an
+    optimal-lineup calculation that assumes the wrong shape is wrong quietly. A season the
+    dataset has not caught up with yet is read from the live league.
     """
     slots = HISTORY["seasons"].get(str(season), {}).get("roster_positions")
     if not slots:
-        slots = ["QB", "RB", "RB", "WR", "WR", "TE", "FLEX", "FLEX", "BN"]
-    return [s for s in slots if s not in ("BN", "IR", "TAXI")]
+        slots = get(f"{API}/league/{LEAGUE_ID}").get("roster_positions")
+    return starters(slots)
 
 
-def best_lineup(points_by_player, slots, extra=None, ineligible=()):
+def best_lineup(points_by_player, slots, extra=None, ineligible=(), season=None):
     """
     Highest-scoring legal lineup, and what it leaves behind.
 
-    Greedy by descending points into dedicated slots before FLEX. That is optimal here because
-    every FLEX-eligible position also has a dedicated slot, so there is no player who can fill
-    a slot that a higher-scoring player could not.
+    Solved exactly by best_assignment() in scripts/lineup.py, which handles every Sleeper slot
+    (FLEX, SUPER_FLEX, WRRB_FLEX, REC_FLEX, K, DEF and the IDP slots) and multi-position players.
 
     `ineligible` must contain anyone on IR. They accrue points in `players_points` but cannot
     legally be started, so counting them inflates the optimal lineup and therefore the benched
@@ -155,26 +167,14 @@ def best_lineup(points_by_player, slots, extra=None, ineligible=()):
     scoring 8.10 in Week 1 of 2026; including him overstated his benched points by 1.30 and
     cost him 1.4 points of efficiency.
     """
-    pool = []
-    for pid, pts in (points_by_player or {}).items():
-        if str(pid) in ineligible:
-            continue
-        pos = position(pid, extra)
-        if pos:
-            pool.append((pts, str(pid), pos))
-    pool.sort(reverse=True)
-
-    used, chosen = set(), []
-    for slot in slots:
-        for pts, pid, pos in pool:
-            if pid in used:
-                continue
-            ok = (pos in FLEX_OK) if slot == "FLEX" else (pos == slot)
-            if ok:
-                used.add(pid)
-                chosen.append((pid, pts, pos, slot))
-                break
-    bench = [(pid, pts, pos) for pts, pid, pos in pool if pid not in used]
+    pool = {str(pid): (pts or 0.0) for pid, pts in (points_by_player or {}).items()
+            if str(pid) not in ineligible and positions(pid, extra, season)}
+    _, picked = best_assignment(pool, slots, lambda p: positions(p, extra, season))
+    chosen = [(pid, pts, position(pid, extra), slot) for slot, pid, pts in picked]
+    used = {pid for pid, _, _, _ in chosen}
+    # Highest first; ties by player ID descending, as the greedy this replaced ordered them.
+    bench = sorted(((pid, pts, position(pid, extra)) for pid, pts in pool.items() if pid not in used),
+                   key=lambda x: (x[1], x[0]), reverse=True)
     return chosen, bench
 
 
@@ -227,7 +227,7 @@ def week_facts(season, week, fixture=None):
         # in Week 1 of 2026 and has him on IR since; excluding him retroactively produced an
         # optimal lineup BELOW what was actually scored, and a 103.3% efficiency.
         on_ir = reserve_by_roster.get(e["roster_id"], set()) - set(starter_ids)
-        chosen, bench = best_lineup(pp, slots, extra, ineligible=on_ir)
+        chosen, bench = best_lineup(pp, slots, extra, ineligible=on_ir, season=season)
         optimal = sum(p for _, p, _, _ in chosen)
         scored = e.get("points") or 0.0          # computed: what benched/efficiency compare
         official = official_score(e)             # what counted: results, ranks, all-play
@@ -259,7 +259,7 @@ def week_facts(season, week, fixture=None):
         open_slots = [slots[i] for i, pid in enumerate(raw_starters)
                       if i < len(slots) and pid not in pending]
         f_chosen, _ = best_lineup({k: v for k, v in pp.items() if str(k) not in pending},
-                                  open_slots, extra, ineligible=on_ir | pending)
+                                  open_slots, extra, ineligible=on_ir | pending, season=season)
         f_optimal = sum(p for _, p, _, _ in f_chosen)
         f_scored = sum(pp.get(pid) or 0.0 for pid in starter_ids if pid not in pending)
         teams[name] = {

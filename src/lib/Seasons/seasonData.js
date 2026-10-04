@@ -138,17 +138,21 @@ const ordinalWord = (n) => {
 }
 
 /**
- * Regular-season table from games.json, sorted by win % (ties as half) then points for -- the
- * same order Sleeper seeds this league by (checked: every semifinal is 1 v 4 and 2 v 3).
+ * Regular-season table from games.json, sorted by win % (ties as half) then points for, which is
+ * Sleeper's default seeding. It knows nothing of divisions: in a league with them, Sleeper seeds
+ * division winners first.
  */
 export const regularStandings = (games, year, throughWeek = null) => {
     const out = {};
     for(const g of gamesOf(games, year, ['regular'])) {
         if(throughWeek !== null && g.week > throughWeek) continue;
         const r = out[g.user_id] || (out[g.user_id] = {user_id: g.user_id, wins: 0, losses: 0, ties: 0, pf: 0, pa: 0});
-        if(g.result === 'W') r.wins++;
-        else if(g.result === 'L') r.losses++;
-        else r.ties++;
+        // A median-game result is a second result that week, counted as Sleeper counts it.
+        for(const res of g.median ? [g.result, g.median] : [g.result]) {
+            if(res === 'W') r.wins++;
+            else if(res === 'L') r.losses++;
+            else r.ties++;
+        }
         r.pf += g.pf;
         r.pa += g.pa;
     }

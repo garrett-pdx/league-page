@@ -1,5 +1,5 @@
 /*
-Reader for static/data/games.json -- one row per team per game, every completed week since 2022 --
+Reader for static/data/games.json -- one row per team per game, every completed week on record --
 plus the pure functions every history page computes from it: Schedule luck on Standings, the
 head-to-head grid on Rivalry, the Seasons archive and Stat Lab. All four read the same rows
 through the same filters, so they cannot disagree with each other.
@@ -14,11 +14,16 @@ directly.
 
 A row, as every function here takes and returns it:
 
-    {season, week, user_id, opponent_id, pf, pa, result, kind, max_pf}
+    {season, week, user_id, opponent_id, pf, pa, result, kind, max_pf, median, leg}
 
     season       number (2022), unlike league-history.json's string keys
     result       "W" | "L" | "T", from this team's side
-    kind         "regular" | "playoff" | "placement" | "consolation"
+    kind         "regular" | "playoff" | "placement" | "consolation" | "exhibition" (a
+                 playoff-week fixture between teams in neither bracket)
+    median       in a league that plays the median: that week's result against the league
+                 median, "W" | "L" | "T" (regular season only); else null. Sleeper's records
+                 count it, so standingsFrom() does too; head-to-head never does.
+    leg          1 | 2 for each week of a playoff round played over two weeks, else null
     max_pf       the best legal lineup from that team's whole roster that week, or null where
                  there is no honest figure: the commissioner-override game (pf there is the
                  official score, max_pf is computed from player points, so the difference
@@ -54,6 +59,10 @@ export const decodeGames = (raw) => {
         };
         // null on the commissioner-override game; absent from a games.json older than the column
         row.max_pf = col.max_pf ? col.max_pf[i] : null;
+        // Present only in leagues that have them: the week's result against the league median
+        // ("W" | "L" | "T", regular season), and the leg (1 | 2) of a two-week playoff round.
+        row.median = col.median ? col.median[i] : null;
+        row.leg = col.leg ? col.leg[i] : null;
         games[i] = row;
     }
 
@@ -224,7 +233,8 @@ export const headToHead = (games, {kinds} = {}) => {
 }
 
 /**
- * A standings table from whatever rows you pass, sorted by win % (ties as half), then points for:
+ * A standings table from whatever rows you pass, sorted by win % (ties as half), then points for.
+ * Median-game results count as games, as they do in Sleeper's records:
  *
  *   [{user_id, games, wins, losses, ties, winPct, pf, pa}]
  *
@@ -235,10 +245,13 @@ export const standingsFrom = (games) => {
     const out = {};
     for(const g of games) {
         const r = out[g.user_id] || (out[g.user_id] = {user_id: g.user_id, games: 0, wins: 0, losses: 0, ties: 0, winPct: null, pf: 0, pa: 0});
-        r.games++;
-        if(g.result === 'W') r.wins++;
-        else if(g.result === 'L') r.losses++;
-        else r.ties++;
+        // The median game is a second result in the same week, and Sleeper's records count it.
+        for(const res of g.median ? [g.result, g.median] : [g.result]) {
+            r.games++;
+            if(res === 'W') r.wins++;
+            else if(res === 'L') r.losses++;
+            else r.ties++;
+        }
         r.pf += g.pf;
         r.pa += g.pa;
     }
