@@ -743,8 +743,14 @@ def write(name, payload):
 def main():
     games = build_games()
     if not games:
-        print("no completed games found", file=sys.stderr)
-        return 1
+        # A league before its first completed week (or new to Sleeper). Write empty files so the
+        # site's history pages show their empty states rather than failing to load.
+        print("no completed games yet: writing empty games.json and season-notes.json")
+        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        write("games.json", {"generated": today, "through": None, "nfl_state": NFL_STATE, "count": 0,
+                             "managers": [], "kinds": KINDS, "columns": [], "data": []})
+        write("season-notes.json", {"generated": today, "seasons": {}})
+        return 0
 
     n_records, detected = check_records(games)
     n_weeks = check_pairs(games)

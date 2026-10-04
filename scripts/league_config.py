@@ -54,6 +54,10 @@ ELIGIBILITY = {
     for _e in _overrides.get("eligibility") or []
 }
 
+# The league's keeper-cost rule (league.json keepers.rule), or None. With one, keepers.json says
+# what each keeper should have cost and whether it did; without one it records the facts only.
+KEEPER_RULE = (CONFIG.get("keepers") or {}).get("rule")
+
 # Seasons played before Sleeper, and the Sleeper draft IDs of any drafts imported from them.
 PRE_SLEEPER = sorted(
     ((CONFIG.get("history") or {}).get("preSleeper") or []), key=lambda s: s["season"]

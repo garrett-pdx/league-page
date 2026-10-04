@@ -30,7 +30,7 @@ from collections import defaultdict
 from datetime import datetime, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from league_config import LEAGUE_ID as CURRENT_LEAGUE_ID  # noqa: E402
+from league_config import LEAGUE_ID as CURRENT_LEAGUE_ID, KEEPER_RULE  # noqa: E402
 
 BASE = "https://api.sleeper.app/v1"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -587,14 +587,19 @@ def build_keepers(drafts_out, owner_at, ownership):
                 # priced off the imported prior-season draft (see note above)
                 prior_round = carried[season][pid]
                 baseline = "carried-over prior-season draft"
-            # constitution 4.2/4.3/4.4: cost = prior-year round, -1 if the same manager
-            # keeps him again, floored at R1; undrafted last year costs the final round.
-            if prior_round is None:
-                expected = rounds_of.get(season)
-            else:
-                expected = max(1, prior_round - 1) if (same and chained) else prior_round
-                if rounds_of.get(season):
-                    expected = min(expected, rounds_of[season])
+            # league.json keepers.rule, when the league has one: cost = last season's round,
+            # repeatPenalty rounds dearer when the same manager keeps him again (floored at
+            # R1), and an undrafted player costs undraftedRound ("last" = the final round).
+            expected = None
+            if KEEPER_RULE:
+                if prior_round is None:
+                    und = KEEPER_RULE.get("undraftedRound", "last")
+                    expected = rounds_of.get(season) if und == "last" else int(und)
+                else:
+                    penalty = KEEPER_RULE.get("repeatPenalty", 0) if (same and chained) else 0
+                    expected = max(1, prior_round - penalty)
+                    if rounds_of.get(season):
+                        expected = min(expected, rounds_of[season])
             rows.append({
                 "player_id": pid,
                 "user_id": keeper_uid,
@@ -604,7 +609,7 @@ def build_keepers(drafts_out, owner_at, ownership):
                 "previous_season_round": prior_round,
                 "baseline": baseline,
                 "expected_cost_round": expected,
-                "matches_rule": expected == p["round"],
+                "matches_rule": None if expected is None else expected == p["round"],
                 "held_previous_season_by": prior,
                 "kept_by_same_manager_last_season": same,
                 "kept_previous_season_by": prev_keeper,

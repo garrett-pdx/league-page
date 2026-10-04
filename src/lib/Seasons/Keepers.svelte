@@ -1,16 +1,19 @@
 <script>
     /*
     Every keeper in a season with what he cost, from keepers.json. A keeper occupies the draft
-    slot he costs, so the round shown IS the cost. The note says where that cost came from:
-    the round he went in last season's primary draft, one round dearer when the same manager
-    keeps him again, and the last round when he went undrafted.
+    slot he costs, so the round shown IS the cost. The note says where that cost came from: the
+    round he went in last season's primary draft, and whether the same manager kept him last
+    season too -- with the league's repeat penalty when league.json has a keepers.rule.
 
     In the first Sleeper season "last season" can be a draft imported from another platform
     (league.json history.preSleeper), which keepers.json marks as the baseline; that is the one
     place an imported draft legitimately prices anything.
     */
     import Person from './Person.svelte';
-    import { preSleeperSeason } from '$lib/utils/leagueInfo';
+    import { preSleeperSeason, league } from '$lib/utils/leagueInfo';
+
+    const penalty = league.keepers?.rule?.repeatPenalty || 0;
+    const againNote = penalty ? ` · kept again (+${penalty} round${penalty === 1 ? '' : 's'})` : ' · kept again';
 
     export let rows = [];
     export let year;
@@ -22,7 +25,7 @@
 
     const note = (r, prev) => {
         const base = r.previous_season_round ? `Round ${r.previous_season_round} in ${prev}` : `Undrafted in ${prev}`;
-        return r.kept_by_same_manager_last_season ? `${base} · kept again (+1 round)` : base;
+        return r.kept_by_same_manager_last_season ? `${base}${againNote}` : base;
     };
 </script>
 

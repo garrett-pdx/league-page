@@ -14,13 +14,34 @@
     let leagueHistory = null;
     let preseasonTeamManagers = null;
 
-    // Least important to most important (i.e. the most important [usually wins] goes last)
-    // Edit this to match your leagues settings
-    // This league has no divisions and no ties, so neither appears here or in the columns below.
-    const sortOrder = ["fptsAgainst", "fpts", "wins"];
+    // Least important to most important (i.e. the most important [usually wins] goes last).
+    // A key the standings do not carry (no divisions, say) is skipped by the sort below.
+    const sortOrder = ["fptsAgainst", "divisionTies", "divisionWins", "fpts", "ties", "wins"];
 
-    // Column order from left to right
-    const columnOrder = [{name: "W", field: "wins"}, {name: "L", field: "losses"}, {name: "FPTS", field: "fpts"}, {name: "FPTS Against", field: "fptsAgainst"}, {name: "Streak", field: "streak"}]
+    /*
+    Columns, left to right. Ties and the division record appear only for a league that has them:
+    a column of zeros on every row is noise, and on a phone it pushes the points off-screen.
+    */
+    const ALL_COLUMNS = [
+        {name: "W", field: "wins"},
+        {name: "T", field: "ties", when: "ties"},
+        {name: "L", field: "losses"},
+        {name: "Div W", field: "divisionWins", when: "divisions"},
+        {name: "Div T", field: "divisionTies", when: "divisionTies"},
+        {name: "Div L", field: "divisionLosses", when: "divisions"},
+        {name: "FPTS", field: "fpts"},
+        {name: "FPTS Against", field: "fptsAgainst"},
+        {name: "Streak", field: "streak"},
+    ];
+    let columnOrder = ALL_COLUMNS.filter((c) => !c.when);
+    const columnsFor = (rows) => {
+        const has = {
+            ties: rows.some((r) => r.ties > 0),
+            divisions: rows.some((r) => r.divisionWins !== null && r.divisionWins !== undefined),
+            divisionTies: rows.some((r) => r.divisionTies > 0),
+        };
+        return ALL_COLUMNS.filter((c) => !c.when || has[c.when]);
+    };
 
     let loading = true;
     let preseason = false;
@@ -60,6 +81,7 @@
             }
 
             standings = finalStandings;
+            columnOrder = columnsFor(finalStandings);
             loading = false;
         } catch(err) {
             console.error(err);

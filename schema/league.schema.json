@@ -93,6 +93,25 @@
         }
       }
     },
+    "keepers": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Keeper leagues only. How many keepers each team gets comes from Sleeper (max_keepers).",
+      "properties": {
+        "rule": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "A round-based keeper-cost rule: a keeper costs the round he went in last season's draft, repeatPenalty rounds earlier when the same manager keeps him again, and undraftedRound if he went undrafted. With a rule, the data pipeline checks every keeper's actual cost against it and the season pages explain each cost; without one they report what keepers cost and nothing more.",
+          "properties": {
+            "repeatPenalty": { "type": "integer", "minimum": 0, "default": 0 },
+            "undraftedRound": {
+              "oneOf": [{ "const": "last" }, { "type": "integer", "minimum": 1 }],
+              "default": "last"
+            }
+          }
+        }
+      }
+    },
     "history": {
       "type": "object",
       "additionalProperties": false,

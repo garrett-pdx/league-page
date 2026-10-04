@@ -75,6 +75,12 @@
     ],
     "elsewhereNote": "All four are free to read."
   },
+  "keepers": {
+    "rule": {
+      "repeatPenalty": 1,
+      "undraftedRound": "last"
+    }
+  },
   "history": {
     "preSleeper": [
       {
