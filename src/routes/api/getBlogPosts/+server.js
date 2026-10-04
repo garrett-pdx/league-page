@@ -1,10 +1,23 @@
 import contentful from 'contentful';
 import { json, error } from '@sveltejs/kit';
-import { contentfulTypes } from '$lib/utils/helper';
+import { contentfulTypes, blogBackend } from '$lib/utils/helper';
+import { postsFromFiles } from '$lib/utils/blogMarkdown';
+
+// The markdown backend's posts, bundled at build time: publishing a post is committing a file.
+const postFiles = import.meta.glob('$league/posts/*.md', { eager: true, query: '?raw', import: 'default' });
 
 export async function GET() {
+    if(blogBackend === 'markdown') {
+        const { items, errors } = postsFromFiles(postFiles);
+        for(const e of errors) console.error(`league/posts: ${e}`);
+        return json({ items });
+    }
+    if(blogBackend !== 'contentful') {
+        return json({ items: [] });
+    }
+
     if(!import.meta.env.VITE_CONTENTFUL_CLIENT_ACCESS_TOKEN) {
-        throw error(500, "Missing VITE_CONTENTFUL_CLIENT_ACCESS_TOKEN (added dependency in v2.0), go to https://github.com/nmelhado/league-page/blob/master/TRAINING_WHEELS.md#iii-add-a-blog for directions to add it");
+        throw error(500, "blog.backend is \"contentful\" but VITE_CONTENTFUL_CLIENT_ACCESS_TOKEN is not set; set it (and VITE_CONTENTFUL_SPACE), or switch blog.backend to \"markdown\" in league/league.json");
     }
     const client = contentful.createClient({
         // This is the space ID. A space is like a project folder in Contentful terms
@@ -12,7 +25,7 @@ export async function GET() {
         // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
         accessToken: import.meta.env.VITE_CONTENTFUL_CLIENT_ACCESS_TOKEN
     });
-	// Not upstream's hardcoded 'blog_post' -- see contentfulTypes in leagueInfo.js.
+	// Content type IDs are configuration: blog.contentful in league.json.
 	const data = await client.getEntries({content_type: contentfulTypes.post})
         .catch(e=> {
             console.error(e);

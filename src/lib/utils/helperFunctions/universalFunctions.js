@@ -253,7 +253,10 @@ export const renderManagerNames = (teamManagers, rosterID, year) => {
         year = teamManagers.currentSeason;
     }
     let managersString = "";
-    for(const managerID of teamManagers.teamManagersMap[year][rosterID].managers) {
+    // Guarded like getTeamNameFromTeamManagers: a roster with no entry that season has no names.
+    const entry = teamManagers.teamManagersMap[year]?.[rosterID];
+    if(!entry) return managersString;
+    for(const managerID of entry.managers) {
         const manager = teamManagers.users[managerID];
         if(manager) {
             if(managersString != "") {

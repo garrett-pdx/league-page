@@ -29,6 +29,9 @@ export const getBlogPosts = async (servFetch, bypass = false) => {
 }
 
 export const generateParagraph = (paragraph, indent = true) => {
+    // A markdown post's body is one pre-rendered node (see src/lib/utils/blogMarkdown.js).
+    if(paragraph.nodeType === 'html') return paragraph.html;
+
     let {paragraphText, newIndent} = genElementStart(paragraph.nodeType, indent, paragraph.data.target);
     indent = newIndent;
 

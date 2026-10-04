@@ -140,8 +140,11 @@ const processRegularSeason = async ({rosters, leagueData, curSeason, week, regul
 		week = leagueData.settings.playoff_week_start - 1;
 	}
 
+	// In a league that plays the median, Sleeper's wins and losses include one median-game
+	// result a week, so games played is half the record.
+	const medianGame = Boolean(leagueData.settings.league_average_match);
 	for(const rosterID in rosters) {
-		analyzeRosters({year, roster: rosters[rosterID], regularSeason});
+		analyzeRosters({year, roster: rosters[rosterID], regularSeason, medianGame});
 	}
 
 	// loop through each week of the season
@@ -216,7 +219,7 @@ const processRegularSeason = async ({rosters, leagueData, curSeason, week, regul
  * @param {Object} rosterData.roster the roster being analyzed
  * @param {Records} rosterData.regularSeason the global regularSeason object that will be updated and returned
  */
-const analyzeRosters = ({year, roster, regularSeason}) => {
+const analyzeRosters = ({year, roster, regularSeason, medianGame = false}) => {
     // team name and logo are tied to the ownerID
     const rosterID = roster.roster_id;
 
@@ -227,12 +230,15 @@ const analyzeRosters = ({year, roster, regularSeason}) => {
 
 	// fptsFor and fptsPerGame are used for both rosterRecords and seasonLongPoints
 	const fptsFor = roster.settings.fpts + (roster.settings.fpts_decimal / 100);
-	const fptsPerGame = round(fptsFor / (roster.settings.wins + roster.settings.losses + roster.settings.ties));
+	const results = roster.settings.wins + roster.settings.losses + roster.settings.ties;
+	const games = medianGame ? results / 2 : results;
+	const fptsPerGame = round(fptsFor / games);
 
 	const rosterRecords = {
 		wins:  roster.settings.wins,
 		losses:  roster.settings.losses,
 		ties:  roster.settings.ties,
+		games,
 		fptsFor,
 		fptsAgainst:  roster.settings.fpts_against + (roster.settings.fpts_against_decimal / 100),
 		fptsPerGame,

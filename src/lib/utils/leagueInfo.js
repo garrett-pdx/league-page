@@ -11,7 +11,10 @@ import config from '$league/league.json';
 import { renderMarkdown, parseConstitution } from './markdown';
 
 // Optional prose files. A glob rather than an import, so a league without one still builds.
-const prose = import.meta.glob(['/league/home.md', '/league/constitution.md'], { eager: true, query: '?raw', import: 'default' });
+// Globbed through the $league alias, which LEAGUE_DIR can repoint to preview another league;
+// results are keyed by file name, since an alias glob's keys depend on where it resolved.
+const byName = (files) => Object.fromEntries(Object.entries(files).map(([k, v]) => [k.split('/').pop(), v]));
+const prose = byName(import.meta.glob(['$league/home.md', '$league/constitution.md'], { eager: true, query: '?raw', import: 'default' }));
 
 export const league = config;
 
@@ -66,10 +69,10 @@ const DEFAULT_INTROS = {
 };
 export const pageIntro = (key) => config.pages?.[key]?.intro ?? DEFAULT_INTROS[key] ?? null;
 
-export const homepageText = renderMarkdown(prose['/league/home.md'] || '');
+export const homepageText = renderMarkdown(prose['home.md'] || '');
 
 // The constitution, parsed into numbered sections and rules (null when the league has none).
-export const constitution = prose['/league/constitution.md'] ? parseConstitution(prose['/league/constitution.md']) : null;
+export const constitution = prose['constitution.md'] ? parseConstitution(prose['constitution.md']) : null;
 
 /*
 Links. `{sleeper}` in a URL stands for the league's page on Sleeper. A link to an internal page
@@ -93,16 +96,16 @@ Photos. A file name resolves to league/managers/<file>, bundled by Vite (so it i
 and cached forever); a full URL is used as is; everyone.png and question.jpg are built-in
 placeholders served from static/managers/.
 */
-const photoFiles = import.meta.glob('/league/managers/*.{jpg,jpeg,png,webp,gif,avif,svg}', {
+const photoFiles = byName(import.meta.glob('$league/managers/*.{jpg,jpeg,png,webp,gif,avif,svg}', {
     eager: true,
     query: '?url',
     import: 'default',
-});
+}));
 const BUILT_IN_PHOTOS = ['everyone.png', 'question.jpg'];
 export const photoUrl = (photo) => {
     if(!photo) return '/managers/question.jpg';
     if(/^(https?:)?\/\//.test(photo) || photo.startsWith('/')) return photo;
-    const bundled = photoFiles[`/league/managers/${photo}`];
+    const bundled = photoFiles[photo];
     if(bundled) return bundled;
     if(BUILT_IN_PHOTOS.includes(photo)) return `/managers/${photo}`;
     console.warn(`league.json: no photo "${photo}" in league/managers/`);

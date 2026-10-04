@@ -12,9 +12,15 @@
     const leagueTeamManagersData = getLeagueTeamManagers();
     // startTime is null once the draft completes -- see the note in leagueDrafts.js.
     const draftData = getUpcomingDraft();
+    // Set by HomePost when the blog has no post to show, so its block does not sit there empty.
+    let noPost = false;
 </script>
 
 <style>
+    .noPost {
+        display: none;
+    }
+
     #home {
         display: flex;
         flex-wrap: nowrap;
@@ -233,8 +239,8 @@
         <!-- Most recent Blog Post (if enabled). Its own .text block, not inside the one above, so
              phones can move it below the rankings and the champion (see the order rules). -->
         {#if enableBlog}
-            <div class="text homePost">
-                <HomePost />
+            <div class="text homePost" class:noPost={noPost}>
+                <HomePost bind:empty={noPost} />
             </div>
         {/if}
         <div class="rankings">

@@ -59,7 +59,8 @@
                 managerID: key,
                 fptsFor: round(leagueManagerRecord.fptsFor),
                 fptsAgainst: round(leagueManagerRecord.fptsAgainst),
-                fptsPerGame: round(leagueManagerRecord.fptsFor / denominator),
+                // per head-to-head game: a median-game result is not a second game's points
+                fptsPerGame: round(leagueManagerRecord.fptsFor / (leagueManagerRecord.games || denominator)),
             })
         
             if(leagueManagerRecord.ties > 0) showTies = true;

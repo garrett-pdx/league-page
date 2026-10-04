@@ -11,31 +11,29 @@
     let id;
     let loading = true;
     let leagueTeamManagers = {};
+    // True once loading finds no post at all; the home page hides the block (bind:empty).
+    export let empty = false;
+
+    // The featured post, else the newest one (posts arrive newest first).
+    const pick = (posts) => {
+        const chosen = posts.find((p) => p.fields.featured) || posts[0];
+        if(!chosen) return;
+        createdAt = chosen.sys.createdAt;
+        post = chosen.fields;
+        id = chosen.sys.id;
+    };
 
     onMount(async() => {
         const [{posts, fresh}, leagueTeamManagersData] = await waitForAll(getBlogPosts(null), getLeagueTeamManagers());
 		leagueTeamManagers = leagueTeamManagersData;
-        for(const singlePost of posts) {
-            if(singlePost.fields.featured) {
-                createdAt = singlePost.sys.createdAt;
-                post = singlePost.fields;
-                id = singlePost.sys.id;
-                break;
-            }
-        }
+        pick(posts);
 
         if(!fresh) {
 		    const {posts} = await getBlogPosts(null, true);
-            for(const singlePost of posts) {
-                if(singlePost.fields.featured) {
-                    createdAt = singlePost.sys.createdAt;
-                    post = singlePost.fields;
-                    id = singlePost.sys.id;
-                    break;
-                }
-            }
+            pick(posts);
         }
-        
+
+        empty = !post;
         loading = false;
     })
 </script>
@@ -82,7 +80,7 @@
         <p>Loading Blog Posts...</p>
         <LinearProgress indeterminate />
     </div>
-{:else}
+{:else if post}
     <h2>{blogTitle}</h2>
     <Post {leagueTeamManagers} {post} {createdAt} {id} />
     <div class="center">

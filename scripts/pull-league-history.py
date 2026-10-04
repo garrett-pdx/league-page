@@ -278,6 +278,9 @@ def build(raw, players, state):
             m = managers.setdefault(uid, {"handle": u.get("display_name"), "seasons": [],
                                           "seasons_rostered": [], "team_names": []})
             m["handle"] = u.get("display_name") or m["handle"]
+            # Sleeper avatar hash (sleepercdn.com/avatars/<hash>), latest season wins. Only for
+            # seeding league/managers/ photos: the URL changes whenever its owner changes it.
+            m["avatar"] = u.get("avatar") or m.get("avatar")
             m["seasons"].append(season)
             if uid in rostered:
                 m["seasons_rostered"].append(season)

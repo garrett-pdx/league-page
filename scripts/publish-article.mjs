@@ -1,5 +1,10 @@
 /**
- * Publish a Markdown article to Contentful as a blogPost entry.
+ * Publish a Markdown article to the league's blog.
+ *
+ * With blog.backend "markdown" (league/league.json) the post is written to league/posts/<slug>.md
+ * with its frontmatter, and committing that file is what publishes it -- the next deploy serves
+ * it. With "contentful" it is converted to Contentful Rich Text and created (or updated) as an
+ * entry, as described below.
  *
  * Contentful's `body` is a Rich Text field, which is a structured node tree rather than a
  * string -- pasting Markdown into it produces literal asterisks and pipes, and rebuilding a
@@ -21,8 +26,9 @@
  * round-trip into Contentful and then render as nothing.
  *
  * Usage:
- *   node scripts/publish-article.mjs <file.md> --type Preseason --author Gurret [--featured]
- *   node scripts/publish-article.mjs <file.md> ... --dry-run   # print the tree, publish nothing
+ *   node scripts/publish-article.mjs <file.md> --type Recap --author <sleeper username> [--featured]
+ *   node scripts/publish-article.mjs <file.md> ... --date 2026-09-30   # markdown: the post's date
+ *   node scripts/publish-article.mjs <file.md> ... --dry-run           # show it, publish nothing
  */
 
 import fs from "node:fs";
@@ -217,10 +223,51 @@ every link the first time a post was renamed (two already have been).
 */
 // The site's public address and the blog's name (the series prefix a title starts with) come
 // from league/league.json.
-const LEAGUE = JSON.parse(fs.readFileSync(path.join(ROOT, "league", "league.json"), "utf8"));
+// LEAGUE_CONFIG points it at another league's league.json, as it does the Python scripts.
+const CONFIG_PATH = process.env.LEAGUE_CONFIG || path.join(ROOT, "league", "league.json");
+const LEAGUE = JSON.parse(fs.readFileSync(CONFIG_PATH, "utf8"));
 const SITE = (LEAGUE.siteUrl || "").replace(/\/$/, "");
 const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const SERIES_PREFIX = new RegExp(`^${escapeRegExp(LEAGUE.blog?.title || "Blog")}\\s*[—–-]\\s*`, "i");
+
+// Contentful's content type ID for a post (Contentful derives it from the display name).
+const POST_TYPE = LEAGUE.blog?.contentful?.postType || "blog_post";
+
+/*
+The markdown backend: the article becomes league/posts/<slug>.md, frontmatter first, with its
+"# Title" line moved into the frontmatter. Re-publishing the same slug overwrites the file, which
+is the update. Nothing is sent anywhere: commit and push the file to publish it.
+*/
+function publishMarkdown({ md, title, type, author, featured, slug, dryRun }) {
+  const date = arg("--date") || new Date().toISOString().slice(0, 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    console.error(`bad --date "${date}" -- use YYYY-MM-DD`);
+    process.exit(1);
+  }
+  const body = md.replace(/^\uFEFF/, "").replace(/^\s*#\s+.+\n+/, "");
+  const quoted = (v) => (/[:#"']/.test(v) ? JSON.stringify(v) : v);
+  const front = [
+    "---",
+    `title: ${quoted(title)}`,
+    `date: ${date}`,
+    `type: ${quoted(type)}`,
+    `author: ${quoted(author)}`,
+    ...(featured ? ["featured: true"] : []),
+    "---",
+    "",
+  ].join("\n");
+  const out = path.join(path.dirname(CONFIG_PATH), "posts", `${slug}.md`);
+  console.log(`date:     ${date}`);
+  if (dryRun) {
+    console.log(`\ndry run -- would write ${path.relative(ROOT, out)}`);
+    return;
+  }
+  const existed = fs.existsSync(out);
+  fs.mkdirSync(path.dirname(out), { recursive: true });
+  fs.writeFileSync(out, front + body);
+  console.log(`\n${existed ? "updated" : "wrote"} ${path.relative(ROOT, out)}`);
+  console.log(`url:      ${SITE}/blog/${slug}  (live once the file is committed and deployed)`);
+}
 
 function deriveSlug(file, title) {
   const season = (path.basename(file).match(/^(\d{4})-/) || [])[1];
@@ -271,6 +318,13 @@ async function main() {
   console.log(`slug:     ${derivedSlug}${explicitSlug ? "" : " (an existing post keeps its current slug)"}`);
   console.log(`blocks:   ${JSON.stringify(counts)}`);
 
+  const backend = LEAGUE.blog?.backend || "markdown";
+  if (backend === "markdown") return publishMarkdown({ md, title, type, author, featured, slug: derivedSlug, dryRun });
+  if (backend !== "contentful") {
+    console.error(`blog.backend is "${backend}" in league/league.json -- there is no blog to publish to`);
+    process.exit(1);
+  }
+
   if (dryRun) {
     fs.writeFileSync("/tmp/richtext-preview.json", JSON.stringify(document, null, 2));
     console.log("\ndry run -- wrote /tmp/richtext-preview.json, published nothing");
@@ -315,7 +369,7 @@ async function main() {
   */
   const existing = process.argv.includes("--new")
     ? { items: [] }
-    : await environment.getEntries({ content_type: "blogPost", "fields.title": title });
+    : await environment.getEntries({ content_type: POST_TYPE, "fields.title": title });
 
   let entry;
   if (existing.items.length) {
@@ -326,12 +380,12 @@ async function main() {
     entry.fields = { ...fields, slug: { "en-US": keptSlug } };
     entry = await entry.update();
     await entry.publish();
-    console.log(`\nupdated blogPost ${entry.sys.id}`);
+    console.log(`\nupdated ${POST_TYPE} ${entry.sys.id}`);
     console.log(`url:      ${SITE}/blog/${keptSlug}`);
   } else {
-    entry = await environment.createEntry("blogPost", { fields: { ...fields, slug: { "en-US": derivedSlug } } });
+    entry = await environment.createEntry(POST_TYPE, { fields: { ...fields, slug: { "en-US": derivedSlug } } });
     await entry.publish();
-    console.log(`\npublished blogPost ${entry.sys.id}`);
+    console.log(`\npublished ${POST_TYPE} ${entry.sys.id}`);
     console.log(`url:      ${SITE}/blog/${derivedSlug}`);
   }
 }

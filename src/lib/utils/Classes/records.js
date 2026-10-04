@@ -40,6 +40,8 @@ Records.prototype.confirmManagerRecord = function(managerID) {
             wins: 0,
             losses: 0,
             ties: 0,
+            // head-to-head games played: wins + losses + ties, less any median-game results
+            games: 0,
             fptsFor: 0,
             fptsAgainst: 0,
             potentialPoints: 0,
@@ -80,7 +82,7 @@ Records.prototype.confirmRosterRecord = function(rosterID) {
  * @param {number} recordsData.pOGames
  * @param {number} recordsData.byes
  */
-Records.prototype.updateManagerRecord = function(managers, {rosterID, year, wins, losses, ties, fptsPerGame, fptsFor, fptsAgainst, potentialPoints, pOGames, byes}) {
+Records.prototype.updateManagerRecord = function(managers, {rosterID, year, wins, losses, ties, games, fptsPerGame, fptsFor, fptsAgainst, potentialPoints, pOGames, byes}) {
     // check that a roster record has already been started for a given roster ID
     for(const managerID of managers) {
         this.confirmManagerRecord(managerID);
@@ -89,6 +91,7 @@ Records.prototype.updateManagerRecord = function(managers, {rosterID, year, wins
         this.leagueManagerRecords[managerID].wins += wins;
         this.leagueManagerRecords[managerID].losses += losses;
         this.leagueManagerRecords[managerID].ties += ties;
+        this.leagueManagerRecords[managerID].games += games ?? (wins + losses + ties);
         this.leagueManagerRecords[managerID].fptsFor += fptsFor;
         this.leagueManagerRecords[managerID].fptsAgainst += fptsAgainst;
         this.leagueManagerRecords[managerID].potentialPoints += potentialPoints;

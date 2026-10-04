@@ -32,8 +32,8 @@
     let { leagueTeamManagers } = $props();
 
     // Optional file: a glob rather than an import, so a league without one still builds.
-    const files = import.meta.glob('/league/archive-facts.json', { eager: true, import: 'default' });
-    const archiveFacts = files['/league/archive-facts.json'] || [];
+    const files = import.meta.glob('$league/archive-facts.json', { eager: true, import: 'default' });
+    const archiveFacts = Object.values(files)[0] || [];
 
     // The fact's own season decides whose roster a manager link resolves through; managerID
     // matches first, so this only matters for a manager missing from leagueInfo.
