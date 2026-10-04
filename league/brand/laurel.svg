@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 175" role="img" aria-label="Laurel wreath">
+  <title>Laurel wreath</title>
+  <!--
+    Replaces static/laurel.png, which is dark green. Green was upstream's colour and it fights
+    the navy and gold palette everywhere it appears, most visibly wrapped around the reigning
+    champion's avatar on the home page.
+
+    viewBox is 210x175 to match the aspect ratio of the PNG it replaces (210x170), because both
+    call sites size it by width alone and let height follow. Changing the ratio would shift the
+    avatar that sits inside it.
+
+    Geometric by construction: every leaf is one ellipse, placed by rotating a group about the
+    wreath centre. No hand-tuned bezier work, which is what keeps it drawable without a
+    rasterizer to check against.
+
+    Note for editors: an XML comment may not contain two consecutive hyphens, including CSS
+    custom property names written in full. It is a parse error that blanks the whole file.
+  -->
+  <!-- Stems first, so the leaves overlap them. Drawn last, the round line caps poked visible
+       hooks out past the upper leaves. -->
+  <g fill="none" stroke="#EAAA00" stroke-width="3.4" stroke-linecap="round">
+    <path d="M105 168 C 80 158, 52 130, 45 96"/>
+    <path d="M105 168 C 130 158, 158 130, 165 96"/>
+  </g>
+
+  <g fill="#EAAA00">
+    <!-- left branch: leaves stepped every 20 degrees, each tilted off the radius so the wreath
+         reads as overlapping foliage rather than a starburst -->
+    <g transform="rotate(-28 105 100)"><ellipse cx="105" cy="30" rx="7" ry="14" transform="rotate(18 105 30)"/></g>
+    <g transform="rotate(-48 105 100)"><ellipse cx="105" cy="30" rx="7" ry="14" transform="rotate(18 105 30)"/></g>
+    <g transform="rotate(-68 105 100)"><ellipse cx="105" cy="30" rx="7" ry="14" transform="rotate(18 105 30)"/></g>
+    <g transform="rotate(-88 105 100)"><ellipse cx="105" cy="30" rx="6.6" ry="13" transform="rotate(18 105 30)"/></g>
+    <g transform="rotate(-108 105 100)"><ellipse cx="105" cy="30" rx="6.2" ry="12" transform="rotate(18 105 30)"/></g>
+    <g transform="rotate(-128 105 100)"><ellipse cx="105" cy="30" rx="5.6" ry="10.5" transform="rotate(18 105 30)"/></g>
+    <g transform="rotate(-146 105 100)"><ellipse cx="105" cy="30" rx="4.8" ry="9" transform="rotate(18 105 30)"/></g>
+
+    <!-- right branch: mirrored tilt so the two sides sweep toward each other -->
+    <g transform="rotate(28 105 100)"><ellipse cx="105" cy="30" rx="7" ry="14" transform="rotate(-18 105 30)"/></g>
+    <g transform="rotate(48 105 100)"><ellipse cx="105" cy="30" rx="7" ry="14" transform="rotate(-18 105 30)"/></g>
+    <g transform="rotate(68 105 100)"><ellipse cx="105" cy="30" rx="7" ry="14" transform="rotate(-18 105 30)"/></g>
+    <g transform="rotate(88 105 100)"><ellipse cx="105" cy="30" rx="6.6" ry="13" transform="rotate(-18 105 30)"/></g>
+    <g transform="rotate(108 105 100)"><ellipse cx="105" cy="30" rx="6.2" ry="12" transform="rotate(-18 105 30)"/></g>
+    <g transform="rotate(128 105 100)"><ellipse cx="105" cy="30" rx="5.6" ry="10.5" transform="rotate(-18 105 30)"/></g>
+    <g transform="rotate(146 105 100)"><ellipse cx="105" cy="30" rx="4.8" ry="9" transform="rotate(-18 105 30)"/></g>
+  </g>
+</svg>

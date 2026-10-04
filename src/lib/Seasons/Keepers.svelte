@@ -58,7 +58,7 @@
     .cost {
         font-family: var(--fontDisplay);
         font-weight: 600;
-        color: var(--navy700);
+        color: var(--brand700);
         text-align: center;
         line-height: 1.05;
     }

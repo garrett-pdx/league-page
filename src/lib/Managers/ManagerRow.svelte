@@ -153,13 +153,13 @@
     }
 
     .commish {
-        background-color: var(--goldFill);
-        color: var(--goldOnFill);
+        background-color: var(--trophyFill);
+        color: var(--trophyOnFill);
     }
 
     .retired {
         background-color: rgba(255, 255, 255, 0.92);
-        color: var(--navy700);
+        color: var(--brand700);
     }
 
     /* A departed manager's photo is desaturated so the Moratorium reads at a glance. */

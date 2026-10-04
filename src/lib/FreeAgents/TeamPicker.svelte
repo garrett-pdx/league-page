@@ -63,7 +63,7 @@
         border: 1px solid var(--accentBorder);
         border-radius: var(--radiusPill);
         background: var(--fff);
-        color: var(--navy700);
+        color: var(--brand700);
         cursor: pointer;
         white-space: nowrap;
     }
@@ -144,7 +144,7 @@
         padding: 0.35em 0.1em 0.25em;
         border: 2px solid transparent;
         border-radius: var(--radiusSm);
-        background: var(--navy050);
+        background: var(--brand050);
         cursor: pointer;
         font: inherit;
     }
@@ -174,7 +174,7 @@
     .abbr {
         font-size: 12px;
         font-weight: 600;
-        color: var(--navy700);
+        color: var(--brand700);
     }
 
     .team[aria-pressed='false'] .abbr {
@@ -183,7 +183,7 @@
     }
 
     @media (hover: hover) {
-        .team:hover { border-color: var(--navy400); }
+        .team:hover { border-color: var(--brand400); }
     }
 
     @media (max-width: 640px) {

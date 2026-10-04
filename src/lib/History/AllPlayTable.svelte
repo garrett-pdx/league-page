@@ -106,7 +106,7 @@
     .row:last-child { border-bottom: none; }
 
     @media (hover: hover) {
-        a.row:hover { background-color: var(--navy050); }
+        a.row:hover { background-color: var(--brand050); }
     }
 
     a.row:focus-visible {
@@ -120,7 +120,7 @@
         text-transform: uppercase;
         letter-spacing: 0.08em;
         color: var(--g555);
-        background-color: var(--navy050);
+        background-color: var(--brand050);
     }
 
     .team {
@@ -214,7 +214,7 @@
 
     .luckNum {
         flex: 0 0 3.4em;
-        color: var(--navy700);
+        color: var(--brand700);
         font-weight: 700;
     }
 

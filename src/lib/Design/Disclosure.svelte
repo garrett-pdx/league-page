@@ -46,8 +46,8 @@
         padding: 0 1.3em;
         border: 1px solid var(--accentBorder);
         border-radius: var(--radiusPill);
-        background-color: var(--navy050);
-        color: var(--navy700);
+        background-color: var(--brand050);
+        color: var(--brand700);
         font-family: var(--fontDisplay);
         font-size: 0.95em;
         font-weight: 500;
@@ -58,7 +58,7 @@
     }
 
     @media (hover: hover) {
-        .toggle:hover { background-color: var(--navy100); }
+        .toggle:hover { background-color: var(--brand100); }
     }
 
     .toggle:focus-visible {

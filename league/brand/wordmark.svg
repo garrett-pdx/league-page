@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 96" role="img" aria-label="The Mudd League">
+  <title>The Mudd League</title>
+  <!--
+    Horizontal lockup for the README and anywhere the seal is too tall.
+
+    This one is rendered by GitHub as well as by the site, so it gets no page CSS and no webfont
+    either. The stack mirrors the display token and textLength with lengthAdjust pins the width,
+    so the rule underneath stays the same length as the words whichever fallback resolves. Without
+    that the rule and the wordmark drift apart on any machine lacking Oswald.
+
+    Ink is navy rather than black so it matches the site's headings; the rule is the brand gold.
+
+    Note for editors: an XML comment may not contain two consecutive hyphens, including CSS
+    custom property names written in full. It is a parse error that blanks the whole file.
+  -->
+  <text x="210" y="52" text-anchor="middle" fill="#00316b"
+        font-family="'Oswald','Roboto Condensed','Arial Narrow','Helvetica Neue',sans-serif"
+        font-weight="600" font-size="46" letter-spacing="2"
+        textLength="380" lengthAdjust="spacingAndGlyphs">THE MUDD LEAGUE</text>
+
+  <rect x="150" y="68" width="120" height="5" rx="2.5" fill="#EAAA00"/>
+
+  <text x="210" y="90" text-anchor="middle" fill="#005a94"
+        font-family="'Oswald','Roboto Condensed','Arial Narrow','Helvetica Neue',sans-serif"
+        font-weight="500" font-size="13" letter-spacing="4"
+        textLength="200" lengthAdjust="spacingAndGlyphs">KEEPER FOOTBALL</text>
+</svg>

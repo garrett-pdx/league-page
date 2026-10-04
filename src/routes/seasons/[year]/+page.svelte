@@ -41,7 +41,7 @@
         border: 1px solid var(--accentBorder);
         border-radius: var(--radiusPill);
         background-color: var(--fff);
-        color: var(--navy700);
+        color: var(--brand700);
         font-family: var(--fontDisplay);
         letter-spacing: 0.06em;
         text-transform: uppercase;
@@ -49,7 +49,7 @@
     }
 
     @media (hover: hover) {
-        .pager a:hover { background-color: var(--navy050); }
+        .pager a:hover { background-color: var(--brand050); }
     }
 
     .pager a:focus-visible {

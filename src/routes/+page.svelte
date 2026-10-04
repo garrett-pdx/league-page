@@ -120,7 +120,7 @@
         line-height: 1;
         letter-spacing: 0.01em;
         text-transform: uppercase;
-        color: var(--navy700);
+        color: var(--brand700);
         margin: 0;
     }
 
@@ -130,7 +130,7 @@
         height: 3px;
         margin: 0.5em auto 0;
         border-radius: var(--radiusPill);
-        background-color: var(--goldFill);
+        background-color: var(--trophyFill);
     }
 
     .nextEvent {

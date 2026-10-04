@@ -51,21 +51,21 @@
         letter-spacing: 0.08em;
         text-transform: uppercase;
         color: var(--g555);
-        background-color: var(--navy050);
+        background-color: var(--brand050);
     }
 
     .place {
         font-family: var(--fontDisplay);
         font-weight: 600;
         font-size: 1.15rem;
-        color: var(--navy700);
+        color: var(--brand700);
         text-align: center;
     }
 
     .champ { background-color: #fdf6e3; }
     .champ .place {
-        background-color: var(--goldFill);
-        color: var(--goldOnFill);
+        background-color: var(--trophyFill);
+        color: var(--trophyOnFill);
         border-radius: var(--radiusCircle);
         width: 1.9rem;
         height: 1.9rem;
@@ -74,7 +74,7 @@
     }
 
     /* the line between the playoff teams and the rest */
-    .cut { border-bottom: 2px solid var(--navy400); }
+    .cut { border-bottom: 2px solid var(--brand400); }
 
     .num {
         font-variant-numeric: tabular-nums;

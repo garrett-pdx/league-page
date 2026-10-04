@@ -285,7 +285,7 @@
     }
 
     @media (hover: hover) {
-        .chip:hover:not([aria-pressed='true']) { background: var(--navy050); }
+        .chip:hover:not([aria-pressed='true']) { background: var(--brand050); }
     }
 
     .chip:focus-visible, .sheetToggle:focus-visible, select:focus-visible, .reset:focus-visible, .linkBtn:focus-visible {
@@ -375,7 +375,7 @@
     .caption h3 {
         margin: 0;
         font-size: 1.3rem;
-        color: var(--navy700);
+        color: var(--brand700);
         text-transform: uppercase;
         letter-spacing: 0.03em;
     }
@@ -442,9 +442,9 @@
         .sumChip {
             padding: 3px 9px;
             border-radius: var(--radiusPill);
-            background: var(--navy050);
+            background: var(--brand050);
             border: 1px solid var(--accentBorder);
-            color: var(--navy700);
+            color: var(--brand700);
             font-size: 0.8rem;
         }
 

@@ -47,7 +47,7 @@
 
     @media (hover: hover) {
         .link:hover {
-            background-color: var(--navy050);
+            background-color: var(--brand050);
         }
     }
 
@@ -70,7 +70,7 @@
         display: block;
         font-size: 1.05em;
         font-weight: 500;
-        color: var(--navy700);
+        color: var(--brand700);
     }
 
     .note {

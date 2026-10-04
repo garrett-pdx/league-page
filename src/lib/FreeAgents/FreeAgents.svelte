@@ -211,7 +211,7 @@
         border: 1px solid var(--accentBorder);
         border-radius: var(--radiusPill);
         background: var(--fff);
-        color: var(--navy700);
+        color: var(--brand700);
         cursor: pointer;
         white-space: nowrap;
         user-select: none;
@@ -281,7 +281,7 @@
         white-space: nowrap;
     }
 
-    .sort.active { color: var(--navy700); }
+    .sort.active { color: var(--brand700); }
 
     .sort:focus-visible {
         outline: 2px solid var(--blueOne);
@@ -340,7 +340,7 @@
 
     .name {
         font-weight: 500;
-        color: var(--navy700);
+        color: var(--brand700);
     }
 
     .team {
@@ -383,8 +383,8 @@
         white-space: nowrap;
     }
 
-    .inj.out { background: var(--cardinal); color: #fff; }
-    .inj.q { background: var(--goldFill); color: var(--goldOnFill); }
+    .inj.out { background: var(--emblem); color: #fff; }
+    .inj.q { background: var(--trophyFill); color: var(--trophyOnFill); }
 
     .opp {
         display: block;
@@ -414,7 +414,7 @@
         color: var(--g555);
     }
 
-    .status .error { color: var(--cardinal); }
+    .status .error { color: var(--emblem); }
 
     .refresh {
         font: inherit;

@@ -81,7 +81,7 @@
         font-weight: 700;
         line-height: 1;
         letter-spacing: 0.02em;
-        color: var(--navy700);
+        color: var(--brand700);
         font-variant-numeric: tabular-nums;
     }
 
@@ -89,7 +89,7 @@
         width: 62px;
         height: 62px;
         border-radius: var(--radiusCircle);
-        border: 3px solid var(--goldFill);
+        border: 3px solid var(--trophyFill);
         background-color: var(--fff);
         margin: 0.25em 0;
     }
@@ -101,7 +101,7 @@
         text-transform: uppercase;
         letter-spacing: 0.03em;
         line-height: 1.15;
-        color: var(--navy700);
+        color: var(--brand700);
     }
 
     .season {

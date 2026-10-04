@@ -47,7 +47,7 @@
         line-height: 1.05;
         letter-spacing: 0.01em;
         text-transform: uppercase;
-        color: var(--navy700);
+        color: var(--brand700);
         margin: 0;
     }
 
@@ -71,7 +71,7 @@
     }
 
     .rule.navy { background-color: var(--accentFill); }
-    .rule.gold { background-color: var(--goldFill); }
+    .rule.gold { background-color: var(--trophyFill); }
 
     .left .rule { margin-left: 0; }
 

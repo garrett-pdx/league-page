@@ -53,7 +53,7 @@
         font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 0.08em;
-        color: var(--navy700);
+        color: var(--brand700);
         width: 100%;
         text-align: center;
         margin: 0 0 1em;

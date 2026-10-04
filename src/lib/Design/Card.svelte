@@ -76,7 +76,7 @@
     }
 
     .accent-navy::before { background-color: var(--accentFill); }
-    .accent-gold::before { background-color: var(--goldFill); }
+    .accent-gold::before { background-color: var(--trophyFill); }
 </style>
 
 <svelte:element

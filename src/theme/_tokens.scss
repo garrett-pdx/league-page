@@ -1,9 +1,9 @@
-// Design tokens for The Mudd League.
+// Design tokens. Pulled into the Material theme with a single `@use 'tokens';` line in
+// _smui-theme.scss.
 //
-// This file is OURS -- _smui-theme.scss is upstream's and is otherwise byte-identical to
-// nmelhado/league-page, so new tokens live here and are pulled in with a single `@use 'tokens';`
-// line. Upstream keeps appending to its own :root block; keeping our additions out of it is what
-// stops every future `git merge upstream/master` from conflicting.
+// The league's COLOURS are not here: they are generated into _league.scss from league.json by
+// `npm run brand` (scripts/brand.mjs), so a league changes its palette without touching a token
+// file. Everything else -- type, widths, radii, elevation -- is the engine's and lives below.
 //
 // Two gotchas:
 //   * `npm run dev` does NOT recompile Sass. After editing this file run `npm run smui-theme-light`
@@ -12,15 +12,14 @@
 //     src/theme/dark, so this file would not resolve and the build would fail. The dark theme is
 //     still compiled but no longer served (see src/app.html).
 //
-// The brand colour also appears in two places that CANNOT use var():
-//   * src/theme/_smui-theme.scss:7-8  -- $primary / $secondary, Sass compile-time values
-//   * src/app.html:12,16             -- mask-icon and msapplication-TileColor HTML attributes
-// Change those by hand if the brand colour ever moves.
+// The Material theme's $primary / $secondary are Sass values; _smui-theme.scss reads them from
+// _league.scss.
 
 // League-owned global rules: layout fixes and overrides of upstream :global rules, kept out of
 // upstream's files. Sass requires @use to come before any rule, hence its position here.
 // This is also why _site.scss reaches the build with no line added to _smui-theme.scss.
 @use 'site';
+@use 'league';
 
 :root {
   /* ---- Type families ------------------------------------------------------------------ */
@@ -90,57 +89,16 @@
   // --shadowCard is the MDC elevation-3 triple that is currently copy-pasted verbatim into
   // seven components (BarChart, Resources, Roster, RecordsAndRankings x2, Awards x2).
   --shadowCard: 0px 3px 3px -2px var(--boxShadowOne), 0px 3px 4px 0px var(--boxShadowTwo), 0px 1px 8px 0px var(--boxShadowThree);
-  --shadowCardHover: 0 6px 14px -4px rgba(0, 49, 107, 0.22), 0 2px 6px -2px rgba(0, 49, 107, 0.14);
   --shadowNav: 0 0 8px 0 var(--blueOne);
 
-  /* ---- Navy ramp -------------------------------------------------------------------------
-     Contrast measured against #ebebeb, the darker end of the body gradient -- that is the
-     number that governs, not the #f4f4f4 end.
+  /* ---- Brand colours ----------------------------------------------------------------------
+     --brand900 .. --brand050 (the primary ramp), --accentBorder, --shadowCardHover, the trophy
+     colours and --emblem are generated into _league.scss; see the contrast notes there. The
+     rules: --brand400 is for borders, icons and large text only, never body-size ink; trophy
+     gold is a FILL with --trophyOnFill ink on it, never text on the page (--trophyInk is). */
+  --accentInk: var(--brand500);    // interactive text, and small fills carrying white text
+  --accentFill: var(--brand700);   // white-on-navy chips, buttons, badges
 
-       --navy900  #001f45   13.74  AAA
-       --navy800  #00285a   12.14  AAA
-       --navy700  #00316b   10.67  AAA   (== --blueOne)
-       --navy600  #004a8f    7.41  AAA
-       --navy500  #005a94    6.10  AA
-       --navy400  #0082c3    3.54  FAILS AA   (== --blueTwo)
-       --navy100  #ddedfa      --         (== --headerPrimary; navy700 on it = 10.64)
-
-     --navy400 clears only the 3:1 non-text bar. Legal uses: text >=24px, bold text >=18.66px,
-     icon strokes, borders, decorative fills. Never body-size ink, never a fill under white text. */
-  --navy900: #001f45;
-  --navy800: #00285a;
-  --navy700: #00316b;
-  --navy600: #004a8f;
-  --navy500: #005a94;
-  --navy400: #0082c3;
-  --navy100: #ddedfa;
-  --navy050: #f0f6fc;
-
-  --accentInk: var(--navy500);    // interactive text, and small fills carrying white text
-  --accentFill: var(--navy700);   // white-on-navy chips, buttons, badges
-  --accentBorder: #c8d4e3;
-
-  /* ---- Gold (championships) ---------------------------------------------------------------
-     Two golds only. There is no usable mid-gold: #b8860b measures 2.73 on #ebebeb and fails
-     even the 3:1 non-text bar. Championship treatment is always gold FILL with navy ink --
-     never gold text on grey.
-
-     --goldFill is #EAAA00 so that the UI and the brand emblem in static/brand/ share ONE gold.
-     They are seen together -- the nav seal sits directly above the home page's hero rule -- and
-     two near-but-not-equal golds read as a mistake rather than a choice. Retuning cost a little
-     headroom: navy on gold was 6.82 at the previous #f0b429 and is 6.20 here, so it still clears
-     AA comfortably but no longer reaches AAA. Do not darken the navy to chase that back; the
-     pairing is a fill with ink on it, not body text. */
-  --goldInk: #7a5c00;             // gold as text: 5.25 on #ebebeb, AA
-  --goldFill: #EAAA00;            // fills: 6.20 under --goldOnFill, 10.25 under black
-  --goldOnFill: var(--navy700);   // the only ink that may sit on --goldFill
-
-  /* ---- Cardinal (heritage accent) -----------------------------------------------------------
-     Claremont-Mudd-Scripps athletics cardinal. EMBLEM USE ONLY -- deliberately not part of the
-     navy ramp, and not a second interactive colour.
-     8.98 on #fff and 7.53 on #ebebeb, so AAA either way if it is ever needed as ink. It measures
-     4.38 on --goldFill, which is why inside the seal it is a shape fill and never lettering. */
-  --cardinal: #862633;
 }
 
 /*
@@ -163,7 +121,7 @@ in a component compiles to `h2.svelte-xxxxx` -- specificity (0,1,1) -- which thi
 
 Weight only, not color or text-transform or letter-spacing: those interact with things this rule
 can't safely reason about -- color specifically risks overriding a heading that is currently
-inheriting --goldOnFill from a gold-toned parent, since any specified value beats inheritance --
+inheriting --trophyOnFill from a gold-toned parent, since any specified value beats inheritance --
 and uppercase specifically would shout real people's names on the manager pages. Both are real
 design decisions, not gaps to patch by default.
 */

@@ -45,6 +45,7 @@
   "scripts": {
     "dev": "vite dev",
     "dev:league": "sh scripts/dev-league.sh",
+    "brand": "node scripts/brand.mjs",
     "build": "vite build",
     "build-docker": "DOCKER_BUILD=true vite build --verbose",
     "docker-build": "docker build . -t $USER/league-page:latest",

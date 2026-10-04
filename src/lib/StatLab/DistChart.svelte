@@ -156,7 +156,7 @@
         touch-action: pan-y;
     }
 
-    .strip.on { background: var(--navy050); }
+    .strip.on { background: var(--brand050); }
     .strip:focus-visible { outline: 2px solid var(--blueOne); outline-offset: -2px; }
 
     .who {
@@ -184,9 +184,9 @@
     .on .band { fill: var(--vizBandOn); }
     .dot { fill: var(--vizDot); stroke: var(--vizSurface); stroke-width: 1; }
     .on .dot { fill: var(--vizS1); }
-    .dot.pick { fill: var(--navy700); stroke-width: 2; }
+    .dot.pick { fill: var(--brand700); stroke-width: 2; }
     .median { fill: var(--vizInk); stroke: var(--vizSurface); stroke-width: 1; }
-    .on .median { fill: var(--navy700); }
+    .on .median { fill: var(--brand700); }
 
     .axis { display: grid; align-items: start; }
     .axis svg { overflow: visible; }

@@ -35,7 +35,7 @@
     }
 
     .title-link:hover {
-        color: var(--cardinal);
+        color: var(--emblem);
     }
 
     .body {

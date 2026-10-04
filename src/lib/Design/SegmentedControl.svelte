@@ -80,7 +80,7 @@
         flex-wrap: wrap;
         padding: 3px;
         gap: 3px;
-        background-color: var(--navy050);
+        background-color: var(--brand050);
         border: 1px solid var(--accentBorder);
         border-radius: 28px;
         box-sizing: border-box;
@@ -98,7 +98,7 @@
         font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 0.07em;
-        color: var(--navy700);
+        color: var(--brand700);
         border-radius: var(--radiusPill);
         white-space: nowrap;
         transition: background-color 0.15s ease, color 0.15s ease;
@@ -113,7 +113,7 @@
     }
 
     @media (hover: hover) {
-        .segment:hover:not(.selected):not(:disabled) { background-color: var(--navy100); }
+        .segment:hover:not(.selected):not(:disabled) { background-color: var(--brand100); }
     }
 
     .segment.selected {

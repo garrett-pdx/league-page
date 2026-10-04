@@ -131,7 +131,7 @@
     .title { fill: var(--vizInk); font-size: 12px; font-weight: 500; }
     .quad { fill: var(--vizInk2); font-size: 12px; font-style: italic; }
     .dot { fill: var(--vizS1); fill-opacity: 0.82; stroke: var(--vizSurface); stroke-width: 2; }
-    .dot.on { fill-opacity: 1; fill: var(--navy700); }
+    .dot.on { fill-opacity: 1; fill: var(--brand700); }
     .name { fill: var(--vizInk); font-size: 12px; }
     .hit { fill: transparent; cursor: pointer; }
 

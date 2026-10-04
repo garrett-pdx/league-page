@@ -68,12 +68,12 @@
         letter-spacing: 0.08em;
         text-transform: uppercase;
         color: var(--g555);
-        background-color: var(--navy050);
+        background-color: var(--brand050);
     }
 
     .title .gameLabel {
-        background-color: var(--goldFill);
-        color: var(--goldOnFill);
+        background-color: var(--trophyFill);
+        color: var(--trophyOnFill);
         font-weight: 600;
     }
 
@@ -100,7 +100,7 @@
     }
 
     .won { color: var(--g111); }
-    .won .score { font-weight: 700; color: var(--navy700); }
+    .won .score { font-weight: 700; color: var(--brand700); }
 
     .srOnly {
         position: absolute;

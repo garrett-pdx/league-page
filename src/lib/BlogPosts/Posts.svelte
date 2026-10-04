@@ -108,11 +108,11 @@
     }
 
     .filterClear {
-        background-color: var(--cardinal);
+        background-color: var(--emblem);
     }
 
     .filterClear:hover {
-        background-color: var(--cardinal);
+        background-color: var(--emblem);
     }
 
     .filterLink {

@@ -103,7 +103,7 @@
     th {
         position: sticky;
         top: 0;
-        background: var(--navy050);
+        background: var(--brand050);
         padding: 0;
         text-align: left;
         vertical-align: bottom;
@@ -135,7 +135,7 @@
     }
 
     th.num .sortBtn { justify-content: flex-end; text-align: right; }
-    th[aria-sort='ascending'] .sortBtn, th[aria-sort='descending'] .sortBtn { color: var(--navy700); font-weight: 600; }
+    th[aria-sort='ascending'] .sortBtn, th[aria-sort='descending'] .sortBtn { color: var(--brand700); font-weight: 600; }
     .sortBtn:focus-visible, .nameBtn:focus-visible, .more:focus-visible, .act:focus-visible { outline: 2px solid var(--blueOne); outline-offset: -2px; }
     .arrow { font-size: 0.75rem; }
 
@@ -161,7 +161,7 @@
 
     tr.row { cursor: pointer; }
     @media (hover: hover) {
-        tr.row:hover td { background: var(--navy050); }
+        tr.row:hover td { background: var(--brand050); }
     }
 
     .rank { color: var(--g555); width: 2.5em; text-align: right; }
@@ -199,8 +199,8 @@
         padding: 0 1.2em;
         border: 1px solid var(--accentBorder);
         border-radius: var(--radiusPill);
-        background: var(--navy050);
-        color: var(--navy700);
+        background: var(--brand050);
+        color: var(--brand700);
         font: inherit;
         font-weight: 500;
         cursor: pointer;
@@ -216,7 +216,7 @@
         gap: 8px;
         align-items: center;
         padding: 8px;
-        background: var(--navy050);
+        background: var(--brand050);
         border-bottom: 1px solid var(--accentBorder);
     }
 
@@ -240,7 +240,7 @@
         border: 1px solid var(--accentBorder);
         border-radius: var(--radiusSm);
         background: var(--fff);
-        color: var(--navy700);
+        color: var(--brand700);
         font: inherit;
         cursor: pointer;
     }
@@ -251,7 +251,7 @@
     .ctx { font-size: 0.8rem; color: var(--g555); }
     .phone td.val { font-weight: 600; text-align: right; white-space: nowrap; }
 
-    .detail td { background: var(--navy050); padding: 8px 12px 12px; }
+    .detail td { background: var(--brand050); padding: 8px 12px 12px; }
 
     dl {
         display: grid;

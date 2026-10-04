@@ -50,7 +50,7 @@
     .value {
         font-weight: 700;
         line-height: 1;
-        color: var(--navy700);
+        color: var(--brand700);
         /* tabular figures so a column of tiles keeps its digits aligned */
         font-variant-numeric: tabular-nums;
     }
@@ -83,13 +83,13 @@
     .negative .value { color: #a32020; }   /* 6.24:1 on #fff */
 
     .champion {
-        background-color: var(--goldFill);
+        background-color: var(--trophyFill);
         box-shadow: var(--shadowCard);
     }
     /* Gold is only ever a fill, never ink -- see the palette note in src/theme/_tokens.scss. */
-    .champion .value { color: var(--goldOnFill); }
-    .champion .label { color: var(--goldOnFill); }
-    .champion .sub { color: var(--goldOnFill); }
+    .champion .value { color: var(--trophyOnFill); }
+    .champion .label { color: var(--trophyOnFill); }
+    .champion .sub { color: var(--trophyOnFill); }
 
     @media (max-width: 500px) {
         .tile { padding: 0.7em 0.4em; }

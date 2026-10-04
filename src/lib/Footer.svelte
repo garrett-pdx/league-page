@@ -73,7 +73,7 @@
 
 <style>
 	footer {
-		background-color: var(--navy050);
+		background-color: var(--brand050);
 		width: 100%;
         display: block;
         position: absolute;
@@ -112,7 +112,7 @@
 		min-height: 44px;
 		box-sizing: border-box;
 		padding: 0 0.4em;
-		color: var(--navy700);
+		color: var(--brand700);
 		text-decoration: none;
 		font-family: var(--fontDisplay);
 		font-size: 0.82em;

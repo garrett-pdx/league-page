@@ -98,7 +98,7 @@
         line-height: 1.1;
         text-transform: uppercase;
         letter-spacing: 0.04em;
-        color: var(--navy700);
+        color: var(--brand700);
     }
 </style>
 

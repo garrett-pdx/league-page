@@ -32,7 +32,7 @@
         border: 1px solid var(--accentBorder);
         border-radius: var(--radiusPill);
         background-color: var(--fff);
-        color: var(--navy700);
+        color: var(--brand700);
         text-decoration: none;
         font-size: 0.9rem;
         font-variant-numeric: tabular-nums;
@@ -42,16 +42,16 @@
     .place { font-weight: 700; }
 
     .champ {
-        background-color: var(--goldFill);
-        border-color: var(--goldFill);
-        color: var(--goldOnFill);
+        background-color: var(--trophyFill);
+        border-color: var(--trophyFill);
+        color: var(--trophyOnFill);
     }
 
-    .champ .year { color: var(--goldOnFill); }
+    .champ .year { color: var(--trophyOnFill); }
 
     @media (hover: hover) {
-        a:hover { background-color: var(--navy050); }
-        a.champ:hover { background-color: var(--goldFill); text-decoration: underline; }
+        a:hover { background-color: var(--brand050); }
+        a.champ:hover { background-color: var(--trophyFill); text-decoration: underline; }
     }
 
     a:focus-visible {

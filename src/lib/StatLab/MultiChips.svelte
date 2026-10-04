@@ -38,7 +38,7 @@
         border: 1px solid var(--accentBorder);
         border-radius: var(--radiusPill);
         background: var(--fff);
-        color: var(--navy700);
+        color: var(--brand700);
         font: inherit;
         font-size: 0.9rem;
         cursor: pointer;
@@ -51,7 +51,7 @@
     }
 
     @media (hover: hover) {
-        button:hover:not([aria-pressed='true']) { background: var(--navy050); }
+        button:hover:not([aria-pressed='true']) { background: var(--brand050); }
     }
 
     button:focus-visible { outline: 2px solid var(--blueOne); outline-offset: 2px; }

@@ -6,6 +6,26 @@
   "description": "Standings, matchups, records and keepers for The Mudd League",
   "siteUrl": "https://muddleague.site",
   "founded": 2021,
+  "theme": {
+    "primary": "#00316b",
+    "trophy": "#EAAA00",
+    "emblem": "#862633",
+    "tagline": "Keeper Football",
+    "tokens": {
+      "brand900": "#001f45",
+      "brand800": "#00285a",
+      "brand700": "#00316b",
+      "brand600": "#004a8f",
+      "brand500": "#005a94",
+      "brand400": "#0082c3",
+      "brand100": "#ddedfa",
+      "brand050": "#f0f6fc",
+      "accentBorder": "#c8d4e3",
+      "trophyInk": "#7a5c00",
+      "trophyShade": "#c98f00",
+      "sealGround": "#000000"
+    }
+  },
   "blog": {
     "backend": "contentful",
     "title": "The Mudd Report",

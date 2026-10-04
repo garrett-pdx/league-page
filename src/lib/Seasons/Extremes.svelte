@@ -61,7 +61,7 @@
         font-size: 2rem;
         font-weight: 600;
         line-height: 1.05;
-        color: var(--navy700);
+        color: var(--brand700);
     }
 
     .sub {

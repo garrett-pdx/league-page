@@ -237,7 +237,7 @@
 		text-transform: uppercase;
 		letter-spacing: 0.06em;
 		/* navy on the ribbon's gold measures 6.20, so this clears AA at any size */
-		color: var(--goldOnFill);
+		color: var(--trophyOnFill);
 		/* scales with the ribbon, which is a percentage of its container */
 		font-size: clamp(0.85rem, 3.2vw, 1.6rem);
 		line-height: 1;
@@ -298,13 +298,13 @@
 		padding: 4px 12px;
 		box-sizing: border-box;
 		text-decoration: none;
-		color: var(--navy700);
+		color: var(--brand700);
 		line-height: 1.15;
 		border-bottom: 1px solid var(--accentBorder);
 	}
 
 	.podiumNames .teamName {
-		color: var(--navy700);
+		color: var(--brand700);
 	}
 
 	.podiumNames li:last-child a {

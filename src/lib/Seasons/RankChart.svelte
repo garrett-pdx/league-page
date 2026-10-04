@@ -139,12 +139,12 @@
     }
 
     .line.on {
-        stroke: var(--navy700);
+        stroke: var(--brand700);
         stroke-width: 2.5;
     }
 
     .dot {
-        fill: var(--navy700);
+        fill: var(--brand700);
         stroke: var(--fff);
         stroke-width: 2;
     }
@@ -156,7 +156,7 @@
     }
 
     .end.on {
-        fill: var(--navy700);
+        fill: var(--brand700);
         font-weight: 700;
     }
 
@@ -172,7 +172,7 @@
         text-align: center;
     }
 
-    .readout strong { color: var(--navy700); }
+    .readout strong { color: var(--brand700); }
 
     .picker {
         display: flex;
@@ -191,7 +191,7 @@
         border: 1px solid var(--accentBorder);
         border-radius: var(--radiusPill);
         background-color: var(--fff);
-        color: var(--navy700);
+        color: var(--brand700);
         font: inherit;
         font-size: 0.9rem;
         cursor: pointer;
@@ -204,8 +204,8 @@
     }
 
     @media (hover: hover) {
-        .picker button:hover { background-color: var(--navy050); }
-        .picker button[aria-pressed='true']:hover { background-color: var(--navy600); }
+        .picker button:hover { background-color: var(--brand050); }
+        .picker button[aria-pressed='true']:hover { background-color: var(--brand600); }
     }
 
     .picker button:focus-visible {

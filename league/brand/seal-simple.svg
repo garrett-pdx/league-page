@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="The Mudd League">
+  <title>The Mudd League</title>
+  <!--
+    Small-size mark: nav, favicon, anything at or below about 96px.
+    This is seal.svg with the ring text and the fine centre detail removed. The full seal's
+    lettering closes up and turns to mush once the whole mark is under roughly 96px, and the
+    graticule lines fall below a pixel, so nothing here is thinner than 3 units at a 200 unit
+    viewBox; at a 40px render that is still about half a device pixel of stroke.
+    Palette is fixed rather than tokenised on purpose: an SVG loaded through <img src> gets no
+    page CSS at all, so a var() reference to the gold token would resolve to nothing. Keep these
+    hex values in step with src/theme/_tokens.scss by hand.
+
+    Note for editors: an XML comment may not contain two consecutive hyphens. That includes
+    writing CSS custom property names in full. It is a parse error, not a warning, and it blanks
+    the entire file.
+  -->
+  <circle cx="100" cy="100" r="99" fill="#000000"/>
+  <circle cx="100" cy="100" r="90" fill="none" stroke="#EAAA00" stroke-width="5"/>
+  <circle cx="100" cy="100" r="79" fill="none" stroke="#EAAA00" stroke-width="2"/>
+
+  <g transform="translate(100 100)">
+    <ellipse rx="52" ry="31" fill="#862633" stroke="#EAAA00" stroke-width="5"/>
+    <path d="M-29 0 H29" stroke="#EAAA00" stroke-width="5" stroke-linecap="round"/>
+    <path d="M-19 -10 V10 M-6.5 -11.5 V11.5 M6.5 -11.5 V11.5 M19 -10 V10"
+          stroke="#EAAA00" stroke-width="4" stroke-linecap="round"/>
+  </g>
+</svg>

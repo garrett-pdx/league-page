@@ -39,6 +39,22 @@
       "type": "integer",
       "description": "The year the league began. May be earlier than its first Sleeper season; see history.preSleeper."
     },
+    "theme": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The league's look. `npm run brand` turns it into the colour tokens, the seal, wordmark, ribbon and laurel, and the icons. Usually two colours are enough; the rest is derived and contrast-checked.",
+      "properties": {
+        "primary": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$", "description": "The brand colour: a dark colour for headings, links and the nav. Darkened automatically if it is under 7:1 on the page." },
+        "trophy": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$", "description": "The championship colour, used as a fill (ribbons, the seal's lettering, champion highlights). Default gold #EAAA00." },
+        "emblem": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$", "description": "An art-only accent (the football in the seal). Defaults to a shade of the primary." },
+        "tagline": { "type": "string", "description": "The seal's lower ring text and the wordmark's subtitle. Defaults to Fantasy, Keeper or Dynasty Football." },
+        "tokens": {
+          "type": "object",
+          "description": "Pin any generated value exactly: brand900, brand800, brand700, brand600, brand500, brand400, brand100, brand050, accentBorder, trophyInk, trophyOnFill, trophyShade, emblem, sealGround.",
+          "additionalProperties": { "type": "string" }
+        }
+      }
+    },
     "blog": {
       "type": "object",
       "additionalProperties": false,

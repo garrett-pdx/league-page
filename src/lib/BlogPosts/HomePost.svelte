@@ -63,14 +63,14 @@
         min-height: 44px;
         box-sizing: border-box;
         text-decoration: none;
-        background-color: var(--cardinal);
+        background-color: var(--emblem);
         color: #fff;
         border-radius: 1em;
         padding: 0.5em 1em;
     }
 
     .viewAll:hover {
-        background-color: var(--cardinal);
+        background-color: var(--emblem);
     }
 </style>
 

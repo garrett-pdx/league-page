@@ -45,7 +45,7 @@
         border: 1px solid var(--accentBorder);
         border-radius: var(--radiusPill);
         background-color: var(--fff);
-        color: var(--navy700);
+        color: var(--brand700);
         font-size: 0.9em;
         line-height: 1.1;
         text-decoration: none;
@@ -59,7 +59,7 @@
     }
 
     @media (hover: hover) {
-        .chip:hover { background-color: var(--navy050); color: var(--accentInk); }
+        .chip:hover { background-color: var(--brand050); color: var(--accentInk); }
     }
 
     .chip:focus-visible {

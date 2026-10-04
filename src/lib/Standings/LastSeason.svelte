@@ -80,7 +80,7 @@
     .row:last-child { border-bottom: none; }
 
     @media (hover: hover) {
-        a.row:hover { background-color: var(--navy050); }
+        a.row:hover { background-color: var(--brand050); }
     }
 
     a.row:focus-visible {
@@ -94,7 +94,7 @@
         text-transform: uppercase;
         letter-spacing: 0.1em;
         color: var(--g555);
-        background-color: var(--navy050);
+        background-color: var(--brand050);
     }
 
     /* .num is 0.9em, which inside the 12px header came to 10.8px */
@@ -103,14 +103,14 @@
     .place {
         font-family: var(--fontMono);
         font-weight: 700;
-        color: var(--navy700);
+        color: var(--brand700);
         font-variant-numeric: tabular-nums;
     }
 
     /* Gold is a fill and never ink, so the champion is a filled chip rather than gold text. */
     .champion .place {
-        background-color: var(--goldFill);
-        color: var(--goldOnFill);
+        background-color: var(--trophyFill);
+        color: var(--trophyOnFill);
         border-radius: var(--radiusPill);
         text-align: center;
         padding: 0.15em 0;

@@ -225,7 +225,7 @@
         font-size: 0.8125rem;
         text-transform: uppercase;
         letter-spacing: 0.03em;
-        color: var(--navy700);
+        color: var(--brand700);
         text-align: center;
         line-height: 1.15;
     }
@@ -265,7 +265,7 @@
         font-size: 0.9375rem;
         text-transform: uppercase;
         letter-spacing: 0.02em;
-        color: var(--navy700);
+        color: var(--brand700);
         line-height: 1.1;
     }
 
@@ -288,7 +288,7 @@
         box-sizing: border-box;
         border-radius: var(--radiusSm);
         border: 1px solid var(--accentBorder);
-        color: var(--navy900);
+        color: var(--brand900);
         text-decoration: none;
         font-family: var(--fontMono);
         font-variant-numeric: tabular-nums;
@@ -300,8 +300,8 @@
 
     @media (hover: hover) {
         .cellLink:hover {
-            border-color: var(--navy700);
-            box-shadow: inset 0 0 0 1px var(--navy700);
+            border-color: var(--brand700);
+            box-shadow: inset 0 0 0 1px var(--brand700);
         }
     }
 
@@ -311,7 +311,7 @@
     }
 
     .self {
-        background-color: var(--navy050);
+        background-color: var(--brand050);
         border-radius: var(--radiusSm);
     }
 
@@ -327,7 +327,7 @@
         font-variant-numeric: tabular-nums;
         font-weight: 700;
         font-size: 0.875rem;
-        color: var(--navy900);
+        color: var(--brand900);
         line-height: 1.25;
         border-left: 2px solid var(--accentBorder);
     }
@@ -341,7 +341,7 @@
 
     /* The Moratorium: a quieter stripe through its row and column, and the label says why. */
     tr.gone .rowHead, th.gone { font-style: italic; }
-    tr.gone td:not(.self), td.gone:not(.self) { background-color: var(--navy050); border-radius: var(--radiusSm); }
+    tr.gone td:not(.self), td.gone:not(.self) { background-color: var(--brand050); border-radius: var(--radiusSm); }
 
     .key {
         display: flex;
@@ -417,7 +417,7 @@
 
     .summary strong {
         font-family: var(--fontMono);
-        color: var(--navy900);
+        color: var(--brand900);
     }
 
     .opps {
@@ -465,7 +465,7 @@
         font-size: 1rem;
         text-transform: uppercase;
         letter-spacing: 0.02em;
-        color: var(--navy700);
+        color: var(--brand700);
         line-height: 1.1;
     }
 
@@ -473,7 +473,7 @@
         font-family: var(--fontMono);
         font-variant-numeric: tabular-nums;
         font-weight: 700;
-        color: var(--navy900);
+        color: var(--brand900);
         text-align: right;
     }
 
@@ -489,7 +489,7 @@
         flex: 1;
         height: 0.6rem;
         border-radius: var(--radiusPill);
-        background-color: var(--navy100);
+        background-color: var(--brand100);
         overflow: hidden;
     }
 

@@ -44,7 +44,7 @@
         letter-spacing: 0.1em;
         text-transform: uppercase;
         color: var(--g555);
-        background-color: var(--navy050);
+        background-color: var(--brand050);
     }
 
     ol {

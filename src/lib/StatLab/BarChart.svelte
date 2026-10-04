@@ -46,7 +46,7 @@
     }
 
     @media (hover: hover) {
-        .row:hover { background: var(--navy050); }
+        .row:hover { background: var(--brand050); }
         .row:hover .bar { filter: brightness(0.88); }
     }
 

@@ -42,7 +42,7 @@
         flex-shrink: 0;
         border-radius: var(--radiusCircle);
         object-fit: cover;
-        background-color: var(--navy050);
+        background-color: var(--brand050);
     }
 
     .name {

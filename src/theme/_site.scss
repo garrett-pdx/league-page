@@ -170,7 +170,7 @@ main > .footerSpacer {
   font-size: 1.25em;
   font-weight: 500;
   letter-spacing: 0.01em;
-  color: var(--navy700);
+  color: var(--brand700);
   text-align: center;
 }
 
@@ -217,7 +217,7 @@ main > .footerSpacer {
 
 @media (hover: hover) {
   .homeLinks a:hover {
-    background-color: var(--navy050);
+    background-color: var(--brand050);
     border-color: var(--accentInk);
   }
 }
@@ -232,7 +232,7 @@ main > .footerSpacer {
   text-align: center;
 }
 
-/* The global link colour is --navy400, which fails AA at body size; these two are body text. */
+/* The global link colour is --brand400, which fails AA at body size; these two are body text. */
 .homeRules a {
   color: var(--accentInk);
 }

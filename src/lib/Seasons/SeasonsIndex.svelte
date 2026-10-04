@@ -66,7 +66,7 @@
         font-size: 2.1rem;
         font-weight: 600;
         line-height: 1;
-        color: var(--navy700);
+        color: var(--brand700);
     }
 
     .tag {
@@ -91,11 +91,11 @@
         align-items: center;
         gap: 0.75em;
         padding: 0.8rem 1.1rem;
-        background-color: var(--goldFill);
-        color: var(--goldOnFill);
+        background-color: var(--trophyFill);
+        color: var(--trophyOnFill);
     }
 
-    .champ .label, .champ :global(.name) { color: var(--goldOnFill); }
+    .champ .label, .champ :global(.name) { color: var(--trophyOnFill); }
     .champ :global(.name) {
         font-family: var(--fontDisplay);
         font-size: 1.25rem;

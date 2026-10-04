@@ -175,12 +175,12 @@
         font-size: 0.78em;
         text-transform: uppercase;
         letter-spacing: 0.08em;
-        color: var(--navy700);
+        color: var(--brand700);
         cursor: pointer;
     }
 
     .allToggle button:hover {
-        background-color: var(--navy050);
+        background-color: var(--brand050);
     }
 
     .allToggle button:focus-visible {
@@ -220,8 +220,8 @@
     .chevron {
         width: 0.5em;
         height: 0.5em;
-        border-right: 2px solid var(--navy500);
-        border-bottom: 2px solid var(--navy500);
+        border-right: 2px solid var(--brand500);
+        border-bottom: 2px solid var(--brand500);
         transform: rotate(45deg);
         transition: transform 0.2s ease;
         flex-shrink: 0;

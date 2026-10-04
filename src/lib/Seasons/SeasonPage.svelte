@@ -70,13 +70,13 @@
         border: 1px solid var(--accentBorder);
         border-radius: var(--radiusPill);
         background-color: var(--fff);
-        color: var(--navy700);
+        color: var(--brand700);
         font-size: 0.9rem;
         text-decoration: none;
     }
 
     @media (hover: hover) {
-        .jump a:hover, .live a:hover, .more a:hover { background-color: var(--navy050); color: var(--accentInk); }
+        .jump a:hover, .live a:hover, .more a:hover { background-color: var(--brand050); color: var(--accentInk); }
     }
 
     .jump a:focus-visible, .live a:focus-visible, .more a:focus-visible {
@@ -114,7 +114,7 @@
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.06em;
-        color: var(--goldOnFill);
+        color: var(--trophyOnFill);
         font-size: clamp(0.9rem, 4vw, 1.4rem);
         line-height: 1;
         white-space: nowrap;
@@ -128,7 +128,7 @@
         margin: 0.9rem auto 0.4rem;
         border-radius: var(--radiusCircle);
         object-fit: cover;
-        border: 4px solid var(--goldFill);
+        border: 4px solid var(--trophyFill);
         box-shadow: var(--shadowCard);
     }
 
@@ -146,7 +146,7 @@
         display: inline-flex;
         align-items: center;
         min-height: 44px;
-        color: var(--navy700);
+        color: var(--brand700);
         text-decoration: none;
     }
 

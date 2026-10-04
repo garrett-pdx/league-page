@@ -82,7 +82,7 @@
         font-size: 1.75em;
         font-weight: 700;
         line-height: 1;
-        color: var(--navy700);
+        color: var(--brand700);
         font-variant-numeric: tabular-nums;
     }
 
@@ -109,7 +109,7 @@
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.06em;
-        color: var(--navy700);
+        color: var(--brand700);
     }
 
     @media (max-width: 400px) {

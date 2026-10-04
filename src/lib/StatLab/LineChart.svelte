@@ -213,7 +213,7 @@
         cursor: pointer;
     }
 
-    .key[aria-pressed='true'] { border-color: var(--navy700); box-shadow: inset 0 0 0 1px var(--navy700); }
+    .key[aria-pressed='true'] { border-color: var(--brand700); box-shadow: inset 0 0 0 1px var(--brand700); }
     .key:focus-visible { outline: 2px solid var(--blueOne); outline-offset: 2px; }
     .swatch { width: 16px; height: 0; border-top: 3px solid; border-radius: 2px; }
 
