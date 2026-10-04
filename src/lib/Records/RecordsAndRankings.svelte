@@ -96,6 +96,10 @@
     }
 
     $: sortedLineupIQs = sortRows(lineupIQs, 'iq', sorts);
+
+    // Lineup IQ needs Sleeper's potential points, and means nothing when every lineup is perfect:
+    // in a best-ball league Sleeper sets the lineup itself, so everyone scores 100%.
+    const hasIQ = (rows) => Boolean(rows?.[0]?.potentialPoints) && rows.some((r) => r.iq < 100);
     $: sortedWinPercentages = sortRows(winPercentages, 'win', sorts);
     $: sortedFptsHistories = sortRows(fptsHistories, 'fpts', sorts);
     $: sortedTransactions = sortRows(transactions, 'trans', sorts);
@@ -218,13 +222,13 @@
         }
         const gs = [];
 
-        if(lineupIQs[0]?.potentialPoints) {
+        if(hasIQ(lineupIQs)) {
             gs.push(generateGraph(lineupIQGraph, year));
         }
         gs.push(generateGraph(winsGraph, year, 5));
         gs.push(generateGraph(winPercentagesGraph, year));
         gs.push(generateGraph(fptsHistoriesGraph, year));
-        if(lineupIQs[0]?.potentialPoints) {
+        if(hasIQ(lineupIQs)) {
             gs.push(generateGraph(potentialPointsGraph, year, 10, 0));
         }
         if(key == "regularSeasonData") {
@@ -287,7 +291,7 @@
         if(key == "regularSeasonData") {
             t.push("Transactions")
         }
-        if(!lIQs[0]?.potentialPoints) {
+        if(!hasIQ(lIQs)) {
             iqOffset = 1;
         } else {
             t.unshift('Lineup IQs');
@@ -673,7 +677,7 @@
 
 <div class="rankingHolder">
     <div class="rankingInner" style="margin-left: -{100 * curTable}%;">
-        {#if lineupIQs[0]?.potentialPoints}
+        {#if hasIQ(lineupIQs)}
             <div class="rankingTableWrapper">
                 <DataTable class="rankingTable">
                     <Head>

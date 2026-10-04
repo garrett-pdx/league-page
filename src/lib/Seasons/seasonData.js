@@ -81,6 +81,75 @@ const findGame = (games, year, week, a, b) =>
  * winner takes (1 = title, 3 = third; the losers bracket repeats it for 5th and 7th), so the
  * consolation bracket's p is offset by four.
  */
+/**
+ * Seeds for a season: regularStandings() order, except that in a league with divisions the
+ * division winners take the top seeds (in that order) and everyone else follows, which is how
+ * Sleeper seeds by default. [{user_id, ...}] best seed first.
+ */
+export const seedOrder = (history, games, year) => {
+    const season = history.seasons?.[String(year)];
+    // Sleeper seeds from its own settled records, which can sit a game away from what the weekly
+    // scores now say (a stat correction after settlement); use them when every team has one.
+    const fromGames = regularStandings(games, year);
+    const recs = fromGames.map((r) => history.managers?.[r.user_id]?.records?.[String(year)]);
+    const rows = recs.every(Boolean) ? fromGames.map((r, i) => ({
+        ...r, wins: recs[i].wins || 0, losses: recs[i].losses || 0, ties: recs[i].ties || 0,
+        pf: recs[i].points_for ?? r.pf,
+    })).map((r) => ({...r, winPct: (r.wins + r.losses + r.ties) ? (r.wins + r.ties / 2) / (r.wins + r.losses + r.ties) : 0}))
+        .sort((a, b) => (b.winPct - a.winPct) || (b.pf - a.pf)) : fromGames;
+    if(!season?.divisions || season.divisions < 2) return rows;
+    const division = (uid) => history.managers?.[uid]?.records?.[String(year)]?.division;
+    const seen = new Set();
+    const winners = rows.filter((r) => {
+        const d = division(r.user_id);
+        if(d === null || d === undefined || seen.has(d)) return false;
+        seen.add(d);
+        return true;
+    });
+    return [...winners, ...rows.filter((r) => !winners.includes(r))];
+}
+
+/**
+ * {round: [week, ...]} for a season's bracket. Sleeper's playoff_round_type: 0 one week per
+ * round, 1 one week per round but a two-week final, 2 two weeks per round. Both brackets run on
+ * the winners bracket's calendar.
+ */
+export const roundWeeks = (season, winners) => {
+    const type = season.playoff_round_type || 0;
+    const rounds = Math.max(0, ...(winners || []).map((m) => m.r || 0));
+    const out = {};
+    let week = season.playoff_week_start;
+    for(let r = 1; r <= rounds; r++) {
+        const n = type === 2 || (type === 1 && r === rounds) ? 2 : 1;
+        out[r] = Array.from({length: n}, (_, i) => week + i);
+        week += n;
+    }
+    return out;
+}
+
+const weeksLabel = (weeks) => weeks.length > 1 ? `weeks ${weeks[0]}–${weeks[weeks.length - 1]}` : `week ${weeks[0]}`;
+
+// A's points and B's over every leg of a round; null if a leg hasn't been played.
+const legScores = (games, year, weeks, a, b) => {
+    let pf = 0, pa = 0;
+    for(const week of weeks) {
+        const row = findGame(games, year, week, a, b);
+        if(!row) return null;
+        pf += row.pf;
+        pa += row.pa;
+    }
+    return {pf: round2(pf), pa: round2(pa)};
+}
+
+/**
+ * Both brackets for a season, ready to draw: rounds of games with each side's seed and points,
+ * from league-history.json's bracket rows (roster IDs, mapped through that season) and games.json.
+ *
+ * The losers bracket comes in two kinds (playoff_type). A consolation bracket (1) decides the
+ * places straight after the playoff teams, winners advancing. A toilet bowl (0) is played to
+ * escape last place: Sleeper records the LOWER scorer as `w`, and its final decides last.
+ * Data pulled before the field existed is read as a consolation bracket.
+ */
 export const seasonBracket = (history, games, year) => {
     const y = String(year);
     const raw = history.brackets?.[y];
@@ -89,46 +158,62 @@ export const seasonBracket = (history, games, year) => {
 
     const users = rosterUsers(history, y);
     const seeds = {};
-    regularStandings(games, year).forEach((r, i) => { seeds[r.user_id] = i + 1; });
-    const start = season.playoff_week_start;
+    seedOrder(history, games, year).forEach((r, i) => { seeds[r.user_id] = i + 1; });
+    const weeksOf = roundWeeks(season, raw.winners);
+    const rounds = Object.keys(weeksOf).length;
+    const teams = season.teams || Object.keys(users).length;
+    const playoffTeams = season.playoff_teams || 0;
+    const toiletBowl = (season.playoff_type ?? 1) === 0;
 
-    const build = (rows, offset, names) => {
+    const placeName = (p) => p === 1 ? 'Championship' : p === teams ? 'Last place' : `${ordinalWord(p)} place`;
+    const roundName = (r, plural) => {
+        const fromEnd = rounds - r;
+        if(fromEnd === 0) return plural ? 'Finals' : 'Final';
+        if(fromEnd === 1) return plural ? 'Semifinals' : 'Semifinal';
+        if(fromEnd === 2) return plural ? 'Quarterfinals' : 'Quarterfinal';
+        return `Round ${r}`;
+    };
+
+    const build = (rows, side) => {
         const byRound = {};
         for(const m of rows || []) {
             const a = users[m.t1], b = users[m.t2];
             if(!a || !b) continue;
-            const week = start + m.r - 1;
-            const row = findGame(games, y, week, a, b);
-            const winner = m.w ? users[m.w] : null;
+            const weeks = weeksOf[m.r] || [season.playoff_week_start + m.r - 1];
+            const score = legScores(games, y, weeks, a, b);
+            // The side that won the game on the scoreboard. In a toilet bowl that is `l`.
+            const winner = side === 'losers' && toiletBowl ? (m.l ? users[m.l] : null) : (m.w ? users[m.w] : null);
+            let place = null, label;
+            if(m.p && side === 'winners') { place = m.p; label = placeName(place); }
+            else if(m.p && !toiletBowl) { place = playoffTeams + m.p; label = placeName(place); }
+            else if(m.p) { place = teams - m.p; label = m.p === 1 ? 'Last place' : `${ordinalWord(place)} place`; }
+            else label = side === 'winners' ? roundName(m.r, false) : (toiletBowl ? 'Toilet bowl' : 'Consolation');
             const game = {
-                week,
-                place: m.p ? m.p + offset : null,
-                label: m.p ? names.place(m.p + offset) : names.round(m.r),
-                a: {user_id: a, seed: seeds[a], pf: row ? row.pf : null, won: winner === a},
-                b: {user_id: b, seed: seeds[b], pf: row ? row.pa : null, won: winner === b},
+                week: weeks[weeks.length - 1],
+                weeks,
+                place,
+                label,
+                a: {user_id: a, seed: seeds[a], pf: score ? score.pf : null, won: winner === a},
+                b: {user_id: b, seed: seeds[b], pf: score ? score.pa : null, won: winner === b},
             };
             (byRound[m.r] || (byRound[m.r] = [])).push(game);
         }
-        return Object.keys(byRound).map(Number).sort((p, q) => p - q).map((r) => ({
-            label: names.roundLabel(r),
-            // the title game first, then third place
-            games: byRound[r].sort((p, q) => (p.place ?? 0) - (q.place ?? 0)),
-        }));
+        return Object.keys(byRound).map(Number).sort((p, q) => p - q).map((r) => {
+            const weeks = weeksLabel(weeksOf[r] || [season.playoff_week_start + r - 1]);
+            const name = side === 'winners' ? roundName(r, true)
+                : r === rounds ? (toiletBowl ? 'Toilet bowl final' : 'Placement games') : (toiletBowl ? 'Toilet bowl' : 'Consolation');
+            return {
+                label: `${name} · ${weeks}`,
+                // the title game first, then third place
+                games: byRound[r].sort((p, q) => (p.place ?? 0) - (q.place ?? 0)),
+            };
+        });
     };
 
-    const placeName = (p) => p === 1 ? 'Championship' : `${ordinalWord(p)} place`;
-
     return {
-        winners: build(raw.winners, 0, {
-            round: () => 'Semifinal',
-            roundLabel: (r) => r === 1 ? `Semifinals · week ${start}` : `Finals · week ${start + 1}`,
-            place: placeName,
-        }),
-        losers: build(raw.losers, 4, {
-            round: () => 'Consolation',
-            roundLabel: (r) => r === 1 ? `Consolation · week ${start}` : `Placement games · week ${start + 1}`,
-            place: placeName,
-        }),
+        winners: build(raw.winners, 'winners'),
+        losers: build(raw.losers, 'losers'),
+        losersTitle: toiletBowl ? 'Toilet bowl' : 'Consolation bracket',
     };
 }
 
@@ -173,7 +258,8 @@ export const regularStandings = (games, year, throughWeek = null) => {
 export const finalTable = (history, games, year) => {
     const table = history.final_standings?.[String(year)] || [];
     const reg = {};
-    regularStandings(games, year).forEach((r, i) => { reg[r.user_id] = {...r, seed: i + 1}; });
+    regularStandings(games, year).forEach((r) => { reg[r.user_id] = r; });
+    seedOrder(history, games, year).forEach((r, i) => { if(reg[r.user_id]) reg[r.user_id] = {...reg[r.user_id], seed: i + 1}; });
     return table.map((row) => ({...row, ...(reg[row.user_id] || {})}));
 }
 
@@ -290,10 +376,22 @@ export const seasonCards = (history, games, notes, preSleeper = []) => {
     return cards;
 }
 
-/** The title game from the champion's side: {week, pf, pa, opponent_id}, or null. */
+/**
+ * The title game from the champion's side: {week, weeks, pf, pa, opponent_id}, or null. Read from
+ * the bracket's p=1 game, so a final played over two weeks is scored over both.
+ */
 export const titleGame = (history, games, year) => {
-    const champ = history.final_standings?.[String(year)]?.find((r) => r.place === 1)?.user_id;
-    if(!champ) return null;
-    return games.find((g) => g.season === Number(year) && g.kind === 'playoff' &&
-        g.user_id === champ && g.week === Math.max(...gamesOf(games, year, ['playoff']).map((x) => x.week))) || null;
+    const y = String(year);
+    const champ = history.final_standings?.[y]?.find((r) => r.place === 1)?.user_id;
+    const season = history.seasons?.[y];
+    const winners = history.brackets?.[y]?.winners;
+    if(!champ || !season || !winners) return null;
+    const users = rosterUsers(history, y);
+    const final = winners.find((m) => m.p === 1 && (users[m.t1] === champ || users[m.t2] === champ));
+    if(!final) return null;
+    const opponent = users[final.t1] === champ ? users[final.t2] : users[final.t1];
+    const weeks = roundWeeks(season, winners)[final.r] || [season.playoff_week_start + final.r - 1];
+    const score = legScores(games, y, weeks, champ, opponent);
+    if(!score) return null;
+    return {week: weeks[weeks.length - 1], weeks, pf: score.pf, pa: score.pa, opponent_id: opponent};
 }

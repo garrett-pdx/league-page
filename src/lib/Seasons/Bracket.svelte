@@ -116,7 +116,7 @@
     }
 </style>
 
-{#each [['Playoffs', bracket.winners], ['Consolation bracket', bracket.losers]] as [title, rounds]}
+{#each [['Playoffs', bracket.winners], [bracket.losersTitle || 'Consolation bracket', bracket.losers]] as [title, rounds]}
     {#if rounds.length}
         <section class="side" aria-label={title}>
             <h4 class="sideTitle">{title}</h4>

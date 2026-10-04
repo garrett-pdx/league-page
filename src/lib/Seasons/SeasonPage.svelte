@@ -249,7 +249,7 @@
             {#if tg}
                 <p class="final">
                     Beat {people[tg.opponent_id]?.name} <span class="num">{pts(tg.pf)}–{pts(tg.pa)}</span> in the
-                    week {tg.week} final, as the {table[0].seed}-seed.
+                    {tg.weeks.length > 1 ? `weeks ${tg.weeks[0]}–${tg.week}` : `week ${tg.week}`} final, as the {table[0].seed}-seed.
                 </p>
             {/if}
         </div>
