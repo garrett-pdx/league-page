@@ -86,7 +86,7 @@ export const getManagerCareer = (history, managerID) => {
 
     /*
     `finishes` is sorted oldest-first, and <= / >= mean a tie resolves to the LATER season --
-    Garrett finished 3rd in both 2022 and 2025, and the recent one is the interesting one.
+    a manager who finished 3rd in two seasons is shown the more recent one, the interesting one.
     */
     const best = finishes.length
         ? finishes.reduce((a, b) => (b.place <= a.place ? b : a))

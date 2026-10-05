@@ -31,8 +31,8 @@
     /*
     A departed manager's rosterID belongs to his LAST season, but `rosters` and
     `transactions` are the CURRENT season's. Indexing them by that old id silently
-    shows whoever holds that roster slot today -- Jordan Leonard's page was rendering
-    Brenden Brown's roster and transactions. Gate both on the manager still being active.
+    shows whoever holds that roster slot today -- a departed manager's page was rendering
+    his successor's roster and transactions. Gate both on the manager still being active.
     */
     $: isFormerManager = !!(year && leagueTeamManagers.currentSeason
                             && String(year) !== String(leagueTeamManagers.currentSeason));
@@ -86,7 +86,7 @@
         /*
         The guard was `if(!newManager)` with no return, which is wrong twice over.
 
-        Index 0 is a valid manager -- Garrett -- and !0 is true, so clicking "Previous Manager"
+        Index 0 is a valid manager, and !0 is true, so clicking "Previous Manager"
         from index 1 took the bail-out branch. And because nothing returned, BOTH goto() calls
         fired: one to /managers and one to /manager?manager=0, racing each other. Whichever
         settled last won, so the same click sometimes landed on the manager and sometimes

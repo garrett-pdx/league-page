@@ -112,7 +112,8 @@ def main():
     engine = UPDATE.engine_files(out)
     UPDATE.write_manifest(out, engine)
 
-    run(["git", "init", "-q", "-b", "main"], out)
+    run(["git", "init", "-q"], out)
+    run(["git", "symbolic-ref", "HEAD", "refs/heads/main"], out)  # `init -b` needs git 2.28
     run(["git", "add", "-A"], out)
     version = subprocess.run(["node", "-p", "require('./package.json').version"], cwd=out,
                              capture_output=True, text=True).stdout.strip()

@@ -5,7 +5,7 @@
 
     /*
     The Rival tile is a real link to the rival's own page, and a second link under it goes to the
-    pair's Head-to-head on /rivalry. `rival.link` is an index into `managers`; null (Jordan Leonard,
+    pair's Head-to-head on /rivalry. `rival.link` is an index into `managers`; null (a named rival such as
     "The Field") goes to the directory, as the old click handler did. The rivalry page takes
     Sleeper user_ids, hence managerID rather than the index.
     */
