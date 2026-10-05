@@ -125,13 +125,32 @@ const rivalOf = (m) => {
     const r = m.rival;
     if(r?.userId && indexOf[r.userId] !== undefined) {
         const other = entries[indexOf[r.userId]];
-        return { name: other.name, link: indexOf[r.userId], image: photoUrl(other.photo) };
+        return { name: other.name, link: indexOf[r.userId], image: other.photo ? photoUrl(other.photo) : initialsTile(other.name) };
     }
     if(r?.name) return { name: r.name, link: null, image: photoUrl(r.photo || 'everyone.png') };
     return { name: 'The Field', link: null, image: photoUrl('everyone.png') };
 };
 
+/*
+A manager with no photo gets an initials tile in the league's colours rather than a question
+mark, so a new league looks finished before anyone has sent a picture. Inline SVG, so it costs no
+request; an SVG shown through <img> gets no webfonts, hence the font stack.
+*/
+const tileInk = config.theme?.tokens?.brand700 || config.theme?.primary || '#00316b';
+const tileFill = config.theme?.tokens?.trophyFill || config.theme?.trophy || '#EAAA00';
+const initialsOf = (name) => {
+    const words = String(name || '').replace(/[^A-Za-z0-9 ]+/g, ' ').trim().split(/\s+/).filter(Boolean);
+    if(words.length > 1) return (words[0][0] + words[words.length - 1][0]).toUpperCase();
+    const w = words[0] || '?';
+    const capital = w.slice(1).match(/[A-Z]/);
+    return (w[0] + (capital ? capital[0] : w[1] || '')).toUpperCase();
+};
+export const initialsTile = (name) => 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="${tileInk}"/>` +
+    `<text x="50" y="50" dy="0.35em" text-anchor="middle" fill="${tileFill}" font-family="Oswald, 'Roboto Condensed', 'Arial Narrow', sans-serif" ` +
+    `font-weight="600" font-size="40" letter-spacing="1">${initialsOf(name)}</text></svg>`);
+
 export const managers = entries.map((m) => {
     const { userId, photo, rival, ...rest } = m;
-    return { managerID: userId, ...rest, photo: photoUrl(photo), rival: rivalOf(m) };
+    return { managerID: userId, ...rest, photo: photo ? photoUrl(photo) : initialsTile(m.name), rival: rivalOf(m) };
 });

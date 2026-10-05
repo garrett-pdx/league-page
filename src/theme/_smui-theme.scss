@@ -190,11 +190,13 @@ strong {
   font-weight: bold;
 }
 
+// Links with no style of their own. Upstream's #40b3ff measured about 2.3:1 on the page and
+// failed AA as body text; the league's link ink passes (see _league.scss).
 a {
-  color: #40b3ff;
+  color: var(--accentInk);
 }
 a:visited {
-  color: color.scale(#40b3ff, $lightness: -35%);
+  color: var(--brand700);
 }
 
 .mdc-button--outlined:not(:disabled) {

@@ -232,7 +232,7 @@ main > .footerSpacer {
   text-align: center;
 }
 
-/* The global link colour is --brand400, which fails AA at body size; these two are body text. */
+/* Body-text links, in the league's link ink. */
 .homeRules a {
   color: var(--accentInk);
 }
