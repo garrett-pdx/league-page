@@ -1,0 +1,227 @@
+{
+  "$schema": "../schema/league.schema.json",
+  "sleeperLeagueId": "1312235880743706624",
+  "name": "The Demo League",
+  "shortName": "Demo League",
+  "description": "A demo of Fantasy Football Website with History, running on a real Sleeper league.",
+  "founded": 2021,
+  "theme": {
+    "primary": "#1f4d36",
+    "trophy": "#e0b33a",
+    "tagline": "Keeper Football"
+  },
+  "blog": {
+    "backend": "markdown",
+    "title": "The League Report",
+    "intro": "Weekly recaps and previews, checked against the numbers before they go out."
+  },
+  "links": {
+    "league": [
+      {
+        "name": "The league on Sleeper",
+        "note": "Where lineups get set and trades get made.",
+        "url": "{sleeper}",
+        "icon": "sports_football"
+      },
+      {
+        "name": "Constitution",
+        "note": "The rules, as voted.",
+        "url": "/constitution",
+        "icon": "gavel"
+      },
+      {
+        "name": "The League Report",
+        "note": "The weekly recap and preview.",
+        "url": "/blog",
+        "icon": "article"
+      }
+    ],
+    "elsewhere": [
+      {
+        "name": "Half-PPR rankings: this week",
+        "note": "FantasyPros expert consensus for RB, WR and TE.",
+        "url": "https://www.fantasypros.com/nfl/rankings/half-point-ppr-flex.php",
+        "icon": "leaderboard"
+      },
+      {
+        "name": "Half-PPR rankings: rest of season",
+        "note": "FantasyPros. Worth a look before a trade, or a keeper decision.",
+        "url": "https://www.fantasypros.com/nfl/rankings/ros-half-point-ppr-overall.php",
+        "icon": "trending_up"
+      },
+      {
+        "name": "NFL injury report",
+        "note": "The league's official practice and game-status reports, from NFL.com.",
+        "url": "https://www.nfl.com/injuries/",
+        "icon": "healing"
+      }
+    ]
+  },
+  "keepers": {
+    "rule": {
+      "repeatPenalty": 1,
+      "undraftedRound": "last"
+    }
+  },
+  "history": {
+    "preSleeper": [
+      {
+        "season": 2021,
+        "platform": "ESPN",
+        "importedDraftId": "819042961097633792",
+        "intro": "The founding season, on ESPN. The draft is all that made it to Sleeper.",
+        "card": "The league's first season, played on ESPN. Only the draft made the move to Sleeper.",
+        "story": "<p>The league's first season was played on ESPN. When it moved to Sleeper the next year, only the draft came with it: Sleeper files it under the first Sleeper season, and it was the baseline for that season's keeper prices.</p><p>No standings, scores or champion survive from it, and this page doesn't guess.</p>"
+      }
+    ]
+  },
+  "overrides": {
+    "statCorrections": [
+      {
+        "season": 2023,
+        "userId": "612407006212468736",
+        "pf": -2,
+        "note": "jonahcartwright v Gurret (weeks 5 and 14): his weekly scores sum 2.00 lower than the season record"
+      },
+      {
+        "season": 2023,
+        "userId": "76909640692416512",
+        "pa": -2,
+        "note": "the other side of the same correction"
+      },
+      {
+        "season": 2024,
+        "userId": "611649934390870016",
+        "pf": 1,
+        "note": "Kabroa v tuckersdumbteam (weeks 4 and 13): his weekly scores sum 1.00 higher"
+      },
+      {
+        "season": 2024,
+        "userId": "611664340277383168",
+        "pa": 1,
+        "note": "the other side of the same correction"
+      }
+    ],
+    "eligibility": [
+      {
+        "season": 2022,
+        "playerId": "4381",
+        "positions": [
+          "TE"
+        ],
+        "note": "Taysom Hill: TE alone reproduces Sleeper exactly in 2022"
+      },
+      {
+        "season": 2023,
+        "playerId": "4381",
+        "positions": [
+          "QB",
+          "TE"
+        ],
+        "note": "Taysom Hill"
+      },
+      {
+        "season": 2024,
+        "playerId": "4381",
+        "positions": [
+          "QB",
+          "TE"
+        ],
+        "note": "Taysom Hill"
+      },
+      {
+        "season": 2025,
+        "playerId": "4381",
+        "positions": [
+          "QB",
+          "TE"
+        ],
+        "note": "Taysom Hill"
+      },
+      {
+        "season": 2025,
+        "playerId": "12530",
+        "positions": [
+          "WR"
+        ],
+        "note": "Travis Hunter: players.json says DB, which has no slot"
+      }
+    ]
+  },
+  "managers": [
+    {
+      "userId": "999190763323944960",
+      "name": "BBrown16",
+      "rival": {
+        "userId": "611649934390870016"
+      }
+    },
+    {
+      "userId": "76909640692416512",
+      "name": "Gurret",
+      "rival": {
+        "userId": "850475150817234944"
+      }
+    },
+    {
+      "userId": "611649934390870016",
+      "name": "Kabroa",
+      "rival": {
+        "userId": "999190763323944960"
+      }
+    },
+    {
+      "userId": "611697269254791168",
+      "name": "TnT44",
+      "rival": {
+        "userId": "605683461667229696"
+      }
+    },
+    {
+      "userId": "612407006212468736",
+      "name": "jonahcartwright",
+      "rival": {
+        "userId": "870570674836656128"
+      }
+    },
+    {
+      "userId": "611630747161358336",
+      "name": "kshoyer",
+      "rival": {
+        "userId": "611664340277383168"
+      }
+    },
+    {
+      "userId": "850475150817234944",
+      "name": "malstol",
+      "rival": {
+        "userId": "76909640692416512"
+      }
+    },
+    {
+      "userId": "605683461667229696",
+      "name": "mikestreinz",
+      "rival": {
+        "userId": "611697269254791168"
+      }
+    },
+    {
+      "userId": "870570674836656128",
+      "name": "paulslaats",
+      "rival": {
+        "userId": "612407006212468736"
+      }
+    },
+    {
+      "userId": "611664340277383168",
+      "name": "tuckersdumbteam",
+      "rival": {
+        "userId": "611630747161358336"
+      }
+    },
+    {
+      "userId": "860365948673204224",
+      "name": "JJJet"
+    }
+  ]
+}

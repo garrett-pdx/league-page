@@ -1,17 +1,24 @@
 {
-  "name": "league-page",
-  "version": "2.5.1",
-  "homepage": "https://github.com/nmelhado/league-page",
+  "name": "fantasy-football-website-with-history",
+  "version": "1.0.0",
+  "description": "A website for your Sleeper fantasy football league: live standings and matchups, every past season, records, rivalries, lore and a weekly blog, set up by a coding agent from a league ID.",
+  "homepage": "https://github.com/garrett-pdx/fantasy-football-website-with-history",
   "repository": {
     "type": "git",
-    "url": "git://github.com/nmelhado/league-page.git"
+    "url": "git+https://github.com/garrett-pdx/fantasy-football-website-with-history.git"
+  },
+  "bugs": {
+    "url": "https://github.com/garrett-pdx/fantasy-football-website-with-history/issues"
   },
   "author": {
-    "name": "Nicholas Melhado",
-    "email": "n.melhado@gmail.com",
-    "url": "http://www.nmelhado.com/"
+    "name": "garrett-pdx",
+    "url": "https://github.com/garrett-pdx"
   },
   "contributors": [
+    {
+      "name": "Nicholas Melhado",
+      "url": "http://www.nmelhado.com/"
+    },
     {
       "name": "Shane Tjong-Akiet",
       "url": "https://github.com/shanetj"
@@ -29,14 +36,13 @@
       "url": "https://github.com/OldNewsBlues-2"
     }
   ],
-  "funding": {
-    "type": "buy_me_a_coffee",
-    "url": "https://www.buymeacoffee.com/nmelhado"
-  },
-  "bugs": {
-    "url": "https://github.com/nmelhado/league-page/issues",
-    "email": "n.melhado@gmail.com"
-  },
+  "keywords": [
+    "fantasy-football",
+    "sleeper",
+    "sveltekit",
+    "league",
+    "fantasy-sports"
+  ],
   "license": "MIT",
   "engines": {
     "node": ">=v20.0.0",

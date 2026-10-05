@@ -3,7 +3,7 @@ name: Bug report
 about: Create a report to help us improve
 title: "[BUG]"
 labels: bug
-assignees: nmelhado
+assignees: ''
 
 ---
 
@@ -11,7 +11,7 @@ assignees: nmelhado
 A clear and concise description of what the bug is.
 
 **Your League ID**
-In many cases, the bug maybe related to something not yet accommodated for in League Page, or something specific to your league. Adding your league ID allows for a faster debug and bug fix.
+Many bugs come from a league format the engine doesn't handle yet. Your Sleeper league ID lets us reproduce it with `scripts/try-league.sh <id>`; paste that script's output too if a step failed.
 
 **To Reproduce**
 Steps to reproduce the behavior:

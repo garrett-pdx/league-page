@@ -1,8 +1,6 @@
 /*
-!!! DO NOT EDIT !!!
-This is used to check if there are any updates
-available for your copy of League Page
+The engine version this site runs. Keep in sync with package.json; scripts/update-engine.sh
+replaces this file along with the rest of the engine. /api/checkVersion compares it with the
+template's published package.json and the footer offers an update when that is newer.
 */
-
-// Keep in sync with package.json
-export const version = "2.5.1";
+export const version = "1.0.0";

@@ -13,7 +13,7 @@ so the account has to exist before the flag can flip. The free tier covers this 
 
 1. Create a free Contentful account and a space.
 2. Add a content model with ID **`blog_post`**. Upstream's field spec is in
-   [TRAINING_WHEELS.md](../TRAINING_WHEELS.md#iii-add-a-blog) — follow it exactly, the IDs
+   [upstream's TRAINING_WHEELS.md](https://github.com/nmelhado/league-page/blob/master/TRAINING_WHEELS.md#iii-add-a-blog) — follow it exactly, the IDs
    are matched by string. Use each author's **Sleeper username** in the author field.
 3. Add a second content model with ID **`blog_comment`**, fields `blogID`, `comment`,
    `author` (`src/routes/api/addBlogComments/[id]/+server.js` writes exactly these).
