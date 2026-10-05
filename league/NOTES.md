@@ -117,7 +117,9 @@ Every manager's bio is built from their `cmsathletics.org` roster page, at Garre
 - `static/data/draft-2026.json` (`all_picks`: round, pick and manager) and `docs/draft-2026.md`
   come from the one-off `scripts/derive-draft-report.py`.
 - Projection snapshots in `static/data/projections/` start at Week 4 2026 (captured Thursday
-  4:18 PT).
+  4:18 PT). **Sleeper does rewrite past weeks' projections**: by Monday of Week 4, almost every
+  player's Week 4 projection had drifted from the Thursday snapshot, and players hurt on Sunday
+  (Barkley, Chase, McConkey) had been reset to 0. Grade start/sit calls from the snapshot.
 
 ## Companion project (different repo, different purpose)
 

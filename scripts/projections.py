@@ -20,8 +20,9 @@ scoring recipe is wrong and the projections can't be trusted either.
 Also prints each player's projected rank at his position that week (QB12, TE7, ...), which
 reads better in a post than a raw projection.
 
-Sleeper does not document whether a past week's projection is frozen at kickoff, so we keep
-our own copy:
+Sleeper does not freeze a past week's projection: by Monday of Week 4 2026 nearly every Week 4
+projection had drifted from Thursday's, and players injured on Sunday had been reset to 0. So we
+keep our own copy:
 
   python3 scripts/projections.py 4 --snapshot
 

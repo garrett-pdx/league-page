@@ -35,7 +35,7 @@ before you polish.
 *<day> <date> · <n> of <m> games final · <N> min read*
 
 ## THE SCOREBOARD
-<one bold line per matchup, LIVE / decided / final; one sentence under each>
+<per matchup, one paragraph: **A score — B score, LIVE.** then one sentence>
 
 ## <THE RIVALRY GAME, if designated rivals met>
 
@@ -50,7 +50,11 @@ before you polish.
 <closing line>
 ```
 
-Drop any section the week didn't earn. In a best-ball league, lineup efficiency is always 100%:
+Drop any section the week didn't earn.
+
+The status goes inside the bold, not on a line of its own: a single line break inside a
+paragraph is not a break once published, so a bold line with the sentence on the next line
+renders as "· final The biggest margin…". In a best-ball league, lineup efficiency is always 100%:
 drop that section. In a median league, say who won or lost their median game too.
 
 ## What makes this edition land
