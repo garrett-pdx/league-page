@@ -213,13 +213,13 @@ function arg(flag, fallback = null) {
 /*
 The post's URL slug: /blog/2026-week-4-preview rather than /blog/<Contentful entry id>.
 
-Derived from the file name's season and the title, minus the series prefix: "THE MUDD REPORT —
+Derived from the file name's season and the title, minus the series prefix: "THE LEAGUE REPORT —
 WEEK 4 PREVIEW" in 2026-w4-preview.md (blog.title is the prefix) becomes 2026-week-4-preview. The year is always in it, so
 next season's Week 4 preview can't collide with this one. --slug overrides the derivation.
 
 A slug is set ONCE. Updates keep whatever slug the entry already has, even if the title changes,
 because a slug is a URL people have shared; deriving it afresh on every publish would break
-every link the first time a post was renamed (two already have been).
+every link the first time a post was renamed.
 */
 // The site's public address and the blog's name (the series prefix a title starts with) come
 // from league/league.json.

@@ -8,9 +8,8 @@ What does a draft repeat from the posts just before it?
 The earlier posts are the other .md files in the draft's own directory.
 
 Two editions a week cover overlapping ground, and a reader who reads both should not be told
-the same thing twice. The Week 4 2026 preview re-ran the Week 3 recap's lead almost verbatim --
-a perfect lineup, 148.38, the second-highest losing score, a rival's 148.74 --
-under a new heading.
+the same thing twice -- a preview that re-runs the last recap's lead (the same perfect lineup,
+the same losing score, the same numbers) under a new heading is the failure this catches.
 
 Compares prose only (tables are reference, and standings repeat by design) and reports:
 

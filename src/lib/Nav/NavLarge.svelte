@@ -42,7 +42,7 @@
 	let left = $state();
 	let top = $state();
 
-	// The dropdown is at least this wide, so "Keeper Draft Board" and its off-site icon fit
+	// The dropdown is at least this wide, so a longer label and its off-site icon fit
 	// under a tab as short as "League", and it is right-aligned to that tab: League is the
 	// last tab, and a left-aligned menu wider than it would run off the right of the screen.
 	const MIN_MENU_WIDTH = 240;
@@ -90,7 +90,7 @@
 
 	// SvelteKit 2's goto() throws on external URLs ("Cannot use `goto` with an
 	// external URL"), which silently breaks any tab pointing off-site -- Go to
-	// Sleeper, and the Keeper Draft Board. Open those in a NEW tab: a nav click should
+	// Sleeper, and any league.json link with `nav`. Open those in a NEW tab: a nav click should
 	// never cost you the page you were on, and noopener stops the opened page getting a
 	// window.opener handle it could navigate ours with.
 	const navigate = (dest) => {
@@ -104,7 +104,7 @@
 	// preloadData() only understands this app's own routes, so handing it an off-site
 	// URL is the same mistake as goto(). Upstream guarded it by label
 	// (`label != 'Go to Sleeper'`), which silently stopped covering anything once a
-	// second external tab existed -- ours is the Keeper Draft Board. Test the
+	// second external tab existed (league.json `links` with `nav`). Test the
 	// destination instead, exactly like navigate() above.
 	const preload = (dest) => {
 		if(/^https?:\/\//.test(dest)) return;

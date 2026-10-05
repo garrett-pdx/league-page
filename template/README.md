@@ -54,7 +54,7 @@ through deploying on Vercel. Other agents can follow the same playbooks in
 ```bash
 npm install
 scripts/try-league.sh <league id>              # does the engine handle your league?
-# put your league ID and name in league/league.json, then:
+# replace the demo in league/: a league.json with just your ID and name (docs/setup.md), then:
 python3 scripts/pull-league-history.py && npm run derive-site-data && npm run derive-narratives
 python3 scripts/sync-managers.py --photos
 npm run brand && npm run smui-theme-light

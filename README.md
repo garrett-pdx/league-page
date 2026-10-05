@@ -63,7 +63,7 @@ Mudd Report) reads Contentful with the read-only delivery token, set in Vercel.
 - `CLAUDE.md` — the engine: architecture, data pipeline, design system
 - `league/NOTES.md` — this league's facts, decisions and quirks
 - `.claude/skills/` — the weekly blog, data refresh, season rollover and setup playbooks
-- `static/data/README.md` — the dataset
+- `docs/data.md` — the dataset
 - `docs/plan-open-source.md` — how this site became the template
 
 ## Credit

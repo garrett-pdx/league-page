@@ -141,8 +141,8 @@ Server-side endpoints, running on Vercel functions:
   `src/lib/utils/blogMarkdown.js` into the shape Contentful returns) or Contentful, by
   `blog.backend`. `getBlogComments` / `addBlogComments/[id]` are Contentful-only and inert
   unless comments are enabled with a server-side management token.
-- `checkVersion` / `checkGlobalVersion` — the update check; it still compares
-  `src/lib/version.js` against upstream's release until it is re-pointed at this project.
+- `checkVersion` — the update check: compares `src/lib/version.js` with the template's published
+  `package.json` (`src/lib/project.js` names the repo), fails silently, cached for a day.
 
 Anything needing a secret (Contentful tokens) must stay in `api/` — env vars are read
 server-side there and must never be shipped to the client.

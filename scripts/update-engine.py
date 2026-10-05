@@ -39,7 +39,13 @@ INSTANCE_FILES = {"README.md", "src/theme/_league.scss", "docs/league-lore.md", 
 
 
 def engine_files(base):
-    """Every engine file under base, as sorted relative paths."""
+    """Every engine file under base, as sorted relative paths. In a git checkout, tracked files
+    only, so a local --from copy never brings its gitignored files along."""
+    tracked = None
+    if os.path.isdir(os.path.join(base, ".git")):
+        ls = subprocess.run(["git", "ls-files", "-z"], cwd=base, capture_output=True, text=True)
+        if ls.returncode == 0:
+            tracked = set(ls.stdout.split("\0"))
     out = []
     for dirpath, dirnames, filenames in os.walk(base):
         rel_dir = os.path.relpath(dirpath, base)
@@ -47,7 +53,7 @@ def engine_files(base):
         dirnames[:] = [d for d in dirnames if not (rel_dir + d + "/").startswith(INSTANCE_DIRS)]
         for f in filenames:
             rel = rel_dir + f
-            if rel not in INSTANCE_FILES and f != ".DS_Store":
+            if rel not in INSTANCE_FILES and f != ".DS_Store" and (tracked is None or rel in tracked):
                 out.append(rel)
     return sorted(out)
 
@@ -80,7 +86,14 @@ def fetch(ref, dest):
 
 def main():
     args = sys.argv[1:]
-    status = subprocess.run(["git", "status", "--porcelain"], cwd=ROOT, capture_output=True, text=True)
+    try:
+        status = subprocess.run(["git", "status", "--porcelain"], cwd=ROOT, capture_output=True, text=True)
+    except FileNotFoundError:
+        status = None
+    if status is None or status.returncode != 0:
+        print("this site isn't a git repository (or git isn't installed); the update needs git so "
+              "that it arrives as one diff you can review and undo", file=sys.stderr)
+        return 1
     if status.stdout.strip():
         print("uncommitted changes; commit or stash them first so the update is one clean diff",
               file=sys.stderr)

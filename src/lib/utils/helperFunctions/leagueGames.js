@@ -7,7 +7,7 @@ through the same filters, so they cannot disagree with each other.
 games.json is built offline by scripts/derive-site-data.py, which handles the dataset's traps
 (the fictional week 18, unplayed weeks that look real, playoff games told apart by week number)
 and checks every regular-season record against Sleeper before writing. See
-static/data/README.md for the file format.
+docs/data.md for the file format.
 
 Everything below the loader is pure: no Svelte, no stores, no fetch. Node can import and test it
 directly.

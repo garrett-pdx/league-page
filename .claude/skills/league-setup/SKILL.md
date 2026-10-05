@@ -28,8 +28,8 @@ app's league settings. Then:
 
 ```bash
 curl -s https://api.sleeper.app/v1/league/<id> | python3 -m json.tool | head -20   # name, season, status
-python3 scripts/find-current-league.py    # after writing a minimal league.json: is there a newer season?
 scripts/try-league.sh <id>                # the whole data pipeline, in try-league/<id>/
+LEAGUE_CONFIG=try-league/<id>/league.json python3 scripts/find-current-league.py   # a newer season?
 python3 scripts/league-summary.py <id>    # the format, in plain terms
 ```
 

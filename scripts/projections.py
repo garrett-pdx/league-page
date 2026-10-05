@@ -8,10 +8,10 @@ Sleeper's weekly projections, scored with THIS league's settings.
 This is the yardstick for "was that start/sit call defensible?": what the platform the league
 plays on projected for each player *that week*, which is what the manager was looking at when
 he set the lineup. A preseason trade-value rank is the wrong yardstick -- "ranked 48th in
-August" says nothing about a Week 3 matchup -- and the posts stopped citing one.
+August" says nothing about a Week 3 matchup.
 
-Sleeper's own `pts_half_ppr` uses generic scoring (four-point passing touchdowns); this league
-gives six. So projected points here are recomputed from the projected stat lines against the
+Sleeper's own `pts_half_ppr` uses generic scoring (four-point passing touchdowns, half PPR); a
+league's own settings often differ. So projected points here are recomputed from the projected stat lines against the
 league's `scoring_settings`, the same way Sleeper scores actual games. The script checks that
 recipe against reality on every run: it scores each player's ACTUAL stat line the same way and
 prints it beside the points the league actually credited. If those two columns disagree, the

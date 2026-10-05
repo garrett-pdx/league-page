@@ -10,7 +10,7 @@ Same pattern as leagueHistory.js and leagueGames.js: one static fetch per file, 
 session, no Sleeper calls. A rejection is never memoized. Pass SvelteKit's `fetch` from a load()
 so the call also works during SSR.
 
-Ours, not upstream's. See static/data/README.md for the shapes.
+Ours, not upstream's. See docs/data.md for the shapes.
 */
 
 const cache = {};

@@ -82,7 +82,7 @@ export const MEASURES = {
     sd:         { label: 'Spread (SD)', short: 'SD', fmt: 'pts', ds: AGG,
                   desc: 'The standard deviation of weekly scores. High is boom or bust; low is steady.' },
     maxPf:      { label: 'Max points', short: 'Max', fmt: 'pts', ds: ALL,
-                  desc: 'The best legal lineup from the whole roster. Matches Sleeper’s potential points to the cent. Not counted for the 2024 week 8 commissioner-override game.' },
+                  desc: 'The best legal lineup from the whole roster. Sleeper calls it potential points. Not counted for a game whose score the commissioner overrode.' },
     bench:      { label: 'Bench points', short: 'Bench', fmt: 'pts', ds: ALL,
                   desc: 'Max points minus points scored: what a perfect lineup would have added.' },
     eff:        { label: 'Lineup efficiency', short: 'Eff.', fmt: 'pct', ds: ALL,

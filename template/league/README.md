@@ -12,6 +12,10 @@ Updating to a new engine release therefore never conflicts with a league's conte
 | `managers/` | Manager photos, referenced from `league.json` by file name. Square, no larger than 500x500. | no |
 | `archive-facts.json` | The Trophy Room's "From the archives" facts (shape documented in `src/lib/History/ArchiveCard.svelte`). Without it the card is hidden. | no |
 | `posts/` | Blog posts, when `blog.backend` is `markdown`. | no |
+| `voice.md` | How the blog sounds and how posts are published: the house style the recap and preview skills write in. | for the blog |
+| `NOTES.md` | This league's facts, decisions and quirks, for whoever (or whichever agent) works on the site next. | no |
+| `brand/` | Hand-made art that replaces a generated file of the same name in `static/brand/` (see `npm run brand`). | no |
+| `drafts/` | Blog drafts before publishing; the recap and preview skills write here. | no |
 
 Generated files are not here. `static/data/` (the history dataset) is written by the pipeline
 from Sleeper; never hand-edit it.

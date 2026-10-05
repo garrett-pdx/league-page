@@ -557,17 +557,17 @@ def check_max_pf(games, detected=()):
 
     1. Per manager-season, the regular-season sum of sleeper_potential() -- the same slot-order
        greedy Sleeper runs, with ELIGIBILITY applied -- must equal Sleeper's potential_points to
-       the cent (after the pinned stat corrections). All 50 do. History of this check: with
-       players.json positions alone, 48 of 50 agreed within 1% and two did not (2025
-       -1.42%: Travis Hunter is "DB" there, but Sleeper let him start at WR; +1.65%: Taysom
-       Hill's TE/QB eligibility), which is why ELIGIBILITY exists.
+       the cent (after the pinned stat corrections). A miss is almost always eligibility: a
+       player whose position changed (Taysom Hill, TE then QB/TE) or who started somewhere his
+       listed position doesn't allow (Travis Hunter, "DB", started at WR), which is why
+       ELIGIBILITY exists.
     2. Every row that has a max_pf must have max_pf >= the computed score: the lineup actually
        started is one of the lineups considered. Override rows (max_pf null) are skipped.
 
     games.json carries best_lineup() rather than sleeper_potential(). They differ only where
-    Sleeper's greedy sits below the true optimum -- in the real case behind this, two weeks,
-    both Taysom Hill outscoring his quarterback -- and there the true figure is the right one:
-    one manager scored 140.88 against a Sleeper "potential" of 125.82.
+    Sleeper's greedy sits below the true optimum -- a TE who is also QB-eligible outscoring the
+    quarterback, say -- and there the true figure is the right one: a team can score more than
+    Sleeper's "potential".
     """
     total = defaultdict(float)
     for g in games:

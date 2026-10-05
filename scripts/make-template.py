@@ -30,7 +30,7 @@ DROP = [
     "static/data/projections", "scripts/analyze-draft-positions.py",
     "scripts/derive-draft-report.py", "scripts/make-template.py",
 ]
-ENGINE_DOCS = {"setup.md", "writing.md"}
+ENGINE_DOCS = {"setup.md", "writing.md", "data.md"}
 
 # What counts as engine is defined once, in update-engine.py.
 import importlib.util  # noqa: E402

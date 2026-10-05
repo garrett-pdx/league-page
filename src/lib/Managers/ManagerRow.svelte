@@ -17,7 +17,7 @@
         ({rosterID, year} = getRosterIDFromManagerID(leagueTeamManagers, manager.managerID) || {rosterID, year});
     }
 
-    const commissioner = manager.managerID ? leagueTeamManagers.users[manager.managerID].is_owner : false;
+    const commissioner = manager.managerID ? !!leagueTeamManagers.users[manager.managerID]?.is_owner : false;
 
     const teamName = getDistinctTeamName(leagueTeamManagers, rosterID, year, manager.name);
 

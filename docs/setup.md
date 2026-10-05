@@ -45,8 +45,11 @@ Troubleshooting).
 
 ### 3. Configure
 
-Replace the demo in `league/league.json`. Two fields are required; every field is documented in
-`schema/league.schema.json` (editors that understand `$schema` autocomplete it):
+Replace the demo league. Overwrite `league/league.json` entirely — the demo's managers, overrides
+and history belong to another league — and replace or delete the demo's `home.md`,
+`constitution.md`, `archive-facts.json`, `NOTES.md` and `posts/`. Two fields are required; every
+field is documented in `schema/league.schema.json` (editors that understand `$schema`
+autocomplete it):
 
 ```json
 {

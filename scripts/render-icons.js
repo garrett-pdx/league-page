@@ -16,7 +16,7 @@ The full seal's ring text closes up below roughly 96px, and the largest icon her
 below) so its outer edge is not even guaranteed to survive. The small mark is the app-icon form.
 
 MASKABLE ICONS ARE THE TRAP
-static/manifest.json declares the two android-chrome icons as `"purpose": "maskable any"`. Android
+The web manifest (src/routes/manifest.json/+server.js) declares the two android-chrome icons as `"purpose": "maskable any"`. Android
 crops a maskable icon to a circle, and only the central 80% -- the "safe zone" -- is guaranteed to
 survive. Our mark is itself a circle that fills its viewBox, so rendering it edge to edge would put
 the gold outer ring exactly where the crop lands and shave it off. Those two sizes are therefore

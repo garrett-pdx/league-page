@@ -148,7 +148,7 @@
     const narrowManager = (uid) => update({ mgr: [people[uid].handle] }, true);
     const narrowManagerLabel = (uid) => `Show only ${nameOf(uid)}`;
 
-    /** How a row is named on a chart: "Michael · 2023 W5", "Michael · 2023", "Michael". */
+    /** How a row is named on a chart: "Alex · 2023 W5", "Alex · 2023", "Alex". */
     const labelOf = (row) => {
         // a single selected season is already in the caption, so it isn't repeated on every mark
         const who = nameOf(row.user_id);

@@ -6,8 +6,8 @@ and final table, records, Stat Lab, a Trophy Room, rivalries, drafts and keepers
 a constitution, generated lore and an AI-written weekly blog. SvelteKit, deployed on Vercel.
 
 It began as a fork of [nmelhado/league-page](https://github.com/nmelhado/league-page) (MIT) and
-is now a hard fork with its own structure. The plan that took it from one league's site to a
-template is `docs/plan-open-source.md`.
+is now a hard fork with its own structure, published as
+[Fantasy Football Website with History](https://github.com/garrett-pdx/fantasy-football-website-with-history).
 
 ## Start here
 
@@ -123,7 +123,7 @@ npm run derive-narratives                # -> narratives.json, docs/league-lore.
 
 Walks `previous_league_id` back from `sleeperLeagueId`, so it needs no season list. The opt-in
 `refresh-data` GitHub Action runs all three twice a week and commits the result; the
-`league-data` skill does the same by hand. Shapes are in `static/data/README.md`.
+`league-data` skill does the same by hand. Shapes are in `docs/data.md`.
 
 - **One definition of everything.** `derive-narratives.py` imports `derive-site-data.py` as a
   module, `week-facts.py` imports `derive-narratives.py`, and all of them use `scripts/lineup.py`
@@ -256,5 +256,6 @@ URLs, so nav and footer test the destination (not the label) for off-site links;
 crashed on a failed Sleeper fetch; and the records page divided points by Sleeper's record,
 which halves points per game in a median league.
 
-`src/lib/version.js` and the `checkVersion` routes still compare against upstream's release;
-re-pointing them is part of publishing (`docs/plan-open-source.md`).
+`src/lib/version.js` is the engine version; `/api/checkVersion` compares it with the template's
+published `package.json`, and the footer offers an update (`scripts/update-engine.py`) when that
+is newer.

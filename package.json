@@ -53,9 +53,9 @@
     "dev:league": "sh scripts/dev-league.sh",
     "brand": "node scripts/brand.mjs",
     "build": "vite build",
-    "build-docker": "DOCKER_BUILD=true vite build --verbose",
-    "docker-build": "docker build . -t $USER/league-page:latest",
-    "docker-run": "npm run docker-build && docker run -p 3000:3000 $USER/league-page:latest",
+    "build-docker": "DOCKER_BUILD=true vite build",
+    "docker-build": "docker build . -t $USER/fantasy-football-website:latest",
+    "docker-run": "npm run docker-build && docker run -p 3000:3000 $USER/fantasy-football-website:latest",
     "preview": "vite preview",
     "prepare": "npm run smui-theme-light && npm run smui-theme-dark",
     "smui-theme-light": "smui-theme compile static/smui.css -i src/theme",
@@ -64,8 +64,7 @@
     "format": "prettier --write --plugin-search-dir=. .",
     "render-icons": "node scripts/render-icons.js",
     "derive-narratives": "python3 scripts/derive-narratives.py",
-    "derive-site-data": "python3 scripts/derive-site-data.py",
-    "derive-draft-report": "python3 scripts/derive-draft-report.py"
+    "derive-site-data": "python3 scripts/derive-site-data.py"
   },
   "type": "module",
   "dependencies": {

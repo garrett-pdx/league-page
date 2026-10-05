@@ -162,7 +162,7 @@
 		<ul>
 			{#each footerLinks as link}
 				<li>
-					<!-- Off-site destinations (Sleeper, the Keeper Draft Board) open in a new tab
+					<!-- Off-site destinations (Sleeper, league.json links) open in a new tab
 					     so a visitor never loses the league page to leave it. rel is not optional
 					     with target=_blank: without noopener the opened page gets a window.opener
 					     handle and can navigate ours out from under the reader. -->

@@ -162,7 +162,7 @@
                     <div class="name">{`${players[draftCol.player].fn} ${players[draftCol.player].ln}`}{players[draftCol.player].pos == "DEF" ? "" : ` (${players[draftCol.player].t})`}</div>
                     {#if draftCol.keeper}
                         <!-- a keeper spends this pick rather than making it; the round is
-                             what he cost his manager (constitution 4.2) -->
+                             what he cost his manager (league.json keepers.rule) -->
                         <div class="keeperTag" title="Kept &mdash; this pick was spent on him, at a round {row} cost">KEEPER</div>
                     {/if}
                 {/if}

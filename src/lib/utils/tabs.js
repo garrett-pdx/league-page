@@ -25,7 +25,7 @@ empty tab.
 
 Off-site destinations are handled by testing the URL, not the label -- see navigate() and the
 preload guards in NavLarge/NavSmall. Don't reintroduce a label test for external links; that is
-what broke when the Keeper Draft Board was added alongside Go to Sleeper. The same `^https?://`
+what broke when a second off-site link was added alongside Go to Sleeper. The same `^https?://`
 test adds the trailing open_in_new icon that marks a link as leaving the site.
 
 Labels double as browser tab titles (src/lib/utils/pageTitle.js matches them on the path), so

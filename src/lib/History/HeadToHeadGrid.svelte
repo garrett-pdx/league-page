@@ -89,6 +89,7 @@
     };
 
     $: people = games ? buildPeople(games, ltm) : [];
+    $: since = games?.games?.length ? ` since ${games.games.reduce((m, g) => Math.min(m, g.season), Infinity)}` : '';
     $: h2h = games ? headToHead(games.games, { kinds: KINDS[view] }) : {};
 
     $: total = Object.fromEntries(people.map((p) => {
@@ -535,8 +536,8 @@
 <SectionHeading level={3}>Head to head</SectionHeading>
 
 <p class="note">
-    <span class="onDesktop">Everyone's record against everyone else since 2022, kept by someone who was paying attention. Tap a cell for the full rivalry.</span>
-    <span class="onPhone">Everyone's record against everyone else since 2022, kept by someone who was paying attention. Pick a manager, then tap an opponent for the full rivalry.</span>
+    <span class="onDesktop">Everyone's record against everyone else{since}, kept by someone who was paying attention. Tap a cell for the full rivalry.</span>
+    <span class="onPhone">Everyone's record against everyone else{since}, kept by someone who was paying attention. Pick a manager, then tap an opponent for the full rivalry.</span>
 </p>
 
 {#if loadError}

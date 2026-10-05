@@ -23,7 +23,7 @@
 
 {#await Promise.all([gamesData, historyData])}
     <div class="pending">
-        <p>Loading every game since 2022…</p>
+        <p>Loading every game…</p>
         <LinearProgress indeterminate />
     </div>
 {:then [games, history]}

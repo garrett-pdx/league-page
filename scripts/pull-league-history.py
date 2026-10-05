@@ -7,7 +7,7 @@ Pull the league's full history out of Sleeper into static/data/.
 Walks previous_league_id back from the current season, so it needs no season
 list -- only the current season's league ID, from league/league.json. Roughly 300 requests, ~1-2 minutes.
 
-Outputs (all documented in static/data/README.md):
+Outputs (all documented in docs/data.md):
     league-history.json   seasons, managers, records, drafts, brackets
     transactions.json     every add/drop/waiver/trade, manager-resolved
     weeks.json            WEEKLY ROSTER SNAPSHOTS -- the time machine
