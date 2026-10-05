@@ -3,6 +3,19 @@
 Engine releases. `python3 scripts/update-engine.py` brings a site up to date; anything that needs
 a step from you after updating is called out under its version.
 
+## 1.0.1
+
+- **Launch screens in your league's look.** The iOS launch screens (`static/pwa/apple-splash-*`)
+  were League Page's; `npm run brand` now renders them from your seal and wordmark, one per size
+  `src/app.html` declares.
+- `update-engine.py` treats everything in `static/pwa/` as your league's, and reads that rule from
+  the new release, so a generated file a release adds is safe from the first update. It refuses
+  to run outside a git repository, and `--from` copies tracked files only.
+- Generic data-format guide in `docs/data.md`; setup docs say to replace the whole demo league.
+
+**After updating from 1.0.0:** run `npm run brand`. 1.0.0's updater copies the template's launch
+screens over yours; this renders your own.
+
 ## 1.0.0
 
 The first release, grown out of [League Page](https://github.com/nmelhado/league-page) 2.5.1 and

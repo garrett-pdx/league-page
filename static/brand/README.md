@@ -15,4 +15,5 @@ the same file name in `league/brand/`, and run `npm run brand` again.
 The templates are in `scripts/brand-templates/`. An SVG shown through `<img>` gets no page CSS and
 no webfonts, so colours are written in as literal hex and text widths are pinned with
 `textLength`. Some rasterizers (librsvg, so sharp) do not draw `textPath`; browsers do, and only
-the text-free `seal-simple.svg` is rasterized for icons.
+the text-free `seal-simple.svg` is rasterized for icons, and `seal.svg` with `wordmark.svg` for
+the iOS launch screens.

@@ -95,7 +95,7 @@ Set `theme` in `league.json` (a dark brand colour and a championship colour):
 ```
 
 ```bash
-npm run brand              # colour tokens, seal, wordmark, ribbon, laurel, icons
+npm run brand              # colour tokens, seal, wordmark, ribbon, laurel, icons, launch screens
 npm run smui-theme-light   # rebuild the stylesheet
 ```
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /*
-Renders the raster favicons and PWA icons from static/brand/seal-simple.svg.
+Renders the raster favicons and PWA icons from static/brand/seal-simple.svg, and the iOS launch
+screens from static/brand/seal.svg and wordmark.svg.
 
 Run after changing the mark:
 
@@ -22,6 +23,14 @@ survive. Our mark is itself a circle that fills its viewBox, so rendering it edg
 the gold outer ring exactly where the crop lands and shave it off. Those two sizes are therefore
 inset to 72% on an opaque ground. Everything else is not masked and can sit closer to the edge.
 
+LAUNCH SCREENS
+iOS shows an apple-touch-startup-image while a home-screen copy of the site starts. Each one must
+match a device's exact pixel size, so the sizes are read from the <link> tags in src/app.html: add
+a tag there and the next run renders it. The seal and wordmark sit centred on white, the
+manifest's background_color, so the launch screen fades into the page. The SVGs' text renders in
+whatever fallback font this machine has (no webfonts outside a browser); textLength keeps it to
+width.
+
 TRANSPARENCY
 Browser tab favicons keep their alpha; the mark is a dark disc and reads on light or dark chrome.
 The touch and maskable icons get an opaque white ground instead, because iOS composites a
@@ -35,6 +44,8 @@ import { fileURLToPath } from 'url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const src = readFileSync(resolve(root, 'static/brand/seal-simple.svg'));
+const seal = readFileSync(resolve(root, 'static/brand/seal.svg'));
+const wordmark = readFileSync(resolve(root, 'static/brand/wordmark.svg'));
 
 // The SVG carries only a viewBox, so sharp rasterizes it at its 200 unit intrinsic size unless
 // told otherwise. Rendering big and downsampling gives clean edges at 16px, where rendering
@@ -58,6 +69,41 @@ async function icon(size, { inset = 1, background = CLEAR } = {}) {
         .composite([{ input: mark, gravity: 'center' }])
         .png()
         .toBuffer();
+}
+
+/** A launch screen: the seal over the wordmark, centred as a group on white. */
+async function splash(width, height) {
+    const short = Math.min(width, height);
+    const sealSize = Math.round(short * 0.5);
+    const markWidth = Math.round(sealSize * 1.4);
+    const gap = Math.round(short * 0.08);
+
+    const sealPng = await sharp(seal, { density: RENDER_DENSITY })
+        .resize(sealSize, sealSize, { fit: 'contain', background: CLEAR })
+        .png()
+        .toBuffer();
+    const markPng = await sharp(wordmark, { density: RENDER_DENSITY })
+        .resize({ width: markWidth })
+        .png()
+        .toBuffer();
+    const markHeight = (await sharp(markPng).metadata()).height;
+
+    // Optical centre: the group sits slightly above the middle.
+    const top = Math.round((height - (sealSize + gap + markHeight)) * 0.45);
+    return sharp({ create: { width, height, channels: 3, background: '#ffffff' } })
+        .composite([
+            { input: sealPng, top, left: Math.round((width - sealSize) / 2) },
+            { input: markPng, top: top + sealSize + gap, left: Math.round((width - markWidth) / 2) },
+        ])
+        .jpeg({ quality: 82, mozjpeg: true })
+        .toBuffer();
+}
+
+/** Every launch-screen size src/app.html asks for, as [width, height]. */
+function splashSizes() {
+    const html = readFileSync(resolve(root, 'src/app.html'), 'utf8');
+    const sizes = [...html.matchAll(/pwa\/apple-splash-(\d+)-(\d+)\.jpg/g)].map((m) => [+m[1], +m[2]]);
+    return [...new Map(sizes.map((s) => [s.join('x'), s])).values()];
 }
 
 /*
@@ -127,6 +173,11 @@ const run = async () => {
         members.push({ size, data: await icon(size, { inset: 1 }) });
     }
     write('static/favicons/favicon.ico', buildIco(members));
+
+    // iOS launch screens, one per size src/app.html declares.
+    for (const [w, h] of splashSizes()) {
+        write(`static/pwa/apple-splash-${w}-${h}.jpg`, await splash(w, h));
+    }
 
     console.log('Done.');
 };

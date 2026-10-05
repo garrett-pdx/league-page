@@ -189,7 +189,8 @@ size-budgeted file, as `games.json` is for `weeks.json`.
   are in `_tokens.scss`.
 - **Brand art is generated too**: seal, simple seal, wordmark, ribbon and laurel from
   `scripts/brand-templates/` into `static/brand/`, and the raster icons from the simple seal
-  (`scripts/render-icons.js`, which insets the maskable Android icons to 72%). A file in
+  (`scripts/render-icons.js`, which insets the maskable Android icons to 72%), plus the iOS launch
+  screens from the seal and wordmark, one per size `src/app.html` declares. A file in
   `league/brand/` replaces the generated one. An SVG shown through `<img>` gets no page CSS and no
   webfonts, so colours are literal hex and text widths are pinned with `textLength`; an XML
   comment containing two consecutive hyphens is a parse error that blanks the file.

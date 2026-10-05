@@ -9,8 +9,10 @@ Update this site's engine from the template, leaving the league alone.
 The engine is every file in the template except each site's own content and generated files
 (engine_files() below). An update copies in every engine file of the new template, and removes
 files the last update's list (`.engine-files`) had and the new one doesn't. Nothing else is
-touched: not league/, not static/data/, not the generated brand (static/brand/, the icons,
-src/theme/_league.scss), not README.md, and not any file a league added itself.
+touched: not league/, not static/data/, not the generated brand (static/brand/, the icons and
+launch screens, src/theme/_league.scss), not README.md, and not any file a league added itself.
+What counts as the league's is taken from the new template's copy of this script, so a release
+that adds a generated file protects it from the first update.
 
 Refuses to run with uncommitted changes, so the update arrives as one reviewable diff. Afterwards:
 `git diff`, then `npm install && npm run smui-theme-light`, read the CHANGELOG, and commit.
@@ -30,12 +32,10 @@ REPO = "garrett-pdx/fantasy-football-website-with-history"
 MANIFEST = ".engine-files"
 
 # Each site's own content and generated files: never part of the engine.
-INSTANCE_DIRS = ("league/", "static/data/", "static/brand/", "static/favicons/", "try-league/",
-                 "node_modules/", ".git/", ".svelte-kit/", "build/")
+INSTANCE_DIRS = ("league/", "static/data/", "static/brand/", "static/favicons/", "static/pwa/",
+                 "try-league/", "node_modules/", ".git/", ".svelte-kit/", "build/")
 INSTANCE_FILES = {"README.md", "src/theme/_league.scss", "docs/league-lore.md", MANIFEST,
-                  "static/pwa/apple-icon-180.png", "static/pwa/manifest-icon-192.png",
-                  "static/pwa/manifest-icon-512.png", "static/smui.css", "static/smui-dark.css",
-                  ".env"}
+                  "static/smui.css", "static/smui-dark.css", ".env"}
 
 
 def engine_files(base):
@@ -73,6 +73,22 @@ def read_manifest(base):
         return [line.strip() for line in f if line.strip() and not line.startswith("#")]
 
 
+def load_rules(src):
+    """The template's own engine_files and instance lists, when it has this script."""
+    import importlib.util
+    path = os.path.join(src, "scripts", "update-engine.py")
+    if not os.path.exists(path):
+        return None
+    spec = importlib.util.spec_from_file_location("template_update_engine", path)
+    mod = importlib.util.module_from_spec(spec)
+    try:
+        spec.loader.exec_module(mod)
+    except Exception as err:  # an unreadable script falls back to this one's rules
+        print(f"warning: couldn't read the template's update-engine.py ({err}); using this one's")
+        return None
+    return mod
+
+
 def fetch(ref, dest):
     url = f"https://codeload.github.com/{REPO}/tar.gz/{ref}"
     print(f"downloading {url}")
@@ -108,13 +124,16 @@ def main():
         if not os.path.exists(os.path.join(src, "schema", "league.schema.json")):
             print(f"{src} doesn't look like the template (no schema/league.schema.json)", file=sys.stderr)
             return 1
-        new = engine_files(src)
+        rules = load_rules(src)
+        new = (rules or sys.modules[__name__]).engine_files(src)
         old = read_manifest(ROOT) or []
-        protected = INSTANCE_DIRS
+        # Both versions' idea of the league's files, so neither side's list can let one through.
+        protected = tuple(set(INSTANCE_DIRS) | set(getattr(rules, "INSTANCE_DIRS", ())))
+        mine = INSTANCE_FILES | set(getattr(rules, "INSTANCE_FILES", ()))
 
         copied = 0
         for rel in new:
-            if rel.startswith(protected):
+            if rel.startswith(protected) or rel in mine:
                 continue  # never the league's content or generated files, whatever a manifest says
             source = os.path.join(src, rel)
             if not os.path.isfile(source):
@@ -127,7 +146,7 @@ def main():
         removed = []
         for rel in sorted(set(old) - set(new)):
             target = os.path.join(ROOT, rel)
-            if not rel.startswith(protected) and os.path.isfile(target):
+            if not rel.startswith(protected) and rel not in mine and os.path.isfile(target):
                 os.remove(target)
                 removed.append(rel)
 

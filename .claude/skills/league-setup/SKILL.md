@@ -104,7 +104,7 @@ One message, grouped, with your proposed default for each answer so "yes" is a v
 ## 4. Brand
 
 ```bash
-npm run brand              # tokens, seal, wordmark, ribbon, laurel, icons
+npm run brand              # tokens, seal, wordmark, ribbon, laurel, icons, launch screens
 npm run smui-theme-light   # rebuild the stylesheet (dev never recompiles Sass)
 ```
 

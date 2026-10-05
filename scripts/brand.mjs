@@ -18,6 +18,7 @@ championship fill colour) -- this writes:
                              year and colours. A file in league/brand/ with the same name
                              replaces the generated one, so a league can use hand-made art.
     static/favicons, static/pwa icons   rendered from the simple seal (scripts/render-icons.js)
+    static/pwa launch screens           the seal and wordmark on white, one per size in src/app.html
 
 All outputs are committed; nothing here runs during a build. Re-run after changing the theme,
 the name or the founding year, then `npm run smui-theme-light` (dev does not recompile Sass).
