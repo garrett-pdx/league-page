@@ -202,11 +202,30 @@ not understand. That is correct behaviour, and it means today they fail on most 
 
 ### Phase 6: split and publish
 
-- [ ] Demo league config, README, `docs/setup.md` (the skills already point to it), licence
-      credit, package.json metadata, version checker, CHANGELOG reset.
-- [ ] New public repo created from the branch with the demo `league/`; Mudd's `league/` stays here.
-- [ ] Mudd-only material stays in this repo: `docs/articles/`, `mudd-voice.md` (becomes
-      `league/voice.md`), the revamp log and plan docs, one-off scripts.
+Decided 2026-10-04: the template gets a **fresh git history** (none of this league's earlier
+commits), and every site — this one included — takes engine updates with
+`scripts/update-engine.py` rather than a git merge.
+
+- [x] `template/`: the demo league (this league's Sleeper ID with neutral content: handles, no
+      photos, bios or hometowns, its own green-and-gold palette), the template's README and
+      CHANGELOG.
+- [x] `scripts/make-template.py` assembles the template from HEAD (this league's material out,
+      the demo in, the demo's data built and brand generated, fresh history, nothing pushed).
+      Verified: installs and builds clean, no real names outside the data, every page renders.
+- [x] `scripts/update-engine.py`: replaces engine files only; tested by pulling the template into
+      a clone of this repo (only CHANGELOG.md and the manifest changed).
+- [x] `docs/setup.md`; package.json, LICENSE, footer credit and issue templates name the project
+      and keep League Page's credit; the update check reads the template's package.json.
+- [x] Managers without photos get initials tiles in the league's colours; unstyled links use an
+      accessible colour (upstream's failed AA).
+- [ ] Create `garrett-pdx/fantasy-football-website-with-history` (public) and push the assembled
+      template; enable "Template repository" in its settings.
+- [ ] Deploy the demo on Vercel; link it from the README.
+- [ ] Merge `open-source` into `master` for this league: regenerate `static/data/` with the new
+      pull, check the live pages, and switch the weekly posts to `league-recap` /
+      `league-preview` (between weeks).
+- [ ] After the split, engine work happens in the template repository; this repository's
+      `template/` directory and `make-template.py` can then go.
 
 ## Verification
 

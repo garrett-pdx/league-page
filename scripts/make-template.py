@@ -28,7 +28,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DROP = [
     "league", "template", "docs/league-lore.md", "README.md", "CHANGELOG.md",
     "static/data/projections", "scripts/analyze-draft-positions.py",
-    "scripts/derive-draft-report.py",
+    "scripts/derive-draft-report.py", "scripts/make-template.py",
 ]
 ENGINE_DOCS = {"setup.md", "writing.md"}
 
