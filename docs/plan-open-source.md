@@ -19,7 +19,8 @@ Read this before working on the branch. Update the checklists as work lands.
    Nicholas Melhado's copyright line; add ours below it). The "keep `git merge upstream/master`
    boring" rule in the root `CLAUDE.md` no longer binds engine files: restructure freely. The
    update checker (`src/lib/version.js`) gets pointed at the new project's releases.
-   **The name is still open** (see "Open questions").
+   **Name (Garrett, 2026-10-04): Fantasy Football Website with History**, repository and package
+   `fantasy-football-website-with-history` (free on npm; no repository of that name exists).
 3. **The blog runs on markdown in the repo by default.** Posts are `.md` files under
    `league/posts/`; an agent writes one and commits it, and the deploy publishes it. No
    Contentful account, no tokens. Contentful stays as an optional backend, so Mudd can keep it.
@@ -215,7 +216,5 @@ Sleeper data that moves on its own (scores, transactions, the NFL week).
 
 ## Open questions
 
-- **Project name.** Needed by Phase 6. Suggested 2026-10-04: Gridiron Almanac (recommended;
-  unused on GitHub and npm), League Almanac, Leaguebook, Trophy Case, Fantasy Almanac.
 - Whether Mudd moves its existing posts from Contentful to markdown (a migration script is
   cheap once Phase 4 lands).
