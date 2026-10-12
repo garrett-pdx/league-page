@@ -43,8 +43,13 @@ fine in the same piece, as long as a reader always knows who is meant.
 
 ## Running bits
 
-- **The Hingham Quarterback Crisis**: kshoyer's weekly Burrow-or-Hurts call. Each week adds the
-  new week's row and a new joke, and keeps the backstory to a table.
+- **Kabroa vs. Kabroa** (from Week 5 2026): Kabroa's record against the record of the best lineup
+  he could have picked. One table row a week (week / Kabroa / best lineup / opponent) and a new
+  joke; the backstory stays in the table. He keeps losing games his own bench would have won,
+  mostly while starting the projected picks, so the joke is the bench, not his judgement. Count
+  "bench losses" (lost, and `max_pf` beat the opponent's score) from games.json each week.
+- **Retired: the Hingham Quarterback Crisis** (kshoyer's Burrow-or-Hurts call, Weeks 1–4 2026).
+  The commissioner closed it after kshoyer got it right; a passing mention at most.
 
 ## House examples
 
