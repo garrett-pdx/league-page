@@ -119,7 +119,8 @@ Every manager's bio is built from their `cmsathletics.org` roster page, at Garre
 - Projection snapshots in `static/data/projections/` start at Week 4 2026 (captured Thursday
   4:18 PT). **Sleeper does rewrite past weeks' projections**: by Monday of Week 4, almost every
   player's Week 4 projection had drifted from the Thursday snapshot, and players hurt on Sunday
-  (Barkley, Chase, McConkey) had been reset to 0. Grade start/sit calls from the snapshot.
+  (Barkley, Chase, McConkey) had been reset to 0. Grade start/sit calls from the snapshot. The Week 6 2026 snapshot was taken at 5:42 PT Thursday, after the
+  Seahawks–Broncos kickoff, so treat its SEA and DEN projections with care.
 
 ## Companion project (different repo, different purpose)
 
