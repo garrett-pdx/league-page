@@ -39,7 +39,7 @@ Read that again. TnT44 was beaten by seven men.
 
 Kabroa won. The streak of losses his own bench would have won ends at four, a league record he set last Monday when DJ Moore didn't play. This week DJ Moore didn't play again, Kabroa started him again, and this time it didn't matter. Jordan Love, his **$3** claim, scored 22.24.
 
-The best lineup is 6-0. Kabroa is 2-4. He has now won a game while starting a player who did not take the field, which is the most Kabroa way imaginable to stop a losing streak.
+The best lineup is 6-0. Kabroa is 2-4. He has now won a game while starting a player who did not take the field.
 
 ## THE LOWLIGHT REEL
 

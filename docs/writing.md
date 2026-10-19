@@ -72,10 +72,14 @@ with it: the record, the margins, the last meeting.
   fresh each week even where the section is fixed.
 - **Running bits advance; they don't recap.** Each week adds the new week's row and a new joke,
   and keeps the backstory to a table.
-- **Never write about how the post was made.** No "this publication has been asked to…", no
-  "we went looking for a new storyline", no echo of an instruction from whoever commissioned
-  the post. Write what the instruction asks for and leave the instruction out. Referring to an
-  earlier *published* post ("this publication said on Thursday…") is fine; it's on the record.
+- **Never repeat the instructions behind a post.** No "this publication has been asked to…",
+  no echo of what the commissioner requested. Write what the instruction asks for and leave the
+  instruction out. The publication can still have a voice of its own in the world of the league
+  ("with Hingham at peace, this publication went looking for a new crisis") and can refer to its
+  own published posts ("this publication said on Thursday…").
+- **Mock the decision, not the person.** "The most Kabroa way imaginable" turns a result into a
+  verdict on the manager's character. Lineup calls, waiver bids and bad luck are fair game; who
+  someone is isn't. Go easier still on a manager who is already losing every week.
 - **Don't say a live result is settled.** "Won", "has the record", "team of the week" all wait
   for the last player to finish. Until then: leading, on course, could.
 
