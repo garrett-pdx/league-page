@@ -36,7 +36,7 @@ The scare sat on his bench. Sleeper projected Jayden Daniels as QB15, a full sev
 
 ## KABROA VS. KABROA
 
-With Hingham at peace, this publication went looking for a new crisis. Kabroa had one waiting.
+Hingham is at peace. Kabroa is not.
 
 | Week | Kabroa | Best lineup | Opponent |
 | --- | --- | --- | --- |

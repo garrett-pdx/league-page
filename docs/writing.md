@@ -72,6 +72,10 @@ with it: the record, the margins, the last meeting.
   fresh each week even where the section is fixed.
 - **Running bits advance; they don't recap.** Each week adds the new week's row and a new joke,
   and keeps the backstory to a table.
+- **Never write about how the post was made.** No "this publication has been asked to…", no
+  "we went looking for a new storyline", no echo of an instruction from whoever commissioned
+  the post. Write what the instruction asks for and leave the instruction out. Referring to an
+  earlier *published* post ("this publication said on Thursday…") is fine; it's on the record.
 - **Don't say a live result is settled.** "Won", "has the record", "team of the week" all wait
   for the last player to finish. Until then: leading, on course, could.
 

@@ -16,7 +16,7 @@
 
 ## THE TOP SCORE IS NOT THE STORY
 
-Gurret has the week's top score so far, 113.80, and this publication has been asked to keep the coverage proportionate. It is easy to keep it proportionate. 113.80 would have ranked sixth last week. It is leading this week with its quarterback still on zero, which says less about Gurret's team than about everyone else's. Kenneth Walker scored 26.90, D'Andre Swift 21.00, and nine other managers spent Sunday failing to catch a team that hadn't used its quarterback.
+Gurret has the week's top score so far, 113.80. It is not much of a score. 113.80 would have ranked sixth last week. It is leading this week with its quarterback still on zero, which says less about Gurret's team than about everyone else's. Kenneth Walker scored 26.90, D'Andre Swift 21.00, and nine other managers spent Sunday failing to catch a team that hadn't used its quarterback.
 
 ## 0-6
 
