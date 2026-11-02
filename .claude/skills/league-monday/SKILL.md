@@ -121,6 +121,8 @@ Drop any section the week didn't earn.
 ## Where the draft goes
 
 `docs/<league>/articles/<season>-w<week>-monday.md`, e.g. `docs/bpm/articles/2026-w8-monday.md`.
-League-specific voice notes live in `docs/<league>/voice.md`; read it first. There is no
+League-specific voice notes live in `docs/<league>/voice.md`; read it first — it sets the
+output format too (BPM posts are Slack messages: Slack markup, a `.txt` file, one table in a
+code block, which overrides the Markdown shape above). There is no
 publisher for these leagues: the draft is the deliverable. Commit it, and hand the user the
 file. `publish-article.mjs` is Mudd's Contentful blog only — never point it at another league.

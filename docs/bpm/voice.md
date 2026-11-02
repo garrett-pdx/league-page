@@ -26,6 +26,19 @@ Read with the `league-monday` skill. This is a starting point assembled in a clo
 - **Fact-check against a fresh pull.** The laptop's `factsheet.py` and this repo's
   `scripts/league-week.py` exist because a draft passed a manual check with errors still in it.
 
+## Format: posts go to Slack
+
+BPM posts are pasted into Slack, which renders neither Markdown headers nor tables. Write in
+Slack's own markup, as a `.txt` in `docs/bpm/articles/`:
+
+- `*bold*` (single asterisks), `_italic_`, `•` bullets; section labels are bold caps lines.
+- **One table at most**, inside a ``` code block, about 38 characters wide so it survives a
+  phone. Shorten team names inside it; use them in full in the prose.
+- No Markdown links; attribute sources in words ("per the Baltimore Sun").
+- The Week 8 2026 edition set the shape: a story lead, the weekend as prose (every team named),
+  one combined standings / Week 8 / power-ranking table, then the road ahead (trade deadline
+  Week 12, eight of sixteen make the playoffs in Weeks 15–17, one week a round) and tonight.
+
 ## Earlier posts
 
 The Week 1–7 posts were written on the laptop (`BPM Fantasy Football/week2-article.txt` and
