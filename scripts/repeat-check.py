@@ -67,7 +67,9 @@ def main():
     a = ap.parse_args()
 
     draft = os.path.abspath(a.draft)
-    others = sorted((p for p in glob.glob(os.path.join(ARTICLES, "*.md"))
+    # Compare within the draft's own folder, so another league's posts (docs/bpm/articles/)
+    # are checked against that league's, never against the Mudd blog.
+    others = sorted((p for p in glob.glob(os.path.join(os.path.dirname(draft), "*.md"))
                      if os.path.abspath(p) != draft and order_key(p) < order_key(draft)),
                     key=order_key)[-a.last:]
     if not others:

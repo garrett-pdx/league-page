@@ -4,6 +4,7 @@ Sleeper's weekly projections, scored with THIS league's settings.
 
   python3 scripts/projections.py 3 "Joe Burrow" "Jalen Hurts"
   python3 scripts/projections.py 3 "Brian Thomas" "Kenyon Sadiq"
+  python3 scripts/projections.py 8 "Jake Ferguson" --league bpm    # another league's scoring
 
 This is the yardstick for "was that start/sit call defensible?": what the platform the league
 plays on projected for each player *that week*, which is what the manager was looking at when
@@ -56,17 +57,31 @@ def snapshot_path(season, week):
     return os.path.join(SNAP_DIR, f"{season}-w{week}.json")
 
 
+def league_arg(argv):
+    """`--league <name|id>` scores against another league (see scripts/leagues.json). Default Mudd."""
+    if "--league" not in argv:
+        return LEAGUE_ID, argv
+    i = argv.index("--league")
+    name, rest = argv[i + 1], argv[:i] + argv[i + 2:]
+    with open(os.path.join(os.path.dirname(__file__), "leagues.json")) as f:
+        reg = json.load(f)
+    return (reg[name]["league_id"] if name in reg else name), rest
+
+
 def main():
-    args = [a for a in sys.argv[1:] if a != "--snapshot"]
+    league_id, argv = league_arg(sys.argv[1:])
+    args = [a for a in argv if a != "--snapshot"]
     if not args:
         sys.exit('usage: python3 scripts/projections.py <week> ["Player Name" ...] [--snapshot]')
     week, names = int(args[0]), args[1:]
-    league = get(f"{API}/league/{LEAGUE_ID}")
+    league = get(f"{API}/league/{league_id}")
     season, settings = league["season"], league["scoring_settings"]
     players = get(f"{API}/players/nfl")
     live = get(f"{API}/projections/nfl/regular/{season}/{week}")
     keys = set(settings)
 
+    if "--snapshot" in sys.argv and league_id != LEAGUE_ID:
+        sys.exit("--snapshot is for the Mudd League only; snapshots live in its static/data")
     if "--snapshot" in sys.argv:
         # Only fantasy-relevant players, and only the stat keys the league scores, so the file
         # stays small enough to commit every week.
@@ -85,7 +100,7 @@ def main():
         if not names:
             return
 
-    snap_file = snapshot_path(season, week)
+    snap_file = snapshot_path(season, week) if league_id == LEAGUE_ID else ""
     if os.path.exists(snap_file):
         snap = json.load(open(snap_file))
         proj, source = snap["players"], f"snapshot captured {snap['captured_at']}"
@@ -93,7 +108,7 @@ def main():
         proj, source = live, "live endpoint (no snapshot for this week)"
     stats = get(f"{API}/stats/nfl/regular/{season}/{week}")
     actual = {}
-    for m in get(f"{API}/league/{LEAGUE_ID}/matchups/{week}"):
+    for m in get(f"{API}/league/{league_id}/matchups/{week}"):
         actual.update({str(k): v for k, v in (m.get("players_points") or {}).items()})
 
     # Positional rank: every player at the position with a projection, league-scored.

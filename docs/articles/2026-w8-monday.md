@@ -79,7 +79,7 @@ Starters still to play tonight are left out, and so is anyone still to play on a
 
 | Team | Bench | Eff |
 |---|---|---|
-| Gurret* | 0.00 | 100.0% |
+| Gurret* | 2.10 | 97.7% |
 | kshoyer | 11.10 | 93.6% |
 | paulslaats | 8.10 | 93.0% |
 | BBrown16* | 3.92 | 92.5% |
@@ -90,7 +90,7 @@ Starters still to play tonight are left out, and so is anyone still to play on a
 | Kabroa | 22.80 | 79.6% |
 | malstol* | 18.40 | 64.5% |
 
-This publication notes its author's 100.0% without further comment.
+This publication notes that its author tops the table, and that Antonio Williams (7.90) sat behind George Pickens (5.80) all the same.
 
 Jonah left the most on the bench and won anyway: Rashee Rice (14.80) and Wan'Dale Robinson (12.70) sat while Parker Washington scored 3.10 and Omar Cooper Jr. 0.00. Washington was projected for 12.77 and Rice for 10.87, so the call was defensible. It just didn't work.
 

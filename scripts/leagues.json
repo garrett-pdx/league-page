@@ -1,0 +1,13 @@
+{
+  "_comment": "Leagues the weekly-post scripts know by name. `names` is how a post refers to each team: 'team' uses the Sleeper team name (falling back to the handle when a manager has none), 'handle' uses the Sleeper display name. Team names are always read live, never stored here: managers rename freely.",
+  "mudd": {
+    "league_id": "1312235880743706624",
+    "name": "The Mudd League",
+    "names": "handle"
+  },
+  "bpm": {
+    "league_id": "1389691887358586880",
+    "name": "BPM Fantasy Football",
+    "names": "team"
+  }
+}

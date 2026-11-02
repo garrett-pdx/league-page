@@ -5,6 +5,11 @@ description: Write and publish The Mudd Report's Monday edition for the league b
 
 # The Mudd Report — Monday edition
 
+*For any other league (BPM Fantasy Football first), use the `league-monday` skill: the same
+craft, run on `scripts/league-week.py`, which reads any Sleeper league live. Its starter
+statuses (pending / bye / inactive / played) also settle the "is this 0.0 still to play?"
+question this skill leaves to you — worth running alongside `week-facts.py` here too.*
+
 Written Monday, before the Monday night game. The hook is that the week **is not over**: some
 matchups are decided, some are not, and specific people are sitting on specific players who can
 still change their week. A post that reads like a settled recap has missed it.

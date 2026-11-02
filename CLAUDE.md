@@ -106,6 +106,16 @@ Still outstanding, in rough priority order:
 `leagueName` deliberately differs from the Sleeper-side name. Don't "correct" it to match
 the API.
 
+## Other leagues: the `league-monday` skill
+
+The Monday post is generalized beyond Mudd. `scripts/league-week.py --league <name|id>` builds
+the weekly fact block, standings, head-to-heads and regular-season history for any Sleeper
+league straight from the API (cache in the gitignored `.cache/`); `scripts/leagues.json` names
+the leagues (`bpm` = BPM Fantasy Football, `1389691887358586880`, 16 teams, teams called by
+their Sleeper team names). `projections.py` takes `--league` too. Drafts go to
+`docs/<league>/articles/`, house notes to `docs/<league>/voice.md`; there is no publisher for
+them, and `publish-article.mjs` stays Mudd-only. Mudd keeps `mudd-monday` and `week-facts.py`.
+
 ## Companion project (different repo, different purpose)
 
 `~/Desktop/ff_keeper` → [garrett-pdx/keeper-draft-board](https://github.com/garrett-pdx/keeper-draft-board),

@@ -16,3 +16,6 @@ build
 
 # Python bytecode from ad-hoc imports of scripts/
 __pycache__/
+
+# Sleeper responses cached by scripts/league-week.py
+.cache/
