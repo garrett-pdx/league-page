@@ -17,8 +17,9 @@
  * Vite treats the VITE_ prefix as "expose this to the browser", so a management token under
  * that name is one careless import away from shipping write access to every visitor. This
  * script is run by hand from a terminal and never by the site, so it reads
- * CONTENTFUL_MANAGEMENT_TOKEN from a local, gitignored .env. Do not add it to Vercel: nothing
- * deployed writes to Contentful (comments are off -- see enableComments in leagueInfo.js).
+ * CONTENTFUL_MANAGEMENT_TOKEN from a local, gitignored .env, or from the environment of a cloud
+ * routine that publishes posts. Do not add it to Vercel: nothing deployed writes to Contentful
+ * (comments are off -- see enableComments in leagueInfo.js).
  *
  * Only the node types the site can actually render are emitted -- see generateParagraph() in
  * helperFunctions/getBlogPosts.js, which understands headings, paragraphs, tables, lists,
@@ -29,9 +30,11 @@
  *   node scripts/publish-article.mjs <file.md> --type Recap --author <sleeper username> [--featured]
  *   node scripts/publish-article.mjs <file.md> ... --date 2026-09-30   # markdown: the post's date
  *   node scripts/publish-article.mjs <file.md> ... --dry-run           # show it, publish nothing
+ *   node scripts/publish-article.mjs <file.md> ... --check             # also reach Contentful, read only
  */
 
 import fs from "node:fs";
+import https from "node:https";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import contentful from "contentful-management";
@@ -279,6 +282,24 @@ function deriveSlug(file, title) {
   return s;
 }
 
+// A cloud session's proxy only speaks CONNECT, and the SDK's axios sends it plain HTTP, which it
+// refuses with a 405. Tunnel through it instead. An agent can't go in through `httpsAgent`: the SDK
+// deep-copies its config, which breaks one ("Cannot read private member"). Left alone that option
+// is false, which makes Node build `new globalAgent.constructor()` with no arguments, so the global
+// agent's class has to know the URL. `proxy: false` stops axios's own lookup of the variables.
+async function proxyOptions(env) {
+  const url = env.HTTPS_PROXY || env.https_proxy;
+  if (!url) return {};
+  const { HttpsProxyAgent } = await import("https-proxy-agent");
+  class Tunnel extends HttpsProxyAgent {
+    constructor() {
+      super(url);
+    }
+  }
+  https.globalAgent = new Tunnel();
+  return { proxy: false };
+}
+
 async function main() {
   const file = process.argv[2];
   if (!file || file.startsWith("--")) {
@@ -293,6 +314,7 @@ async function main() {
   const author = arg("--author");
   const featured = process.argv.includes("--featured");
   const dryRun = process.argv.includes("--dry-run");
+  const check = process.argv.includes("--check");
 
   if (!title) {
     console.error("no '# ' heading found -- the article needs one, it becomes the title field");
@@ -325,7 +347,7 @@ async function main() {
     process.exit(1);
   }
 
-  if (dryRun) {
+  if (dryRun && !check) {
     fs.writeFileSync("/tmp/richtext-preview.json", JSON.stringify(document, null, 2));
     console.log("\ndry run -- wrote /tmp/richtext-preview.json, published nothing");
     return;
@@ -348,8 +370,13 @@ async function main() {
     process.exit(1);
   }
 
-  const client = contentful.createClient({ accessToken: token });
+  const client = contentful.createClient({ accessToken: token, ...(await proxyOptions(env)) });
   const environment = await (await client.getSpace(space)).getEnvironment("master");
+  if (check) {
+    const { total } = await environment.getEntries({ content_type: POST_TYPE, limit: 1 });
+    console.log(`\ncheck ok -- read ${total} ${POST_TYPE} entries, published nothing`);
+    return;
+  }
 
   const fields = {
     title: { "en-US": title },
