@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-30T10:44:03",
+ "generated": "2026-11-06T13:07:30",
  "note": "Derived from weeks.json by scripts/derive-narratives.py. Authoring aid, not fetched at runtime. Regenerate after a season with: python3 scripts/derive-narratives.py",
  "definitions": [
   "Game scores are official: a commissioner override (custom_points) beats the computed score. Overridden: 2024 week 8, tuckersdumbteam 137.74 v BBrown16 122.54 (computed 150.34 to 148.74). Facts quoting one say so.",
@@ -668,10 +668,10 @@
     "8151"
    ],
    "values": {
-    "points": 138.7,
-    "starts": 6
+    "points": 149.1,
+    "starts": 7
    },
-   "text": "Kenneth Walker III was Gurret's 2026 MVP: 138.7 points in his starting lineup (6 starts; 2026 so far, through week 7)."
+   "text": "Kenneth Walker III was Gurret's 2026 MVP: 149.1 points in his starting lineup (7 starts; 2026 so far, through week 8)."
   },
   {
    "category": "season_mvp",
@@ -684,10 +684,10 @@
     "4984"
    ],
    "values": {
-    "points": 175.8,
-    "starts": 6
+    "points": 206.3,
+    "starts": 7
    },
-   "text": "Josh Allen was TnT44's 2026 MVP: 175.8 points in his starting lineup (6 starts; 2026 so far, through week 7)."
+   "text": "Josh Allen was TnT44's 2026 MVP: 206.3 points in his starting lineup (7 starts; 2026 so far, through week 8)."
   },
   {
    "category": "season_mvp",
@@ -700,10 +700,10 @@
     "6813"
    ],
    "values": {
-    "points": 129.0,
-    "starts": 7
+    "points": 133.7,
+    "starts": 8
    },
-   "text": "Jonathan Taylor was mikestreinz's 2026 MVP: 129.0 points in his starting lineup (7 starts; 2026 so far, through week 7)."
+   "text": "Jonathan Taylor was mikestreinz's 2026 MVP: 133.7 points in his starting lineup (8 starts; 2026 so far, through week 8)."
   },
   {
    "category": "season_mvp",
@@ -716,10 +716,10 @@
     "9221"
    ],
    "values": {
-    "points": 155.0,
-    "starts": 6
+    "points": 178.8,
+    "starts": 7
    },
-   "text": "Jahmyr Gibbs was tuckersdumbteam's 2026 MVP: 155.0 points in his starting lineup (6 starts; 2026 so far, through week 7)."
+   "text": "Jahmyr Gibbs was tuckersdumbteam's 2026 MVP: 178.8 points in his starting lineup (7 starts; 2026 so far, through week 8)."
   },
   {
    "category": "season_mvp",
@@ -732,10 +732,10 @@
     "6786"
    ],
    "values": {
-    "points": 129.0,
-    "starts": 7
+    "points": 138.3,
+    "starts": 8
    },
-   "text": "CeeDee Lamb was paulslaats's 2026 MVP: 129.0 points in his starting lineup (7 starts; 2026 so far, through week 7)."
+   "text": "CeeDee Lamb was paulslaats's 2026 MVP: 138.3 points in his starting lineup (8 starts; 2026 so far, through week 8)."
   },
   {
    "category": "season_mvp",
@@ -748,10 +748,10 @@
     "3294"
    ],
    "values": {
-    "points": 154.1,
-    "starts": 7
+    "points": 175.9,
+    "starts": 8
    },
-   "text": "Dak Prescott was jonahcartwright's 2026 MVP: 154.1 points in his starting lineup (7 starts; 2026 so far, through week 7)."
+   "text": "Dak Prescott was jonahcartwright's 2026 MVP: 175.9 points in his starting lineup (8 starts; 2026 so far, through week 8)."
   },
   {
    "category": "season_mvp",
@@ -764,10 +764,10 @@
     "6770"
    ],
    "values": {
-    "points": 110.4,
-    "starts": 4
+    "points": 159.8,
+    "starts": 5
    },
-   "text": "Joe Burrow was kshoyer's 2026 MVP: 110.4 points in his starting lineup (4 starts; 2026 so far, through week 7)."
+   "text": "Joe Burrow was kshoyer's 2026 MVP: 159.8 points in his starting lineup (5 starts; 2026 so far, through week 8)."
   },
   {
    "category": "season_mvp",
@@ -781,9 +781,9 @@
    ],
    "values": {
     "points": 59.9,
-    "starts": 4
+    "starts": 5
    },
-   "text": "Emanuel Wilson was BBrown16's 2026 MVP: 59.9 points in his starting lineup (4 starts; 2026 so far, through week 7)."
+   "text": "Emanuel Wilson was BBrown16's 2026 MVP: 59.9 points in his starting lineup (5 starts; 2026 so far, through week 8)."
   },
   {
    "category": "season_mvp",
@@ -796,10 +796,10 @@
     "9509"
    ],
    "values": {
-    "points": 130.2,
-    "starts": 7
+    "points": 137.8,
+    "starts": 8
    },
-   "text": "Bijan Robinson was Kabroa's 2026 MVP: 130.2 points in his starting lineup (7 starts; 2026 so far, through week 7)."
+   "text": "Bijan Robinson was Kabroa's 2026 MVP: 137.8 points in his starting lineup (8 starts; 2026 so far, through week 8)."
   },
   {
    "category": "season_mvp",
@@ -812,10 +812,10 @@
     "9488"
    ],
    "values": {
-    "points": 167.2,
-    "starts": 7
+    "points": 188.0,
+    "starts": 8
    },
-   "text": "Jaxon Smith-Njigba was malstol's 2026 MVP: 167.2 points in his starting lineup (7 starts; 2026 so far, through week 7)."
+   "text": "Jaxon Smith-Njigba was malstol's 2026 MVP: 188.0 points in his starting lineup (8 starts; 2026 so far, through week 8)."
   },
   {
    "category": "career_mvp",
@@ -831,7 +831,7 @@
     "points": 700.4,
     "starts": 45
    },
-   "text": "No player has scored more in Gurret's starting lineup than Amon-Ra St. Brown: 700.4 points in 45 starts (2022-2026, 2026 through week 7, postseason included)."
+   "text": "No player has scored more in Gurret's starting lineup than Amon-Ra St. Brown: 700.4 points in 45 starts (2022-2026, 2026 through week 8, postseason included)."
   },
   {
    "category": "career_mvp",
@@ -847,7 +847,7 @@
     "points": 476.5,
     "starts": 29
    },
-   "text": "No player has scored more in TnT44's starting lineup than Josh Jacobs: 476.5 points in 29 starts (2022-2026, 2026 through week 7, postseason included)."
+   "text": "No player has scored more in TnT44's starting lineup than Josh Jacobs: 476.5 points in 29 starts (2022-2026, 2026 through week 8, postseason included)."
   },
   {
    "category": "career_mvp",
@@ -860,10 +860,10 @@
     "7564"
    ],
    "values": {
-    "points": 1004.8,
-    "starts": 62
+    "points": 1030.4,
+    "starts": 63
    },
-   "text": "No player has scored more in mikestreinz's starting lineup than Ja'Marr Chase: 1004.8 points in 62 starts (2022-2026, 2026 through week 7, postseason included)."
+   "text": "No player has scored more in mikestreinz's starting lineup than Ja'Marr Chase: 1030.4 points in 63 starts (2022-2026, 2026 through week 8, postseason included)."
   },
   {
    "category": "career_mvp",
@@ -879,7 +879,7 @@
     "points": 1244.4,
     "starts": 47
    },
-   "text": "No player has scored more in tuckersdumbteam's starting lineup than Josh Allen: 1244.4 points in 47 starts (2022-2026, 2026 through week 7, postseason included)."
+   "text": "No player has scored more in tuckersdumbteam's starting lineup than Josh Allen: 1244.4 points in 47 starts (2022-2026, 2026 through week 8, postseason included)."
   },
   {
    "category": "career_mvp",
@@ -892,10 +892,10 @@
     "6786"
    ],
    "values": {
-    "points": 525.9,
-    "starts": 36
+    "points": 535.2,
+    "starts": 37
    },
-   "text": "No player has scored more in paulslaats's starting lineup than CeeDee Lamb: 525.9 points in 36 starts (2022-2026, 2026 through week 7, postseason included)."
+   "text": "No player has scored more in paulslaats's starting lineup than CeeDee Lamb: 535.2 points in 37 starts (2022-2026, 2026 through week 8, postseason included)."
   },
   {
    "category": "career_mvp",
@@ -911,7 +911,7 @@
     "points": 434.1,
     "starts": 19
    },
-   "text": "No player has scored more in jonahcartwright's starting lineup than Jared Goff: 434.1 points in 19 starts (2022-2026, 2026 through week 7, postseason included)."
+   "text": "No player has scored more in jonahcartwright's starting lineup than Jared Goff: 434.1 points in 19 starts (2022-2026, 2026 through week 8, postseason included)."
   },
   {
    "category": "career_mvp",
@@ -927,7 +927,7 @@
     "points": 815.7,
     "starts": 33
    },
-   "text": "No player has scored more in kshoyer's starting lineup than Jalen Hurts: 815.7 points in 33 starts (2022-2026, 2026 through week 7, postseason included)."
+   "text": "No player has scored more in kshoyer's starting lineup than Jalen Hurts: 815.7 points in 33 starts (2022-2026, 2026 through week 8, postseason included)."
   },
   {
    "category": "career_mvp",
@@ -943,7 +943,7 @@
     "points": 418.1,
     "starts": 15
    },
-   "text": "No player has scored more in JJJet's starting lineup than Patrick Mahomes: 418.1 points in 15 starts (2022-2026, 2026 through week 7, postseason included)."
+   "text": "No player has scored more in JJJet's starting lineup than Patrick Mahomes: 418.1 points in 15 starts (2022-2026, 2026 through week 8, postseason included)."
   },
   {
    "category": "career_mvp",
@@ -959,7 +959,7 @@
     "points": 631.4,
     "starts": 27
    },
-   "text": "No player has scored more in Kabroa's starting lineup than Jalen Hurts: 631.4 points in 27 starts (2022-2026, 2026 through week 7, postseason included)."
+   "text": "No player has scored more in Kabroa's starting lineup than Jalen Hurts: 631.4 points in 27 starts (2022-2026, 2026 through week 8, postseason included)."
   },
   {
    "category": "career_mvp",
@@ -975,7 +975,7 @@
     "points": 588.6,
     "starts": 46
    },
-   "text": "No player has scored more in malstol's starting lineup than Breece Hall: 588.6 points in 46 starts (2022-2026, 2026 through week 7, postseason included)."
+   "text": "No player has scored more in malstol's starting lineup than Breece Hall: 588.6 points in 46 starts (2022-2026, 2026 through week 8, postseason included)."
   },
   {
    "category": "career_mvp",
@@ -991,7 +991,7 @@
     "points": 551.2,
     "starts": 35
    },
-   "text": "No player has scored more in BBrown16's starting lineup than De'Von Achane: 551.2 points in 35 starts (2022-2026, 2026 through week 7, postseason included)."
+   "text": "No player has scored more in BBrown16's starting lineup than De'Von Achane: 551.2 points in 35 starts (2022-2026, 2026 through week 8, postseason included)."
   },
   {
    "category": "league_season_leader",
@@ -1170,10 +1170,10 @@
     "4984"
    ],
    "values": {
-    "points": 175.8,
+    "points": 206.3,
     "rank": 1
    },
-   "text": "Josh Allen was the 1st highest-scoring player in the league's starting lineups in 2026, with 175.8 (2026 so far, through week 7)."
+   "text": "Josh Allen was the 1st highest-scoring player in the league's starting lineups in 2026, with 206.3 (2026 so far, through week 8)."
   },
   {
    "category": "league_season_leader",
@@ -1184,10 +1184,10 @@
     "9488"
    ],
    "values": {
-    "points": 167.2,
+    "points": 188.0,
     "rank": 2
    },
-   "text": "Jaxon Smith-Njigba was the 2nd highest-scoring player in the league's starting lineups in 2026, with 167.2 (2026 so far, through week 7)."
+   "text": "Jaxon Smith-Njigba was the 2nd highest-scoring player in the league's starting lineups in 2026, with 188.0 (2026 so far, through week 8)."
   },
   {
    "category": "league_season_leader",
@@ -1198,10 +1198,10 @@
     "9221"
    ],
    "values": {
-    "points": 155.0,
+    "points": 178.8,
     "rank": 3
    },
-   "text": "Jahmyr Gibbs was the 3rd highest-scoring player in the league's starting lineups in 2026, with 155.0 (2026 so far, through week 7)."
+   "text": "Jahmyr Gibbs was the 3rd highest-scoring player in the league's starting lineups in 2026, with 178.8 (2026 so far, through week 8)."
   },
   {
    "category": "top_week_performance",
@@ -1310,6 +1310,21 @@
   },
   {
    "category": "top_week_performance",
+   "season": "2026",
+   "week": 8,
+   "managers": [
+    "611630747161358336"
+   ],
+   "players": [
+    "6770"
+   ],
+   "values": {
+    "points": 49.5
+   },
+   "text": "Joe Burrow put up 49.5 for kshoyer in week 8 of 2026 -- one of the biggest single weeks anyone has started."
+  },
+  {
+   "category": "top_week_performance",
    "season": "2025",
    "week": 11,
    "managers": [
@@ -1412,21 +1427,6 @@
     "points": 46.1
    },
    "text": "Lamar Jackson put up 46.1 for kshoyer in week 15 of 2024 -- one of the biggest single weeks anyone has started."
-  },
-  {
-   "category": "top_week_performance",
-   "season": "2023",
-   "week": 16,
-   "managers": [
-    "850475150817234944"
-   ],
-   "players": [
-    "2309"
-   ],
-   "values": {
-    "points": 46.0
-   },
-   "text": "Amari Cooper put up 46.0 for malstol in week 16 of 2023 (a consolation game) -- one of the biggest single weeks anyone has started."
   },
   {
    "category": "worst_benching",
@@ -1843,9 +1843,9 @@
    "players": [],
    "values": {
     "count": 8,
-    "games": 58
+    "games": 59
    },
-   "text": "BBrown16 has started the optimal lineup 8 times in 58 games (postseason included)."
+   "text": "BBrown16 has started the optimal lineup 8 times in 59 games (postseason included)."
   },
   {
    "category": "perfect_lineups",
@@ -1857,9 +1857,9 @@
    "players": [],
    "values": {
     "count": 5,
-    "games": 75
+    "games": 76
    },
-   "text": "mikestreinz has started the optimal lineup 5 times in 75 games (postseason included)."
+   "text": "mikestreinz has started the optimal lineup 5 times in 76 games (postseason included)."
   },
   {
    "category": "perfect_lineups",
@@ -1871,9 +1871,9 @@
    "players": [],
    "values": {
     "count": 5,
-    "games": 75
+    "games": 76
    },
-   "text": "tuckersdumbteam has started the optimal lineup 5 times in 75 games (postseason included)."
+   "text": "tuckersdumbteam has started the optimal lineup 5 times in 76 games (postseason included)."
   },
   {
    "category": "perfect_lineups",
@@ -1885,9 +1885,9 @@
    "players": [],
    "values": {
     "count": 4,
-    "games": 73
+    "games": 74
    },
-   "text": "Kabroa has started the optimal lineup 4 times in 73 games (postseason included)."
+   "text": "Kabroa has started the optimal lineup 4 times in 74 games (postseason included)."
   },
   {
    "category": "perfect_lineups",
@@ -1899,9 +1899,9 @@
    "players": [],
    "values": {
     "count": 4,
-    "games": 69
+    "games": 70
    },
-   "text": "TnT44 has started the optimal lineup 4 times in 69 games (postseason included)."
+   "text": "TnT44 has started the optimal lineup 4 times in 70 games (postseason included)."
   },
   {
    "category": "perfect_lineups",
@@ -1913,9 +1913,9 @@
    "players": [],
    "values": {
     "count": 3,
-    "games": 71
+    "games": 72
    },
-   "text": "jonahcartwright has started the optimal lineup 3 times in 71 games (postseason included)."
+   "text": "jonahcartwright has started the optimal lineup 3 times in 72 games (postseason included)."
   },
   {
    "category": "perfect_lineups",
@@ -1927,9 +1927,9 @@
    "players": [],
    "values": {
     "count": 3,
-    "games": 73
+    "games": 74
    },
-   "text": "malstol has started the optimal lineup 3 times in 73 games (postseason included)."
+   "text": "malstol has started the optimal lineup 3 times in 74 games (postseason included)."
   },
   {
    "category": "perfect_lineups",
@@ -1941,9 +1941,9 @@
    "players": [],
    "values": {
     "count": 2,
-    "games": 75
+    "games": 76
    },
-   "text": "kshoyer has started the optimal lineup 2 times in 75 games (postseason included)."
+   "text": "kshoyer has started the optimal lineup 2 times in 76 games (postseason included)."
   },
   {
    "category": "perfect_lineups",
@@ -1955,9 +1955,9 @@
    "players": [],
    "values": {
     "count": 2,
-    "games": 75
+    "games": 76
    },
-   "text": "paulslaats has started the optimal lineup 2 times in 75 games (postseason included)."
+   "text": "paulslaats has started the optimal lineup 2 times in 76 games (postseason included)."
   },
   {
    "category": "bench_outscored_starters",
@@ -2088,9 +2088,9 @@
    ],
    "players": [],
    "values": {
-    "count": 22
+    "count": 23
    },
-   "text": "tuckersdumbteam has started a player who scored exactly nothing 22 times."
+   "text": "tuckersdumbteam has started a player who scored exactly nothing 23 times."
   },
   {
    "category": "zero_starts",
@@ -2101,9 +2101,9 @@
    ],
    "players": [],
    "values": {
-    "count": 20
+    "count": 22
    },
-   "text": "malstol has started a player who scored exactly nothing 20 times."
+   "text": "malstol has started a player who scored exactly nothing 22 times."
   },
   {
    "category": "zero_starts",
@@ -2114,9 +2114,22 @@
    ],
    "players": [],
    "values": {
-    "count": 17
+    "count": 18
    },
-   "text": "Kabroa has started a player who scored exactly nothing 17 times."
+   "text": "Kabroa has started a player who scored exactly nothing 18 times."
+  },
+  {
+   "category": "zero_starts",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611697269254791168"
+   ],
+   "players": [],
+   "values": {
+    "count": 15
+   },
+   "text": "TnT44 has started a player who scored exactly nothing 15 times."
   },
   {
    "category": "zero_starts",
@@ -2130,19 +2143,6 @@
     "count": 15
    },
    "text": "mikestreinz has started a player who scored exactly nothing 15 times."
-  },
-  {
-   "category": "zero_starts",
-   "season": null,
-   "week": null,
-   "managers": [
-    "611697269254791168"
-   ],
-   "players": [],
-   "values": {
-    "count": 14
-   },
-   "text": "TnT44 has started a player who scored exactly nothing 14 times."
   },
   {
    "category": "closest_game",
@@ -2386,19 +2386,19 @@
   },
   {
    "category": "biggest_blowout",
-   "season": "2023",
-   "week": 5,
+   "season": "2026",
+   "week": 8,
    "managers": [
-    "605683461667229696",
-    "611697269254791168"
+    "611630747161358336",
+    "611664340277383168"
    ],
    "players": [],
    "values": {
-    "margin": 70.5,
-    "winner_points": 193.0,
-    "loser_points": 122.5
+    "margin": 71.4,
+    "winner_points": 163.4,
+    "loser_points": 92.0
    },
-   "text": "mikestreinz buried TnT44 by 70.5 in week 5 of 2023, 193.0 to 122.5."
+   "text": "kshoyer buried tuckersdumbteam by 71.4 in week 8 of 2026, 163.4 to 92.0."
   },
   {
    "category": "unluckiest_loss",
@@ -2537,6 +2537,21 @@
   },
   {
    "category": "luckiest_win",
+   "season": "2026",
+   "week": 8,
+   "managers": [
+    "850475150817234944",
+    "999190763323944960"
+   ],
+   "players": [],
+   "values": {
+    "points": 70.3,
+    "opponent_points": 52.8
+   },
+   "text": "malstol won week 8 of 2026 with just 70.3 -- BBrown16 managed only 52.8."
+  },
+  {
+   "category": "luckiest_win",
    "season": "2025",
    "week": 17,
    "managers": [
@@ -2564,21 +2579,6 @@
     "opponent_points": 68.6
    },
    "text": "TnT44 won week 6 of 2022 with just 74.3 -- tuckersdumbteam managed only 68.6."
-  },
-  {
-   "category": "luckiest_win",
-   "season": "2023",
-   "week": 15,
-   "managers": [
-    "611649934390870016",
-    "611630747161358336"
-   ],
-   "players": [],
-   "values": {
-    "points": 74.5,
-    "opponent_points": 71.2
-   },
-   "text": "Kabroa won week 15 of 2023 with just 74.5 -- kshoyer managed only 71.2."
   },
   {
    "category": "highest_scoring_matchup",
@@ -2914,9 +2914,9 @@
    ],
    "players": [],
    "values": {
-    "length": 17
+    "length": 18
    },
-   "text": "TnT44's longest losing run is 17 games, 2025 week 6 through 2026 week 7."
+   "text": "TnT44's longest losing run is 18 games, 2025 week 6 through 2026 week 8."
   },
   {
    "category": "longest_win_streak",
@@ -3058,13 +3058,31 @@
    ],
    "players": [],
    "values": {
-    "wins_first": 4,
+    "wins_first": 5,
     "wins_second": 7,
     "ties": 0,
-    "points_first": 1139.4,
-    "points_second": 1192.0
+    "points_first": 1302.8,
+    "points_second": 1284.0
    },
-   "text": "kshoyer and tuckersdumbteam have met 11 times: 4-7 to tuckersdumbteam, 1139.4 against 1192.0 all told."
+   "text": "kshoyer and tuckersdumbteam have met 12 times: 5-7 to tuckersdumbteam, 1302.8 against 1284.0 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "605683461667229696",
+    "870570674836656128"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 7,
+    "wins_second": 3,
+    "ties": 0,
+    "points_first": 1040.4,
+    "points_second": 993.9
+   },
+   "text": "mikestreinz and paulslaats have met 10 times: 7-3 to mikestreinz, 1040.4 against 993.9 all told."
   },
   {
    "category": "head_to_head",
@@ -3179,18 +3197,18 @@
    "season": null,
    "week": null,
    "managers": [
-    "605683461667229696",
-    "870570674836656128"
+    "611649934390870016",
+    "76909640692416512"
    ],
    "players": [],
    "values": {
-    "wins_first": 7,
-    "wins_second": 2,
+    "wins_first": 3,
+    "wins_second": 6,
     "ties": 0,
-    "points_first": 936.7,
-    "points_second": 886.8
+    "points_first": 915.6,
+    "points_second": 951.6
    },
-   "text": "mikestreinz and paulslaats have met 9 times: 7-2 to mikestreinz, 936.7 against 886.8 all told."
+   "text": "Kabroa and Gurret have met 9 times: 3-6 to Gurret, 915.6 against 951.6 all told."
   },
   {
    "category": "head_to_head",
@@ -3342,24 +3360,6 @@
    "week": null,
    "managers": [
     "611649934390870016",
-    "76909640692416512"
-   ],
-   "players": [],
-   "values": {
-    "wins_first": 3,
-    "wins_second": 5,
-    "ties": 0,
-    "points_first": 826.5,
-    "points_second": 835.5
-   },
-   "text": "Kabroa and Gurret have met 8 times: 3-5 to Gurret, 826.5 against 835.5 all told."
-  },
-  {
-   "category": "head_to_head",
-   "season": null,
-   "week": null,
-   "managers": [
-    "611649934390870016",
     "611664340277383168"
    ],
    "players": [],
@@ -3425,6 +3425,24 @@
     "points_second": 812.3
    },
    "text": "tuckersdumbteam and jonahcartwright have met 8 times: 5-3 to tuckersdumbteam, 861.6 against 812.3 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
+    "611697269254791168",
+    "612407006212468736"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 4,
+    "wins_second": 4,
+    "ties": 0,
+    "points_first": 791.1,
+    "points_second": 823.8
+   },
+   "text": "TnT44 and jonahcartwright have met 8 times: 4-4 to TnT44, 791.1 against 823.8 all told."
   },
   {
    "category": "head_to_head",
@@ -3629,24 +3647,6 @@
    "season": null,
    "week": null,
    "managers": [
-    "611697269254791168",
-    "612407006212468736"
-   ],
-   "players": [],
-   "values": {
-    "wins_first": 4,
-    "wins_second": 3,
-    "ties": 0,
-    "points_first": 694.6,
-    "points_second": 702.1
-   },
-   "text": "TnT44 and jonahcartwright have met 7 times: 4-3 to TnT44, 694.6 against 702.1 all told."
-  },
-  {
-   "category": "head_to_head",
-   "season": null,
-   "week": null,
-   "managers": [
     "605683461667229696",
     "611649934390870016"
    ],
@@ -3809,6 +3809,24 @@
    "season": null,
    "week": null,
    "managers": [
+    "850475150817234944",
+    "999190763323944960"
+   ],
+   "players": [],
+   "values": {
+    "wins_first": 3,
+    "wins_second": 3,
+    "ties": 0,
+    "points_first": 560.8,
+    "points_second": 565.6
+   },
+   "text": "malstol and BBrown16 have met 6 times: 3-3 to malstol, 560.8 against 565.6 all told."
+  },
+  {
+   "category": "head_to_head",
+   "season": null,
+   "week": null,
+   "managers": [
     "76909640692416512",
     "999190763323944960"
    ],
@@ -3839,24 +3857,6 @@
     "points_second": 625.6
    },
    "text": "mikestreinz and BBrown16 have met 6 times: 2-4 to BBrown16, 547.4 against 625.6 all told."
-  },
-  {
-   "category": "head_to_head",
-   "season": null,
-   "week": null,
-   "managers": [
-    "850475150817234944",
-    "999190763323944960"
-   ],
-   "players": [],
-   "values": {
-    "wins_first": 2,
-    "wins_second": 3,
-    "ties": 0,
-    "points_first": 490.5,
-    "points_second": 512.8
-   },
-   "text": "malstol and BBrown16 have met 5 times: 2-3 to BBrown16, 490.5 against 512.8 all told."
   },
   {
    "category": "head_to_head",
@@ -4259,27 +4259,27 @@
    ],
    "values": {
     "round": 8,
-    "points": 154.1,
-    "starts": 7
+    "points": 175.9,
+    "starts": 8
    },
-   "text": "Dak Prescott went in round 8 of the 2026 draft to jonahcartwright and scored 154.1 in his starting lineup that season (7 starts; 2026 so far, through week 7)."
+   "text": "Dak Prescott went in round 8 of the 2026 draft to jonahcartwright and scored 175.9 in his starting lineup that season (8 starts; 2026 so far, through week 8)."
   },
   {
    "category": "draft_bust",
    "season": "2026",
    "week": null,
    "managers": [
-    "611630747161358336"
+    "999190763323944960"
    ],
    "players": [
-    "5850"
+    "12517"
    ],
    "values": {
-    "round": 2,
-    "points": 0,
-    "starts": 0
+    "round": 3,
+    "points": 5.9,
+    "starts": 3
    },
-   "text": "kshoyer spent a round 2 pick on Josh Jacobs in 2026 and got 0.0 points from him in the starting lineup (0 starts; 2026 so far, through week 7)."
+   "text": "BBrown16 spent a round 3 pick on Colston Loveland in 2026 and got 5.9 points from him in the starting lineup (3 starts; 2026 so far, through week 8)."
   },
   {
    "category": "best_keeper",

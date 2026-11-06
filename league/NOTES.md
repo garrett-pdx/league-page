@@ -121,7 +121,25 @@ Every manager's bio is built from their `cmsathletics.org` roster page, at Garre
   player's Week 4 projection had drifted from the Thursday snapshot, and players hurt on Sunday
   (Barkley, Chase, McConkey) had been reset to 0. Grade start/sit calls from the snapshot. The Week 6 2026 snapshot was taken at 5:42 PT Thursday, after the
   Seahawks–Broncos kickoff, so treat its SEA and DEN projections with care. The Week 8 snapshot was taken on Friday, after the
-  Panthers–Packers game, so its CAR and GB projections may already reflect it.
+  Panthers–Packers game, so its CAR and GB projections may already reflect it. The Week 9 snapshot was taken at 13:06 PT on Friday,
+  after Jaguars–Ravens, so the same goes for JAX and BAL.
+
+## Blog automation
+
+The Monday recap and Thursday preview run as Claude Code cloud routines
+(<https://claude.ai/code/routines>), Monday 3:00 PM and Thursday 2:00 PM Pacific, in the cloud
+environment that holds `CONTENTFUL_MANAGEMENT_TOKEN` and `CONTENTFUL_SPACE`. They publish
+unattended and commit back to `open-source`.
+
+- **They clone from GitHub, so anything not pushed doesn't exist for them.** A rule changed in
+  `league/voice.md` or `docs/writing.md` and left unpushed is a rule the next post ignores. This
+  is how the Week 8 recap, written in a cloud session from a stale branch, came to bring back the
+  retired Hingham bit. Pull before editing here, and push after.
+- **Local scheduled tasks don't work for this.** The desktop-app tasks `mudd-monday-recap` and
+  `mudd-thursday-preview` (paused) ran an hour and eight hours late with the laptop asleep; one
+  failed on a network error and the other stalled.
+- **The Week 8 recap skipped the Kabroa vs. Kabroa table.** It went out before Monday night and
+  was never updated to final results.
 
 ## Companion project (different repo, different purpose)
 
