@@ -122,7 +122,9 @@ Every manager's bio is built from their `cmsathletics.org` roster page, at Garre
   (Barkley, Chase, McConkey) had been reset to 0. Grade start/sit calls from the snapshot. The Week 6 2026 snapshot was taken at 5:42 PT Thursday, after the
   Seahawks–Broncos kickoff, so treat its SEA and DEN projections with care. The Week 8 snapshot was taken on Friday, after the
   Panthers–Packers game, so its CAR and GB projections may already reflect it. The Week 9 snapshot was taken at 13:06 PT on Friday,
-  after Jaguars–Ravens, so the same goes for JAX and BAL.
+  after Jaguars–Ravens, so the same goes for JAX and BAL. The Week 12 snapshot was taken at 14:00 PT on Thanksgiving, after Packers–Rams (Wednesday) and
+  Bears–Lions had finished and with Eagles–Cowboys under way, so treat GB, LAR, CHI, DET, PHI and DAL
+  projections with care (spot checks showed pregame values, e.g. Colston Loveland still TE5 after leaving hurt).
 
 ## Blog automation
 
